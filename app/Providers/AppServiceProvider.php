@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -38,5 +39,8 @@ class AppServiceProvider extends ServiceProvider
         ParallelTesting::setUpTestDatabase(function (string $database, int $token) {
             Artisan::call('db:seed');
         });
+        Lang::addNamespace('admin', resource_path('lang/vendor/admin'));
+        Lang::addNamespace('shop', resource_path('lang/vendor/shop'));
+
     }
 }
