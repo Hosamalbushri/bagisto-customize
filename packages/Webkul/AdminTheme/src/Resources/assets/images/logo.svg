@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="95" height="34.246" viewBox="0 0 95 34.246">
+    <g id="Group_4" data-name="Group 4" transform="translate(-796 -523)">
+        <g id="Group_3" data-name="Group 3">
+            <rect id="Rectangle_1" data-name="Rectangle 1" width="25" height="24" transform="translate(796 532)" fill="#7c3aed"/>
+            <path id="Path_1" data-name="Path 1" d="M21.4,4.952c-1.872-1.872-6.137-1.872-8.008,0a6.31,6.31,0,0,0-1.848,4.462v5.5a1.274,1.274,0,0,1-2.548,0v-5.5A8.858,8.858,0,0,1,11.594,3.15c2.867-2.867,8.745-2.867,11.612,0A9.06,9.06,0,0,1,26,9.413v5.5a1.274,1.274,0,0,1-2.548,0v-5.5A6.516,6.516,0,0,0,21.4,4.952Z" transform="translate(791 522)" fill-rule="evenodd"/>
+            <rect id="Rectangle_2" data-name="Rectangle 2" width="25" height="4.246" transform="translate(796 553)" fill="#000311"/>
+            <g id="Group_2" data-name="Group 2" transform="translate(-48 97)">
+                <text id="najaz" transform="translate(873 437)" fill="#060000" font-size="23" font-family="Sitka Subheading" font-weight="700" style="mix-blend-mode: darken;isolation: isolate"><tspan x="0" y="17">Najaz</tspan></text>
+            </g>
+        </g>
+    </g>
+</svg>
