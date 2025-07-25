@@ -15,7 +15,7 @@
                 />
             @else
                 <img
-                    class="w-max" 
+                    class="w-max"
                     src="{{ bagisto_asset('images/logo.svg') }}"
                     alt="{{ config('app.name') }}"
                 />
@@ -39,10 +39,10 @@
 
                             <x-admin::form.control-group.control
                                 type="email"
-                                class="w-[254px] max-w-full" 
+                                class="w-[254px] max-w-full"
                                 id="email"
-                                name="email" 
-                                rules="required|email" 
+                                name="email"
+                                rules="required|email"
                                 :value="old('email')"
                                 :label="trans('admin::app.users.forget-password.create.email')"
                                 :placeholder="trans('admin::app.users.forget-password.create.email')"
@@ -54,16 +54,16 @@
 
                     <div class="flex items-center justify-between p-4">
                         <!-- Back to Sign In link -->
-                        <a 
-                            class="cursor-pointer text-xs font-semibold leading-6 text-blue-600"
+                        <a
+                            class="login-links-colors"
                             href="{{ route('admin.session.create') }}"
                         >
                             @lang('admin::app.users.forget-password.create.sign-in-link')
                         </a>
 
                         <!-- Form Submit Button -->
-                        <button 
-                            class="cursor-pointer rounded-md border border-blue-700 bg-blue-600 px-3.5 py-1.5 font-semibold text-gray-50">
+                        <button
+                            class="login-buttons-colors px-3.5 py-1.5 rounded-md">
                             @lang('admin::app.users.forget-password.create.submit-btn')
                         </button>
                     </div>
