@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     'users' => [
         'sessions' => [
             'email'                  => 'عنوان البريد الإلكتروني',
@@ -1946,6 +1947,7 @@ return [
         ],
 
         'groups' => [
+            'customer-associate'=>'لا يمكنك حذف المجموعة لانها مرتبطة بعملاء',
             'index' => [
                 'title' => 'المجموعات',
 
@@ -4889,6 +4891,9 @@ return [
                 'vicuna-7b'                => 'Vicuna (7b)',
             ],
         ],
+        'alert'=>[
+            'close'=>'اغلاق'
+        ]
     ],
 
     'acl' => [
