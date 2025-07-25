@@ -1,0 +1,32 @@
+<?php
+
+return [
+    [
+        'key'   => 'delivery',
+        'name'  => 'deliveryagent::app.deliveryagents.menu.title',
+        'route' => 'admin.deliveryagents.index',
+        'sort'  => 5,
+        'icon'  => 'acma-icon-truck1',
+
+    ],
+
+    [
+        'key'        => 'delivery.deliveryAgent',
+        'name'       => 'deliveryagent::app.deliveryagents.menu.delivery-agents',
+        'route'      => 'admin.deliveryagents.index',
+        'sort'       => 1,
+        'icon'       => '',
+    ],
+
+
+    // country menu
+    [
+        'key'   => 'delivery.country',
+        'name'  => 'deliveryagent::app.country.menu.title',
+        'route' => 'admin.country.index',
+        'sort'  => 2,
+        'icon'       => '',
+    ],
+
+
+];

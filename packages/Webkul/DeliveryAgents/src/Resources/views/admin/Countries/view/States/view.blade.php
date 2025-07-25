@@ -1,0 +1,172 @@
+<x-admin::layouts>
+
+    <v-state-view>
+
+    </v-state-view>
+
+    @pushOnce('scripts')
+        <script
+            type="text/x-template"
+            id="v-state-template"
+        >
+            <x-slot:title>
+                @lang('deliveryagent::app.country.state.view.title')
+                </x-slot>
+                <div class="grid">
+                    <div class="flex items-center justify-between gap-4 max-sm:flex-wrap">
+                        <div class="flex items-center gap-2.5">
+                            <template
+                                v-if="! state"
+                                class="flex gap-5"
+                            >
+                                <p class="shimmer w-32 p-2.5"></p>
+
+                                <p class="shimmer w-14 p-2.5"></p>
+                            </template>
+
+                            <template v-else>
+                                <h1
+                                    v-if="state"
+                                    class="text-xl font-bold leading-6 text-gray-800 dark:text-white"
+                                    @lang('deliveryagent::deliveryagent::app.country.view.title')
+                                    v-text="`@lang('deliveryagent::app.country.state.view.title'):  ${state.default_name}`"                                ></h1>
+                            </template>
+                        </div>
+
+                        <!-- Back Button -->
+                        <a
+                            href="{{ route('admin.country.view',$state->country_id) }}"
+                            class="transparent-button hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
+                        >
+                            @lang('deliveryagent::app.country.state.view.back-btn')
+                        </a>
+                    </div>
+                </div>
+                <!-- Filters -->
+                <div class="mt-7 flex flex-wrap items-center gap-x-1 gap-y-2">
+
+                    <!-- Account Delete button -->
+                    @if (bouncer()->hasPermission('delivery.country'))
+                        <div
+                            class="inline-flex w-full max-w-max cursor-pointer items-center justify-between gap-x-2 px-1 py-1.5 text-center font-semibold text-red-600 transition-all hover:rounded-md hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-red-800"
+                            @click="$emitter.emit('open-confirm-modal', {
+                            message: '@lang('admin::app.customers.customers.view.account-delete-confirmation')',
+
+                            agree: () => {
+                                this.$refs['delete-account'].submit()
+                            }
+                        })"
+                        >
+                            {{--                            <span class="icon-cancel text-2xl"></span>--}}
+
+                            @lang('deliveryagent::app.country.state.view.delete-btn')
+
+                            <!-- Delete Customer Account -->
+                            <form
+                                {{--                                method="post"--}}
+                                {{--                                action="{{ route('admin.customers.customers.delete', $customer->id) }}"--}}
+                                {{--                                ref="delete-account"--}}
+                            >
+                                @csrf
+                            </form>
+                        </div>
+                    @endif
+                </div>
+                <!-- Content -->
+                <div class="mt-3.5 flex gap-2.5 max-xl:flex-wrap">
+                    <!-- Left Component -->
+                    <div class="flex flex-1 flex-col gap-2 max-xl:flex-auto">
+{{--                        @include('deliveryagents::admin.Countries.States.index')--}}
+
+                    </div>
+                    <!-- Right Component -->
+                    <div class="flex w-[360px] max-w-full flex-col gap-2 max-sm:w-full">
+                        <template v-if="! state">
+                            <x-admin::shimmer.accordion class="h-[271px] w-[360px]"/>
+                        </template>
+
+                        <template v-else>
+                            <x-admin::accordion>
+                                <x-slot:header>
+                                    <div class="flex w-full">
+                                        <p class="w-full p-2.5 text-base font-semibold text-gray-800 dark:text-white">
+                                            @lang('deliveryagent::app.country.state.view.state')
+                                        </p>
+
+                                        <!--State Edit Component -->
+                                        @include('deliveryagents::admin.Countries.view.States.edit')
+                                    </div>
+                                </x-slot:header>
+
+                                <x-slot:content>
+                                    <template v-if="state">
+                                        <div class="grid gap-y-2.5">
+                                            <x-admin::form.control-group>
+                                                <x-admin::form.control-group.label>
+                                                    @lang('deliveryagent::app.country.state.view.name')
+                                                </x-admin::form.control-group.label>
+
+                                                <x-admin::form.control-group.control
+                                                    type="text"
+                                                    name="name"
+                                                    v-model="state.default_name"
+                                                    readonly
+                                                    disabled
+                                                />
+                                            </x-admin::form.control-group>
+
+                                            <x-admin::form.control-group>
+                                                <x-admin::form.control-group.label>
+                                                    @lang('deliveryagent::app.country.state.view.code')
+                                                </x-admin::form.control-group.label>
+
+                                                <x-admin::form.control-group.control
+                                                    type="text"
+                                                    name="code"
+                                                    v-model="state.code"
+                                                    readonly
+                                                    disabled
+                                                />
+                                            </x-admin::form.control-group>
+                                        </div>
+                                    </template>
+
+                                </x-slot:content>
+                            </x-admin::accordion>
+                        </template>
+                    </div>
+                </div>
+
+
+
+
+        </script>
+        <script type="module">
+            app.component('v-state-view', {
+                template: '#v-state-template',
+                data() {
+                    return {
+                        state: @json($state),
+
+                        isUpdating: {},
+                    };
+                },
+                methods: {
+
+                    updateState(data) {
+                        this.state = {
+                            ...this.state,
+                            ...data.state,
+                        };
+                    }
+
+                }
+
+
+
+            })
+        </script>
+
+    @endpushonce
+
+</x-admin::layouts>

@@ -55,7 +55,11 @@
         "nunomaduro/collision": "^8.0",
         "pestphp/pest": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.0",
-        "phpunit/phpunit": "^11.0"
+        "phpunit/phpunit": "^11.0",
+        "webkul/graphql-api": "*",
+        "webkul/delivery-agent":"*"
+
+
     },
     "autoload": {
         "psr-4": {
@@ -133,7 +137,22 @@
         "options": {
             "symlink": true
         }
-    }],
+    },
+        {
+            "type": "path",
+            "url": "packages/Webkul/GraphQLAPI",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/Webkul/DeliveryAgents",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
@@ -143,7 +162,7 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "support": {
         "issues": "https://github.com/bagisto/bagisto/issues",

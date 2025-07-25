@@ -170,11 +170,11 @@
                     <div class="group/item relative">
                         <a
                             href="{{ $menuItem->getUrl() }}"
-                            class="flex gap-2.5 p-1.5 items-center cursor-pointer hover:rounded-lg {{ $menuItem->isActive() == 'active' ? 'bg-blue-600 rounded-lg' : ' hover:bg-gray-100 hover:dark:bg-gray-950' }} peer"
+                            class="flex gap-2.5 p-1.5 items-center cursor-pointer hover:rounded-lg {{ $menuItem->isActive() == 'active' ? 'active-sidebar-link' : ' inactive-sidebar-link' }} peer"
                         >
-                            <span class="{{ $menuItem->getIcon() }} text-2xl {{ $menuItem->isActive() ? 'text-white' : ''}}"></span>
+                            <span class="{{ $menuItem->getIcon() }} text-2xl {{ $menuItem->isActive() ? 'active-sidebar-icon' : ''}}"></span>
 
-                            <p class="text-gray-600 dark:text-gray-300 font-semibold whitespace-nowrap group-[.sidebar-collapsed]/container:hidden {{ $menuItem->isActive() ? 'text-white' : ''}}">
+                            <p class="whitespace-nowrap group-[.sidebar-collapsed]/container:hidden {{ $menuItem->isActive() ? 'menu-link-active' : 'menu-link-inactive' }}">
                                 {{ $menuItem->getName() }}
                             </p>
                         </a>
@@ -185,7 +185,9 @@
                                 @foreach ($menuItem->getChildren() as $subMenuItem)
                                     <a
                                         href="{{ $subMenuItem->getUrl() }}"
-                                        class="text-sm text-{{ $subMenuItem->isActive() ? 'blue':'gray' }}-600 dark:text-{{ $subMenuItem->isActive() ? 'blue':'gray' }}-300 whitespace-nowrap py-1 group-[.sidebar-collapsed]/container:px-5 group-[.sidebar-collapsed]/container:py-2.5 group-[.inactive]/item:px-5 group-[.inactive]/item:py-2.5 hover:text-blue-600 dark:hover:bg-gray-950"
+                                        class="text-sm whitespace-nowrap py-1 group-[.sidebar-collapsed]/container:px-5 group-[.sidebar-collapsed]/container:py-2.5 group-[.inactive]/item:px-5 group-[.inactive]/item:py-2.5
+                                        {{ $subMenuItem->isActive() ? 'submenu-link-active' : 'submenu-link-inactive' }}"
+
                                     >
                                         {{ $subMenuItem->getName() }}
                                     </a>
