@@ -41,7 +41,7 @@
                         <div class="journal-scroll flex overflow-auto border-b dark:border-gray-800">
                             <div
                                 class="flex cursor-pointer items-center gap-1 border-b-2 px-4 py-4 hover:bg-gray-100 dark:hover:bg-gray-950"
-                                :class="{'border-blue-600 dark:border-blue-600': status == data.status}"
+                                :class="{'notifications-counter': status == data.status}"
                                 v-for="data in orderType"
                                 @click="status=data.status; getNotification()"
                             >
