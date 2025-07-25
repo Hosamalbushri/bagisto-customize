@@ -103,7 +103,7 @@
 
                     <!-- Version -->
                     <p class="text-gray-400">
-                        @lang('admin::app.components.layouts.header.app-version', ['version' => 'v' . core()->version()])
+                        @lang('admin::app.components.layouts.header.app-version', ['version' => 'V' . core()->version()])
                     </p>
                 </div>
 
@@ -225,7 +225,7 @@
                 <div class="flex border-b text-sm text-gray-600 dark:border-gray-800 dark:text-gray-300">
                     <div
                         class="cursor-pointer p-4 hover:bg-gray-100 dark:hover:bg-gray-950"
-                        :class="{ 'border-b-2 border-blue-600': activeTab == tab.key }"
+                        :class="{ 'active-search-tab': activeTab == tab.key }"
                         v-for="tab in tabs"
                         @click="activeTab = tab.key; search();"
                     >
@@ -290,7 +290,7 @@
                         <div class="flex border-t p-3 dark:border-gray-800">
                             <a
                                 :href="'{{ route('admin.catalog.products.index') }}?search=:query'.replace(':query', searchTerm)"
-                                class="cursor-pointer text-xs font-semibold text-blue-600 transition-all hover:underline"
+                                class="search-result-tab"
                                 v-if="searchedResults.products.data.length"
                             >
                                 @{{ "@lang('admin::app.components.layouts.header.mega-search.explore-all-matching-products')".replace(':query', searchTerm).replace(':count', searchedResults.products.meta.total) }}
@@ -298,7 +298,7 @@
 
                             <a
                                 href="{{ route('admin.catalog.products.index') }}"
-                                class="cursor-pointer text-xs font-semibold text-blue-600 transition-all hover:underline"
+                                class="search-result-tab"
                                 v-else
                             >
                                 @lang('admin::app.components.layouts.header.mega-search.explore-all-products')
@@ -332,7 +332,7 @@
                         <div class="flex border-t p-3 dark:border-gray-800">
                             <a
                                 :href="'{{ route('admin.sales.orders.index') }}?search=:query'.replace(':query', searchTerm)"
-                                class="cursor-pointer text-xs font-semibold text-blue-600 transition-all hover:underline"
+                                class="search-result-tab"
                                 v-if="searchedResults.orders.data.length"
                             >
                                 @{{ "@lang('admin::app.components.layouts.header.mega-search.explore-all-matching-orders')".replace(':query', searchTerm).replace(':count', searchedResults.orders.total) }}
@@ -340,7 +340,7 @@
 
                             <a
                                 href="{{ route('admin.sales.orders.index') }}"
-                                class="cursor-pointer text-xs font-semibold text-blue-600 transition-all hover:underline"
+                                class="search-result-tab"
                                 v-else
                             >
                                 @lang('admin::app.components.layouts.header.mega-search.explore-all-orders')
@@ -368,7 +368,7 @@
                         <div class="flex border-t p-3 dark:border-gray-800">
                             <a
                                 :href="'{{ route('admin.catalog.categories.index') }}?search=:query'.replace(':query', searchTerm)"
-                                class="cursor-pointer text-xs font-semibold text-blue-600 transition-all hover:underline"
+                                class="search-result-tab"
                                 v-if="searchedResults.categories.data.length"
                             >
                                 @{{ "@lang('admin::app.components.layouts.header.mega-search.explore-all-matching-categories')".replace(':query', searchTerm).replace(':count', searchedResults.categories.total) }}
@@ -376,7 +376,7 @@
 
                             <a
                                 href="{{ route('admin.catalog.categories.index') }}"
-                                class="cursor-pointer text-xs font-semibold text-blue-600 transition-all hover:underline"
+                                class="search-result-tab"
                                 v-else
                             >
                                 @lang('admin::app.components.layouts.header.mega-search.explore-all-categories')
@@ -410,7 +410,7 @@
                         <div class="flex border-t p-3 dark:border-gray-800">
                             <a
                                 :href="'{{ route('admin.customers.customers.index') }}?search=:query'.replace(':query', searchTerm)"
-                                class="cursor-pointer text-xs font-semibold text-blue-600 transition-all hover:underline"
+                                class="search-result-tab"
                                 v-if="searchedResults.customers.data.length"
                             >
                                 @{{ "@lang('admin::app.components.layouts.header.mega-search.explore-all-matching-customers')".replace(':query', searchTerm).replace(':count', searchedResults.customers.total) }}
@@ -418,7 +418,7 @@
 
                             <a
                                 href="{{ route('admin.customers.customers.index') }}"
-                                class="cursor-pointer text-xs font-semibold text-blue-600 transition-all hover:underline"
+                                class="search-result-tab"
                                 v-else
                             >
                                 @lang('admin::app.components.layouts.header.mega-search.explore-all-customers')
@@ -546,7 +546,7 @@
                     </span>
 
                     <span
-                        class="absolute -top-2 flex h-5 min-w-5 cursor-pointer items-center justify-center rounded-full bg-blue-600 p-1.5 text-[10px] font-semibold leading-[9px] text-white ltr:left-5 rtl:right-5"
+                        class="absolute -top-2 flex h-5 min-w-5 cursor-pointer items-center justify-center rounded-full notifications-unread  p-1.5 text-[10px] font-semibold leading-[9px] text-white ltr:left-5 rtl:right-5"
                         v-if="totalUnRead"
                     >
                         @{{ totalUnRead }}
@@ -595,13 +595,13 @@
                 <div class="flex h-[47px] justify-between gap-1.5 border-t px-6 py-4 dark:border-gray-800">
                     <a
                         href="{{ route('admin.notification.index') }}"
-                        class="cursor-pointer text-xs font-semibold text-blue-600 transition-all hover:underline"
+                        class="search-result-tab"
                     >
                         @lang('admin::app.notifications.view-all')
                     </a>
 
                     <a
-                        class="cursor-pointer text-xs font-semibold text-blue-600 transition-all hover:underline"
+                        class="notifications-view-all"
                         v-if="notifications?.length"
                         @click="readAll()"
                     >
