@@ -1,0 +1,27 @@
+{
+    "name": "webkul/delivery-agent",
+    "description": "Bagisto Delivery Agents",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hosam Albashari",
+            "email": "hosamalbushari@gmail.com"
+        }
+    ],
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\DeliveryAgents\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\DeliveryAgents\\Providers\\DeliveryAgentsServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "minimum-stability": "dev"
+}
