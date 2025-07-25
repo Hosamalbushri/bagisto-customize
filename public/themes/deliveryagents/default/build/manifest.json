@@ -1,0 +1,24 @@
+{
+  "src/Resources/assets/css/app.css": {
+    "file": "assets/app-3ecbb6cc.css",
+    "isEntry": true,
+    "src": "src/Resources/assets/css/app.css"
+  },
+  "src/Resources/assets/fonts/acme-icons.woff": {
+    "file": "assets/acme-icons-6f9a42c0.woff",
+    "src": "src/Resources/assets/fonts/acme-icons.woff"
+  },
+  "src/Resources/assets/images/icon-temp-active.svg": {
+    "file": "assets/icon-temp-active-0382a171.svg",
+    "src": "src/Resources/assets/images/icon-temp-active.svg"
+  },
+  "src/Resources/assets/images/temp-icon.svg": {
+    "file": "assets/temp-icon-bf32aadd.svg",
+    "src": "src/Resources/assets/images/temp-icon.svg"
+  },
+  "src/Resources/assets/js/app.js": {
+    "file": "assets/app-4ed993c7.js",
+    "isEntry": true,
+    "src": "src/Resources/assets/js/app.js"
+  }
+}
