@@ -44,8 +44,8 @@
         <div class="mt-7 flex items-center justify-between gap-4 max-md:flex-wrap">
             <div class="flex items-center gap-x-1">
                 <!-- Locale Switcher -->
-                <x-admin::dropdown 
-                    position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'left' : 'right' }}" 
+                <x-admin::dropdown
+                    position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'left' : 'right' }}"
                     :class="$currentChannel->locales->count() <= 1 ? 'hidden' : ''"
                 >
                     <!-- Dropdown Toggler -->
@@ -113,20 +113,20 @@
                                 @lang('admin::app.settings.themes.edit.general')
                             </p>
                         </x-slot>
-                    
+
                         <x-slot:content>
                             <input
                                 type="hidden"
                                 name="type"
                                 value="{{ $theme->type }}"
                             >
-        
+
                             <!-- Name -->
                             <x-admin::form.control-group>
                                 <x-admin::form.control-group.label class="required">
                                     @lang('admin::app.settings.themes.edit.name')
                                 </x-admin::form.control-group.label>
-        
+
                                 <v-field
                                     type="text"
                                     name="name"
@@ -138,16 +138,16 @@
                                     placeholder="@lang('admin::app.settings.themes.edit.name')"
                                 >
                                 </v-field>
-        
+
                                 <x-admin::form.control-group.error control-name="name" />
                             </x-admin::form.control-group>
-        
+
                             <!-- Sort Order -->
                             <x-admin::form.control-group>
                                 <x-admin::form.control-group.label class="required">
                                     @lang('admin::app.settings.themes.edit.sort-order')
                                 </x-admin::form.control-group.label>
-        
+
                                 <v-field
                                     type="text"
                                     name="sort_order"
@@ -159,16 +159,16 @@
                                     placeholder="@lang('admin::app.settings.themes.edit.sort-order')"
                                 >
                                 </v-field>
-        
+
                                 <x-admin::form.control-group.error control-name="sort_order" />
                             </x-admin::form.control-group>
-        
+
                             <!-- Channel -->
                             <x-admin::form.control-group>
                                 <x-admin::form.control-group.label class="required">
                                     @lang('admin::app.settings.themes.edit.channels')
                                 </x-admin::form.control-group.label>
-        
+
                                 <x-admin::form.control-group.control
                                     type="select"
                                     name="channel_id"
@@ -177,18 +177,18 @@
                                 >
                                     @foreach($channels as $channel)
                                         <option value="{{ $channel->id }}">{{ $channel->name }}</option>
-                                    @endforeach 
+                                    @endforeach
                                 </x-admin::form.control-group.control>
-        
+
                                 <x-admin::form.control-group.error control-name="channel_id" />
                             </x-admin::form.control-group>
-        
+
                             <!-- Themes -->
                             <x-admin::form.control-group>
                                 <x-admin::form.control-group.label class="required">
                                     @lang('admin::app.settings.themes.edit.themes')
                                 </x-admin::form.control-group.label>
-        
+
                                 <x-admin::form.control-group.control
                                     type="select"
                                     id="theme_code"
@@ -203,16 +203,16 @@
                                         </option>
                                     @endforeach
                                 </x-admin::form.control-group.control>
-        
+
                                 <x-admin::form.control-group.error control-name="theme" />
                             </x-admin::form.control-group>
-        
+
                             <!-- Status -->
                             <x-admin::form.control-group class="!mb-0">
                                 <x-admin::form.control-group.label class="required">
                                     @lang('admin::app.settings.themes.edit.status')
                                 </x-admin::form.control-group.label>
-        
+
                                 <label class="relative inline-flex cursor-pointer items-center">
                                     <v-field
                                         type="checkbox"
@@ -230,13 +230,13 @@
                                             :checked="{{ $theme->status }}"
                                         />
                                     </v-field>
-                        
+
                                     <label
-                                        class="peer h-5 w-9 cursor-pointer rounded-full bg-gray-200 after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-blue-300 dark:bg-gray-800 dark:after:border-white dark:after:bg-white dark:peer-checked:bg-gray-950 after:ltr:left-0.5 peer-checked:after:ltr:translate-x-full after:rtl:right-0.5 peer-checked:after:rtl:-translate-x-full"
+                                        class="peer h-5 w-9 cursor-pointer rounded-full bg-gray-200 after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:active-switch peer-checked:after:border-white peer-focus:outline-none peer-focus:active-switch-focus dark:bg-gray-800 dark:after:border-white dark:after:bg-white dark:peer-checked:bg-gray-950 after:ltr:left-0.5 peer-checked:after:ltr:translate-x-full after:rtl:right-0.5 peer-checked:after:rtl:-translate-x-full"
                                         for="status"
                                     ></label>
                                 </label>
-        
+
                                 <x-admin::form.control-group.error control-name="status" />
                             </x-admin::form.control-group>
                         </x-slot>
