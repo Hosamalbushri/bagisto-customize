@@ -33,7 +33,7 @@
                 :style="typeStyles[flash.type]['message']"
                 @click="remove"
             >
-                Close
+                {{ trans('admin::app.components.alert.close') }}
             </span>
         </div>
     </script>
