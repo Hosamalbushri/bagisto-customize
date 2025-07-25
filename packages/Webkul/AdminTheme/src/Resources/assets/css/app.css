@@ -486,6 +486,19 @@
     .active-tab {
         @apply border-violet-600 border-b-2 text-violet-600 transition;
     }
+    .active-checkbox {
+        @apply text-violet-600;
+    }
+    .active-radio {
+        @apply text-violet-600;
+    }
+    .active-switch {
+        @apply bg-violet-600 ;
+    }
+    .active-switch-focus {
+        @apply ring-violet-300 ;
+    }
+
 
 
     .journal-scroll::-webkit-scrollbar {

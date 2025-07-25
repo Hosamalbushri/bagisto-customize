@@ -71,7 +71,7 @@
                                 />
 
                                 <label
-                                    class="icon-uncheckbox peer-checked:icon-checked cursor-pointer text-2xl peer-checked:text-blue-600"
+                                    class="icon-uncheckbox peer-checked:icon-checked cursor-pointer text-2xl peer-checked:active-checkbox"
                                     :for="'searched-product' + product.id"
                                 >
                                 </label>
@@ -84,7 +84,7 @@
                             >
                                 <template v-if="! product.images.length">
                                     <img src="{{ bagisto_asset('images/product-placeholders/front.svg') }}">
-                                
+
                                     <p class="absolute bottom-1.5 w-full text-center text-[6px] font-semibold text-gray-400">
                                         @lang('admin::app.components.products.search.product-image')
                                     </p>
@@ -153,7 +153,7 @@
             props: {
                 addedProductIds: {
                     type: Array,
-                    default: []                    
+                    default: []
                 },
 
                 queryParams: {
@@ -199,7 +199,7 @@
                     this.isSearching = true;
 
                     let self = this;
-                    
+
                     this.$axios.get("{{ route('admin.catalog.products.search') }}", {
                             params: {
                                 ...{query: this.searchTerm},
