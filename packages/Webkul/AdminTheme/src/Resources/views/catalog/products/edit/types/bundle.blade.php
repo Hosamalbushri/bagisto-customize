@@ -305,7 +305,7 @@
                                     />
 
                                     <label
-                                        class="cursor-pointer text-2xl peer-checked:text-blue-600"
+                                        class="cursor-pointer text-2xl peer-checked:active-checkbox"
                                         :class="[option.type == 'checkbox' || option.type == 'multiselect' ? 'icon-uncheckbox  peer-checked:icon-checked' : 'icon-radio-normal peer-checked:icon-radio-selected']"
                                         :for="'bundle_options[' + option.id + '][products][' + element.id + '][is_default]'"
                                     >

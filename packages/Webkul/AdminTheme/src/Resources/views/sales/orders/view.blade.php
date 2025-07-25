@@ -505,7 +505,7 @@
                                     >
 
                                     <span
-                                        class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:text-blue-600"
+                                        class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:active-checkbox"
                                         role="button"
                                         tabindex="0"
                                     >
