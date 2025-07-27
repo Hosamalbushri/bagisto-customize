@@ -164,16 +164,20 @@
                             </div>
                     </div>
                     <div class="flex flex-col gap-1.5">
-                        <div class="flex gap-1.5">
-                              <span
-                                  :class="{
-                                    'label-canceled': record.status == '',
-                                    'label-active': record.status === 1,
-                                }"
-                              >
-                                @{{ record.status ? '@lang('deliveryagent::app.deliveryagents.datagrid.active')' : '@lang('admin::app.customers.customers.index.datagrid.inactive')' }}
-                            </span>
-                        </div>
+                        @php
+                            $activeLabel = __('deliveryagent::app.deliveryagents.datagrid.active');
+                            $inactiveLabel = __('admin::app.customers.customers.index.datagrid.inactive');
+                        @endphp
+                      <div class="flex gap-1.5">
+                      <span
+                      :class="{
+                      'label-canceled': record.status ==0,
+                      'label-active': record.status == 1,
+                              }"
+                       v-text="Number(record.status) ? '{{ $activeLabel }}' : '{{ $inactiveLabel }}'">
+                      </span>
+                      </div>
+
                         <p class="text-gray-600 dark:text-gray-300">
                             @{{ record.gender ?? 'N/A' }}
                         </p>

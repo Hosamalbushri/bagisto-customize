@@ -174,24 +174,47 @@
                     </div>
 
                     <div class="flex flex-col gap-1.5">
-                        <div class="flex gap-1.5">
-                            <span
-                                :class="{
-                                    'label-canceled': record.status == '',
-                                    'label-active': record.status === 1,
-                                }"
-                            >
-                                @{{ record.status ? '@lang('admin::app.customers.customers.index.datagrid.active')' : '@lang('admin::app.customers.customers.index.datagrid.inactive')' }}
-                            </span>
+                            @php
+                                $activeLabel = __('admin::app.customers.customers.index.datagrid.active');
+                                $inactiveLabel = __('admin::app.customers.customers.index.datagrid.inactive');
+                                $suspendedLabal =__('admin::app.customers.customers.index.datagrid.suspended');
+                            @endphp
+                            <div class="flex gap-1.5">
+                      <span
+                          :class="{
+                      'label-canceled': record.status ==0,
+                      'label-active': record.status == 1,
 
-                            <span
-                                :class="{
-                                    'label-canceled': record.is_suspended === 1,
-                                }"
-                            >
-                                @{{ record.is_suspended ?  '@lang('admin::app.customers.customers.index.datagrid.suspended')' : '' }}
-                            </span>
-                        </div>
+                              }"
+                          v-text="Number(record.status) ? '{{ $activeLabel }}' : '{{ $inactiveLabel }}'">
+                      </span>
+                      <span
+                      :class="{
+                      'label-pending': record.is_suspended == 1,
+                               }"
+                      v-text="Number(record.is_suspended) ? '{{ $suspendedLabal }}' : ''"
+                      >
+                      </span>
+                            </div>
+
+{{--                        <div class="flex gap-1.5">--}}
+{{--                            <span--}}
+{{--                                :class="{--}}
+{{--                                    'label-canceled': record.status == '',--}}
+{{--                                    'label-active': record.status === 1,--}}
+{{--                                }"--}}
+{{--                            >--}}
+{{--                                @{{ record.status ? '@lang('admin::app.customers.customers.index.datagrid.active')' : '@lang('admin::app.customers.customers.index.datagrid.inactive')' }}--}}
+{{--                            </span>--}}
+
+{{--                            <span--}}
+{{--                                :class="{--}}
+{{--                                    'label-canceled': record.is_suspended === 1,--}}
+{{--                                }"--}}
+{{--                            >--}}
+{{--                                @{{ record.is_suspended ?  '@lang('admin::app.customers.customers.index.datagrid.suspended')' : '' }}--}}
+{{--                            </span>--}}
+{{--                        </div>--}}
 
                         <p class="text-gray-600 dark:text-gray-300">
                             @{{ record.gender ?? 'N/A' }}
