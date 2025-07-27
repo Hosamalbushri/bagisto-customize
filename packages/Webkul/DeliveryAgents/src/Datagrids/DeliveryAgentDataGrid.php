@@ -29,9 +29,9 @@ class DeliveryAgentDataGrid extends DataGrid
             )
             ->addSelect(DB::raw('COUNT(DISTINCT '.$tablePrefix.'delivery_agent_ranges.id) as range_count'))
             ->addSelect(DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name) as full_name'))
-            ->groupBy('delivery_agents_id')
-            ->orderBy('delivery_agents_id')
-            ->orderBy('delivery_agent_ranges.id');
+            ->groupBy('delivery_agents.id')
+            ->orderBy('delivery_agents.id')
+            ;
 
         $this->addFilter('delivery_agents_id', 'delivery_agents.id');
         $this->addFilter('email', 'delivery_agents.email');
