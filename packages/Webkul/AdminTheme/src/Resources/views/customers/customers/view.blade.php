@@ -34,22 +34,22 @@
                             ></h1>
 
                             <span
-                                v-if="customer.status"
+                                v-if="customer && customer.status == 1"
                                 class="label-active mx-1.5 text-sm"
                             >
                                 @lang('admin::app.customers.customers.view.active')
                             </span>
 
                             <span
-                                v-else
+                                v-else-if="customer && customer.status == 0"
                                 class="label-canceled mx-1.5 text-sm"
                             >
                                 @lang('admin::app.customers.customers.view.inactive')
                             </span>
 
                             <span
-                                v-if="customer.is_suspended"
-                                class="label-canceled text-sm"
+                                v-if="customer && customer.is_suspended == 1"
+                                class="label-pending text-sm"
                             >
                                 @lang('admin::app.customers.customers.view.suspended')
                             </span>
@@ -106,7 +106,7 @@
 
                     @lang('admin::app.customers.customers.view.login-as-customer')
                 </a>
-                
+
                 <!-- Account Delete button -->
                 @if (bouncer()->hasPermission('customers.customers.delete'))
                     <div

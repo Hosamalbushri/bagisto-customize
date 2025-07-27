@@ -37,15 +37,27 @@
                                 ></h1>
 
                                 <!-- status -->
+{{--                                <span--}}
+{{--                                    v-if="deliveryagent.status"--}}
+{{--                                    class="label-active mx-1.5 text-sm">--}}
+{{--                                     @lang('deliveryagent::app.deliveryagents.view.active')--}}
+{{--                                </span>--}}
+{{--                                <span--}}
+{{--                                    v-else--}}
+{{--                                    class="label-canceled mx-1.5 text-sm">--}}
+{{--                                      @lang('deliveryagent::app.deliveryagents.view.inactive')--}}
+{{--                                </span>--}}
                                 <span
-                                    v-if="deliveryagent.status"
-                                    class="label-active mx-1.5 text-sm">
-                                     @lang('deliveryagent::app.deliveryagents.view.active')
+                                    v-if="deliveryagent && deliveryagent.status==1"
+                                    class="mx-1.5 text-sm label-active"
+                                    v-text="`@lang('deliveryagent::app.deliveryagents.view.active')`"
+                                >
+
                                 </span>
                                 <span
-                                    v-else
-                                    class="label-canceled mx-1.5 text-sm">
-                                      @lang('deliveryagent::app.deliveryagents.view.inactive')
+                                    v-else-if="deliveryagent && deliveryagent.status == 0"                                    class="mx-1.5 text-sm label-canceled"
+                                    v-text="`@lang('deliveryagent::app.deliveryagents.view.inactive')`"
+                                >
                                 </span>
                             </template>
                         </div>

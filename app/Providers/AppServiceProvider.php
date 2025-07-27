@@ -42,5 +42,6 @@ class AppServiceProvider extends ServiceProvider
         Lang::addNamespace('admin', resource_path('lang/vendor/admin'));
         Lang::addNamespace('shop', resource_path('lang/vendor/shop'));
 
+
     }
 }
