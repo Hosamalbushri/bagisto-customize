@@ -271,17 +271,14 @@
                     },
                     async rangeCreated(range) {
                         try {
-                            // أعد جلب البيانات من الخادم للتأكد من التحديث
                             const response = await this.$axios.get(`/admin/delivery-agents/view/${this.deliveryagent.id}`);
                             this.deliveryagent = response.data.data;
                         } catch (error) {
                             console.error(error);
-                            // كبديل، أضف النطاق يدوياً مع التأكد من التفاعلية
                             this.$set(this.deliveryagent, 'ranges', [
                                 ...this.deliveryagent.ranges,
                                 {
                                     ...range,
-                                    pivot: range.pivot
                                 }
                             ]);
                         }

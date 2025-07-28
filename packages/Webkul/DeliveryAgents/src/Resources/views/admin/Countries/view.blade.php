@@ -148,7 +148,7 @@
                 data() {
                     return {
                         country: @json($country),
-                        statesCount: {{ count($country->states) }},
+                        statesCount: {{ is_countable($country->states) ? count($country->states) : 0}},
                         isUpdating: {},
                     };
                 },
