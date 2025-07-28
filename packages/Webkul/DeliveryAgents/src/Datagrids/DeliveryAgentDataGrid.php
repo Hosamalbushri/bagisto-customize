@@ -18,7 +18,7 @@ class DeliveryAgentDataGrid extends DataGrid
         $tablePrefix = DB::getTablePrefix();
         $queryBuilder = DB::table('delivery_agents')
             ->leftJoin('delivery_agent_ranges', 'delivery_agents.id', '=', 'delivery_agent_ranges.delivery_agent_id')
-            ->select(
+            ->addSelect(
                 'delivery_agents.id as delivery_agents_id',
                 'delivery_agents.email',
                 'delivery_agents.phone',
