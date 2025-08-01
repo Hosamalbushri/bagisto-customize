@@ -229,8 +229,8 @@ return [
                         'info'                            => 'Meldingsgerelateerde configuraties',
                         'push-notification-configuration' => 'FCM-pushmeldingsconfiguratie',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'Privésleutel Json-bestandsinhoud',
-                        'info-get-private-key'            => 'Info: Om de inhoud van het privésleutel Json-bestand van FCM te krijgen: <a href="https://console.firebase.google.com/" target="_blank">Klik hier</a>',
+                        'private-key'                     => 'Privésleutel JSON-bestandsinhoud',
+                        'info-get-private-key'            => 'Info: Om de inhoud van het privésleutel JSON-bestand van FCM te krijgen: <a href="https://console.firebase.google.com/" target="_blank">Klik hier</a>',
                     ],
 
                     'content' => [

@@ -229,8 +229,8 @@ return [
                         'info'                            => 'Configuracions relacionades amb les notificacions',
                         'push-notification-configuration' => 'Configuració de notificació push FCM',
                         'title'                           => 'API GraphQL',
-                        'private-key'                     => 'Contingut del fitxer Json de clau privada',
-                        'info-get-private-key'            => 'Info: Per obtenir el contingut del fitxer Json de clau privada FCM: <a href="https://console.firebase.google.com/" target="_blank">Fes clic aquí</a>',
+                        'private-key'                     => 'Contingut del fitxer JSON de clau privada',
+                        'info-get-private-key'            => 'Info: Per obtenir el contingut del fitxer JSON de clau privada FCM: <a href="https://console.firebase.google.com/" target="_blank">Fes clic aquí</a>',
                     ],
 
                     'content' => [

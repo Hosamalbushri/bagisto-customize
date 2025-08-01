@@ -1,57 +1,156 @@
-<v-create-delivery-range-form
-    ref="ShowDeliveryRangeCreateComponent"
-    @range-created="rangeCreated"
+<v-selected-delivery-form
 >
-    <div class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"></div>
-</v-create-delivery-range-form>
+</v-selected-delivery-form>
 
-@if (bouncer()->hasPermission('delivery.deliveryAgent.edit'))
-    <div
-        class="transparent-button px-1 py-1.5 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
-        @click="$refs.ShowDeliveryRangeCreateComponent.openModal()"
-    >
-        <span class="acma-icon-how_to_reg text-2xl"></span>
 
-        @lang('deliveryagent::app.order.index.select-delivery-agent-btn')
-    </div>
-@endif
 
 @pushOnce('scripts')
 
-
     <script
         type="text/x-template"
-        id="v-range-form-template"
+        id="v-selected-delivery-form-template"
     >
         <div id="range-form">
             <x-admin::form
                 v-slot="{ meta, errors, handleSubmit, reset, setErrors }"
                 as="div"
-
             >
-                <form @submit="handleSubmit($event, create)" >
-                    <x-admin::drawer
-                        position="right"
-                        width="50%"
+                <x-admin::drawer
+                    position="right"
+                    width="50%"
+                >
+                    <x-slot:toggle>
+                        <div
+                            class="transparent-button px-1 py-1.5 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
+                        >
+                            <span
+                                class="acma-icon-how_to_reg text-2xl"
 
-                        ref="modal" ref="RangeCreateModal">
+                            ></span>
+
+                            @lang('deliveryagent::app.select-order.index.select-delivery-agent-btn')
+                        </div>
+                        </x-slot>
 
 
+                        <x-slot:header>
+                            <div class="grid h-8 gap-3">
+                                <div class="flex items-center justify-between">
+
+                            <p class="text-xl font-medium dark:text-white">
+                                @lang('deliveryagent::app.select-order.index.select-delivery-agent')
+                            </p>
+                                </div>
+                            </div>
+                            </x-slot>
+
+                            <x-slot:content class="!p-5"> <!-- Pass your custom css to customize header -->
+                                <x-admin::datagrid
+                                    src="{{ route('admin.deliveryagents.index') }}"
+                                    :isMultiRow="true"
+                                >
+                                    <template #header="{isLoading,  available,applied,sort,performAction}">
+                                        <template v-if="isLoading">
+                                            <x-admin::shimmer.datagrid.table.head :isMultiRow="true"/>
+                                        </template>
+                                        <template v-else>
+                                            <div
+                                                class="row grid grid-cols-[2fr_1fr_1fr] grid-rows-1 items-center border-b px-4 py-2.5 dark:border-gray-800">
+                                                <div
+                                                    class="flex select-none items-center gap-2.5"
+                                                    v-for="(columnGroup, index) in [['full_name', 'email'], ['status', 'phone']]"
+                                                >
+                            <span class="[&>*]:after:content-['_/_']">
+                                <template v-for="column in columnGroup">
+                                    <span
+                                        class="after:content-['/'] last:after:content-['']"
+                                        :class="{
+                                            'font-medium text-gray-800 dark:text-white': applied.sort.column == column,
+                                            'cursor-pointer hover:text-gray-800 dark:hover:text-white': available.columns.find(columnTemp => columnTemp.index === column)?.sortable,
+                                        }"
+                                        @click="
+                                            available.columns.find(columnTemp => columnTemp.index === column)?.sortable ? sort(available.columns.find(columnTemp => columnTemp.index === column)): {}
+                                        "
+                                    >
+                                        @{{ available.columns.find(columnTemp => columnTemp.index === column)?.label }}
+                                    </span>
+                                </template>
+                            </span>
+
+                                                    <i
+                                                        class="align-text-bottom text-base text-gray-800 dark:text-white ltr:ml-1.5 rtl:mr-1.5"
+                                                        :class="[applied.sort.order === 'asc' ? 'icon-down-stat': 'icon-up-stat']"
+                                                        v-if="columnGroup.includes(applied.sort.column)"
+                                                    ></i>
+                                                </div>
+                                            </div>
+                                        </template>
 
 
+                                    </template>
+                                    <template #body="{isLoading,available,applied,sort,performAction}">
+                                        <template v-if="isLoading">
+                                            <x-admin::shimmer.datagrid.table.body :isMultiRow="true"/>
+                                        </template>
+                                        <template v-else>
+                                            <div
+                                                class="row grid grid-cols-[minmax(150px,_2fr)_1fr_1fr] border-b px-4 py-2.5 transition-all hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-950"
+                                                v-for="record in available.records"
+                                            >
+                                                <div class="flex gap-2.5">
 
-                            <x-slot:header >  <!-- Pass your custom css to customize header -->
-                                Drawer Header
+                                                    <div class="flex flex-col gap-1.5">
+                                                        <p class="text-base font-semibold text-gray-800 dark:text-white">
+                                                            @{{ record.full_name }}
+                                                        </p>
+
+                                                        <p class="text-gray-600 dark:text-gray-300">
+                                                            @{{ record.email }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex flex-col gap-1.5">
+                                                    <div class="flex gap-1.5">
+                              <span
+                                  :class="{
+                                    'label-canceled': record.status == '',
+                                    'label-active': record.status === 1,
+                                }"
+                              >
+                                @{{ record.status ? '@lang('deliveryagent::app.deliveryagents.datagrid.active')' : '@lang('admin::app.customers.customers.index.datagrid.inactive')' }}
+                            </span>
+                                                    </div>
+                                                    <p class="text-gray-600 dark:text-gray-300">
+                                                        @{{ record.phone ?? 'N/A' }}
+                                                    </p>
+                                                </div>
+                                                <div class="flex w-full flex-col gap-1.5">
+                                                    <div class="grid grid-cols-2 gap-2 w-full">
+
+                                                        <a
+                                                            {{--                                    :href="`{{ route('admin.deliveryagents.edit', '') }}/${record.delivery_agents_id}`"--}}
+                                                            class="w-full text-center px-4 py-2 text-sm font-medium bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                                                        >
+                                                            تعديل
+                                                        </a>
+                                                        <a
+                                                            :href="`{{ route('admin.deliveryagents.view', '') }}/${record.delivery_agents_id}`"
+                                                            class="w-full text-center px-4 py-2 text-sm font-medium bg-gray-100 text-gray-800 rounded-md hover:bg-gray-200 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
+                                                        >
+                                                            عرض
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+
+                                    </template>
+
+                                </x-admin::datagrid>
                                 </x-slot>
 
-                                <x-slot:content class="!p-5"> <!-- Pass your custom css to customize header -->
-                                    Drawer Content
-                                    </x-slot>
 
-
-
-                    </x-admin::drawer>
-                </form>
+                </x-admin::drawer>
             </x-admin::form>
         </div>
 
@@ -59,12 +158,10 @@
 
 
     <script type="module">
-        app.component('v-create-delivery-range-form', {
-            template: '#v-range-form-template',
+        app.component('v-selected-delivery-form', {
+            template: '#v-selected-delivery-form-template',
             props: ['deliveryAgent'],
             emits: ['range-created'],
-
-
             data() {
                 return {
                     country: "",
@@ -77,52 +174,6 @@
             },
 
             methods: {
-                allCountries: undefined,
-                openModal() {
-                    this.$refs.RangeCreateModal.open();
-                },
-
-
-                create(params, { resetForm, setErrors }) {
-                    this.isLoading = true;
-
-                    this.$axios.post("{{ route('admin.range.store') }}", params)
-                        .then((response) => {
-                            this.$refs.RangeCreateModal.close();
-                            this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });
-                            this.$emit('range-created', response.data.data);
-                            resetForm();
-                            this.isLoading = false;
-
-                        })
-
-                        .catch((error) => {
-                            this.isLoading = false;
-
-                            if (error.response?.status === 422) {
-                                setErrors(error.response.data.errors);
-
-                            }
-                        });
-                },
-                haveStates() {
-                    /*
-                    * The double negation operator is used to convert the value to a boolean.
-                    * It ensures that the final result is a boolean value,
-                    * true if the array has a length greater than 0, and otherwise false.
-                    */
-                    return !!this.countryStates[this.country]?.length;
-                },
-
-                goToCountryView() {
-                    const countryObj = this.allCountries.find(c => c.code === this.country);
-
-                    if (!countryObj || !countryObj.id) return;
-
-                    const url = `{{ route('admin.country.view', ':id') }}`.replace(':id', countryObj.id);
-                    window.location.href = url;
-                }
-
 
             },
 

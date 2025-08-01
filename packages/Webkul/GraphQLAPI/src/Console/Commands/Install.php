@@ -35,7 +35,7 @@ class Install extends Command
         $this->warn('Step2: Migrating Notification tables into database...');
         $this->call('migrate');
 
-        $this->warn('Step3: Publishing GraphQLAPI Providers File...');
+        $this->warn('Step3: Publishing GraphQLAPI Provider File...');
         $this->info($this->call('vendor:publish', [
             '--provider' => GraphQLAPIServiceProvider::class,
             '--force'    => true,
@@ -63,10 +63,10 @@ class Install extends Command
 
         $this->warn('Step4: MOBIKUL_API_KEY has been generated and added to .env file.');
 
-        $this->warn('Step: Publishing Lighthouse Providers File...');
+        $this->warn('Step: Publishing Lighthouse Provider File...');
         $this->info(shell_exec('php artisan vendor:publish --provider="Nuwave\Lighthouse\LighthouseServiceProvider" --tag=config'));
 
-        $this->warn('Step: Publishing GraphiQL Providers File...');
+        $this->warn('Step: Publishing GraphiQL Provider File...');
         $this->info(shell_exec('php artisan vendor:publish --provider="MLL\GraphiQL\GraphiQLServiceProvider" --tag=config'));
 
         $this->warn('Step: Publishing GraphiQL Configuration File...');

@@ -229,8 +229,8 @@ return [
                         'info'                            => 'پیکربندی‌های مرتبط با اعلان',
                         'push-notification-configuration' => 'پیکربندی اعلان‌های فشاری FCM',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'محتوای فایل Json کلید خصوصی',
-                        'info-get-private-key'            => 'اطلاعات: برای دریافت محتوای فایل Json کلید خصوصی FCM: <a href="https://console.firebase.google.com/" target="_blank">اینجا کلیک کنید</a>',
+                        'private-key'                     => 'محتوای فایل JSON کلید خصوصی',
+                        'info-get-private-key'            => 'اطلاعات: برای دریافت محتوای فایل JSON کلید خصوصی FCM: <a href="https://console.firebase.google.com/" target="_blank">اینجا کلیک کنید</a>',
                     ],
 
                     'content' => [

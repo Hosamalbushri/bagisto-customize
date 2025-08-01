@@ -229,8 +229,8 @@ return [
                         'info'                            => 'सूचना संबंधित कॉन्फ़िगरेशन',
                         'push-notification-configuration' => 'FCM पुश सूचना कॉन्फ़िगरेशन',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'प्राइवेट की Json फ़ाइल सामग्री',
-                        'info-get-private-key'            => 'जानकारी: FCM प्राइवेट की Json फ़ाइल सामग्री प्राप्त करने के लिए: <a href="https://console.firebase.google.com/" target="_blank">यहाँ क्लिक करें</a>',
+                        'private-key'                     => 'प्राइवेट की JSON फ़ाइल सामग्री',
+                        'info-get-private-key'            => 'जानकारी: FCM प्राइवेट की JSON फ़ाइल सामग्री प्राप्त करने के लिए: <a href="https://console.firebase.google.com/" target="_blank">यहाँ क्लिक करें</a>',
                     ],
 
                     'content' => [
