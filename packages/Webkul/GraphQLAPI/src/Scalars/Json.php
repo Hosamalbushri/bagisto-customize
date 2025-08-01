@@ -2,21 +2,20 @@
 
 namespace Webkul\GraphQLAPI\Scalars;
 
-
 use GraphQL\Type\Definition\ScalarType;
 
-class Json extends ScalarType
+class JSON extends ScalarType
 {
     /**
      * Name of the scalar type.
-     *
+     * 
      * @var string
      */
-    public string $name = 'Json';
-
+    public string $name = 'JSON';
+    
     /**
      * Serialize the value for sending to the client.
-     * Here we return the value as-is, assuming it's already a valid Json-serializable PHP value.
+     * Here we return the value as-is, assuming it's already a valid JSON-serializable PHP value.
      */
     public function serialize($value)
     {
@@ -34,7 +33,7 @@ class Json extends ScalarType
 
     /**
      * Parse a literal value from the GraphQL query AST.
-     * This converts the literal node into a PHP array or object using Json encoding/decoding.
+     * This converts the literal node into a PHP array or object using JSON encoding/decoding.
      */
     public function parseLiteral($valueNode, ?array $variables = null)
     {

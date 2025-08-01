@@ -229,8 +229,8 @@ return [
                         'info'                            => 'הגדרות הקשורות להודעות',
                         'push-notification-configuration' => 'הגדרת הודעות פוש FCM',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'תוכן קובץ Json של מפתח פרטי',
-                        'info-get-private-key'            => 'מידע: לקבלת תוכן קובץ Json של מפתח פרטי FCM: <a href="https://console.firebase.google.com/" target="_blank">לחץ כאן</a>',
+                        'private-key'                     => 'תוכן קובץ JSON של מפתח פרטי',
+                        'info-get-private-key'            => 'מידע: לקבלת תוכן קובץ JSON של מפתח פרטי FCM: <a href="https://console.firebase.google.com/" target="_blank">לחץ כאן</a>',
                     ],
 
                     'content' => [

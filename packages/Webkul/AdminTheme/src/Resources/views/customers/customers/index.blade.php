@@ -183,7 +183,7 @@
 
                               }"
                           >
-                          @{{ Number(record.status)  ? '@lang('admin::app.customers.customers.index.datagrid.active')' : '@lang('admin::app.customers.customers.index.datagrid.inactive')' }}
+                          @{{Number(record.status)  ? '@lang('admin::app.customers.customers.index.datagrid.active')' : '@lang('admin::app.customers.customers.index.datagrid.inactive')' }}
 
                       </span>
                       <span

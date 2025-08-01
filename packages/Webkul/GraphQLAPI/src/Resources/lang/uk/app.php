@@ -229,8 +229,8 @@ return [
                         'info'                            => 'Налаштування, пов’язані зі сповіщеннями',
                         'push-notification-configuration' => 'Налаштування Push-сповіщень FCM',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'Вміст Json файлу приватного ключа',
-                        'info-get-private-key'            => 'Інформація: Щоб отримати вміст Json файлу приватного ключа FCM: <a href="https://console.firebase.google.com/" target="_blank">Натисніть тут</a>',
+                        'private-key'                     => 'Вміст JSON файлу приватного ключа',
+                        'info-get-private-key'            => 'Інформація: Щоб отримати вміст JSON файлу приватного ключа FCM: <a href="https://console.firebase.google.com/" target="_blank">Натисніть тут</a>',
                     ],
 
                     'content' => [

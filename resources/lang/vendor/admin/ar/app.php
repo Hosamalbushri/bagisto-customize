@@ -116,7 +116,7 @@ return [
             'today-details'               => 'تفاصيل اليوم',
             'today-orders'                => 'طلبات اليوم',
             'today-sales'                 => 'مبيعات اليوم',
-            'top-performing-categories'   => 'أفضل الفئات الأدائية',
+            'top-performing-categories'   => 'أفضل المجموعات الأدائية',
             'top-selling-products'        => 'أعلى المنتجات مبيعًا',
             'total-customers'             => 'إجمالي العملاء',
             'total-orders'                => 'إجمالي الطلبات',
@@ -777,17 +777,17 @@ return [
         'products' => [
             'index' => [
                 'already-taken' => 'تم أخذ :name بالفعل.',
-                'create-btn'    => 'إنشاء منتج',
+                'create-btn'    => 'إضافة منتج',
                 'title'         => 'المنتجات',
 
                 'create' => [
                     'back-btn'                => 'عودة',
                     'configurable-attributes' => 'خصائص قابلة للتكوين',
-                    'create-btn'              => 'إنشاء منتج',
+                    'create-btn'              => 'إضافة منتج',
                     'family'                  => 'عائلة',
                     'save-btn'                => 'حفظ المنتج',
                     'sku'                     => 'SKU',
-                    'title'                   => 'إنشاء منتج جديد',
+                    'title'                   => 'إضافة منتج جديد',
                     'type'                    => 'النوع',
                 ],
 
@@ -795,7 +795,7 @@ return [
                     'active'                 => 'نشط',
                     'attribute-family'       => 'عائلة السمة',
                     'attribute-family-value' => 'عائلة السمة - :attribute_family',
-                    'category'               => 'الفئة',
+                    'category'               => 'المجموعة',
                     'channel'                => 'القناة',
                     'copy-of'                => 'نسخة من :value',
                     'copy-of-slug'           => 'نسخة-من-:value',
@@ -843,7 +843,7 @@ return [
 
                         'create' => [
                             'all-groups'     => 'جميع المجموعات',
-                            'create-title'   => 'إنشاء سعر مجموعة العملاء',
+                            'create-title'   => 'إضافة سعر مجموعة العملاء',
                             'customer-group' => 'مجموعة العملاء',
                             'delete-btn'     => 'حذف',
                             'discount'       => 'الخصم',
@@ -864,7 +864,7 @@ return [
                 ],
 
                 'categories' => [
-                    'title' => 'الفئات',
+                    'title' => 'المجموعات',
                 ],
 
                 'images' => [
@@ -909,7 +909,7 @@ return [
                     'simple' => [
                         'customizable-options' => [
                             'add-btn'           => 'إضافة خيار',
-                            'empty-info'        => 'لإنشاء خيارات قابلة للتخصيص بسهولة.',
+                            'empty-info'        => 'إضافة خيارات قابلة للتخصيص بسهولة.',
                             'empty-title'       => 'إضافة خيار',
                             'info'              => 'سيقوم هذا بتخصيص المنتج البسيط.',
                             'title'             => 'عنصر قابل للتخصيص',
@@ -932,7 +932,7 @@ return [
                                 'delete'      => 'حذف',
                                 'delete-btn'  => 'حذف',
                                 'edit-btn'    => 'تعديل',
-                                'empty-info'  => 'لإنشاء مجموعة متنوعة من المنتجات بسهولة.',
+                                'empty-info'  => 'لإضافة مجموعة متنوعة من المنتجات بسهولة.',
                                 'empty-title' => 'إضافة خيار',
 
                                 'types' => [
@@ -997,7 +997,7 @@ return [
                         'add-btn'           => 'إضافة متغير',
                         'delete-btn'        => 'حذف',
                         'edit-btn'          => 'تعديل',
-                        'empty-info'        => 'لإنشاء مجموعات متنوعة من المنتجات بسرعة.',
+                        'empty-info'        => 'لإضافة مجموعات متنوعة من المنتجات بسرعة.',
                         'empty-title'       => 'إضافة متغير',
                         'image-placeholder' => 'صورة المنتج',
                         'info'              => 'منتجات التباين تعتمد على جميع التركيبات الممكنة للسمة.',
@@ -1059,7 +1059,7 @@ return [
                         'add-btn'           => 'إضافة منتج',
                         'default-qty'       => 'الكمية الافتراضية',
                         'delete'            => 'حذف',
-                        'empty-info'        => 'لإنشاء مجموعات متنوعة من المنتجات بسرعة.',
+                        'empty-info'        => 'لإضافة مجموعات متنوعة من المنتجات بسرعة.',
                         'empty-title'       => 'إضافة منتج',
                         'image-placeholder' => 'صورة المنتج',
                         'info'              => 'المنتج المجمع يتكون من عناصر منفصلة تُعرض كمجموعة، مما يسمح بالتنوع أو التنسيق حسب الموسم أو الموضوع. يمكن شراء كل منتج على حدة أو كجزء من المجموعة.',
@@ -1069,7 +1069,7 @@ return [
 
                     'bundle' => [
                         'add-btn'           => 'إضافة خيار',
-                        'empty-info'        => 'لإنشاء خيارات الحزم بسرعة.',
+                        'empty-info'        => 'لإضافة خيارات الحزم بسرعة.',
                         'empty-title'       => 'إضافة خيار',
                         'image-placeholder' => 'صورة المنتج',
                         'info'              => 'المنتج المجمع هو حزمة من العناصر أو الخدمات المتعددة التي تُباع معًا بسعر خاص، مما يوفر القيمة والراحة للعملاء.',
@@ -1095,7 +1095,7 @@ return [
                             'delete'      => 'حذف',
                             'delete-btn'  => 'حذف',
                             'edit-btn'    => 'تعديل',
-                            'empty-info'  => 'لإنشاء مجموعات متنوعة من المنتجات بسرعة.',
+                            'empty-info'  => 'لإضافة مجموعات متنوعة من المنتجات بسرعة.',
                             'empty-title' => 'إضافة منتج',
                             'sku'         => 'SKU - :sku',
 
@@ -1329,7 +1329,7 @@ return [
                             'add-btn'     => 'إضافة عينة',
                             'delete-btn'  => 'حذف',
                             'edit-btn'    => 'تعديل',
-                            'empty-info'  => 'لإنشاء عينات بسرعة.',
+                            'empty-info'  => 'لإضافة عينات بسرعة.',
                             'empty-title' => 'إضافة عينة',
                             'file'        => 'ملف : ',
                             'info'        => 'نوع المنتج القابل للتنزيل يسمح ببيع المنتجات الرقمية، مثل الكتب الإلكترونية، وتطبيقات البرمجيات، والموسيقى، والألعاب، إلخ.',
@@ -1349,7 +1349,7 @@ return [
                 ],
             ],
 
-            'create-success'          => 'تم إنشاء المنتج بنجاح',
+            'create-success'          => 'تم إضافة المنتج بنجاح',
             'delete-failed'           => 'فشل حذف المنتج',
             'delete-success'          => 'تم حذف المنتج بنجاح',
             'product-copied'          => 'تم نسخ المنتج بنجاح',
@@ -1359,7 +1359,7 @@ return [
 
         'attributes' => [
             'index' => [
-                'create-btn' => 'إنشاء السمات',
+                'create-btn' => 'إضافة السمات',
                 'title'      => 'السمات',
 
                 'datagrid' => [
@@ -1394,7 +1394,7 @@ return [
             'create' => [
                 'add-attribute-options'  => 'إضافة خيارات السمة',
                 'add-option'             => 'إضافة خيار',
-                'add-options-info'       => 'لإنشاء مجموعة متنوعة من خيارات السمة بسهولة.',
+                'add-options-info'       => 'لإضافة مجموعة متنوعة من خيارات السمة بسهولة.',
                 'add-row'                => 'إضافة صف',
                 'admin'                  => 'المسؤول',
                 'admin-name'             => 'اسم المسؤول',
@@ -1404,7 +1404,7 @@ return [
                 'code'                   => 'رمز السمة',
                 'color'                  => 'لون',
                 'configuration'          => 'التكوين',
-                'create-empty-option'    => 'إنشاء خيار فارغ افتراضي',
+                'create-empty-option'    => 'إضافة خيار فارغ افتراضي',
                 'date'                   => 'تاريخ',
                 'datetime'               => 'تاريخ ووقت',
                 'decimal'                => 'عشري',
@@ -1417,7 +1417,7 @@ return [
                 'input-options'          => 'خيارات الإدخال',
                 'input-validation'       => 'التحقق من الإدخال',
                 'is-comparable'          => 'السمة قابلة للمقارنة',
-                'is-configurable'        => 'استخدم لإنشاء منتج قابل للتكوين',
+                'is-configurable'        => 'استخدم لإضافة منتج قابل للتكوين',
                 'is-filterable'          => 'استخدم في التصفية المتعددة الطبقات',
                 'is-required'            => 'مطلوب',
                 'is-unique'              => 'فريد',
@@ -1441,7 +1441,7 @@ return [
                 'title'                  => 'إضافة سمة',
                 'type'                   => 'نوع السمة',
                 'url'                    => 'عنوان URL',
-                'use-in-flat'            => 'إنشاء في جدول المنتج المسطح',
+                'use-in-flat'            => 'إضافة في جدول المنتج المسطح',
                 'validations'            => 'التحقق',
                 'value-per-channel'      => 'القيمة لكل قناة',
                 'value-per-locale'       => 'القيمة لكل لغة',
@@ -1459,7 +1459,7 @@ return [
             'edit' => [
                 'add-attribute-options' => 'إضافة خيارات السمة',
                 'add-option'            => 'إضافة خيار',
-                'add-options-info'      => 'لإنشاء مجموعة متنوعة من خيارات السمة بسهولة.',
+                'add-options-info'      => 'لإضافة مجموعة متنوعة من خيارات السمة بسهولة.',
                 'add-row'               => 'إضافة صف',
                 'admin'                 => 'المسؤول',
                 'admin-name'            => 'اسم المسؤول',
@@ -1469,7 +1469,7 @@ return [
                 'code'                  => 'رمز السمة',
                 'color'                 => 'لون',
                 'configuration'         => 'التكوين',
-                'create-empty-option'   => 'إنشاء خيار فارغ افتراضي',
+                'create-empty-option'   => 'إضافة خيار فارغ افتراضي',
                 'date'                  => 'تاريخ',
                 'datetime'              => 'تاريخ ووقت',
                 'decimal'               => 'عشري',
@@ -1482,7 +1482,7 @@ return [
                 'input-options'         => 'خيارات الإدخال',
                 'input-validation'      => 'التحقق من الإدخال',
                 'is-comparable'         => 'السمة قابلة للمقارنة',
-                'is-configurable'       => 'استخدم لإنشاء منتج قابل للتكوين',
+                'is-configurable'       => 'استخدم لإضافة منتج قابل للتكوين',
                 'is-filterable'         => 'استخدم في التصفية المتعددة الطبقات',
                 'is-required'           => 'مطلوب',
                 'is-unique'             => 'فريد',
@@ -1506,7 +1506,7 @@ return [
                 'title'                 => 'تحرير السمة',
                 'type'                  => 'نوع السمة',
                 'url'                   => 'عنوان URL',
-                'use-in-flat'           => 'إنشاء في جدول المنتج المسطح',
+                'use-in-flat'           => 'إضافة في جدول المنتج المسطح',
                 'validations'           => 'التحقق',
                 'value-per-channel'     => 'القيمة لكل قناة',
                 'value-per-locale'      => 'القيمة لكل لغة',
@@ -1521,7 +1521,7 @@ return [
                 ],
             ],
 
-            'create-success'    => 'تم إنشاء السمة بنجاح',
+            'create-success'    => 'تم إضافة السمة بنجاح',
             'delete-failed'     => 'فشل حذف السمة',
             'delete-success'    => 'تم حذف السمة بنجاح',
             'update-success'    => 'تم تحديث السمة بنجاح',
@@ -1530,8 +1530,8 @@ return [
 
         'categories' => [
             'index' => [
-                'add-btn' => 'إنشاء فئة',
-                'title'   => 'الفئات',
+                'add-btn' => 'إضافة مجموعة',
+                'title'   => 'المجموعات',
 
                 'datagrid' => [
                     'active'         => 'نشط',
@@ -1567,11 +1567,11 @@ return [
                 'meta-keywords'            => 'الكلمات الرئيسية للوسائط',
                 'meta-title'               => 'العنوان الرئيسي للوسائط',
                 'name'                     => 'الاسم',
-                'parent-category'          => 'الفئة الأصلية',
+                'parent-category'          => 'المجموعة الأصلية',
                 'position'                 => 'الموقع',
                 'products-and-description' => 'المنتجات والوصف',
                 'products-only'            => 'المنتجات فقط',
-                'save-btn'                 => 'حفظ الفئة',
+                'save-btn'                 => 'حفظ المجموعة',
                 'select-display-mode'      => 'حدد وضع العرض',
                 'seo-details'              => 'تفاصيل SEO',
                 'settings'                 => 'الإعدادات',
@@ -1602,27 +1602,27 @@ return [
                 'position'                 => 'الموقع*',
                 'products-and-description' => 'المنتجات والوصف',
                 'products-only'            => 'المنتجات فقط',
-                'save-btn'                 => 'حفظ الفئة',
+                'save-btn'                 => 'حفظ المجموعة',
                 'select-display-mode'      => 'حدد وضع العرض',
-                'select-parent-category'   => 'حدد الفئة الأصلية*',
+                'select-parent-category'   => 'حدد المجموعة الأصلية*',
                 'seo-details'              => 'تفاصيل SEO',
                 'settings'                 => 'الإعدادات',
                 'slug'                     => 'Slug',
-                'title'                    => 'تعديل الفئة',
+                'title'                    => 'تعديل المجموعة',
                 'visible-in-menu'          => 'مرئية في القائمة',
             ],
 
-            'category'             => 'الفئة',
-            'create-success'       => 'تم إنشاء الفئة بنجاح.',
-            'delete-category-root' => 'لا يمكن حذف الفئة الجذر.',
-            'delete-failed'        => 'حدث خطأ أثناء حذف الفئة.',
-            'delete-success'       => 'تم حذف الفئة بنجاح.',
-            'update-success'       => 'تم تحديث الفئة بنجاح.',
+            'category'             => 'المجموعة',
+            'create-success'       => 'تم إضافة المجموعة بنجاح.',
+            'delete-category-root' => 'لا يمكن حذف المحموعة الجذر.',
+            'delete-failed'        => 'حدث خطأ أثناء حذف المحموعة.',
+            'delete-success'       => 'تم حذف الجموعة بنجاح.',
+            'update-success'       => 'تم تحديث المجموعة بنجاح.',
         ],
 
         'families'   => [
             'index' => [
-                'add'   => 'إنشاء عائلة السمات',
+                'add'   => 'إضافة عائلة السمات',
                 'title' => 'العائلات',
 
                 'datagrid' => [
@@ -1661,7 +1661,7 @@ return [
                 'right-column'                     => 'العمود الجانبي الأيمن',
                 'save-btn'                         => 'حفظ عائلة السمات',
                 'select-group'                     => 'الرجاء تحديد مجموعة السمات.',
-                'title'                            => 'إنشاء عائلة السمات',
+                'title'                            => 'إضافة عائلة السمات',
                 'unassigned-attributes'            => 'السمات غير المخصصة',
                 'unassigned-attributes-info'       => 'اسحب هذه السمات لإضافتها إلى الأعمدة أو المجموعات.',
             ],
@@ -1695,7 +1695,7 @@ return [
 
             'attribute-family'        => 'عائلة السمات',
             'attribute-product-error' => 'العائلة مستخدمة في المنتجات.',
-            'create-success'          => 'تم إنشاء العائلة بنجاح.',
+            'create-success'          => 'تم إضافة العائلة بنجاح.',
             'delete-failed'           => 'حدث خطأ أثناء حذف العائلة.',
             'delete-success'          => 'تم حذف العائلة بنجاح.',
             'family'                  => 'العائلة',
@@ -1741,8 +1741,8 @@ return [
 
                 'create' => [
                     'contact-number'        => 'رقم الاتصال',
-                    'create-btn'            => 'إنشاء عميل',
-                    'create-success'        => 'تم إنشاء العميل بنجاح',
+                    'create-btn'            => 'إضافة عميل',
+                    'create-success'        => 'تم إضافة العميل بنجاح',
                     'customer-group'        => 'مجموعة العملاء',
                     'date-of-birth'         => 'تاريخ الميلاد',
                     'email'                 => 'البريد الإلكتروني',
@@ -1755,7 +1755,7 @@ return [
                     'save-btn'              => 'حفظ العميل',
                     'select-customer-group' => 'اختر مجموعة العملاء',
                     'select-gender'         => 'اختر الجنس',
-                    'title'                 => 'إنشاء عميل جديد',
+                    'title'                 => 'إضافة عميل جديد',
                 ],
             ],
 
@@ -1771,13 +1771,13 @@ return [
                 'delete-account'              => 'حذف الحساب',
                 'delete'                      => 'حذف',
                 'email'                       => 'البريد الإلكتروني - :email',
-                'empty-description'           => 'إنشاء عناوين جديدة للعميل',
+                'empty-description'           => 'إضافة عناوين جديدة للعميل',
                 'empty-title'                 => 'إضافة عنوان العميل',
                 'gender'                      => 'الجنس - :gender',
                 'group'                       => 'المجموعة - :group_code',
                 'inactive'                    => 'غير نشط',
                 'login-as-customer'           => 'تسجيل الدخول كعميل',
-                'note-created-success'        => 'تم إنشاء المذكرة بنجاح',
+                'note-created-success'        => 'تم إضافة المذكرة بنجاح',
                 'order-create-confirmation'   => 'هل أنت متأكد أنك تريد إنشاء طلب لهذا العميل؟',
                 'phone'                       => 'الهاتف - :phone',
                 'set-as-default'              => 'تعيين كافتراضي',
@@ -1792,7 +1792,7 @@ return [
                         'company-name'       => 'اسم الشركة',
                         'country'            => 'البلد',
                         'create-address-btn' => 'إضافة عنوان جديد',
-                        'create-btn'         => 'إنشاء',
+                        'create-btn'         => 'إضافة',
                         'default-address'    => 'العنوان الافتراضي',
                         'email'              => 'البريد الإلكتروني',
                         'first-name'         => 'الاسم الأول',
@@ -1803,7 +1803,7 @@ return [
                         'select-country'     => 'اختر البلد',
                         'state'              => 'الولاية',
                         'street-address'     => 'عنوان الشارع',
-                        'title'              => 'إنشاء عنوان',
+                        'title'              => 'إضافة عنوان',
                         'vat-id'             => 'رقم الضريبة القيمة المضافة',
                     ],
 
@@ -1827,7 +1827,7 @@ return [
                     ],
 
                     'address-delete-success' => 'تم حذف العنوان بنجاح',
-                    'create-success'         => 'تم إنشاء العنوان بنجاح',
+                    'create-success'         => 'تم إضافة العنوان بنجاح',
                     'set-default-success'    => 'تم تحديث العنوان الافتراضي بنجاح',
                     'success-mass-delete'    => 'تم حذف عناوين الشحن بنجاح',
                     'update-success'         => 'تم تحديث العنوان بنجاح',
@@ -2263,7 +2263,7 @@ return [
         'promotions' => [
             'index' => [
                 'cart-rule-title'    => 'قواعد العربة',
-                'catalog-rule-title' => 'قوانين الكتالوج',
+                'catalog-rule-title' => 'قوانين الأصناف',
             ],
 
             'cart-rules' => [
@@ -2306,9 +2306,9 @@ return [
                     'buy-x-quantity'                            => 'شراء X الكمية',
                     'cart-attribute'                            => 'خاصية السلة',
                     'cart-item-attribute'                       => 'خاصية عنصر السلة',
-                    'categories'                                => 'الفئات',
+                    'categories'                                => 'المجموعات',
                     'channels'                                  => 'القنوات',
-                    'children-categories'                       => 'الفئات (الأطفال فقط)',
+                    'children-categories'                       => 'المجموعات (الأطفال فقط)',
                     'choose-condition-to-add'                   => 'اختر الشرط للإضافة',
                     'condition-type'                            => 'نوع الشرط',
                     'conditions'                                => 'الشروط',
@@ -2338,7 +2338,7 @@ return [
                     'name'                                      => 'الاسم',
                     'no'                                        => 'لا',
                     'no-coupon'                                 => 'بدون قسيمة',
-                    'parent-categories'                         => 'الفئات (الوالدين فقط)',
+                    'parent-categories'                         => 'المجموعات (الوالدين فقط)',
                     'payment-method'                            => 'طريقة الدفع',
                     'percentage-product-price'                  => 'نسبة من سعر المنتج',
                     'price-in-cart'                             => 'السعر في السلة',
@@ -2383,9 +2383,9 @@ return [
                     'buy-x-quantity'                            => 'شراء X الكمية',
                     'cart-attribute'                            => 'خاصية السلة',
                     'cart-item-attribute'                       => 'خاصية عنصر السلة',
-                    'categories'                                => 'الفئات',
+                    'categories'                                => 'المجموعات',
                     'channels'                                  => 'القنوات',
-                    'children-categories'                       => 'الفئات (الأطفال فقط)',
+                    'children-categories'                       => 'المجموعات (الأطفال فقط)',
                     'choose-condition-to-add'                   => 'اختر الشرط للإضافة',
                     'code-format'                               => 'تنسيق الكود',
                     'code-prefix'                               => 'بادئة الكود',
@@ -2422,7 +2422,7 @@ return [
                     'no'                                        => 'لا',
                     'no-coupon'                                 => 'بدون قسيمة',
                     'numeric'                                   => 'رقمي',
-                    'parent-categories'                         => 'الفئات (الوالدين فقط)',
+                    'parent-categories'                         => 'المجموعات (الوالدين فقط)',
                     'payment-method'                            => 'طريقة الدفع',
                     'percentage-product-price'                  => 'نسبة من سعر المنتج',
                     'price-in-cart'                             => 'السعر في السلة',
@@ -2455,8 +2455,8 @@ return [
 
             'catalog-rules' => [
                 'index' => [
-                    'create-btn' => 'إنشاء قاعدة الكتالوج',
-                    'title'      => 'قوانين الكتالوج',
+                    'create-btn' => 'إنشاء قاعدة الأصناف',
+                    'title'      => 'قوانين الأصناف',
 
                     'datagrid' => [
                         'active'   => 'نشط',
@@ -2480,7 +2480,7 @@ return [
                     'any-conditions-true'      => 'أي شروط صحيحة',
                     'attribute-family'         => 'عائلة السمة',
                     'back-btn'                 => 'رجوع',
-                    'categories'               => 'الفئات',
+                    'categories'               => 'المجموعات',
                     'channels'                 => 'القنوات',
                     'choose-condition-to-add'  => 'اختر الشرط للإضافة',
                     'condition-type'           => 'نوع الشرط',
@@ -2507,10 +2507,10 @@ return [
                     'percentage-product-price' => 'نسبة من سعر المنتج',
                     'priority'                 => 'الأولوية',
                     'product-attribute'        => 'خاصية المنتج',
-                    'save-btn'                 => 'حفظ قاعدة الكتالوج',
+                    'save-btn'                 => 'حفظ قاعدة الأصناف',
                     'settings'                 => 'الإعدادات',
                     'status'                   => 'الحالة',
-                    'title'                    => 'إنشاء قاعدة الكتالوج',
+                    'title'                    => 'إنشاء قاعدة الأصناف',
                     'to'                       => 'إلى',
                     'yes'                      => 'نعم',
                 ],
@@ -2522,7 +2522,7 @@ return [
                     'all-conditions-true'      => 'جميع الشروط صحيحة',
                     'any-conditions-true'      => 'أي شروط صحيحة',
                     'back-btn'                 => 'رجوع',
-                    'categories'               => 'الفئات',
+                    'categories'               => 'المجموعات',
                     'channels'                 => 'القنوات',
                     'choose-condition-to-add'  => 'اختر الشرط للإضافة',
                     'condition-type'           => 'نوع الشرط',
@@ -2549,28 +2549,28 @@ return [
                     'percentage-product-price' => 'نسبة من سعر المنتج',
                     'priority'                 => 'الأولوية',
                     'product-attribute'        => 'خاصية المنتج',
-                    'save-btn'                 => 'حفظ قاعدة الكتالوج',
+                    'save-btn'                 => 'حفظ قاعدة الأصناف',
                     'settings'                 => 'الإعدادات',
                     'status'                   => 'الحالة',
-                    'title'                    => 'تعديل قاعدة الكتالوج',
+                    'title'                    => 'تعديل قاعدة الأصناف',
                     'to'                       => 'إلى',
                     'yes'                      => 'نعم',
                 ],
 
-                'create-success' => 'تم إنشاء قاعدة الكتالوج بنجاح',
-                'delete-success' => 'تم حذف قاعدة الكتالوج بنجاح',
-                'update-success' => 'تم تحديث قاعدة الكتالوج بنجاح',
+                'create-success' => 'تم إنشاء قاعدة الأصناف بنجاح',
+                'delete-success' => 'تم حذف قاعدة الأصناف بنجاح',
+                'update-success' => 'تم تحديث قاعدة الأصناف بنجاح',
             ],
 
             'cart-rules-coupons' => [
                 'cart-rule-not-defined-error' => 'لا يمكن حذف قاعدة السلة',
                 'delete-success'              => 'تم حذف قاعدة السلة بنجاح',
                 'mass-delete-success'         => 'تم حذف العناصر المحددة بنجاح',
-                'success'                     => 'تم إنشاء :name بنجاح',
+                'success'                     => 'تم إضافة :name بنجاح',
 
                 'datagrid' => [
                     'coupon-code'     => 'كود الكوبون',
-                    'created-date'    => 'تاريخ الإنشاء',
+                    'created-date'    => 'تاريخ الإضافة',
                     'delete'          => 'حذف',
                     'expiration-date' => 'تاريخ الانتهاء',
                     'id'              => 'الرقم التعريفي',
@@ -2655,7 +2655,7 @@ return [
 
             'sitemaps' => [
                 'index' => [
-                    'create-btn' => 'إنشاء خريطة الموقع',
+                    'create-btn' => 'إضافة خريطة الموقع',
                     'sitemap'    => 'خريطة الموقع',
                     'title'      => 'خرائط الموقع',
 
@@ -2676,8 +2676,8 @@ return [
                         'path'           => 'المسار',
                         'path-info'      => 'مثال: "/sitemap/" أو "/" للمسار الأساسي',
                         'save-btn'       => 'حفظ خريطة الموقع',
-                        'success'        => 'تم إنشاء خريطة الموقع بنجاح',
-                        'title'          => 'إنشاء خريطة الموقع',
+                        'success'        => 'تم إضافة خريطة الموقع بنجاح',
+                        'title'          => 'إضافة خريطة الموقع',
                     ],
 
                     'edit' => [
@@ -2702,12 +2702,12 @@ return [
 
             'url-rewrites' => [
                 'index' => [
-                    'create-btn' => 'إنشاء إعادة كتابة عنوان URL',
+                    'create-btn' => 'إضافة إعادة كتابة عنوان URL',
                     'title'      => 'إعادة كتابة عناوين URL',
 
                     'datagrid' => [
                         'actions'             => 'إجراءات',
-                        'category'            => 'الفئة',
+                        'category'            => 'المجموعة',
                         'cms-page'            => 'صفحة CMS',
                         'delete'              => 'حذف',
                         'edit'                => 'تعديل',
@@ -2724,7 +2724,7 @@ return [
                     ],
 
                     'create' => [
-                        'category'           => 'الفئة',
+                        'category'           => 'المجموعة',
                         'cms-page'           => 'صفحة CMS',
                         'delete-warning'     => 'هل أنت متأكد أنك تريد تنفيذ هذا الإجراء؟',
                         'for'                => 'لـ',
@@ -2734,10 +2734,10 @@ return [
                         'redirect-type'      => 'نوع إعادة التوجيه',
                         'request-path'       => 'مسار الطلب',
                         'save-btn'           => 'حفظ إعادة كتابة عنوان URL',
-                        'success'            => 'تم إنشاء إعادة كتابة عنوان URL بنجاح',
+                        'success'            => 'تم إضافة إعادة كتابة عنوان URL بنجاح',
                         'target-path'        => 'مسار الهدف',
                         'temporary-redirect' => 'مؤقت (302)',
-                        'title'              => 'إنشاء إعادة كتابة عنوان URL',
+                        'title'              => 'إضافة إعادة كتابة عنوان URL',
                     ],
 
                     'edit' => [
@@ -2753,7 +2753,7 @@ return [
     'cms' => [
         'index' => [
             'already-taken' => 'تم استخدام :name بالفعل.',
-            'create-btn'    => 'إنشاء صفحة',
+            'create-btn'    => 'إضافة صفحة',
             'channel'       => 'القناة',
             'language'      => 'اللغة',
             'title'         => 'الصفحات',
@@ -2781,7 +2781,7 @@ return [
             'page-title'       => 'العنوان',
             'save-btn'         => 'حفظ الصفحة',
             'seo'              => 'تحسين محركات البحث',
-            'title'            => 'إنشاء صفحة',
+            'title'            => 'إضافة صفحة',
             'url-key'          => 'مفتاح الرابط',
         ],
 
@@ -2802,7 +2802,7 @@ return [
             'url-key'          => 'مفتاح الرابط',
         ],
 
-        'create-success' => 'تم إنشاء صفحة بنجاح.',
+        'create-success' => 'تم إضافة صفحة بنجاح.',
         'delete-success' => 'تم حذف صفحة بنجاح.',
         'no-resource'    => 'المورد غير موجود.',
         'update-success' => 'تم تحديث صفحة بنجاح.',
@@ -2811,7 +2811,7 @@ return [
     'settings' => [
         'locales' => [
             'index' => [
-                'create-btn'    => 'إنشاء لغة',
+                'create-btn'    => 'إضافة لغة',
                 'locale'        => 'اللغة',
                 'logo-size'     => 'يجب أن تكون دقة الصورة 24 بكسل × 16 بكسل',
                 'title'         => 'اللغات',
@@ -2835,14 +2835,14 @@ return [
                     'name'             => 'الاسم',
                     'save-btn'         => 'حفظ اللغة',
                     'select-direction' => 'اختر الاتجاه',
-                    'title'            => 'إنشاء لغة',
+                    'title'            => 'إضافة لغة',
                 ],
 
                 'edit' => [
                     'title' => 'تعديل اللغة',
                 ],
 
-                'create-success'    => 'تم إنشاء اللغة بنجاح.',
+                'create-success'    => 'تم إضافة اللغة بنجاح.',
                 'delete-failed'     => 'فشل حذف اللغة.',
                 'delete-success'    => 'تم حذف اللغة بنجاح.',
                 'delete-warning'    => 'هل أنت متأكد أنك تريد أداء هذا الإجراء؟',
@@ -2853,7 +2853,7 @@ return [
 
         'currencies' => [
             'index' => [
-                'create-btn' => 'إنشاء عملة',
+                'create-btn' => 'إضافة عملة',
                 'currency'   => 'العملة',
                 'title'      => 'العملات',
 
@@ -2872,7 +2872,7 @@ return [
 
                 'create' => [
                     'code'                   => 'الكود',
-                    'create-btn'             => 'إنشاء عملة',
+                    'create-btn'             => 'إضافة عملة',
                     'currency-position'      => 'موقع العملة',
                     'decimal'                => 'الكسور',
                     'decimal-separator'      => 'فاصل الكسور',
@@ -2884,14 +2884,14 @@ return [
                     'name'                   => 'الاسم',
                     'save-btn'               => 'حفظ العملة',
                     'symbol'                 => 'الرمز',
-                    'title'                  => 'إنشاء عملة جديدة',
+                    'title'                  => 'إضافة عملة جديدة',
                 ],
 
                 'edit' => [
                     'title' => 'تعديل العملة',
                 ],
 
-                'create-success'    => 'تم إنشاء العملة بنجاح.',
+                'create-success'    => 'تم إضافة العملة بنجاح.',
                 'delete-failed'     => 'فشل حذف العملة.',
                 'delete-success'    => 'تم حذف العملة بنجاح.',
                 'last-delete-error' => 'على الأقل يجب وجود عملة واحدة على الأقل.',
@@ -2905,7 +2905,7 @@ return [
                     'action'              => 'الإجراء',
                     'allowed-errors'      => 'الأخطاء المسموح بها',
                     'back-btn'            => 'رجوع',
-                    'create-update'       => 'إنشاء/تحديث',
+                    'create-update'       => 'إضافة/تحديث',
                     'delete'              => 'حذف',
                     'download-sample'     => 'تحميل النموذج',
                     'field-separator'     => 'فاصل الحقل',
@@ -2920,7 +2920,7 @@ return [
                     'settings'            => 'الإعدادات',
                     'skip-errors'         => 'تخطي الأخطاء',
                     'stop-on-errors'      => 'التوقف عند الأخطاء',
-                    'title'               => 'إنشاء استيراد',
+                    'title'               => 'إضافة استيراد',
                     'type'                => 'النوع',
                     'validation-strategy' => 'استراتيجية التحقق',
                 ],
@@ -2929,7 +2929,7 @@ return [
                     'action'              => 'الإجراء',
                     'allowed-errors'      => 'الأخطاء المسموح بها',
                     'back-btn'            => 'رجوع',
-                    'create-update'       => 'إنشاء/تحديث',
+                    'create-update'       => 'إضافة/تحديث',
                     'current-file'        => 'الملف المرفوع الحالي',
                     'delete'              => 'حذف',
                     'download-sample'     => 'تحميل النموذج',
@@ -2951,13 +2951,13 @@ return [
                 ],
 
                 'index' => [
-                    'button-title' => 'إنشاء استيراد',
+                    'button-title' => 'إضافة استيراد',
                     'title'        => 'الاستيرادات',
 
                     'datagrid' => [
                         'actions'       => 'الإجراءات',
                         'completed-at'  => 'انتهى في',
-                        'created'       => 'تم الإنشاء',
+                        'created'       => 'تم ألإضافة',
                         'delete'        => 'حذف',
                         'deleted'       => 'تم الحذف',
                         'edit'          => 'تحرير',
@@ -2983,7 +2983,7 @@ return [
                     'progress'                => 'التقدم:',
                     'title'                   => 'الاستيراد',
                     'total-batches'           => 'إجمالي الدُفعات:',
-                    'total-created'           => 'إجمالي السجلات التي تم إنشاؤها:',
+                    'total-created'           => 'إجمالي السجلات التي تم إضافتها:',
                     'total-deleted'           => 'إجمالي السجلات التي تم حذفها:',
                     'total-errors'            => 'إجمالي الأخطاء:',
                     'total-invalid-rows'      => 'إجمالي الصفوف غير الصالحة:',
@@ -3008,7 +3008,7 @@ return [
 
         'exchange-rates' => [
             'index' => [
-                'create-btn'    => 'إنشاء سعر صرف',
+                'create-btn'    => 'إضافة سعر صرف',
                 'exchange-rate' => 'سعر الصرف',
                 'title'         => 'أسعار الصرف',
                 'update-rates'  => 'تحديث سعر الصرف',
@@ -3020,7 +3020,7 @@ return [
                     'select-target-currency' => 'اختر العملة المستهدفة',
                     'source-currency'        => 'العملة المصدر',
                     'target-currency'        => 'العملة المستهدفة',
-                    'title'                  => 'إنشاء سعر صرف',
+                    'title'                  => 'إضافة سعر صرف',
                 ],
 
                 'edit' => [
@@ -3036,7 +3036,7 @@ return [
                     'id'            => 'المعرف',
                 ],
 
-                'create-success' => 'تم إنشاء سعر الصرف بنجاح.',
+                'create-success' => 'تم إضافة سعر الصرف بنجاح.',
                 'delete-error'   => 'فشل حذف سعر الصرف.',
                 'delete-success' => 'تم حذف سعر الصرف بنجاح.',
                 'update-success' => 'تم تحديث سعر الصرف بنجاح.',
@@ -3045,7 +3045,7 @@ return [
 
         'inventory-sources' => [
             'index' => [
-                'create-btn' => 'إنشاء مصدر المخزون',
+                'create-btn' => 'إضافة مصدر المخزون',
                 'title'      => 'مصادر المخزون',
 
                 'datagrid' => [
@@ -3118,7 +3118,7 @@ return [
                 'title'          => 'تعديل مصادر المخزون',
             ],
 
-            'create-success'    => 'تم إنشاء مصدر المخزون بنجاح.',
+            'create-success'    => 'تم إضافة مصدر المخزون بنجاح.',
             'delete-failed'     => 'فشل حذف مصادر المخزون.',
             'delete-success'    => 'تم حذف مصادر المخزون بنجاح.',
             'last-delete-error' => 'لا يمكن حذف مصادر المخزون الأخيرة.',
@@ -3145,13 +3145,13 @@ return [
                         'add-tax-rates' => 'إضافة أسعار الضرائب',
                         'code'          => 'الكود',
                         'description'   => 'الوصف',
-                        'empty-text'    => 'لا تتوفر أسعار الضرائب ، يرجى إنشاء أسعار ضريبية جديدة.',
+                        'empty-text'    => 'لا تتوفر أسعار الضرائب ، يرجى إضافة أسعار ضريبية جديدة.',
                         'general'       => 'فئة الضريبة',
                         'name'          => 'الاسم',
                         'save-btn'      => 'حفظ فئة الضريبة',
                         'select'        => 'اختر',
                         'tax-rates'     => 'أسعار الضرائب',
-                        'title'         => 'إنشاء فئة الضريبة',
+                        'title'         => 'إضافة فئة الضريبة',
                     ],
 
                     'edit' => [
@@ -3159,7 +3159,7 @@ return [
                     ],
 
                     'can-not-delete' => 'لا يمكن حذف فئات الضرائب المعينة.',
-                    'create-success' => 'تم إنشاء فئة ضريبية جديدة',
+                    'create-success' => 'تم إضافة فئة ضريبية جديدة',
                     'delete-failed'  => 'فشل حذف فئة الضريبة',
                     'delete-success' => 'تم حذف فئة الضريبة بنجاح',
                     'update-success' => 'تم تحديث فئة الضريبة بنجاح',
@@ -3168,7 +3168,7 @@ return [
 
             'rates' => [
                 'index' => [
-                    'button-title' => 'إنشاء معدل الضريبة',
+                    'button-title' => 'إضافة معدل الضريبة',
                     'tax-rate'     => 'سعر الضريبة',
                     'title'        => 'أسعار الضرائب',
 
@@ -3198,7 +3198,7 @@ return [
                     'settings'       => 'الإعدادات',
                     'state'          => 'الولاية',
                     'tax-rate'       => 'السعر',
-                    'title'          => 'إنشاء سعر الضريبة',
+                    'title'          => 'إضافة سعر الضريبة',
                     'zip-code'       => 'الرمز البريدي',
                     'zip-from'       => 'من الرمز البريدي',
                     'zip-to'         => 'إلى الرمز البريدي',
@@ -3220,7 +3220,7 @@ return [
                     'zip-to'         => 'إلى الرمز البريدي',
                 ],
 
-                'create-success' => 'تم إنشاء سعر الضريبة بنجاح.',
+                'create-success' => 'تم إضافة سعر الضريبة بنجاح.',
                 'delete-failed'  => 'فشل حذف سعر الضريبة.',
                 'delete-success' => 'تم حذف سعر الضريبة بنجاح.',
                 'update-success' => 'تم تحديث سعر الضريبة بنجاح.',
@@ -3229,7 +3229,7 @@ return [
 
         'channels' => [
             'index' => [
-                'create-btn'        => 'إنشاء قناة',
+                'create-btn'        => 'إضافة قناة',
                 'delete-failed'     => 'فشل حذف قناة',
                 'delete-success'    => 'تم حذف القناة بنجاح.',
                 'last-delete-error' => 'فشل حذف آخر قناة.',
@@ -3249,7 +3249,7 @@ return [
                 'allowed-ips'             => 'عناوين IP المسموح بها',
                 'cancel'                  => 'رجوع',
                 'code'                    => 'الكود',
-                'create-success'          => 'تم إنشاء القناة بنجاح.',
+                'create-success'          => 'تم إضافة القناة بنجاح.',
                 'currencies'              => 'العملات',
                 'currencies-and-locales'  => 'العملات واللغات',
                 'default-currency'        => 'العملة الافتراضية',
@@ -3268,11 +3268,11 @@ return [
                 'logo-size'               => 'يجب أن تكون دقة الصورة مثل 192 بيكسل × 50 بيكسل',
                 'maintenance-mode-text'   => 'الرسالة',
                 'name'                    => 'الاسم',
-                'root-category'           => 'الفئة الجذرية',
+                'root-category'           => 'المجموعة الجذرية',
                 'save-btn'                => 'حفظ القناة',
                 'select-default-currency' => 'اختر العملة الافتراضية',
                 'select-default-locale'   => 'اختر اللغة الافتراضية',
-                'select-root-category'    => 'اختر الفئة الجذرية',
+                'select-root-category'    => 'اختر المجموعة الجذرية',
                 'select-theme'            => 'اختر الثيم',
                 'seo'                     => 'تحسين محركات البحث للصفحة الرئيسية',
                 'seo-description'         => 'الوصف الوصفي (Meta description)',
@@ -3281,7 +3281,7 @@ return [
                 'settings'                => 'الإعدادات',
                 'status'                  => 'الحالة',
                 'theme'                   => 'السمة',
-                'title'                   => 'إنشاء قناة',
+                'title'                   => 'إضافة قناة',
             ],
 
             'edit' => [
@@ -3307,7 +3307,7 @@ return [
                 'maintenance-mode'       => 'وضع الصيانة',
                 'maintenance-mode-text'  => 'الرسالة',
                 'name'                   => 'الاسم',
-                'root-category'          => 'الفئة الجذرية',
+                'root-category'          => 'المجموعة الجذرية',
                 'save-btn'               => 'حفظ القناة',
                 'seo'                    => 'تحسين محركات البحث للصفحة الرئيسية',
                 'seo-description'        => 'الوصف الوصفي (Meta description)',
@@ -3334,7 +3334,7 @@ return [
                     'role'              => 'الصلاحية',
                     'save-btn'          => 'حفظ المستخدم',
                     'status'            => 'الحالة',
-                    'title'             => 'إنشاء مستخدم',
+                    'title'             => 'إضافة مستخدم',
                     'upload-image-info' => 'قم برفع صورة الملف الشخصي (110 بيكسل × 110 بيكسل) بصيغة PNG أو JPG',
                 ],
 
@@ -3371,7 +3371,7 @@ return [
 
             'activate-warning'   => 'حسابك لم يتم تفعيله بعد، يرجى التواصل مع المسؤول.',
             'cannot-change'      => 'لا يمكن تغيير المستخدم.',
-            'create-success'     => 'تم إنشاء المستخدم بنجاح.',
+            'create-success'     => 'تم إضافة المستخدم بنجاح.',
             'delete-failed'      => 'فشل حذف المستخدم.',
             'delete-self-error'  => 'لا يمكنك حذف حسابك الخاص.',
             'delete-success'     => 'تم حذف المستخدم بنجاح.',
@@ -3385,7 +3385,7 @@ return [
         'roles' => [
             'index' => [
                 'create-btn' => 'إضافة صلاحية',
-                'title'      => 'الأدوار',
+                'title'      => 'الصلاحيات',
 
                 'datagrid' => [
                     'custom'          => 'مخصص',
@@ -3425,16 +3425,16 @@ return [
             ],
 
             'being-used'        => 'الصلاحية مستخدم بالفعل في مستخدم المشرف',
-            'create-success'    => 'تم إنشاء الأدوار بنجاح',
-            'delete-failed'     => 'فشل حذف الأدوار',
-            'delete-success'    => 'تم حذف الأدوار بنجاح',
-            'last-delete-error' => 'لا يمكن حذف آخر الأدوار',
-            'update-success'    => 'تم تحديث الأدوار بنجاح',
+            'create-success'    => 'تم إضافة الصلاحيات بنجاح',
+            'delete-failed'     => 'فشل حذف الصلاحيات',
+            'delete-success'    => 'تم حذف الصلاحيات بنجاح',
+            'last-delete-error' => 'لا يمكن حذف آخر الصلاحيات',
+            'update-success'    => 'تم تحديث الصلاحيات بنجاح',
         ],
 
         'themes' => [
             'index' => [
-                'create-btn' => 'إنشاء موضوع',
+                'create-btn' => 'إضافة موضوع',
                 'title'      => 'المواضيع',
 
                 'datagrid' => [
@@ -3458,10 +3458,10 @@ return [
                 'save-btn'   => 'حفظ السمة',
                 'sort-order' => 'ترتيب الفرز',
                 'themes'     => 'موضوعات',
-                'title'      => 'إنشاء موضوع',
+                'title'      => 'إضافة موضوع',
 
                 'type' => [
-                    'category-carousel' => 'شريط الفئات',
+                    'category-carousel' => 'شريط المجموعات',
                     'footer-links'      => 'روابط التذييل',
                     'image-carousel'    => 'عرض الصور',
                     'product-carousel'  => 'شريط المنتجات',
@@ -3479,11 +3479,11 @@ return [
                 'add-link'                      => 'إضافة رابط',
                 'asc'                           => 'تصاعدي',
                 'back'                          => 'رجوع',
-                'category-carousel'             => 'شريط الفئات',
-                'category-carousel-description' => 'عرض الفئات الديناميكية بشكل جذاب باستخدام شريط الفئات المتجاوب.',
+                'category-carousel'             => 'شريط المجموعات',
+                'category-carousel-description' => 'عرض المجموعات الديناميكية بشكل جذاب باستخدام شريط المجموعات المتجاوب.',
                 'channels'                      => 'القنوات',
                 'column'                        => 'عمود',
-                'create-filter'                 => 'إنشاء مرشح',
+                'create-filter'                 => 'إضافة مرشح',
                 'css'                           => 'نمط التنسيق',
                 'delete'                        => 'حذف',
                 'desc'                          => 'تنازلي',
@@ -3511,7 +3511,7 @@ return [
                 'no'                            => 'لا',
                 'parent-id'                     => 'معرف الأصل',
                 'parent-id-hint'                => 'يمكن إدخال معرفات الأصل المتعددة باستخدام قيم مفصولة بفواصل (مثل: 12,15,34)',
-                'category-id'                   => 'معرف الفئة',
+                'category-id'                   => 'معرف المجموعة',
                 'preview'                       => 'معاينة',
                 'product-carousel'              => 'شريط المنتجات',
                 'product-carousel-description'  => 'قدم المنتجات بأناقة باستخدام شريط المنتجات الديناميكي والمتجاوب.',
@@ -3554,7 +3554,7 @@ return [
                 'yes'                           => 'نعم',
             ],
 
-            'create-success' => 'تم إنشاء الموضوع بنجاح',
+            'create-success' => 'تم إضافة الموضوع بنجاح',
             'delete-success' => 'تم حذف الموضوع بنجاح',
             'update-success' => 'تم تحديث الموضوع بنجاح',
         ],
@@ -3792,16 +3792,16 @@ return [
 
                     'menu-category' => [
                         'default'         => 'القائمة الافتراضية',
-                        'info'            => 'يتحكم هذا الإعداد في ظهور الفئات في قائمة الرأس. يمكنك اختيار عرض الفئات الرئيسية فقط أو جميع الفئات المتداخلة.',
+                        'info'            => 'يتحكم هذا الإعداد في ظهور المجموعات في قائمة الرأس. يمكنك اختيار عرض المجموعات الرئيسية فقط أو جميع المجموعات المتداخلة.',
                         'preview-default' => 'معاينة القائمة الافتراضية',
                         'preview-sidebar' => 'معاينة قائمة الشريط الجانبي',
                         'sidebar'         => 'قائمة الشريط الجانبي',
-                        'title'           => 'عرض فئة القائمة',
+                        'title'           => 'عرض مجموعة القائمة',
                     ],
                 ],
 
                 'magic-ai' => [
-                    'info'  => 'تعيين خيارات الذكاء الاصطناعي السحري والسماح ببعض الخيارات لأتمتة إنشاء المحتوى.',
+                    'info'  => 'تعيين خيارات الذكاء الاصطناعي السحري والسماح ببعض الخيارات لأتمتة إضافة المحتوى.',
                     'title' => 'الذكاء الاصطناعي السحري',
 
                     'settings' => [
@@ -3814,19 +3814,19 @@ return [
                     ],
 
                     'content-generation' => [
-                        'category-description-prompt'      => 'تعليمات وصف الفئة',
+                        'category-description-prompt'      => 'تعليمات وصف المجموعة',
                         'cms-page-content-prompt'          => 'تعليمات محتوى صفحة CMS',
                         'enabled'                          => 'ممكّن',
                         'product-description-prompt'       => 'تعليمات وصف المنتج',
                         'product-short-description-prompt' => 'تعليمات وصف المنتج المختصر',
-                        'title'                            => 'إنشاء المحتوى',
+                        'title'                            => 'إضافة المحتوى',
                         'title-info'                       => 'سيتيح هذا الميزة الذكاء الاصطناعي السحري لكل محرر WYSIWYG، حيث ترغب في إدارة المحتوى باستخدام الذكاء الاصطناعي.<br/><br/>عند التمكين، انتقل إلى أي محرر لإنشاء المحتوى.',
                     ],
 
                     'image-generation' => [
                         'enabled'    => 'ممكّن',
                         'title'      => 'إنشاء الصور',
-                        'title-info' => 'سيتيح هذا الميزة الذكاء الاصطناعي السحري لكل تحميل صورة، حيث ترغب في إنشاء صور باستخدام DALL-E.<br/><br/>عند التمكين، انتقل إلى أي تحميل صورة لإنشاء صورة.',
+                        'title-info' => 'سيتيح هذا الميزة الذكاء الاصطناعي السحري لكل تحميل صورة، حيث ترغب في إنشاء صور باستخدام DALL-E.<br/><br/>عند التمكين، انتقل إلى أي تحميل صورة لإضافة صورة.',
                     ],
 
                     'review-translation' => [
@@ -3852,8 +3852,8 @@ return [
                         'qwen2-5-3b'          => 'Qwen 2.5 (3b)',
                         'qwen2-5-7b'          => 'Qwen 2.5 (7b)',
                         'starling-lm-7b'      => 'Starling-lm (7b)',
-                        'title'               => 'ترجمة المراجعة',
-                        'title-info'          => 'توفير خيار للعميل أو الزائر لترجمة مراجعة العميل إلى الإنجليزية.<br/><br/>عند التمكين، انتقل إلى المراجعة وستجد الزر "ترجمة إلى الإنجليزية" إذا كانت المراجعة بغير الإنجليزية.',
+                        'title'               => 'ترجمة التقييمات',
+                        'title-info'          => 'توفير خيار للعميل أو الزائر لترجمة تقييم العميل إلى الإنجليزية.<br/><br/>عند التمكين، انتقل إلى التقييم وستجد الزر "ترجمة إلى الإنجليزية" إذا كان التقييم بغير الإنجليزية.',
                         'vicuna-13b'          => 'Vicuna (13b)',
                         'vicuna-7b'           => 'Vicuna (7b)',
                     ],
@@ -3883,7 +3883,7 @@ return [
                         'qwen2-5-7b'          => 'Qwen 2.5 (7b)',
                         'starling-lm-7b'      => 'Starling-lm (7b)',
                         'title'               => 'رسالة الدفع المخصصة',
-                        'title-info'          => 'قم بإنشاء رسالة دفع مخصصة للعملاء على صفحة الشكر، وتخصيص المحتوى ليتناسب مع تفضيلات الأفراد وتعزيز تجربة ما بعد الشراء بشكل عام.',
+                        'title-info'          => 'قم بإضافة رسالة دفع مخصصة للعملاء على صفحة الشكر، وتخصيص المحتوى ليتناسب مع تفضيلات الأفراد وتعزيز تجربة ما بعد الشراء بشكل عام.',
                         'vicuna'              => 'Vicuna',
                         'vicuna-13b'          => 'Vicuna (13b)',
                         'vicuna-7b'           => 'Vicuna (7b)',
@@ -3957,7 +3957,7 @@ return [
                 'title' => 'الفهرس',
 
                 'products' => [
-                    'info'  => 'عرض صفحة المنتج، صفحة عرض سلة التسوق، واجهة المتجر، المراجعة ومشاركة الصفات الاجتماعية.',
+                    'info'  => 'عرض صفحة المنتج، صفحة عرض سلة التسوق، واجهة المتجر، التقييم ومشاركة الصفات الاجتماعية.',
                     'title' => 'المنتجات',
 
                     'settings' => [
@@ -3979,7 +3979,7 @@ return [
                         'min-query-length-info' => 'تعيين الحد الأدنى لطول الاستعلامات في عمليات البحث.',
                         'search-engine'         => 'محرك البحث',
                         'storefront-mode'       => 'وضع البحث لواجهة المتجر',
-                        'storefront-mode-info'  => 'سيتم استناد وظيفة البحث في واجهة المتجر إلى محرك البحث المحدد بما في ذلك صفحة الفئة وصفحة البحث وغيرها من وظائف البحث.',
+                        'storefront-mode-info'  => 'سيتم استناد وظيفة البحث في واجهة المتجر إلى محرك البحث المحدد بما في ذلك صفحة المجموعة وصفحة البحث وغيرها من وظائف البحث.',
                         'title'                 => 'البحث',
                         'title-info'            => 'لإعداد محرك البحث للبحث عن المنتجات، يمكنك اختيار بين قاعدة بيانات و Elasticsearch وفقًا لاحتياجاتك. إذا كان لديك عدد كبير من المنتجات ، فمن المستحسن استخدام Elasticsearch.',
                     ],
@@ -4019,14 +4019,14 @@ return [
                         'products-per-page'      => 'عدد المنتجات في الصفحة',
                         'sort-by'                => 'ترتيب حسب',
                         'title'                  => 'واجهة المتجر',
-                        'title-info'             => 'واجهة المتجر هي واجهة العرض التي يراها العملاء في المتجر عبر الإنترنت، حيث يتم عرض المنتجات والفئات والتنقل لتجربة تسوق سلسة.',
+                        'title-info'             => 'واجهة المتجر هي واجهة العرض التي يراها العملاء في المتجر عبر الإنترنت، حيث يتم عرض المنتجات والمجموعات والتنقل لتجربة تسوق سلسة.',
                     ],
 
                     'small-image' => [
                         'height'      => 'الارتفاع',
                         'placeholder' => 'عنصر صورة صغير',
                         'title'       => 'صورة صغيرة',
-                        'title-info'  => 'واجهة المتجر هي واجهة العرض التي يراها العملاء في المتجر عبر الإنترنت، حيث يتم عرض المنتجات والفئات والتنقل لتجربة تسوق سلسة.',
+                        'title-info'  => 'واجهة المتجر هي واجهة العرض التي يراها العملاء في المتجر عبر الإنترنت، حيث يتم عرض المنتجات و المجموعات والتنقل لتجربة تسوق سلسة.',
                         'width'       => 'العرض',
                     ],
 
@@ -4081,27 +4081,27 @@ return [
                 ],
 
                 'rich-snippets' => [
-                    'info'  => 'تعيين المنتجات والفئات.',
+                    'info'  => 'تعيين المنتجات و المجموعات.',
                     'title' => 'مقتطفات غنية',
 
                     'products' => [
                         'enable'          => 'تمكين',
-                        'show-categories' => 'عرض الفئات',
+                        'show-categories' => 'عرض المجموعات',
                         'show-images'     => 'عرض الصور',
                         'show-offers'     => 'عرض العروض',
                         'show-ratings'    => 'عرض التقييمات',
-                        'show-reviews'    => 'عرض المراجعات',
+                        'show-reviews'    => 'عرض التقييمات',
                         'show-sku'        => 'عرض SKU',
                         'show-weight'     => 'عرض الوزن',
                         'title'           => 'المنتجات',
-                        'title-info'      => 'تكوين إعدادات المنتج بما في ذلك SKU والوزن والفئات والصور والمراجعات والتقييمات والعروض وما إلى ذلك.',
+                        'title-info'      => 'تكوين إعدادات المنتج بما في ذلك SKU والوزن والمجموعات والصور والمراجعات والتقييمات والعروض وما إلى ذلك.',
                     ],
 
                     'categories' => [
                         'enable'                  => 'تمكين',
                         'show-search-input-field' => 'عرض حقل إدخال البحث',
-                        'title'                   => 'الفئات',
-                        'title-info'              => 'تشير "الفئات" إلى المجموعات أو التصنيفات التي تساعد في تنظيم وتجميع المنتجات أو العناصر المماثلة معًا لسهولة التصفح والتنقل.',
+                        'title'                   => 'المجموعات',
+                        'title-info'              => 'تشير "المجموعات" إلى المجموعات أو التصنيفات التي تساعد في تنظيم وتجميع المنتجات أو العناصر المماثلة معًا لسهولة التصفح والتنقل.',
                     ],
                 ],
 
@@ -4189,7 +4189,7 @@ return [
                     'create-new-account-option' => [
                         'news-letter'      => 'السماح بالنشرة الإخبارية',
                         'news-letter-info' => 'تمكين خيار الاشتراك في النشرة الإخبارية في صفحة التسجيل.',
-                        'title'            => 'خيارات إنشاء حساب جديد',
+                        'title'            => 'خيارات إضافة حساب جديد',
                         'title-info'       => 'تعيين خيارات للحسابات الجديدة، بما في ذلك تعيين مجموعة العملاء الافتراضية وتمكين خيار الاشتراك في النشرة الإخبارية أثناء التسجيل.',
 
                         'default-group' => [
@@ -4222,7 +4222,7 @@ return [
 
                             'client-id' => [
                                 'title'      => 'معرف العميل',
-                                'title-info' => 'المعرف الفريد الذي توفره Google عند إنشاء تطبيق المصادقة الخاص بك.',
+                                'title-info' => 'المعرف الفريد الذي توفره Google عند إضافة تطبيق المصادقة الخاص بك.',
                             ],
 
                             'client-secret' => [
@@ -4241,7 +4241,7 @@ return [
 
                             'client-id' => [
                                 'title'      => 'معرف العميل',
-                                'title-info' => 'معرف التطبيق الذي توفره Facebook عند إنشاء تطبيق في وحدة تحكم مطوري Facebook.',
+                                'title-info' => 'معرف التطبيق الذي توفره Facebook عند إضافة تطبيق في وحدة تحكم مطوري Facebook.',
                             ],
 
                             'client-secret' => [
@@ -4260,7 +4260,7 @@ return [
 
                             'client-id' => [
                                 'title'      => 'معرف العميل',
-                                'title-info' => 'المعرف الفريد الذي توفره Github عند إنشاء تطبيق المصادقة الخاص بك.',
+                                'title-info' => 'المعرف الفريد الذي توفره Github عند إضافة تطبيق المصادقة الخاص بك.',
                             ],
 
                             'client-secret' => [
@@ -4279,7 +4279,7 @@ return [
 
                             'client-id' => [
                                 'title'      => 'معرف العميل',
-                                'title-info' => 'المعرف الفريد الذي توفره LinkedIn عند إنشاء تطبيق المصادقة الخاص بك.',
+                                'title-info' => 'المعرف الفريد الذي توفره LinkedIn عند إضافة تطبيق المصادقة الخاص بك.',
                             ],
 
                             'client-secret' => [
@@ -4298,7 +4298,7 @@ return [
 
                             'client-id' => [
                                 'title'      => 'معرف العميل',
-                                'title-info' => 'المعرف الفريد الذي توفره Twitter عند إنشاء تطبيق المصادقة الخاص بك.',
+                                'title-info' => 'المعرف الفريد الذي توفره Twitter عند إضافة تطبيق المصادقة الخاص بك.',
                             ],
 
                             'client-secret' => [
@@ -4629,11 +4629,11 @@ return [
                 'visit-shop'    => 'زيارة المتجر',
 
                 'mega-search' => [
-                    'categories'                      => 'الفئات',
+                    'categories'                      => 'المجموعات',
                     'customers'                       => 'العملاء',
-                    'explore-all-categories'          => 'استكشاف جميع الفئات',
+                    'explore-all-categories'          => 'استكشاف جميع المجموعات',
                     'explore-all-customers'           => 'استكشاف جميع العملاء',
-                    'explore-all-matching-categories' => 'استكشاف جميع الفئات المطابقة لـ \":query\" (:count)',
+                    'explore-all-matching-categories' => 'استكشاف جميع المجموعات المطابقة لـ \":query\" (:count)',
                     'explore-all-matching-customers'  => 'استكشاف جميع العملاء المطابقين لـ \":query\" (:count)',
                     'explore-all-matching-orders'     => 'استكشاف جميع الطلبات المطابقة لـ \":query\" (:count)',
                     'explore-all-matching-products'   => 'استكشاف جميع المنتجات المطابقة لـ \":query\" (:count)',
@@ -4651,7 +4651,7 @@ return [
                 'attributes'               => 'السمات',
                 'booking-product'          => 'الحجوزات',
                 'campaigns'                => 'الحملات',
-                'catalog'                  => 'أدارة الاصناف',
+                'catalog'                  => 'إدارة الأصناف',
                 'categories'               => 'المجموعات',
                 'channels'                 => 'القنوات',
                 'cms'                      => 'نظام إدارة المحتوى',
@@ -4676,13 +4676,13 @@ return [
                 'mode'                     => 'وضع الظلام',
                 'newsletter-subscriptions' => 'اشتراكات النشرة الإخبارية',
                 'orders'                   => 'الطلبات',
-                'products'                 => 'الاصناف',
+                'products'                 => 'الأصناف',
                 'promotions'               => 'العروض',
                 'refunds'                  => 'المستردات',
                 'reporting'                => 'تقرير',
                 'reviews'                  => 'التقييمات',
                 'roles'                    => 'الصلاحيات',
-                'sales'                    => 'ادارة الطلبات',
+                'sales'                    => 'إدارة الطلبات',
                 'search-seo'               => 'البحث وتحسين محركات البحث',
                 'search-synonyms'          => 'مرادفات البحث',
                 'search-terms'             => 'مصطلحات البحث',
@@ -4726,7 +4726,7 @@ return [
                 'filter' => [
                     'apply-filters-btn' => 'تطبيق الفلاتر',
                     'back-btn'          => 'رجوع',
-                    'create-new-filter' => 'إنشاء تصفية جديدة',
+                    'create-new-filter' => 'إضافة تصفية جديدة',
                     'custom-filters'    => 'تصفيات مخصصة',
                     'delete-error'      => 'حدث خطأ ما أثناء حذف الفلتر، يرجى المحاولة مرة أخرى.',
                     'delete-success'    => 'تم حذف التصفية بنجاح.',
@@ -4813,7 +4813,7 @@ return [
             'images' => [
                 'add-image-btn'     => 'إضافة صورة',
                 'ai-add-image-btn'  => 'الذكاء الاصطناعي',
-                'ai-btn-info'       => 'إنشاء صورة',
+                'ai-btn-info'       => 'إضافة صورة',
                 'allowed-types'     => 'png، jpeg، jpg',
                 'not-allowed-error' => 'تُسمح فقط بملفات الصور (.jpeg، .jpg، .png، ...).',
 
@@ -4824,18 +4824,18 @@ return [
                     'apply'            => 'تطبيق',
                     'dall-e-2'         => 'دال.إ 2',
                     'dall-e-3'         => 'دال.إ 3',
-                    'generate'         => 'إنشاء',
-                    'generating'       => 'جاري الإنشاء...',
+                    'generate'         => 'إضافة',
+                    'generating'       => 'جاري الإضافة...',
                     'hd'               => 'عالي الجودة',
                     'model'            => 'النموذج',
                     'number-of-images' => 'عدد الصور',
                     'prompt'           => 'محفز',
                     'quality'          => 'الجودة',
-                    'regenerate'       => 'إعادة إنشاء',
-                    'regenerating'     => 'جاري إعادة الإنشاء...',
+                    'regenerate'       => 'إعادة إضافة',
+                    'regenerating'     => 'جاري إعادة الإضافة...',
                     'size'             => 'الحجم',
                     'standard'         => 'قياسي',
-                    'title'            => 'إنشاء صورة بالذكاء الاصطناعي',
+                    'title'            => 'إضافة صورة بالذكاء الاصطناعي',
                 ],
 
                 'placeholders' => [
@@ -4904,7 +4904,7 @@ return [
         'cancel'                   => 'إلغاء',
         'cart-rules'               => 'قواعد العربة',
         'catalog'                  => 'المُنتجات',
-        'catalog-rules'            => 'قواعد الكتالوج',
+        'catalog-rules'            => 'قواعد الأصناف',
         'categories'               => 'التصنيفات',
         'channels'                 => 'القنوات',
         'cms'                      => 'إدارة المحتوى',
@@ -4937,7 +4937,7 @@ return [
         'refunds'                  => 'المرتجعات',
         'reporting'                => 'التقرير',
         'reviews'                  => 'التقييمات',
-        'roles'                    => 'الأدوار',
+        'roles'                    => 'الصلاحيات',
         'sales'                    => 'المبيعات',
         'search-seo'               => 'البحث وتحسين محركات البحث',
         'search-synonyms'          => 'مرادفات البحث',
@@ -4997,7 +4997,7 @@ return [
     ],
 
     'validations' => [
-        'slug-being-used' => 'هذا العنوان (slug) قيد الاستخدام في إما الفئات أو المنتجات.',
+        'slug-being-used' => 'هذا العنوان (slug) قيد الاستخدام في إما المجموعات أو المنتجات.',
         'slug-reserved'   => 'هذا العنوان (slug) محجوز.',
     ],
 
@@ -5020,7 +5020,7 @@ return [
 
         'customers' => [
             'registration' => [
-                'description' => 'تم إنشاء حساب عميل جديد بنجاح. يمكنهم الآن تسجيل الدخول باستخدام عنوان البريد الإلكتروني وبيانات اعتماد كلمة المرور الخاصة بهم. بمجرد تسجيل الدخول، سيكون لديهم إمكانية الوصول إلى خدمات متنوعة، بما في ذلك القدرة على مراجعة الطلبات السابقة وإدارة قوائم الرغبات وتحديث معلومات حساباتهم.',
+                'description' => 'تم إضافة حساب عميل جديد بنجاح. يمكنهم الآن تسجيل الدخول باستخدام عنوان البريد الإلكتروني وبيانات اعتماد كلمة المرور الخاصة بهم. بمجرد تسجيل الدخول، سيكون لديهم إمكانية الوصول إلى خدمات متنوعة، بما في ذلك القدرة على مراجعة الطلبات السابقة وإدارة قوائم الرغبات وتحديث معلومات حساباتهم.',
                 'greeting'    => 'نرحب ترحيبًا حارًا بالعميل الجديد، :customer_name الذي قام بالتسجيل معنا للتو!',
                 'subject'     => 'تسجيل العملاء الجدد',
             ],

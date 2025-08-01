@@ -229,8 +229,8 @@ return [
                         'info'                            => 'Bildirimle ilgili yapılandırmalar',
                         'push-notification-configuration' => 'FCM Anlık Bildirim Yapılandırması',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'Özel Anahtar Json Dosya İçeriği',
-                        'info-get-private-key'            => 'Bilgi: FCM Özel Anahtar Json Dosya İçeriğini Almak İçin: <a href="https://console.firebase.google.com/" target="_blank">Buraya tıklayın</a>',
+                        'private-key'                     => 'Özel Anahtar JSON Dosya İçeriği',
+                        'info-get-private-key'            => 'Bilgi: FCM Özel Anahtar JSON Dosya İçeriğini Almak İçin: <a href="https://console.firebase.google.com/" target="_blank">Buraya tıklayın</a>',
                     ],
                     'content' => [
                         'custom-script' => [

@@ -78,7 +78,7 @@ return [
     | Additional schema files may be imported from within that file.
     |
     */
-    'schema_path' => base_path('packages/Webkul/GraphQLAPI/src/graphql/schema.graphql'),
+    'schema_path' => base_path('vendor/bagisto/graphql-api/src/graphql/schema.graphql'),
 
     /*
     |--------------------------------------------------------------------------
