@@ -229,8 +229,8 @@ return [
                         'info'                            => 'දැනුම්දීම සම්බන්ධව සැකසීම්',
                         'push-notification-configuration' => 'FCM ත්‍රස්තය දැනුම්දීමේ සැකසීම',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'පෞද්ගලික යතුර Json ගොනුවේ අන්තර්ගතය',
-                        'info-get-private-key'            => 'විස්තර: FCM පෞද්ගලික යතුර Json ගොනුවේ අන්තර්ගතය ලබා ගැනීම සඳහා: <a href="https://console.firebase.google.com/" target="_blank">මෙතන ක්ලික් කරන්න</a>',
+                        'private-key'                     => 'පෞද්ගලික යතුර JSON ගොනුවේ අන්තර්ගතය',
+                        'info-get-private-key'            => 'විස්තර: FCM පෞද්ගලික යතුර JSON ගොනුවේ අන්තර්ගතය ලබා ගැනීම සඳහා: <a href="https://console.firebase.google.com/" target="_blank">මෙතන ක්ලික් කරන්න</a>',
                     ],
 
                     'content' => [

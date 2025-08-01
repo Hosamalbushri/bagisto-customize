@@ -229,8 +229,8 @@ return [
                         'info'                            => 'إعدادات متعلقة بالإشعارات',
                         'push-notification-configuration' => 'إعدادات إشعار الدفع FCM',
                         'title'                           => 'GraphQL API',
-                        'private-key'                     => 'محتوى ملف Json المفتاح الخاص',
-                        'info-get-private-key'            => 'معلومة: للحصول على محتوى ملف Json المفتاح الخاص بـ FCM: <a href="https://console.firebase.google.com/" target="_blank">انقر هنا</a>',
+                        'private-key'                     => 'محتوى ملف JSON المفتاح الخاص',
+                        'info-get-private-key'            => 'معلومة: للحصول على محتوى ملف JSON المفتاح الخاص بـ FCM: <a href="https://console.firebase.google.com/" target="_blank">انقر هنا</a>',
                     ],
 
                     'content' => [

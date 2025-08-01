@@ -56,8 +56,8 @@
         "pestphp/pest": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.0",
         "phpunit/phpunit": "^11.0",
-        "webkul/graphql-api": "*",
-        "webkul/delivery-agent":"*"
+        "webkul/delivery-agent":"*",
+        "bagisto/graphql-api":"*"
 
 
     },
@@ -137,14 +137,13 @@
         "options": {
             "symlink": true
         }
+    }, {
+        "type": "path",
+        "url": "packages/Webkul/GraphQLAPI",
+        "options": {
+            "symlink": true
+        }
     },
-        {
-            "type": "path",
-            "url": "packages/Webkul/GraphQLAPI",
-            "options": {
-                "symlink": true
-            }
-        },
         {
             "type": "path",
             "url": "packages/Webkul/DeliveryAgents",

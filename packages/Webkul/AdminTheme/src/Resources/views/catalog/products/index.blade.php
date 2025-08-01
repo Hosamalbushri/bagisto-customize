@@ -227,17 +227,13 @@
                             </p>
                         </div>
                     </div>
-                    @php
-                        $activeLabel = __('admin::app.catalog.products.index.datagrid.active');
-                        $inactiveLabel = __('admin::app.catalog.products.index.datagrid.disable');
-                    @endphp
 
                     <!-- Status, Category, Type Columns -->
                     <div class="flex items-center justify-between gap-x-4">
                         <div class="flex flex-col gap-1.5">
 
                             <p :class="[record.status ? 'label-active': 'label-info']">
-                                @{{Number(record.status) ? "@lang('admin::app.catalog.products.index.datagrid.active')" : "@lang('admin::app.catalog.products.index.datagrid.disable')" }}
+                                @{{ record.status ? "@lang('admin::app.catalog.products.index.datagrid.active')" : "@lang('admin::app.catalog.products.index.datagrid.disable')" }}
                             </p>
 
                             <p class="text-gray-600 dark:text-gray-300">

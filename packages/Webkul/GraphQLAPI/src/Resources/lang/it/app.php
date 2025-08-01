@@ -229,8 +229,8 @@ return [
                         'info'                            => 'Configurazioni relative alle notifiche',
                         'push-notification-configuration' => 'Configurazione delle notifiche push FCM',
                         'title'                           => 'API GraphQL',
-                        'private-key'                     => 'Contenuto del file Json della chiave privata',
-                        'info-get-private-key'            => 'Info: Per ottenere il contenuto del file Json della chiave privata FCM: <a href="https://console.firebase.google.com/" target="_blank">Clicca qui</a>',
+                        'private-key'                     => 'Contenuto del file JSON della chiave privata',
+                        'info-get-private-key'            => 'Info: Per ottenere il contenuto del file JSON della chiave privata FCM: <a href="https://console.firebase.google.com/" target="_blank">Clicca qui</a>',
                     ],
 
                     'content' => [
