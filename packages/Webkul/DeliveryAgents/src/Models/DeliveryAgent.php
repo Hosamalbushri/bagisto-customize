@@ -2,10 +2,11 @@
 
 namespace Webkul\DeliveryAgents\Models;
 
-use Webkul\DeliveryAgents\Contracts\DeliveryAgent as DeliveryAgentContract;
-use Webkul\DeliveryAgents\Models\Range;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Storage;
+use Webkul\DeliveryAgents\Contracts\DeliveryAgent as DeliveryAgentContract;
+use Webkul\Sales\Models\OrderProxy;
 
 class DeliveryAgent extends Authenticatable implements DeliveryAgentContract
 {
@@ -62,8 +63,13 @@ class DeliveryAgent extends Authenticatable implements DeliveryAgentContract
         return true;
     }
 
-    public function ranges()
+    public function ranges(): HasMany
     {
-       return $this->hasMany(Range::class, 'delivery_agent_id', 'id');
+        return $this->hasMany(Range::class, 'delivery_agent_id', 'id');
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(OrderProxy::modelClass(), 'delivery_agent_id');
     }
 }

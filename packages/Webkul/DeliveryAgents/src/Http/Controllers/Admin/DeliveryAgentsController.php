@@ -2,17 +2,19 @@
 
 namespace Webkul\DeliveryAgents\Http\Controllers\Admin;
 
-use Webkul\DeliveryAgents\Datagrids\DeliveryAgentDataGrid;
-use Webkul\DeliveryAgents\Repositories\DeliveryAgentRepository;
-use Webkul\DeliveryAgents\Repositories\RangeRepository;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Webkul\Core\Rules\PhoneNumber;
 use Webkul\DataGrid\Exceptions\InvalidDataGridException;
+use Webkul\DeliveryAgents\Datagrids\DeliveryAgentDataGrid;
+use Webkul\DeliveryAgents\Models\Order;
+use Webkul\DeliveryAgents\Repositories\DeliveryAgentRepository;
+use Webkul\DeliveryAgents\Repositories\RangeRepository;
+
 class DeliveryAgentsController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -33,12 +35,11 @@ class DeliveryAgentsController extends Controller
 
     ) {}
 
-
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\View\View
+     *
      * @throws InvalidDataGridException
      */
     public function index()
@@ -46,9 +47,9 @@ class DeliveryAgentsController extends Controller
         if (request()->ajax()) {
             return app(DeliveryAgentDataGrid::class)->process();
         }
+
         return view('deliveryagents::admin.deliveryagents.index.index');
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -90,14 +91,15 @@ class DeliveryAgentsController extends Controller
         ]);
     }
 
-    public function show(Request $request,$id)
+    public function show(Request $request, $id)
     {
         $deliveryAgent = $this->deliveryAgentRepository->with('ranges')->findOrFail($id);
         if ($request->ajax()) {
             return response()->json([
-                'data' => $deliveryAgent
+                'data' => $deliveryAgent,
             ]);
         }
+
         return view('deliveryagents::admin.deliveryagents.view', compact('deliveryAgent'));
     }
 
@@ -109,12 +111,12 @@ class DeliveryAgentsController extends Controller
     public function edit(int $id)
     {
         $deliveryAgent = $this->deliveryAgentRepository->findOrFail($id);
+
         return response()->json([
             'data' => $deliveryAgent,
         ]);
 
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -124,13 +126,13 @@ class DeliveryAgentsController extends Controller
     public function update(int $id)
     {
         $this->validate(request(), [
-            'first_name'    => 'string|required',
-            'last_name'     => 'string|required',
-            'gender'        => 'required',
-            'email'         => 'required|unique:delivery_agents,email,'.$id,
-            'password' => 'nullable|min:6|confirmed',
-            'date_of_birth' => 'date|before:today',
-            'phone'         => ['unique:delivery_agents,phone,'.$id, new PhoneNumber],
+            'first_name'     => 'string|required',
+            'last_name'      => 'string|required',
+            'gender'         => 'required',
+            'email'          => 'required|unique:delivery_agents,email,'.$id,
+            'password'       => 'nullable|min:6|confirmed',
+            'date_of_birth'  => 'date|before:today',
+            'phone'          => ['unique:delivery_agents,phone,'.$id, new PhoneNumber],
             'status'         => 'required|boolean',
         ]);
 
@@ -141,19 +143,18 @@ class DeliveryAgentsController extends Controller
             'email',
             'date_of_birth',
             'phone',
-            'status'
+            'status',
         ]);
         if (request()->filled('password')) {
             $data['password'] = bcrypt(request('password'));
         }
 
-
-        $deliveryAgent = $this->deliveryAgentRepository->update($data,$id);
+        $deliveryAgent = $this->deliveryAgentRepository->update($data, $id);
 
         return new JsonResponse([
             'message' => trans('deliveryagent::app.deliveryagents.edit.edit-success'),
             'data'    => [
-                'deliveryagent'=>$deliveryAgent->fresh()
+                'deliveryagent'=> $deliveryAgent->fresh(),
             ],
 
         ]);
@@ -178,26 +179,24 @@ class DeliveryAgentsController extends Controller
 
     }
 
-
-
-    //*************** Delivery Agents Mothed ******************
+    // *************** Delivery Agents Mothed ******************
 
     public function storeRange(Request $request)
     {
         $this->validate($request, [
             'delivery_agent_id'    => 'required|integer|exists:delivery_agents,id',
-            'state'     => 'string|required',
-            'country'     => 'string|required',
-            'area_name'     => 'string|required',
+            'state'                => 'string|required',
+            'country'              => 'string|required',
+            'area_name'            => 'string|required',
 
         ]);
         $deliveryAgent = $this->deliveryAgentRepository->find($request->delivery_agent_id);
         $deliveryAgent->ranges()->create([
-                'area_name'   => $request->area_name,
-                'state'=>$request->state,
-                'country'=>$request->country,
-                'created_at'  => now(),
-                'updated_at'  => now(),
+            'area_name'   => $request->area_name,
+            'state'       => $request->state,
+            'country'     => $request->country,
+            'created_at'  => now(),
+            'updated_at'  => now(),
         ]);
         $range = $deliveryAgent->ranges()->first();
 
@@ -207,11 +206,12 @@ class DeliveryAgentsController extends Controller
         ]);
 
     }
+
     public function updataRange(int $id)
     {
         $this->validate(request(), [
-            'state'     => 'string|required',
-            'country'     => 'string|required',
+            'state'         => 'string|required',
+            'country'       => 'string|required',
             'area_name'     => 'string|required',
 
         ]);
@@ -222,11 +222,32 @@ class DeliveryAgentsController extends Controller
         ]);
         $range = $this->rangeRepository->findOrFail($id);
         $range->update($data);
+
         return response()->json([
             'message' => trans('deliveryagent::app.range.edit.edit-success'),
             'data'    => $range,
         ]);
 
+    }
 
+    public function assignToAgent(Request $request)
+    {
+        $order = Order::findOrFail($request->order_id);
+        if ($order->delivery_agent_id) {
+            session()->flash('error',  trans('deliveryagent::app.select-order.create.order-has-delivery'));
+        } else {
+            $deliveryAgent = $this->deliveryAgentRepository->find($request->delivery_agent_id);
+
+            if ($deliveryAgent && $deliveryAgent->status == 1 && $deliveryAgent->ranges->count() > 0) {
+                $order->delivery_agent_id = $request->delivery_agent_id;
+                $order->save();
+                session()->flash('success', trans('deliveryagent::app.select-order.create.create-success'));
+            } else {
+                session()->flash('error', trans('deliveryagent::app.select-order.create.create-error'));
+            }
+
+        }
+
+        return redirect()->route('admin.sales.orders.view', $order->id);
     }
 }
