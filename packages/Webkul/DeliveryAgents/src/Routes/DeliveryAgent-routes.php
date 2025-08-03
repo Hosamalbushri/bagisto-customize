@@ -15,6 +15,7 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/delivery-agen
         //************ Routs for Ranges Of Deliver Agentes ************************
         Route::post('/range/add', [DeliveryAgentsController::class, 'storeRange'])->name('admin.range.store');
         Route::post('/update/range/{id}', [DeliveryAgentsController::class, 'updataRange'])->name('admin.range.update');
+        Route::post('/assign-orders-to-delivery-agent/{order}/{agent}', [DeliveryAgentsController::class, 'assignToAgent'])->name('admin.orders.assignDeliveryAgent');
 
 
 

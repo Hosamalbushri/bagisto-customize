@@ -262,8 +262,13 @@ return [
     'select-order'=> [
         'index'=> [
             'select-delivery-agent-btn'=> 'تعيين مندوب التوصيل',
-            'select-delivery-agent'    => 'اختيار المندوب للطلب',
+            'select-delivery-agent'    => 'تعيين المندوب للطلب رقــم #',
         ],
+        'create'=>[
+            'create-success'=>'تم تعيين المندوب بنجاح',
+            'create-error'=>'المندوب غير مفعل أو لا يمتلك نطاقات.',
+            'order-has-delivery'=>'تم تعيين مندوب مسبقًا لهذا الطلب'
+        ]
     ],
 
 ];

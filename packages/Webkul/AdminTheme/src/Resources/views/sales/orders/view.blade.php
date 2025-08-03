@@ -118,7 +118,7 @@
                 <div class="box-shadow rounded bg-white dark:bg-gray-900">
                     <div class="flex justify-between p-4">
                         <p class="mb-4 text-base font-semibold text-gray-800 dark:text-white">
-                            @lang('Order Items') ({{ count($order->items) }})
+                            @lang('admin::app.sales.orders.view.order-items') ({{ count($order->items) }})
                         </p>
 
                         <p class="text-base font-semibold text-gray-800 dark:text-white">
