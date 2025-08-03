@@ -5,7 +5,7 @@ return [
         'key'   => 'delivery',
         'name'  => 'deliveryagent::app.deliveryagents.menu.title',
         'route' => 'admin.deliveryagents.index',
-        'sort'  => 5,
+        'sort'  => 4,
         'icon'  => 'acma-icon-truck1',
 
     ],
