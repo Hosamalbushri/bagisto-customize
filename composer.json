@@ -38,7 +38,7 @@
         "mpdf/mpdf": "^8.2",
         "nesbot/carbon": "^2.72.2",
         "openai-php/laravel": "^0.10.1",
-        "paypal/paypal-checkout-sdk": "1.0.1",
+        "paypal/paypal-server-sdk": "^1.1",
         "predis/predis": "^2.2",
         "prettus/l5-repository": "^2.6",
         "pusher/pusher-php-server": "^7.0",
@@ -47,7 +47,7 @@
         "spatie/laravel-sitemap": "^7.3"
     },
     "require-dev": {
-        "bagisto/laravel-datafaker": "2.2.*",
+        "bagisto/laravel-datafaker": "2.3.*",
         "barryvdh/laravel-debugbar": "^3.8",
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.19",

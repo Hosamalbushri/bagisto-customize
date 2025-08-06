@@ -95,7 +95,7 @@
                         .then((response) => {
 
                             const countryId = response.data.data.id;
-                            const viewUrl = "{{ route('admin.country.view', ':id') }}".replace(':id', countryId);
+                            const viewUrl = "{{ route('admin.country.edit', ':id') }}".replace(':id', countryId);
                             this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });
                             setTimeout(() => {
                                 window.location.href = viewUrl;

@@ -2,15 +2,17 @@
 
 namespace Webkul\DeliveryAgents\Http\Controllers\Admin;
 
-use Webkul\DeliveryAgents\Datagrids\CountryDataGrid;
-use Webkul\DeliveryAgents\Repositories\CountryRepository;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Event;
+use Webkul\Admin\Http\Requests\MassDestroyRequest;
 use Webkul\DataGrid\Exceptions\InvalidDataGridException;
+use Webkul\DeliveryAgents\Datagrids\CountryDataGrid;
+use Webkul\DeliveryAgents\Repositories\CountryRepository;
 
 class CountriesController extends Controller
 {
@@ -27,15 +29,14 @@ class CountriesController extends Controller
      * Create a new controller instance.
      */
     public function __construct(
-        protected CountryRepository $counrtRepository,
+        protected CountryRepository $counrtyRepository,
     ) {}
-
-
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\View\View
+     *
      * @throws InvalidDataGridException
      */
     public function index()
@@ -43,9 +44,9 @@ class CountriesController extends Controller
         if (request()->ajax()) {
             return app(CountryDataGrid::class)->process();
         }
+
         return view('deliveryagents::admin.Countries.index.index');
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -55,16 +56,16 @@ class CountriesController extends Controller
     public function store(Request $request)
     {
         $this->validate(request(), [
-            'name'    => 'string|required|unique:countries,name',
+            'name'     => 'string|required|unique:countries,name',
             'code'     => 'string|required|regex:/^[a-zA-Z]{1,6}$/|unique:countries,code',
         ]);
         $data = array_merge([
             'code' => strtoupper(request('code')),
         ], request()->only([
             'name',
-
         ]));
-        $country = $this->counrtRepository->create($data);
+        $country = $this->counrtyRepository->create($data);
+
         return new JsonResponse([
             'data'    => $country,
             'message' => trans('deliveryagent::app.country.create.create-success'),
@@ -72,32 +73,13 @@ class CountriesController extends Controller
 
     }
 
-    public function show(Request $request,$id)
+    public function edit(Request $request, $id)
     {
-        $country = $this->counrtRepository->findOrFail($id);
-        if ($request->ajax()) {
-            return response()->json([
-                'data' => $country
-            ]);
-        }
+        $country = $this->counrtyRepository->findOrFail($id);
+        $country->load('states');
         return view('deliveryagents::admin.Countries.view', compact('country'));
 
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @return JsonResponse
-     */
-    public function edit(int $id)
-    {
-        $country = $this->counrtRepository->findOrFail($id);
-        return response()->json([
-            'data' => $country,
-        ]);
-
-    }
-
 
     /**
      * Update the specified resource in storage.
@@ -113,12 +95,12 @@ class CountriesController extends Controller
             'name',
 
         ]);
-        $country = $this->counrtRepository->update($data,$id);
+        $country = $this->counrtyRepository->update($data, $id);
 
         return new JsonResponse([
             'message' => trans('deliveryagent::app.country.edit.edit-success'),
             'data'    => [
-                'country'=>$country->fresh()
+                'country'=> $country->fresh(),
             ],
 
         ]);
@@ -126,21 +108,36 @@ class CountriesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * To delete the previously create CMS page.
      */
-    public function destroy(int $id)
+    public function delete(int $id): JsonResponse
     {
-//        $deliveryAgent = $this->deliveryAgentRepository->find($id);
-//
-//        if (! $deliveryAgent) {
-//            return response()->json(['message' => trans('deliveryagent::app.deliveryagents.delete.unsuccessful_deletion_message')], 404);
-//        }
-//
-//        $this->deliveryAgentRepository->delete($id);
-//
-//        return response()->json(['message' => trans('deliveryagent::app.deliveryagents.delete.successful_deletion_message')]);
+        try {
+            Event::dispatch('country.before.delete', $id);
+            $this->counrtyRepository->delete($id);
+            Event::dispatch('country.after.delete', $id);
+
+            return new JsonResponse(['message' => trans('deliveryagent::app.country.datagrid.delete-success')]);
+        } catch (\Exception $e) {
+            return new JsonResponse(['message' => trans('deliveryagent::app.country.datagrid.no-resource')], 400);
+        }
+    }
+
+    public function massDelete(MassDestroyRequest $massDestroyRequest): JsonResponse
+    {
+        $indices = $massDestroyRequest->input('indices');
+
+        foreach ($indices as $index) {
+
+            Event::dispatch('country.before.delete', $index);
+            $this->counrtyRepository->delete($index);
+            Event::dispatch('country.after.delete', $index);
+
+        }
+
+        return new JsonResponse([
+            'message' => trans('deliveryagent::app.country.datagrid.mass-delete-success'),
+        ]);
 
     }
 }

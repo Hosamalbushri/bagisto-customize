@@ -35,43 +35,14 @@
 
                         <!-- Back Button -->
                         <a
-                            href="{{ route('admin.country.view',$state->country_id) }}"
+                            href="{{ route('admin.country.edit',$state->country_id) }}"
                             class="transparent-button hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
                         >
                             @lang('deliveryagent::app.country.state.view.back-btn')
                         </a>
                     </div>
                 </div>
-                <!-- Filters -->
-                <div class="mt-7 flex flex-wrap items-center gap-x-1 gap-y-2">
 
-                    <!-- Account Delete button -->
-                    @if (bouncer()->hasPermission('delivery.country'))
-                        <div
-                            class="inline-flex w-full max-w-max cursor-pointer items-center justify-between gap-x-2 px-1 py-1.5 text-center font-semibold text-red-600 transition-all hover:rounded-md hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-red-800"
-                            @click="$emitter.emit('open-confirm-modal', {
-                            message: '@lang('admin::app.customers.customers.view.account-delete-confirmation')',
-
-                            agree: () => {
-                                this.$refs['delete-account'].submit()
-                            }
-                        })"
-                        >
-                            {{--                            <span class="icon-cancel text-2xl"></span>--}}
-
-                            @lang('deliveryagent::app.country.state.view.delete-btn')
-
-                            <!-- Delete Customer Account -->
-                            <form
-                                {{--                                method="post"--}}
-                                {{--                                action="{{ route('admin.customers.customers.delete', $customer->id) }}"--}}
-                                {{--                                ref="delete-account"--}}
-                            >
-                                @csrf
-                            </form>
-                        </div>
-                    @endif
-                </div>
                 <!-- Content -->
                 <div class="mt-3.5 flex gap-2.5 max-xl:flex-wrap">
                     <!-- Left Component -->

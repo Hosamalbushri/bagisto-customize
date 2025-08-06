@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\DeliveryAgents\Datagrids;
+namespace Webkul\DeliveryAgents\Datagrids\DeliveryAgent;
 
 use Illuminate\Support\Facades\DB;
 use Webkul\DataGrid\DataGrid;
@@ -8,6 +8,9 @@ use Webkul\DeliveryAgents\Models\State;
 
 class DeliveryAgentDataGrid extends DataGrid
 {
+
+    protected $primaryColumn = 'delivery_agents_id';
+
     /**
      * Prepare query builder.
      *
@@ -18,6 +21,8 @@ class DeliveryAgentDataGrid extends DataGrid
         $tablePrefix = DB::getTablePrefix();
         $queryBuilder = DB::table('delivery_agents')
             ->leftJoin('delivery_agent_ranges', 'delivery_agents.id', '=', 'delivery_agent_ranges.delivery_agent_id')
+            ->leftJoin('orders', 'delivery_agents.id', '=', 'orders.delivery_agent_id')
+
             ->addSelect(
                 'delivery_agents.id as delivery_agents_id',
                 'delivery_agents.email',
@@ -28,17 +33,16 @@ class DeliveryAgentDataGrid extends DataGrid
                 'delivery_agent_ranges.country'
             )
             ->addSelect(DB::raw('COUNT(DISTINCT '.$tablePrefix.'delivery_agent_ranges.id) as range_count'))
+            ->addSelect(DB::raw('COUNT(DISTINCT '.$tablePrefix.'orders.id) as order_count'))
             ->addSelect(DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name) as full_name'))
-            ->groupBy('delivery_agents.id')
-            ->orderBy('delivery_agents.id')
-            ;
+            ->groupBy('delivery_agents_id');
 
         $this->addFilter('delivery_agents_id', 'delivery_agents.id');
         $this->addFilter('email', 'delivery_agents.email');
         $this->addFilter('full_name', DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name)'));
         $this->addFilter('phone', 'delivery_agents.phone');
         $this->addFilter('status', 'delivery_agents.status');
-        $this->addFilter('state', 'delivery_agent_ranges.state'); // تصحيح من states إلى state
+        $this->addFilter('state', 'delivery_agent_ranges.state');
 
         return $queryBuilder;
 
@@ -113,10 +117,17 @@ class DeliveryAgentDataGrid extends DataGrid
         $this->addColumn([
             'index'      => 'delivery_agents_id',
             'label'      => trans('deliveryagent::app.deliveryagents.datagrid.id'),
+            'type'       => 'integer',
+            'filterable' => true,
+
+        ]);
+        $this->addColumn([
+            'index'      => 'order_count',
+            'label'      => trans('deliveryagent::app.deliveryagents.datagrid.order_count'),
             'type'       => 'string',
             'searchable' => false,
-            'sortable'   => true,
-            'filterable' => true,
+            'sortable'   => false,
+            'filterable' => false,
 
         ]);
 
