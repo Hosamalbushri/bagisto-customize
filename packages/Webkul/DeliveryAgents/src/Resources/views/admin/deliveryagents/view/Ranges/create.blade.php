@@ -210,7 +210,7 @@
 
                     if (!countryObj || !countryObj.id) return;
 
-                    const url = `{{ route('admin.country.view', ':id') }}`.replace(':id', countryObj.id);
+                    const url = `{{ route('admin.country.edit', ':id') }}`.replace(':id', countryObj.id);
                     window.location.href = url;
                 }
 

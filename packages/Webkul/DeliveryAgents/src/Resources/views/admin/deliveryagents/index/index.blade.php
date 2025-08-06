@@ -70,7 +70,7 @@
                                     name="mass_action_select_all_records"
                                     id="mass_action_select_all_records"
                                     class="peer hidden"
-                                    :checked="['all', 'partial'].includes(applied.massActions.meta.mode)"
+                                    :checked="['all', 'partial'].includes(applied.massActions.meta.primary_column)"
                                     @change="selectAll"
                                 >
 
@@ -137,7 +137,7 @@
                                 type="checkbox"
                                 :name="`mass_action_select_record_${record.delivery_agents_id}`"
                                 :id="`mass_action_select_record_${record.delivery_agents_id}`"
-                                :value="record.customer_id"
+                                :value="record.delivery_agents_id"
                                 class="peer hidden"
                                 v-model="applied.massActions.indices"
                                 @change="setCurrentSelectionMode"
@@ -192,14 +192,12 @@
                             <p class="text-gray-600 dark:text-gray-300">
                                 @{{ "@lang('deliveryagent::app.deliveryagents.datagrid.range')".replace(':range', record.range_count) }}
                             </p>
-                            <p class="text-base font-semibold text-gray-800 dark:text-white">
-{{--                                @{{ record.range_count }}--}}
+                            <p class="text-gray-600 dark:text-gray-300">
+                                @{{ "@lang('deliveryagent::app.deliveryagents.datagrid.order')".replace(':order', record.order_count) }}
                             </p>
 
-
-
-                            <p class="text-gray-600 dark:text-gray-300">
-{{--                                @{{ "@lang('admin::app.customers.customers.index.datagrid.address')".replace(':address', record.address_count) }}--}}
+                            <p class="text-base font-semibold text-gray-800 dark:text-white">
+{{--                                @{{ record.range_count }}--}}
                             </p>
                         </div>
                         <div class="flex items-center">

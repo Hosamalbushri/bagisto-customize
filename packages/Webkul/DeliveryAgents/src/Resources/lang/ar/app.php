@@ -18,7 +18,6 @@ return [
         'acl' => [
             'title'             => 'خدمات التوصيل',
             'delivery-agents'   => 'مندوبين التوصيل',
-            'view-details'      => 'عرض التفاصيل',
             'create'            => 'إضافة مندوب',
             'edit'              => 'تحرير البيانات',
             'delete'            => 'حذف المندوب',
@@ -107,7 +106,9 @@ return [
             'active'         => 'مفعل',
             'inactive'       => 'متوقف',
             'range-count'    => 'عدد النطاقات',
+            'order_count'    => 'عدد الطلبات',
             'range'          => ':range نطاق(نطاقات)',
+            'order'          => ':order طلب(طلبات)',
             'country'        => 'الدولة',
             'state'          => 'الولاية',
 
@@ -137,16 +138,24 @@ return [
         'acl' => [
             'title'         => 'نطاقات التوصيل',
             'countries'     => 'المدن',
-            'view-details'  => 'عرض التفاصيل',
-            'create'        => 'إضافة مدينة',
-            'edit'          => 'تحرير مدينة',
-            'delete'        => 'حذف مدينة',
+            'create'        => 'إضافة ',
+            'edit'          => 'تحرير ',
+            'delete'        => 'حذف ',
         ],
 
         'datagrid' => [
-            'id'    => 'المعرف',
-            'name'  => 'اسم المدينة',
-            'code'  => 'رمز المدينة',
+            'id'            => 'المعرف',
+            'name'          => 'اسم المدينة',
+            'code'          => 'رمز المدينة',
+            'states_count'  => 'عدد الولايات',
+            'actions'       => [
+                'view'  => 'عرض',
+                'delete'=> 'حذف',
+            ],
+            'delete-success'           => 'تم الحذف  بنجاح',
+            'no-resource'              => 'لم يتم الحذف بنجاح',
+            'mass-delete-success'      => 'تم الحذف  بنجاح',
+            'delete_warning_has_states'=> 'لا يمكن حذف هذه الدولة لأنها تحتوي على ولايات مرتبطة.',
         ],
 
         'index' => [
@@ -171,7 +180,7 @@ return [
             'code'                => 'رمز المدينة',
 
             'states' => [
-                'count'         => 'عدد المناطق: :count',
+                'count'         => 'عدد المناطق :count',
                 'create-btn'    => 'إضافة منطقة جديدة',
             ],
         ],
@@ -185,6 +194,13 @@ return [
         ],
 
         'state' => [
+            'acl' => [
+                'states'        => 'الولايات',
+                'view'          => 'عرض ',
+                'create'        => 'إضافة ',
+                'edit'          => 'تحرير ',
+                'delete'        => 'حذف ',
+            ],
             'create' => [
                 'title'             => 'إضافة منطقة جديدة',
                 'name'              => 'اسم المنطقة',
@@ -213,6 +229,13 @@ return [
                 'id'                => 'الـمعرف',
                 'name'              => 'اسم المنطقة',
                 'code'              => 'رمز المنطقة',
+                'actions'           => [
+                    'view'  => 'عرض',
+                    'delete'=> 'حذف',
+                ],
+                'delete-success'           => 'تم الحذف المنطقة بنجاح',
+                'no-resource'              => 'لم يتم المنطقة الحذف بنجاح',
+                'mass-delete-success'      => 'تم الحذف  بنجاح',
             ],
         ],
     ],
@@ -264,11 +287,16 @@ return [
             'select-delivery-agent-btn'=> 'تعيين مندوب التوصيل',
             'select-delivery-agent'    => 'تعيين المندوب للطلب رقــم #',
         ],
-        'create'=>[
-            'create-success'=>'تم تعيين المندوب بنجاح',
-            'create-error'=>'المندوب غير مفعل أو لا يمتلك نطاقات.',
-            'order-has-delivery'=>'تم تعيين مندوب مسبقًا لهذا الطلب'
-        ]
+        'create'=> [
+            'create-success'    => 'تم تعيين المندوب بنجاح',
+            'create-error'      => 'المندوب غير مفعل أو لا يمتلك نطاقات.',
+            'order-has-delivery'=> 'تم تعيين مندوب مسبقًا لهذا الطلب',
+        ],
+    ],
+    'orders'=> [
+        'view'=> [
+            'delivery-agent'=> 'التوصيل',
+        ],
     ],
 
 ];

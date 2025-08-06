@@ -1,4 +1,4 @@
-@if (bouncer()->hasPermission('delivery.country'))
+@if (bouncer()->hasPermission('countries.states.create'))
     <v-create-state-form
         :country="country"
         ref="CreateStateComponent"
@@ -7,8 +7,6 @@
     <button
         class="inline-flex w-full max-w-max cursor-pointer items-center justify-between gap-x-2 px-1 py-1.5 text-center font-semibold text-blue-600 transition-all hover:rounded-md hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800"
         @click="$refs.CreateStateComponent.openModal()"
-
-
     >
         <span class="acma-icon-plus3"></span>
 

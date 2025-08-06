@@ -27,7 +27,11 @@
                 as="div"
 
             >
-                <form @submit="handleSubmit($event, edit)" >
+                <form
+                    @submit="handleSubmit($event, edit)"
+                    ref="StateEditForm"
+
+                >
                     <x-admin::modal ref="modal" ref="StateEditModal">
                         <x-slot:header>
                             @lang('deliveryagent::app.country.edit.title')
@@ -108,8 +112,9 @@
 
                 edit(params, { resetForm, setErrors }) {
                     this.isLoading = true;
-
-                    this.$axios.post("{{ route('admin.states.update',$state -> id) }}", params)
+                    let formData = new FormData(this.$refs.StateEditForm);
+                    formData.append('_method', 'put');
+                    this.$axios.post("{{ route('admin.states.update',$state -> id) }}", formData)
                         .then((response) => {
 
                             this.$refs.StateEditModal.close();

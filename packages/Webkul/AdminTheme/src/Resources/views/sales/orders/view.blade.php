@@ -60,6 +60,7 @@
 
             @if (
                 $order->canShip()
+                && is_null($order->delivery_agent_id)
                 && bouncer()->hasPermission('sales.shipments.create')
             )
                 @include('admin::sales.shipments.create')

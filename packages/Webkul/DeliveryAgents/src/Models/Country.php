@@ -2,6 +2,7 @@
 
 namespace Webkul\DeliveryAgents\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webkul\Core\Models\CountryTranslation;
 
 class Country extends CountryTranslation
@@ -13,7 +14,8 @@ class Country extends CountryTranslation
         'code',
     ];
 
-
-
-
+    public function states(): HasMany
+    {
+        return $this->hasMany(State::class, 'country_id');
+    }
 }

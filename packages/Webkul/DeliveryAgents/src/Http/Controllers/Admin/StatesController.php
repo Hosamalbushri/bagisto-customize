@@ -2,25 +2,26 @@
 
 namespace Webkul\DeliveryAgents\Http\Controllers\Admin;
 
-use Webkul\DeliveryAgents\Datagrids\StateDataGrid;
-use Webkul\DeliveryAgents\Repositories\StateRepository;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Routing\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Validation\ValidationException;
-
+use Webkul\Admin\Http\Requests\MassDestroyRequest;
+use Webkul\DeliveryAgents\Datagrids\StateDataGrid;
+use Webkul\DeliveryAgents\Repositories\StateRepository;
 
 class StatesController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-
     public function __construct(
         protected StateRepository $stateRepository,
     ) {}
+
     public function index()
     {
         if (request()->ajax()) {
@@ -30,14 +31,11 @@ class StatesController extends Controller
         abort(404);
     }
 
-    public function create(){
-
-    }
-
     /**
      * Store a newly created resource in storage.
      *
      * @return \Illuminate\Http\JsonResponse
+     *
      * @throws ValidationException
      */
     public function store(Request $request)
@@ -53,11 +51,12 @@ class StatesController extends Controller
         ], request()->only([
             'default_name',
             'country_id',
-            'country_code'
+            'country_code',
 
         ]));
 
         $state = $this->stateRepository->create($data);
+
         return new JsonResponse([
             'data'    => $state,
             'message' => trans('deliveryagent::app.country.state.create.create-success'),
@@ -65,25 +64,19 @@ class StatesController extends Controller
 
     }
 
-    public function show(Request $request,$id)
+    public function edit(Request $request, $id)
     {
         $state = $this->stateRepository->findOrFail($id);
         if ($request->ajax()) {
             return response()->json([
-                'data' => $state
+                'data' => $state,
             ]);
         }
+
         return view('deliveryagents::admin.Countries.view.States.view', compact('state'));
 
     }
-    public function edit(int $id)
-    {
-        $state = $this->stateRepository->findOrFail($id);
-        return response()->json([
-            'data' => $state,
-        ]);
 
-    }
     public function update(int $id)
     {
         $this->validate(request(), [
@@ -93,20 +86,46 @@ class StatesController extends Controller
             'default_name',
 
         ]);
-        $state = $this->stateRepository->update($data,$id);
+        $state = $this->stateRepository->update($data, $id);
 
         return new JsonResponse([
             'message' => trans('deliveryagent::app.country.state.edit.edit-success'),
             'data'    => [
-                'state'=>$state->fresh()
+                'state'=> $state->fresh(),
             ],
 
         ]);
 
     }
-    public function destroy()
-    {
 
+    public function delete(int $id): JsonResponse
+    {
+        try {
+            Event::dispatch('state.before.delete', $id);
+            $this->stateRepository->delete($id);
+            Event::dispatch('state.after.delete', $id);
+
+            return new JsonResponse(['message' => trans('deliveryagent::app.country.state.datagrid.delete-success')]);
+        } catch (\Exception $e) {
+            return new JsonResponse(['message' => trans('deliveryagent::app.country.state.datagrid.no-resource')], 400);
+        }
     }
 
+    public function massDelete(MassDestroyRequest $massDestroyRequest): JsonResponse
+    {
+        $indices = $massDestroyRequest->input('indices');
+
+        foreach ($indices as $index) {
+
+            Event::dispatch('state.before.delete', $index);
+            $this->stateRepository->delete($index);
+            Event::dispatch('state.after.delete', $index);
+
+        }
+
+        return new JsonResponse([
+            'message' => trans('deliveryagent::app.country.state.datagrid.mass-delete-success'),
+        ]);
+
+    }
 }
