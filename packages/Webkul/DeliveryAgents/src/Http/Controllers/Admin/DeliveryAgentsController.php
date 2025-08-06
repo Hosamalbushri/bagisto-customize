@@ -10,10 +10,12 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Webkul\Core\Rules\PhoneNumber;
 use Webkul\DataGrid\Exceptions\InvalidDataGridException;
-use Webkul\DeliveryAgents\Datagrids\DeliveryAgentDataGrid;
-use Webkul\DeliveryAgents\Models\Order;
+use Webkul\DeliveryAgents\Datagrids\DeliveryAgent\DeliveryAgentDataGrid;
+use Webkul\DeliveryAgents\Datagrids\DeliveryAgent\Views\OrderDateGrid;
+use Webkul\DeliveryAgents\Datagrids\Orders\SelectDeliveryAgentDataGrid;
 use Webkul\DeliveryAgents\Repositories\DeliveryAgentRepository;
 use Webkul\DeliveryAgents\Repositories\RangeRepository;
+use Webkul\Sales\Repositories\OrderRepository;
 
 class DeliveryAgentsController extends Controller
 {
@@ -25,6 +27,7 @@ class DeliveryAgentsController extends Controller
      * @var int
      */
     public const COUNT = 10;
+    const ORDERS = 'orders';
 
     /**
      * Create a new controller instance.
@@ -32,6 +35,7 @@ class DeliveryAgentsController extends Controller
     public function __construct(
         protected DeliveryAgentRepository $deliveryAgentRepository,
         protected RangeRepository $rangeRepository,
+        protected OrderRepository $orderRepository
 
     ) {}
 
@@ -93,11 +97,18 @@ class DeliveryAgentsController extends Controller
 
     public function show(Request $request, $id)
     {
-        $deliveryAgent = $this->deliveryAgentRepository->with('ranges')->findOrFail($id);
+        $deliveryAgent = $this->deliveryAgentRepository->with(['ranges', 'orders'])->findOrFail($id);
         if ($request->ajax()) {
+            switch (request()->query('type')) {
+                case self::ORDERS:
+                    return datagrid(OrderDateGrid::class)->process();
+
+
+            }
             return response()->json([
-                'data' => $deliveryAgent,
+                'data'      => $deliveryAgent,
             ]);
+
         }
 
         return view('deliveryagents::admin.deliveryagents.view', compact('deliveryAgent'));
@@ -179,6 +190,15 @@ class DeliveryAgentsController extends Controller
 
     }
 
+    public function selectedDeliveryAgents()
+    {
+        if (request()->ajax()) {
+            return app(SelectDeliveryAgentDataGrid::class)->process();
+        }
+        abort(404);
+
+    }
+
     // *************** Delivery Agents Mothed ******************
 
     public function storeRange(Request $request)
@@ -232,9 +252,9 @@ class DeliveryAgentsController extends Controller
 
     public function assignToAgent(Request $request)
     {
-        $order = Order::findOrFail($request->order_id);
+        $order = $this->orderRepository->findOrFail($request->order_id);
         if ($order->delivery_agent_id) {
-            session()->flash('error',  trans('deliveryagent::app.select-order.create.order-has-delivery'));
+            session()->flash('error', trans('deliveryagent::app.select-order.create.order-has-delivery'));
         } else {
             $deliveryAgent = $this->deliveryAgentRepository->find($request->delivery_agent_id);
 

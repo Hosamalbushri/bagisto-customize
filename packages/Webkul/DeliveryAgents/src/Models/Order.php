@@ -2,15 +2,13 @@
 
 namespace Webkul\DeliveryAgents\Models;
 
-use Webkul\DeliveryAgents\Contracts\Order as OrderContract;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Sales\Models\Order as BaseModel;
 
-class Order extends BaseModel implements OrderContract
+class Order extends BaseModel
 {
-    protected $table = 'orders';
-
-    public function hasDeliveryAgent(): bool
+    public function delivery_agent(): BelongsTo
     {
-        return ! empty($this->delivery_agent_id);
+        return $this->belongsTo(DeliveryAgent::class, 'delivery_agent_id');
     }
 }

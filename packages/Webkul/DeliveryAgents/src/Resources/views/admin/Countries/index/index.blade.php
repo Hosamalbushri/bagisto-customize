@@ -9,7 +9,7 @@
         <div class="flex items-center gap-x-2.5">
 
             <div class="flex items-center gap-x-2.5">
-                @if (bouncer()->hasPermission('delivery.country'))
+                @if (bouncer()->hasPermission('countries.country.create'))
                     @include('deliveryagents::admin.Countries.index.create')
                     <v-create-country-form
                         ref="CreateCountryComponent"
@@ -31,8 +31,10 @@
     <x-admin::datagrid
         src="{{ route('admin.country.index') }}"
         ref="CountryDatagrid"
-        :isMultiRow="true"
+
     >
+
+
 
 
     </x-admin::datagrid>

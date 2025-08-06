@@ -7,7 +7,7 @@ use Webkul\DataGrid\DataGrid;
 
 class StateDataGrid extends DataGrid
 {
-    protected $index = 'id';
+    protected $primaryColumn = 'country_states_id';
 
     public function prepareQueryBuilder()
     {
@@ -22,8 +22,8 @@ class StateDataGrid extends DataGrid
         $this->addFilter('id', 'country_states.id');
         $this->addFilter('code', 'country_states.code');
         $this->addFilter('default_name', 'country_states.default_name');
-        return $queryBuilder;
 
+        return $queryBuilder;
 
     }
 
@@ -32,7 +32,7 @@ class StateDataGrid extends DataGrid
         $this->addColumn([
             'index'      => 'country_states_id',
             'label'      => trans('deliveryagent::app.country.state.datagrid.id'),
-            'type'       => 'string',
+            'type'       => 'integer',
             'searchable' => false,
             'sortable'   => true,
             'filterable' => true,
@@ -57,22 +57,44 @@ class StateDataGrid extends DataGrid
             'sortable'   => true,
             'filterable' => true,
 
-        ]);    }
+        ]);
+    }
+
     public function prepareActions()
     {
 
-        if (bouncer()->hasPermission('delivery.country')){
+        if (bouncer()->hasPermission('countries.states.edit')) {
             $this->addAction([
-                'icon'   => 'icon-sort-left', //
-                'title'  =>   'عرض',
+                'icon'   => 'icon-sort-left',
+                'title'  => trans('deliveryagent::app.country.state.datagrid.actions.view'),
                 'method' => 'GET',
                 'url'    => function ($row) {
-                    return route('admin.states.view', $row->country_states_id);
+                    return route('admin.states.edit', $row->country_states_id);
                 },
             ]);
 
         }
+        if (bouncer()->hasPermission('countries.states.delete')) {
+
+            $this->addAction([
+                'icon'   => 'icon-delete',
+                'title'  => trans('deliveryagent::app.country.state.datagrid.actions.delete'),
+                'method' => 'DELETE',
+                'url'    => function ($row) {
+                    return route('admin.states.delete', $row->country_states_id);
+                },
+            ]);
+        }
 
     }
-
+    public function prepareMassActions()
+    {
+        if (bouncer()->hasPermission('countries.states.delete')) {
+            $this->addMassAction([
+                'title'  => trans('deliveryagent::app.country.state.datagrid.actions.delete'),
+                'method' => 'POST',
+                'url'    => route('admin.states.mass_delete'),
+            ]);
+        }
+    }
 }
