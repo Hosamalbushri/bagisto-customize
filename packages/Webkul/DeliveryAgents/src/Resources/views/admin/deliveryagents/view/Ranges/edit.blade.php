@@ -11,7 +11,7 @@
         type="text/x-template"
         id="v-range-edit-form-template"
     >
-        @if (bouncer()->hasPermission('delivery.deliveryAgent.edit'))
+        @if (bouncer()->hasPermission('delivery.deliveryAgent.range.edit'))
             <div
                 class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"
 

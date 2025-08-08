@@ -18,9 +18,9 @@ return [
         'acl' => [
             'title'             => 'خدمات التوصيل',
             'delivery-agents'   => 'مندوبين التوصيل',
-            'create'            => 'إضافة مندوب',
-            'edit'              => 'تحرير البيانات',
-            'delete'            => 'حذف المندوب',
+            'create'            => 'إضافة',
+            'edit'              => 'تحرير',
+            'delete'            => 'حذف',
         ],
 
         'index' => [
@@ -41,7 +41,9 @@ return [
             'active'        => 'مفعل',
             'inactive'      => 'غير مفعل',
             'edit-btn'      => 'تحرير',
-            'delete-btn'    => 'حذف المندوب',
+            'orders'        => [
+                'count'=> 'الطلبيات (:count)',
+            ],
         ],
 
         'create' => [
@@ -96,21 +98,29 @@ return [
         ],
 
         'datagrid' => [
-            'id'             => 'المعرف',
-            'id-value'       => 'المعرف - :id',
-            'name'           => 'اسم المندوب',
-            'phone'          => 'رقم الهاتف',
-            'email'          => 'البريد الإلكتروني',
-            'gender'         => 'الجنس',
-            'status'         => 'الحالة',
-            'active'         => 'مفعل',
-            'inactive'       => 'متوقف',
-            'range-count'    => 'عدد النطاقات',
-            'order_count'    => 'عدد الطلبات',
-            'range'          => ':range نطاق(نطاقات)',
-            'order'          => ':order طلب(طلبات)',
-            'country'        => 'الدولة',
-            'state'          => 'الولاية',
+            'id'                => 'المعرف',
+            'id-value'          => 'المعرف - :id',
+            'name'              => 'اسم المندوب',
+            'phone'             => 'رقم الهاتف',
+            'email'             => 'البريد الإلكتروني',
+            'gender'            => 'الجنس',
+            'status'            => 'الحالة',
+            'active'            => 'مفعل',
+            'inactive'          => 'متوقف',
+            'range-count'       => 'عدد النطاقات',
+            'order_count'       => 'عدد الطلبيات',
+            'range'             => ':range نطاق(نطاقات)',
+            'order'             => ':order طلب(طلبيات)',
+            'country'           => 'الدولة',
+            'state'             => 'الولاية',
+            'actions'           => [
+                'view'  => 'عرض',
+                'delete'=> 'حذف',
+            ],
+            'delete'=>'حذف',
+            'update-status'=>'تحديث الحالة',
+            'delete-success'=>'تم حذف المندوب بنجاح',
+            'update-success'=>'تم نحديث الحالة بنجاح'
 
         ],
 
@@ -249,6 +259,12 @@ return [
             'title' => 'قائمة المدن المتاحة',
 
         ],
+        'acl'=> [
+            'title'         => 'نطاقات المندوب',
+            'create'        => 'إضافة ',
+            'edit'          => 'تحرير ',
+            'delete'        => 'حذف ',
+        ],
         'create' => [
             'title'                 => 'إضافة نطاق جديد',
             'area-name'             => 'اسم الحي',
@@ -263,11 +279,12 @@ return [
             'create-success'        => 'تمت إضافة النطاق للمندوب بنجاح.',
         ],
         'view'=> [
-            'count'            => 'عدد النطاقات (:count)',
-            'empty-title'      => 'إضافة نطاق للمندوب',
-            'empty-description'=> 'إنشاء نطاقات جديدة للمندوب',
-            'delete-btn'       => 'حذف',
-
+            'count'                     => 'عدد النطاقات (:count)',
+            'empty-title'               => 'إضافة نطاق للمندوب',
+            'empty-description'         => 'إنشاء نطاقات جديدة للمندوب',
+            'delete-btn'                => 'حذف',
+            'range-delete-confirmation' => 'هل أنت متأكد أنك تريد حذف هذا النطاق؟',
+            'range-delete-success'      => 'تم حذف النطاق بنجاح',
         ],
         'edit'=> [
             'edit-btn'    => 'تعديل',
@@ -296,6 +313,13 @@ return [
     'orders'=> [
         'view'=> [
             'delivery-agent'=> 'التوصيل',
+        ],
+        'acl' => [
+            'title'             => 'الطلـبيات',
+            'select-delivery'   => 'تعيين مندوب للطلب',
+            'create'            => 'إضافة',
+            'edit'              => 'تحرير',
+            'delete'            => 'حذف',
         ],
     ],
 
