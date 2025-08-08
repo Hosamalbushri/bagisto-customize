@@ -6,7 +6,7 @@
     <div class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"></div>
 </v-edit-state-form>
 
-@if (bouncer()->hasPermission('delivery.country'))
+@if (bouncer()->hasPermission('delivery.countries.states.edit'))
     <div
         class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"
         @click="$refs.ShowStateEditComponent.openModal()"

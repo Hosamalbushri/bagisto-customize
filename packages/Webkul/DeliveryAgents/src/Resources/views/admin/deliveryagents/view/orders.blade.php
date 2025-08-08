@@ -2,7 +2,7 @@
     <div class="flex justify-between">
         <!-- Total Order Count -->
         <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
-            @lang('admin::app.customers.customers.view.orders.count', ['count' => count($deliveryAgent->orders)])
+            @lang('deliveryagent::app.deliveryagents.view.orders.count', ['count' => count($deliveryAgent->orders)])
         </p>
 
 

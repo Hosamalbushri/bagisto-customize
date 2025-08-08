@@ -9,7 +9,7 @@
         <div class="flex items-center gap-x-2.5">
 
             <div class="flex items-center gap-x-2.5">
-                @if (bouncer()->hasPermission('countries.country.create'))
+                @if (bouncer()->hasPermission('delivery.countries.country.create'))
                     @include('deliveryagents::admin.Countries.index.create')
                     <v-create-country-form
                         ref="CreateCountryComponent"

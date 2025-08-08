@@ -1,18 +1,171 @@
-<div class="box-shadow rounded bg-white p-4 dark:bg-gray-900">
-    <div class="flex justify-between">
 
+    <div class="box-shadow rounded bg-white p-4 dark:bg-gray-900">
+    <div class="flex justify-between">
+        @if (bouncer()->hasPermission('delivery.countries.states.create'))
         <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
             @include('deliveryagents::admin.Countries.view.States.create')
-
         </p>
-
-
+        @endif
     </div>
-
 
     <x-admin::datagrid
         src="{{ route('admin.states.index', ['country_id' => $country->id]) }}"
         ref="StatesDatagrid"
-        :isMultiRow="true"
-    />
-</div>
+
+    >
+        @php
+            $hasPermission = bouncer()->hasPermission('delivery.countries.states.edit') || bouncer()->hasPermission('delivery.countries.states.delete');
+        @endphp
+        <slot
+            name="header"
+            :is-loading="isLoading"
+            :available="available"
+            :applied="applied"
+            :select-all="selectAll"
+            :sort="sort"
+            :perform-action="performAction"
+        >
+            <template v-if="isLoading">
+                <x-admin::shimmer.datagrid.table.head :isMultiRow="true" />
+            </template>
+
+            <template v-else>
+                <div
+                    class="row grid min-h-[47px] items-center gap-2.5 border-b bg-gray-50 px-4 py-2.5 font-semibold text-gray-600 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"
+                    :style="`grid-template-columns: repeat(${gridsCount}, minmax(0, 1fr))`"
+                >
+                    <!-- Mass Actions -->
+                    <p v-if="available.massActions.length">
+                        @if ($hasPermission)
+
+                        <label for="mass_action_select_all_records">
+                            <input
+                                type="checkbox"
+                                name="mass_action_select_all_records"
+                                id="mass_action_select_all_records"
+                                class="peer hidden"
+                                :checked="['all', 'partial'].includes(applied.massActions.meta.mode)"
+                                @change="selectAll"
+                            >
+
+                            <span
+                                class="icon-uncheckbox cursor-pointer rounded-md text-2xl"
+                                :class="[
+                                            applied.massActions.meta.mode === 'all' ? 'peer-checked:icon-checked peer-checked:active-checkbox ' : (
+                                                applied.massActions.meta.mode === 'partial' ? 'peer-checked:icon-checkbox-partial peer-checked:active-checkbox' : ''
+                                            ),
+                                        ]"
+                            >
+                                    </span>
+                        </label>
+                        @endif
+                    </p>
+
+                    <!-- Columns -->
+                    <template v-for="column in available.columns">
+                        <p
+                            class="flex items-center gap-1.5 break-words"
+                            :class="{'cursor-pointer select-none hover:text-gray-800 dark:hover:text-white': column.sortable}"
+                            @click="sort(column)"
+                            v-if="column.visibility"
+                        >
+                            @{{ column.label }}
+
+                            <i
+                                class="align-text-bottom text-base text-gray-600 dark:text-gray-300"
+                                :class="[applied.sort.order === 'asc' ? 'icon-down-stat': 'icon-up-stat']"
+                                v-if="column.index == applied.sort.column"
+                            ></i>
+                        </p>
+                    </template>
+
+                    <!-- Actions -->
+                    <p
+                        class="place-self-end"
+                        v-if="available.actions.length"
+                    >
+                        @lang('admin::app.components.datagrid.table.actions')
+                    </p>
+                </div>
+            </template>
+        </slot>
+        <slot
+            name="body"
+            :is-loading="isLoading"
+            :available="available"
+            :applied="applied"
+            :select-all="selectAll"
+            :sort="sort"
+            :perform-action="performAction"
+        >
+            <template v-if="isLoading">
+                <x-admin::shimmer.datagrid.table.body :isMultiRow="true" />
+            </template>
+
+            <template v-else>
+                <template v-if="available.records.length">
+                    <div
+                        class="row grid items-center gap-2.5 border-b px-4 py-4 text-gray-600 transition-all hover:bg-gray-50 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-950"
+                        v-for="record in available.records"
+                        :style="`grid-template-columns: repeat(${gridsCount}, minmax(0, 1fr))`"
+                    >
+                        <!-- Mass Actions -->
+                        <p v-if="available.massActions.length">
+                            @if ($hasPermission)
+
+                            <label :for="`mass_action_select_record_${record[available.meta.primary_column]}`">
+                                <input
+                                    type="checkbox"
+                                    :name="`mass_action_select_record_${record[available.meta.primary_column]}`"
+                                    :value="record[available.meta.primary_column]"
+                                    :id="`mass_action_select_record_${record[available.meta.primary_column]}`"
+                                    class="peer hidden"
+                                    v-model="applied.massActions.indices"
+                                >
+
+                                <span class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:active-checkbox">
+                                        </span>
+                            </label>
+                            @endif
+                        </p>
+
+                        <!-- Columns -->
+                        <template v-for="column in available.columns">
+                            <p
+                                class="break-words"
+                                v-html="record[column.index]"
+                                v-if="column.visibility"
+                            >
+                            </p>
+                        </template>
+
+                        <!-- Actions -->
+                        <p
+                            class="place-self-end"
+                            v-if="available.actions.length"
+                        >
+                                    <span
+                                        class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"
+                                        :class="action.icon"
+                                        v-text="! action.icon ? action.title : ''"
+                                        v-for="action in record.actions"
+                                        @click="performAction(action)"
+                                    >
+                                    </span>
+                        </p>
+                    </div>
+                </template>
+
+                <template v-else>
+                    <div class="row grid border-b px-4 py-4 text-center text-gray-600 dark:border-gray-800 dark:text-gray-300">
+                        <p>
+                            @lang('admin::app.components.datagrid.table.no-records-available')
+                        </p>
+                    </div>
+                </template>
+            </template>
+        </slot>
+
+    </x-admin::datagrid>
+
+    </div>

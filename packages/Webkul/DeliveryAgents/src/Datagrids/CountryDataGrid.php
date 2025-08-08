@@ -70,7 +70,7 @@ class CountryDataGrid extends DataGrid
 
     public function prepareActions()
     {
-        if (bouncer()->hasPermission('countries.country.edit')) {
+        if (bouncer()->hasPermission('delivery.countries.country.edit')) {
             $this->addAction([
                 'icon'   => 'icon-sort-left',
                 'title'  => trans('deliveryagent::app.country.datagrid.actions.view'),
@@ -81,7 +81,7 @@ class CountryDataGrid extends DataGrid
             ]);
 
         }
-        if (bouncer()->hasPermission('countries.country.delete')) {
+        if (bouncer()->hasPermission('delivery.countries.country.delete')) {
 
             $this->addAction([
                 'icon'   => 'icon-delete',
@@ -97,7 +97,7 @@ class CountryDataGrid extends DataGrid
 
     public function prepareMassActions()
     {
-        if (bouncer()->hasPermission('countries.country.delete')) {
+        if (bouncer()->hasPermission('delivery.countries.country.delete')) {
             $this->addMassAction([
                 'title'  => trans('deliveryagent::app.country.datagrid.actions.delete'),
                 'method' => 'POST',

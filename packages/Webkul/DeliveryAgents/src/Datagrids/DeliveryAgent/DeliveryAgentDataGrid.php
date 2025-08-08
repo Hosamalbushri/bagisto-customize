@@ -8,7 +8,6 @@ use Webkul\DeliveryAgents\Models\State;
 
 class DeliveryAgentDataGrid extends DataGrid
 {
-
     protected $primaryColumn = 'delivery_agents_id';
 
     /**
@@ -63,18 +62,15 @@ class DeliveryAgentDataGrid extends DataGrid
     public function prepareActions()
     {
 
-        if (bouncer()->hasPermission('delivery.deliveryAgent.view-details')) {
-            $this->addAction([
-                'icon'   => 'icon-sort-left',
-                'title'  => 'عرض',
-                'method' => 'GET',
-                'target' => 'blank',
-                'url'    => function ($row) {
-                    return route('admin.deliveryagents.view', $row->delivery_agents_id);
-                },
-            ]);
-
-        }
+        $this->addAction([
+            'icon'   => 'icon-sort-left',
+            'title'  => trans('deliveryagent::app.deliveryagents.datagrid.actions.view'),
+            'method' => 'GET',
+            'target' => 'blank',
+            'url'    => function ($row) {
+                return route('admin.deliveryagents.view', $row->delivery_agents_id);
+            },
+        ]);
 
     }
 
@@ -82,16 +78,16 @@ class DeliveryAgentDataGrid extends DataGrid
     {
         $this->addColumn([
             'index'              => 'state',
-            'label'              => trans('deliveryagent::app.deliveryagents.datagrid.state'), // تصحيح الترجمة من country إلى state
+            'label'              => trans('deliveryagent::app.deliveryagents.datagrid.state'),
             'type'               => 'string',
             'filterable'         => true,
             'filterable_type'    => 'dropdown',
             'filterable_options' => State::query()
                 ->orderBy('default_name')
                 ->get()
-                ->map(fn ($state) => [ // تغيير اسم المتغير من $country إلى $state ليعكس المحتوى الحقيقي
+                ->map(fn ($state) => [
                     'label' => $state->default_name,
-                    'value' => $state->code, // أو $state->id حسب ما تستخدمه للتصفية
+                    'value' => $state->code,
                 ])
                 ->toArray(),
         ]);
@@ -173,30 +169,30 @@ class DeliveryAgentDataGrid extends DataGrid
 
     public function prepareMassActions()
     {
-        //         if (bouncer()->hasPermission('delivery.deliveryAgent.delete')) {
-        //             $this->addMassAction([
-        //                 'title'  => trans('admin::app.customers.customers.index.datagrid.delete'),
-        //                 'method' => 'POST',
-        //                 'url'    => route('admin.customers.customers.mass_delete'),
-        //             ]);
-        //         }
-        //
-        //         if (bouncer()->hasPermission('customers.customers.edit')) {
-        //             $this->addMassAction([
-        //                 'title'   => trans('admin::app.customers.customers.index.datagrid.update-status'),
-        //                 'method'  => 'POST',
-        //                 'url'     => route('admin.customers.customers.mass_update'),
-        //                 'options' => [
-        //                     [
-        //                         'label' => trans('admin::app.customers.customers.index.datagrid.active'),
-        //                         'value' => 1,
-        //                     ],
-        //                     [
-        //                         'label' => trans('admin::app.customers.customers.index.datagrid.inactive'),
-        //                         'value' => 0,
-        //                     ],
-        //                 ],
-        //             ]);
-        //         }
+        if (bouncer()->hasPermission('delivery.deliveryAgent.delete')) {
+            $this->addMassAction([
+                'title'  => trans('deliveryagent::app.deliveryagents.datagrid.delete'),
+                'method' => 'POST',
+                'url'    => route('admin.deliveryagents.mass_delete'),
+            ]);
+        }
+
+        if (bouncer()->hasPermission('delivery.deliveryAgent.edit')) {
+            $this->addMassAction([
+                'title'   => trans('deliveryagent::app.deliveryagents.datagrid.update-status'),
+                'method'  => 'POST',
+                'url'     => route('admin.deliveryagents.mass_update'),
+                'options' => [
+                    [
+                        'label' => trans('deliveryagent::app.deliveryagents.datagrid.active'),
+                        'value' => 1,
+                    ],
+                    [
+                        'label' => trans('deliveryagent::app.deliveryagents.datagrid.inactive'),
+                        'value' => 0,
+                    ],
+                ],
+            ]);
+        }
     }
 }

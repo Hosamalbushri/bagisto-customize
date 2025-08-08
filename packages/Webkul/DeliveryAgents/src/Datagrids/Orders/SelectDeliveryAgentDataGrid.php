@@ -7,7 +7,6 @@ use Webkul\DataGrid\DataGrid;
 
 class SelectDeliveryAgentDataGrid extends DataGrid
 {
-
     public function prepareQueryBuilder()
     {
         $tablePrefix = DB::getTablePrefix();
@@ -86,21 +85,48 @@ class SelectDeliveryAgentDataGrid extends DataGrid
 
         ]);
     }
+
     public function prepareActions()
     {
 
-        if (bouncer()->hasPermission('delivery.deliveryAgent.view-details')) {
-            $this->addAction([
-                'icon'   => 'icon-sort-left',
-                'title'  => 'عرض',
-                'method' => 'GET',
-                'target' => 'blank',
-                'url'    => function ($row) {
-                    return route('admin.deliveryagents.view', $row->delivery_agents_id);
-                },
-            ]);
-
-        }
+        $this->addAction([
+            'icon'   => 'icon-sort-left',
+            'title'  => trans('deliveryagent::app.deliveryagents.datagrid.actions.view'),
+            'method' => 'GET',
+            'target' => 'blank',
+            'url'    => function ($row) {
+                return route('admin.deliveryagents.view', $row->delivery_agents_id);
+            },
+        ]);
 
     }
+    public function prepareMassActions()
+    {
+        if (bouncer()->hasPermission('delivery.deliveryAgent.delete')) {
+            $this->addMassAction([
+                'title'  => trans('deliveryagent::app.deliveryagents.datagrid.delete'),
+                'method' => 'POST',
+                'url'    => route('admin.deliveryagents.mass_delete'),
+            ]);
+        }
+
+        if (bouncer()->hasPermission('delivery.deliveryAgent.edit')) {
+            $this->addMassAction([
+                'title'   => trans('deliveryagent::app.deliveryagents.datagrid.update-status'),
+                'method'  => 'POST',
+                'url'     => route('admin.deliveryagents.mass_update'),
+                'options' => [
+                    [
+                        'label' => trans('deliveryagent::app.deliveryagents.datagrid.active'),
+                        'value' => 1,
+                    ],
+                    [
+                        'label' => trans('deliveryagent::app.deliveryagents.datagrid.inactive'),
+                        'value' => 0,
+                    ],
+                ],
+            ]);
+        }
+    }
+
 }
