@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\DeliveryAgents\Http\Controllers\Admin;
+namespace Webkul\DeliveryAgents\Http\Controllers\Admin\DeliveryAgents;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -8,14 +8,15 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Event;
+use Webkul\Admin\Http\Requests\MassDestroyRequest;
+use Webkul\Admin\Http\Requests\MassUpdateRequest;
 use Webkul\Core\Rules\PhoneNumber;
 use Webkul\DataGrid\Exceptions\InvalidDataGridException;
 use Webkul\DeliveryAgents\Datagrids\DeliveryAgent\DeliveryAgentDataGrid;
 use Webkul\DeliveryAgents\Datagrids\DeliveryAgent\Views\OrderDateGrid;
 use Webkul\DeliveryAgents\Datagrids\Orders\SelectDeliveryAgentDataGrid;
 use Webkul\DeliveryAgents\Repositories\DeliveryAgentRepository;
-use Webkul\DeliveryAgents\Repositories\RangeRepository;
-use Webkul\Sales\Repositories\OrderRepository;
 
 class DeliveryAgentsController extends Controller
 {
@@ -27,6 +28,7 @@ class DeliveryAgentsController extends Controller
      * @var int
      */
     public const COUNT = 10;
+
     const ORDERS = 'orders';
 
     /**
@@ -34,8 +36,6 @@ class DeliveryAgentsController extends Controller
      */
     public function __construct(
         protected DeliveryAgentRepository $deliveryAgentRepository,
-        protected RangeRepository $rangeRepository,
-        protected OrderRepository $orderRepository
 
     ) {}
 
@@ -95,7 +95,7 @@ class DeliveryAgentsController extends Controller
         ]);
     }
 
-    public function show(Request $request, $id)
+    public function view(Request $request, $id)
     {
         $deliveryAgent = $this->deliveryAgentRepository->with(['ranges', 'orders'])->findOrFail($id);
         if ($request->ajax()) {
@@ -103,8 +103,8 @@ class DeliveryAgentsController extends Controller
                 case self::ORDERS:
                     return datagrid(OrderDateGrid::class)->process();
 
-
             }
+
             return response()->json([
                 'data'      => $deliveryAgent,
             ]);
@@ -112,21 +112,6 @@ class DeliveryAgentsController extends Controller
         }
 
         return view('deliveryagents::admin.deliveryagents.view', compact('deliveryAgent'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @return JsonResponse
-     */
-    public function edit(int $id)
-    {
-        $deliveryAgent = $this->deliveryAgentRepository->findOrFail($id);
-
-        return response()->json([
-            'data' => $deliveryAgent,
-        ]);
-
     }
 
     /**
@@ -189,6 +174,60 @@ class DeliveryAgentsController extends Controller
         return response()->json(['message' => trans('deliveryagent::app.deliveryagents.delete.successful_deletion_message')]);
 
     }
+    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResponse
+    {
+        $deliveryAgents = $this->deliveryAgentRepository->findWhereIn('id', $massDestroyRequest->input('indices'));
+
+        try {
+            /**
+             * Ensure that deliveryAgents do not have any active orders before performing deletion.
+             */
+//            foreach ($deliveryAgents as $deliveryAgent) {
+//                if ($this->deliveryAgentRepository->haveActiveOrders($deliveryAgent)) {
+//                    throw new \Exception(trans('admin::app.customers.customers.index.datagrid.order-pending'));
+//                }
+//            }
+
+            /**
+             * After ensuring that they have no active orders delete the corresponding customer.
+             */
+            foreach ($deliveryAgents as $deliveryAgent) {
+                Event::dispatch('deliveryAgent.delete.before', $deliveryAgent);
+
+                $this->deliveryAgentRepository->delete($deliveryAgent->id);
+
+                Event::dispatch('deliveryAgent.delete.after', $deliveryAgent);
+            }
+
+            return new JsonResponse([
+                'message' => trans('deliveryagent::app.deliveryagents.datagrid.delete-success'),
+            ]);
+        } catch (\Exception $exception) {
+            return new JsonResponse([
+                'message' => $exception->getMessage(),
+            ], 500);
+        }
+
+    }
+    public function massUpdate(MassUpdateRequest $massUpdateRequest): JsonResponse
+    {
+        $selectedDeliveryAgentIds = $massUpdateRequest->input('indices');
+
+        foreach ($selectedDeliveryAgentIds as $deliveryAgentId) {
+            Event::dispatch('deliveryAgent.update.before', $deliveryAgentId);
+
+            $deliveryAgent = $this->deliveryAgentRepository->update([
+                'status' => $massUpdateRequest->input('value'),
+            ], $deliveryAgentId);
+
+            Event::dispatch('deliveryAgent.update.after', $deliveryAgent);
+        }
+
+        return new JsonResponse([
+            'message' => trans('deliveryagent::app.deliveryagents.datagrid.update-success'),
+        ]);
+
+    }
 
     public function selectedDeliveryAgents()
     {
@@ -199,75 +238,8 @@ class DeliveryAgentsController extends Controller
 
     }
 
-    // *************** Delivery Agents Mothed ******************
 
-    public function storeRange(Request $request)
-    {
-        $this->validate($request, [
-            'delivery_agent_id'    => 'required|integer|exists:delivery_agents,id',
-            'state'                => 'string|required',
-            'country'              => 'string|required',
-            'area_name'            => 'string|required',
 
-        ]);
-        $deliveryAgent = $this->deliveryAgentRepository->find($request->delivery_agent_id);
-        $deliveryAgent->ranges()->create([
-            'area_name'   => $request->area_name,
-            'state'       => $request->state,
-            'country'     => $request->country,
-            'created_at'  => now(),
-            'updated_at'  => now(),
-        ]);
-        $range = $deliveryAgent->ranges()->first();
 
-        return response()->json([
-            'message' => trans('deliveryagent::app.range.create.create-success'),
-            'data'    => $range,
-        ]);
 
-    }
-
-    public function updataRange(int $id)
-    {
-        $this->validate(request(), [
-            'state'         => 'string|required',
-            'country'       => 'string|required',
-            'area_name'     => 'string|required',
-
-        ]);
-        $data = request()->only([
-            'state',
-            'country',
-            'area_name',
-        ]);
-        $range = $this->rangeRepository->findOrFail($id);
-        $range->update($data);
-
-        return response()->json([
-            'message' => trans('deliveryagent::app.range.edit.edit-success'),
-            'data'    => $range,
-        ]);
-
-    }
-
-    public function assignToAgent(Request $request)
-    {
-        $order = $this->orderRepository->findOrFail($request->order_id);
-        if ($order->delivery_agent_id) {
-            session()->flash('error', trans('deliveryagent::app.select-order.create.order-has-delivery'));
-        } else {
-            $deliveryAgent = $this->deliveryAgentRepository->find($request->delivery_agent_id);
-
-            if ($deliveryAgent && $deliveryAgent->status == 1 && $deliveryAgent->ranges->count() > 0) {
-                $order->delivery_agent_id = $request->delivery_agent_id;
-                $order->save();
-                session()->flash('success', trans('deliveryagent::app.select-order.create.create-success'));
-            } else {
-                session()->flash('error', trans('deliveryagent::app.select-order.create.create-error'));
-            }
-
-        }
-
-        return redirect()->route('admin.sales.orders.view', $order->id);
-    }
 }

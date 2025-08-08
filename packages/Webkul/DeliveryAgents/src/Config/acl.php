@@ -8,100 +8,137 @@ return [
         'key'    => 'delivery',
         'name'   => 'deliveryagent::app.deliveryagents.acl.title',
         'route'  => 'admin.deliveryagents.index',
-        'sort'   => -5,
+        'sort'   => 4,
         'icon'   => 'icon-list',
     ],
     [
         'key'    => 'delivery.deliveryAgent',
         'name'   => 'deliveryagent::app.deliveryagents.acl.delivery-agents',
-        'route'  => 'admin.deliveryagents.view',
-        'sort'   => 2,
+        'route'  => 'admin.deliveryagents.index',
+        'sort'   => 1,
     ],
 
-    [
-        'key'    => 'delivery.deliveryAgent.view-details',
-        'name'   => 'deliveryagent::app.deliveryagents.acl.view-details',
-        'route'  => 'admin.deliveryagents.view',
-        'sort'   => 2,
-    ],
+
     [
         'key'    => 'delivery.deliveryAgent.create',
         'name'   => 'deliveryagent::app.deliveryagents.acl.create',
         'route'  => 'admin.deliveryagents.create',
-        'sort'   => 3,
+        'sort'   => 1,
     ],
     [
         'key'    => 'delivery.deliveryAgent.edit',
         'name'   => 'deliveryagent::app.deliveryagents.acl.edit',
-        'route'  => 'admin.deliveryagents.edit',
-        'sort'   => 4,
+        'route'  => 'admin.deliveryagents.update',
+        'sort'   => 2,
     ],
     [
         'key'    => 'delivery.deliveryAgent.delete',
         'name'   => 'deliveryagent::app.deliveryagents.acl.delete',
         'route'  => 'admin.deliveryagents.delete',
+        'sort'   => 3,
+    ],
+
+    //  DeliveryAgent Rangs
+    [
+        'key'    => 'delivery.deliveryAgent.range',
+        'name'   => 'deliveryagent::app.range.acl.title',
+        'route'  => 'admin.range.index',
+        'sort'   => 4,
+    ],
+    [
+        'key'    => 'delivery.deliveryAgent.range.create',
+        'name'   => 'deliveryagent::app.range.acl.create',
+        'route'  => 'admin.range.create',
+        'sort'   => 1,
+    ],
+    [
+        'key'    => 'delivery.deliveryAgent.range.edit',
+        'name'   => 'deliveryagent::app.range.acl.edit',
+        'route'  => 'admin.range.edit',
+        'sort'   => 2,
+    ],
+    [
+        'key'    => 'delivery.deliveryAgent.range.delete',
+        'name'   => 'deliveryagent::app.range.acl.delete',
+        'route'  => 'admin.range.delete',
+        'sort'   => 3,
+    ],
+    // Delivery Agent Orders acl
+    [
+        'key'    => 'delivery.deliveryAgent.order',
+        'name'   => 'deliveryagent::app.orders.acl.title',
+        'route'  => 'admin.deliveryagents.order.select-delivery-agent',
         'sort'   => 5,
     ],
+    [
+        'key'    => 'delivery.deliveryAgent.order.select-delivery-agent',
+        'name'   => 'deliveryagent::app.orders.acl.select-delivery',
+        'route'  => 'admin.deliveryagents.order.select-delivery-agent',
+        'sort'   => 1,
+    ],
+
     //     Country ACL
 
     [
-        'key'    => 'countries',
+        'key'    => 'delivery.countries',
         'name'   => 'deliveryagent::app.country.acl.title',
         'route'  => 'admin.country.index',
-        'sort'   => 6,
+        'sort'   => 5,
         'icon'   => 'icon-list',
     ],
     [
-        'key'    => 'countries.country',
+        'key'    => 'delivery.countries.country',
         'name'   => 'deliveryagent::app.country.acl.countries',
         'route'  => 'admin.country.index',
-        'sort'   => 6,
+        'sort'   => 1,
         'icon'   => 'icon-list',
     ],
     [
-        'key'    => 'countries.country.create',
+        'key'    => 'delivery.countries.country.create',
         'name'   => 'deliveryagent::app.country.acl.create',
         'route'  => 'admin.country.create',
-        'sort'   => 6,
+        'sort'   => 1,
     ],
     [
-        'key'    => 'countries.country.edit',
+        'key'    => 'delivery.countries.country.edit',
         'name'   => 'deliveryagent::app.country.acl.edit',
         'route'  => 'admin.country.edit',
-        'sort'   => 6,
+        'sort'   => 2,
     ],
     [
-        'key'    => 'countries.country.delete',
+        'key'    => 'delivery.countries.country.delete',
         'name'   => 'deliveryagent::app.country.acl.delete',
         'route'  => 'admin.country.delete',
-        'sort'   => 6,
+        'sort'   => 3,
     ],
 
     //     States ACL
 
     [
-        'key'    => 'countries.states',
+        'key'    => 'delivery.countries.states',
         'name'   => 'deliveryagent::app.country.state.acl.states',
         'route'  => 'admin.states.index',
-        'sort'   => 6,
+        'sort'   => 2,
     ],
     [
-        'key'    => 'countries.states.create',
+        'key'    => 'delivery.countries.states.create',
         'name'   => 'deliveryagent::app.country.state.acl.create',
         'route'  => 'admin.states.create',
-        'sort'   => 6,
+        'sort'   => 1,
     ],
     [
-        'key'    => 'countries.states.edit',
+        'key'    => 'delivery.countries.states.edit',
         'name'   => 'deliveryagent::app.country.state.acl.edit',
         'route'  => 'admin.states.edit',
-        'sort'   => 6,
+        'sort'   => 2,
     ],
     [
-        'key'    => 'countries.states.delete',
+        'key'    => 'delivery.countries.states.delete',
         'name'   => 'deliveryagent::app.country.state.acl.delete',
         'route'  => 'admin.states.delete',
-        'sort'   => 6,
+        'sort'   => 3,
     ],
+
+
 
 ];

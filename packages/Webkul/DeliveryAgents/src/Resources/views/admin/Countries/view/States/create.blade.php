@@ -1,4 +1,4 @@
-@if (bouncer()->hasPermission('countries.states.create'))
+@if (bouncer()->hasPermission('delivery.countries.states.create'))
     <v-create-state-form
         :country="country"
         ref="CreateStateComponent"

@@ -149,7 +149,9 @@
                                         </p>
 
                                         <!-- Ranges Create component -->
+                                        @if (bouncer()->hasPermission('delivery.deliveryAgent.range.create'))
                                         @include('deliveryagents::admin.deliveryagents.view.Ranges.create')
+                                        @endif
 
                                     </div>
                                     </x-slot>
@@ -167,13 +169,10 @@
                                                     @{{ range.area_name }}
                                                 </p>
 
-                                                <!-- أزرار الأكشن -->
                                                 <div class=" flex items-center gap-2.5">
-                                                    <!-- تعديل -->
                                                      @include('deliveryagents::admin.deliveryagents.view.Ranges.edit')
 
-                                                    <!-- حذف -->
-                                                    @if (bouncer()->hasPermission('customers.addresses.delete'))
+                                                    @if (bouncer()->hasPermission('delivery.deliveryAgent.range.delete'))
                                                         <button
                                                             class="text-red-600 hover:underline transition-all cursor-pointer"
                                                             @click="deleteRange(range.id)"
@@ -246,7 +245,7 @@
                     },
                     async rangeCreated(range) {
                         try {
-                            const response = await this.$axios.get(`/admin/delivery-agents/view/${this.deliveryagent.id}`);
+                            const response = await this.$axios.get(`/admin/delivery/agents/view/${this.deliveryagent.id}`);
                             this.deliveryagent = response.data.data;
                         } catch (error) {
                             console.error(error);
@@ -280,7 +279,22 @@
                             return range;
                         });
 
-                    }
+                    },
+                    deleteRange(id) {
+                        this.$emitter.emit('open-confirm-modal', {
+                            message: '@lang('deliveryagent::app.range.view.range-delete-confirmation')',
+
+                            agree: () => {
+                                this.$axios.post(`{{ route('admin.range.delete', '') }}/${id}`)
+                                    .then((response) => {
+                                        this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });
+
+                                        this.deliveryagent.ranges = this.deliveryagent.ranges.filter(range => range.id !== id);
+                                    })
+                                    .catch((error) => {});
+                            },
+                        });
+                    },
 
 
                 },

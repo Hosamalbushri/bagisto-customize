@@ -6,7 +6,7 @@
     <div class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"></div>
 </v-create-delivery-range-form>
 
-@if (bouncer()->hasPermission('delivery.deliveryAgent.edit'))
+@if (bouncer()->hasPermission('delivery.deliveryAgent.range.create'))
     <div
         class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"
         @click="$refs.ShowDeliveryRangeCreateComponent.openModal()"
