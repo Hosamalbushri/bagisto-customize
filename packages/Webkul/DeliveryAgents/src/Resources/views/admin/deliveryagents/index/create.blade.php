@@ -1,3 +1,16 @@
+<v-create-delivery-agent-form
+    ref="CreateDeliveryAgentComponent"
+    @delivery-agent-created="$refs.deliveryAgentDatagrid.get()"
+></v-create-delivery-agent-form>
+@if (bouncer()->hasPermission('delivery.deliveryAgent.create'))
+<button
+    class="primary-button"
+    @click="$refs.CreateDeliveryAgentComponent.openModal()"
+>
+    @lang('deliveryagent::app.deliveryagents.create.create')
+</button>
+@endif
+
 @pushOnce('scripts')
 
     <script
