@@ -7,27 +7,35 @@ use Webkul\DataGrid\DataGrid;
 
 class SelectDeliveryAgentDataGrid extends DataGrid
 {
+    protected $primaryColumn = 'delivery_agents_id';
+
     public function prepareQueryBuilder()
     {
+        $stateCode = request()->get('state_code');
         $tablePrefix = DB::getTablePrefix();
         $queryBuilder = DB::table('delivery_agents')
+            ->leftJoin('delivery_agent_ranges', 'delivery_agents.id', '=', 'delivery_agent_ranges.delivery_agent_id')
             ->addSelect(
                 'delivery_agents.id as delivery_agents_id',
                 'delivery_agents.email',
                 'delivery_agents.phone',
                 'delivery_agents.gender',
+                'delivery_agent_ranges.state',
                 'delivery_agents.status',
             )
-            ->addSelect(DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name) as full_name'));
+            ->addSelect(DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name) as full_name'))
+            ->groupBy('delivery_agents_id');
 
         $this->addFilter('delivery_agents_id', 'delivery_agents.id');
         $this->addFilter('email', 'delivery_agents.email');
         $this->addFilter('full_name', DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name)'));
         $this->addFilter('phone', 'delivery_agents.phone');
         $this->addFilter('status', 'delivery_agents.status');
+        if ($stateCode) {
+            $queryBuilder->where('delivery_agent_ranges.state', $stateCode);
+        }
 
         return $queryBuilder;
-
     }
 
     public function prepareColumns()
@@ -50,6 +58,7 @@ class SelectDeliveryAgentDataGrid extends DataGrid
             'filterable' => true,
             'sortable'   => true,
         ]);
+
 
         $this->addColumn([
             'index'      => 'email',

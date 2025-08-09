@@ -288,7 +288,6 @@
                                 this.$axios.post(`{{ route('admin.range.delete', '') }}/${id}`)
                                     .then((response) => {
                                         this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });
-
                                         this.deliveryagent.ranges = this.deliveryagent.ranges.filter(range => range.id !== id);
                                     })
                                     .catch((error) => {});
