@@ -11,4 +11,26 @@ class Order extends BaseModel
     {
         return $this->belongsTo(DeliveryAgent::class, 'delivery_agent_id');
     }
+    public function canShip(): bool
+    {
+        foreach ($this->items as $item) {
+            if (
+                $item->canShip()
+                && ! in_array($item->order->status, [
+                    self::STATUS_CLOSED,
+                    self::STATUS_FRAUD,
+                ])
+                && empty($item->order->delivery_agent_id) // إذا ما تم تعيين مندوب
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function getStateIdFromCode(string $code): ?int
+    {
+        return State::getIdByCode($code);
+    }
 }

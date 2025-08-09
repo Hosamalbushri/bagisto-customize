@@ -19,17 +19,6 @@
                 <!-- Create Button + Modal -->
                 @include('deliveryagents::admin.deliveryagents.index.create')
 
-                <v-create-delivery-agent-form
-                    ref="CreateDeliveryAgentComponent"
-                    @delivery-agent-created="$refs.deliveryAgentDatagrid.get()"
-                ></v-create-delivery-agent-form>
-
-                <button
-                    class="primary-button"
-                    @click="$refs.CreateDeliveryAgentComponent.openModal()"
-                >
-                    @lang('deliveryagent::app.deliveryagents.create.create')
-                </button>
             </div>
         @endif
     </div>

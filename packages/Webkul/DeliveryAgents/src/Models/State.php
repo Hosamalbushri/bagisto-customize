@@ -14,6 +14,10 @@ class State extends CountryStateTranslation
         return $this->belongsTo(Country::class);
     }
 
+    public static function getIdByCode(string $code): ?int
+    {
+        return static::where('code', $code)->value('id');
+    }
 
 
 }
