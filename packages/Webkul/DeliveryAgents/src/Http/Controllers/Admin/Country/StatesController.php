@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\DeliveryAgents\Http\Controllers\Admin;
+namespace Webkul\DeliveryAgents\Http\Controllers\Admin\Country;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -11,7 +11,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Validation\ValidationException;
 use Webkul\Admin\Http\Requests\MassDestroyRequest;
-use Webkul\DeliveryAgents\Datagrids\StateDataGrid;
+use Webkul\DeliveryAgents\Datagrids\Country\StateDataGrid;
 use Webkul\DeliveryAgents\Repositories\StateRepository;
 
 class StatesController extends Controller

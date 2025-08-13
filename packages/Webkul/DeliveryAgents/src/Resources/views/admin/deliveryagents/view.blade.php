@@ -7,7 +7,10 @@
 
         <script>
             window.countries = @json(core()->countries()->pluck('name', 'code'));
-            window.countryStates = @json(core()->groupedStatesByCountries());
+            window.countryStates = @json(\Webkul\DeliveryAgents\Helpers\CustomHelper::groupedStatesByCountries());
+            window.stateAreas =@json(\Webkul\DeliveryAgents\Helpers\CustomHelper::groupedAreasByStates());
+
+
         </script>
 
         <script
@@ -164,9 +167,9 @@
                                                 v-for="(range, index) in deliveryagent.ranges"
                                             >
                                                 <p class="text-sm mt-3 text-gray-600 dark:text-gray-300 font-medium">
-                                                    @{{ getCountryName(range.country) }} <span class="mx-1 text-gray-400">/</span>
-                                                    @{{ getStateName(range.country, range.state) }} <span class="mx-1 text-gray-400">/</span>
-                                                    @{{ range.area_name }}
+                                                    @{{ getCountryName(range.state_area.country_code) }} <span class="mx-1 text-gray-400">/</span>
+                                                    @{{ getStateName(range.state_area.country_code, range.state_area.state_code) }} <span class="mx-1 text-gray-400">/</span>
+                                                    @{{ range.state_area.area_name }}
                                                 </p>
 
                                                 <div class=" flex items-center gap-2.5">
@@ -232,7 +235,7 @@
                     return {
                         deliveryagent: @json($deliveryAgent),
                         countries: window.countries || {},
-                        countryStates: window.countryStates || {},
+                        countryStates: @json(core()->groupedStatesByCountries()),
                         isUpdating: {},
                     };
                 },
@@ -267,18 +270,13 @@
                         return state ? state.default_name : stateCode;
                     },
 
-                    rangeUpdated(updatedRange)
-                    {
-                        this.deliveryagent.ranges =this.deliveryagent.ranges.map(range => {
-                            if (range.id === updatedRange.id) {
-                                return {
-                                    ...updatedRange,
-                                };
-                            }
-
-                            return range;
-                        });
-
+                    async rangeUpdated(updatedRange) {
+                        try {
+                            const response = await this.$axios.get(`/admin/delivery/agents/view/${this.deliveryagent.id}`);
+                            this.deliveryagent = response.data.data;
+                        } catch (error) {
+                            console.error(error);
+                        }
                     },
                     deleteRange(id) {
                         this.$emitter.emit('open-confirm-modal', {

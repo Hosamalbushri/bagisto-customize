@@ -14,10 +14,15 @@ return new class extends Migration
         Schema::create('delivery_agent_ranges', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('delivery_agent_id');
-            $table->string('area_name')->nullable();
-            $table->string('state')->nullable();
-            $table->string('country')->nullable();
-            $table->foreign('delivery_agent_id')->references('id')->on('delivery_agents')->onDelete('cascade');
+            $table->unsignedInteger('state_area_id');
+
+            $table->foreign('delivery_agent_id')
+                ->references('id')->on('delivery_agents')
+                ->onDelete('cascade');
+
+            $table->foreign('state_area_id')
+                ->references('id')->on('state_areas')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

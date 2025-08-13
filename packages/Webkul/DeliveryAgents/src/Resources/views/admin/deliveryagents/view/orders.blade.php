@@ -2,7 +2,7 @@
     <div class="flex justify-between">
         <!-- Total Order Count -->
         <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
-            @lang('deliveryagent::app.deliveryagents.view.orders.count', ['count' => count($deliveryAgent->orders)])
+            @lang('deliveryagent::app.deliveryagents.view.datagrid.orders.count', ['count' => count($deliveryAgent->orders)])
         </p>
 
 
@@ -150,7 +150,7 @@
 
                         <div class="flex flex-col items-center">
                             <p class="text-base font-semibold text-gray-400">
-                                @lang('admin::app.customers.customers.view.datagrid.orders.empty-order')
+                                @lang('deliveryagent::app.deliveryagents.view.datagrid.orders.empty-order')
                             </p>
                         </div>
                     </div>

@@ -97,7 +97,7 @@ class DeliveryAgentsController extends Controller
 
     public function view(Request $request, $id)
     {
-        $deliveryAgent = $this->deliveryAgentRepository->with(['ranges', 'orders'])->findOrFail($id);
+        $deliveryAgent = $this->deliveryAgentRepository->with(['ranges.stateArea', 'orders'])->findOrFail($id);
         if ($request->ajax()) {
             switch (request()->query('type')) {
                 case self::ORDERS:
