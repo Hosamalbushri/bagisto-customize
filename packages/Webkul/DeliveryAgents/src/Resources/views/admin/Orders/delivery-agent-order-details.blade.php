@@ -1,1 +1,1 @@
-{{$order->getStateIdFromCode($order->shipping_address->state)}}
+{{--{{$order->getStateIdFromCode($order->shipping_address->state)}}--}}

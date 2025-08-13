@@ -1,0 +1,105 @@
+<?php
+
+namespace Webkul\DeliveryAgents\Datagrids\Country;
+
+use Illuminate\Support\Facades\DB;
+use Webkul\DataGrid\DataGrid;
+
+class AreaDataGrid extends DataGrid
+{
+    protected $primaryColumn = 'state_areas_id';
+
+    public function prepareQueryBuilder()
+    {
+        $queryBuilder = DB::table('state_areas')
+            ->leftJoin('delivery_agent_ranges','state_areas.id','=','delivery_agent_ranges.state_area_id')
+
+            ->addSelect(
+                'state_areas.id as state_areas_id',
+                'state_areas.area_name',
+                'state_areas.country_code',
+                DB::raw('COUNT(delivery_agent_ranges.delivery_agent_id) as delivery_agents_count')
+
+            )
+            ->where('country_state_id', request('country_state_id'))
+            ->groupBy('state_areas.id', 'state_areas.area_name');
+
+        return $queryBuilder;
+
+    }
+
+    public function prepareColumns()
+    {
+        $this->addColumn([
+            'index'      => 'state_areas_id',
+            'label'      => trans('deliveryagent::app.country.state.area.datagrid.name'),
+            'type'       => 'integer',
+            //            'searchable' => true,
+            //            'sortable'   => true,
+            //            'filterable' => true,
+
+        ]);
+        $this->addColumn([
+            'index'      => 'area_name',
+            'label'      => trans('deliveryagent::app.country.state.area.datagrid.name'),
+            'type'       => 'string',
+            //            'searchable' => true,
+            //            'sortable'   => true,
+            //            'filterable' => true,
+
+        ]);
+        $this->addColumn([
+            'index'      => 'country_code',
+            'label'      => trans('deliveryagent::app.country.state.area.datagrid.name'),
+            'type'       => 'string',
+            //            'searchable' => true,
+            //            'sortable'   => true,
+            //            'filterable' => true,
+
+        ]);
+                $this->addColumn([
+                    'index'      => 'delivery_agents_count',
+                    'label'      => trans('deliveryagent::app.country.state.area.datagrid.name'),
+                    'type'       => 'string',
+                    //            'searchable' => true,
+                    //            'sortable'   => true,
+                    //            'filterable' => true,
+
+                ]);
+    }
+    /**
+     * Prepare mass actions.
+     *
+     * @return void
+     */
+    public function prepareActions()
+    {
+        if (bouncer()->hasPermission('delivery.countries.states.areas.edit')) {
+            $this->addAction([
+                'index'  => 'edit',
+                'icon'   => 'icon-edit',
+                'title'  => trans('admin::app.customers.groups.index.datagrid.edit'),
+                'method' => 'GET',
+                'url'    => function ($row) {
+                    return route('admin.area.edit', $row->state_areas_id);
+
+                },
+            ]);
+
+        }
+        if (bouncer()->hasPermission('delivery.countries.states.areas.delete')) {
+
+            $this->addAction([
+                'index'  => 'delete',
+                'icon'   => 'icon-delete',
+                'title'  => trans('deliveryagent::app.country.datagrid.actions.delete'),
+                'method' => 'DELETE',
+                'url'    => function ($row) {
+                    return route('admin.country.delete', $row->state_areas_id);
+                },
+            ]);
+        }
+
+    }
+
+}

@@ -55,9 +55,9 @@
                             :is-selected="true"
                             class="text-black-600 dark:text-indigo-400 font-semibold hover:text-indigo-800 dark:hover:text-indigo-300"
                         >
-                            <div>
-                                @include('deliveryagents::admin.Orders.get-delivery-agents-by-states')
-                            </div>
+{{--                            <div>--}}
+{{--                                @include('deliveryagents::admin.Orders.get-delivery-agents-by-states')--}}
+{{--                            </div>--}}
                         </x-admin::tabs.item>
 
                         <x-admin::tabs.item

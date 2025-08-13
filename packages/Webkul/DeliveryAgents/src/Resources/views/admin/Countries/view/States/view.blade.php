@@ -43,11 +43,14 @@
                     </div>
                 </div>
 
+
                 <!-- Content -->
                 <div class="mt-3.5 flex gap-2.5 max-xl:flex-wrap">
                     <!-- Left Component -->
                     <div class="flex flex-1 flex-col gap-2 max-xl:flex-auto">
 {{--                        @include('deliveryagents::admin.Countries.States.index')--}}
+                        @include('deliveryagents::admin.Countries.view.States.Areas.index')
+
 
                     </div>
                     <!-- Right Component -->
@@ -129,6 +132,10 @@
                             ...this.state,
                             ...data.state,
                         };
+                    },
+                    onAreaCreated(area)
+                    {
+                        this.$refs.areaDatagrid.get();
                     }
 
                 }

@@ -31,12 +31,7 @@
     <x-admin::datagrid
         src="{{ route('admin.country.index') }}"
         ref="CountryDatagrid"
-
     >
-
-
-
-
     </x-admin::datagrid>
 </x-admin::layouts>
 

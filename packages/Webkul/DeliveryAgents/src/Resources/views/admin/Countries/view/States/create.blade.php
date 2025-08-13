@@ -1,24 +1,23 @@
 @if (bouncer()->hasPermission('delivery.countries.states.create'))
     <v-create-state-form
         :country="country"
-        ref="CreateStateComponent"
         @state-created="onStateCreated"
     ></v-create-state-form>
-    <button
-        class="inline-flex w-full max-w-max cursor-pointer items-center justify-between gap-x-2 px-1 py-1.5 text-center font-semibold text-blue-600 transition-all hover:rounded-md hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800"
-        @click="$refs.CreateStateComponent.openModal()"
-    >
-        <span class="acma-icon-plus3"></span>
 
-        @lang('deliveryagent::app.country.view.states.create-btn')
-    </button>
 @endif
 @pushOnce('scripts')
-
     <script
         type="text/x-template"
         id="v-state-form-template"
     >
+        <button
+            class="inline-flex w-full max-w-max cursor-pointer items-center justify-between gap-x-2 px-1 py-1.5 text-center font-semibold text-blue-600 transition-all hover:rounded-md hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800"
+            @click="$refs.StateCreateModal.open()"
+        >
+            <span class="acma-icon-plus3"></span>
+
+            @lang('deliveryagent::app.country.view.states.create-btn')
+        </button>
         <div id="state-form">
             <x-admin::form
                 v-slot="{ meta, errors, handleSubmit, reset, setErrors }"
@@ -27,14 +26,10 @@
             >
                 <form @submit="handleSubmit($event, create)" >
                     <x-admin::modal ref="modal" ref="StateCreateModal">
-
-
                         <x-slot:header>
                             @lang('deliveryagent::app.country.state.create.title')
                             </x-slot>
-
                             <x-slot:content>
-
                                 <x-admin::form.control-group  class="mb-2.5 w-full">
                                     <x-admin::form.control-group.label class="required">
                                         @lang('deliveryagent::app.country.state.create.name')
