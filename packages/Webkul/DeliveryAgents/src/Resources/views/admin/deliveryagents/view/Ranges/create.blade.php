@@ -53,7 +53,7 @@
                                         </option>
 
                                         @foreach (core()->countries() as $country)
-                                            <option value="{{ $country->code }}">{{ $country->name }}
+                                            <option value="{{ $country->id }}">{{ $country->name }}
                                             </option>
                                         @endforeach
                                     </x-admin::form.control-group.control>
@@ -82,7 +82,7 @@
                                         </option>
                                         <option
                                             v-for='(state, index) in countryStates[country]'
-                                            :value="state.code"
+                                            :value="state.id"
                                         >
                                             @{{ state.default_name }}
                                         </option>
@@ -91,45 +91,84 @@
 
                                 </x-admin::form.control-group>
 
-                                <x-admin::form.control-group class="mb-2.5 w-full">
+
+                                <!-- Area -->
+                                <x-admin::form.control-group class="w-full">
                                     <x-admin::form.control-group.label class="required">
                                         @lang('deliveryagent::app.range.create.area-name')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
-                                        type="text"
-                                        id="area_name"
-                                        name="area_name"
+                                        type="select"
+                                        id="state_area_id"
+                                        name="state_area_id"
                                         rules="required"
+                                        v-model="area"
                                         :label="trans('deliveryagent::app.range.create.area-name')"
                                         :placeholder="trans('deliveryagent::app.range.create.area-name')"
-                                    />
-                                    <x-admin::form.control-group.error control-name="area_name" />
+                                        ::disabled="!haveAreas()"
+                                    >
+                                        <option value="" disabled selected hidden>
+                                            @lang('deliveryagent::app.range.create.select_state_area')
+                                        </option>
+
+                                        <option
+                                            v-for="(area, index) in stateAreas[state]"
+                                            :value="area.id"
+                                        >
+                                            @{{ area.area_name }}
+                                        </option>
+                                    </x-admin::form.control-group.control>
+                                    <template v-if="country && !haveStates()">
+                                        <div class="mt-4 p-3 rounded bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 text-sm">
+                                            @lang('deliveryagent::app.range.create.no_states_for_country')
+                                        </div>
+                                        <div class="mt-3">
+                                            @if (bouncer()->hasPermission('delivery.countries.country.create'))
+
+                                                <button
+                                                    class="acma-icon-plus3 text-blue-600 transition-all text-sm"
+                                                    type="button"
+                                                    @click="goToCountryView"
+                                                >
+                                            <span class="text-blue-600">
+                                                @lang('deliveryagent::app.range.create.add_state')
+                                            </span>
+
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </template>
+                                    <template v-if="state && !haveAreas()">
+                                        <div class="mt-4 p-3 rounded bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 text-sm">
+                                            @lang('deliveryagent::app.range.create.no_areas_for_state')
+                                        </div>
+                                        <div class="mt-3">
+                                            @if (bouncer()->hasPermission('delivery.countries.states.areas.create'))
+
+                                                <button
+                                                    class="acma-icon-plus3 text-blue-600 transition-all text-sm"
+                                                    type="button"
+                                                    @click="goToStateView"
+                                                >
+                                            <span class="text-blue-600">
+                                                @lang('deliveryagent::app.range.create.add_area')
+                                            </span>
+
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </template>
+
+                                    <x-admin::form.control-group.error control-name="area" />
                                 </x-admin::form.control-group>
+
 
                                 <x-admin::form.control-group.control
                                     type="hidden"
                                     name="delivery_agent_id"
                                     v-model="deliveryAgent.id"
                                 />
-
-                                <template v-if="country && !haveStates()">
-                                    <div class="mt-4 p-3 rounded bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 text-sm">
-                                        @lang('deliveryagent::app.range.create.no_states_for_country')
-                                    </div>
-                                    <div class="mt-3">
-                                        <button
-                                            class="acma-icon-plus3 text-blue-600 transition-all text-sm"
-                                            type="button"
-                                            @click="goToCountryView"
-                                        >
-                                            <span class="text-blue-600">
-                                                @lang('deliveryagent::app.range.create.add_state')
-                                            </span>
-
-                                        </button>
-                                    </div>
-                                </template>
                                 </x-slot>
 
                                 <x-slot:footer>
@@ -161,7 +200,9 @@
                     country: "",
                     state: "",
                     countryStates: window.countryStates || {},
+                    stateAreas: window.stateAreas ||{},
                     allCountries: @json(core()->countries()),
+                    allStates:@json(core()->countries()),
                     isLoading: false,
 
                 };
@@ -204,13 +245,25 @@
                     */
                     return !!this.countryStates[this.country]?.length;
                 },
+                haveAreas() {
+                    return !!this.stateAreas[this.state]?.length;
+                },
+
 
                 goToCountryView() {
-                    const countryObj = this.allCountries.find(c => c.code === this.country);
+                    const countryObj = this.country;
+                    if (!countryObj ) return;
 
-                    if (!countryObj || !countryObj.id) return;
+                    const url = `{{ route('admin.country.edit', ':id') }}`.replace(':id', countryObj);
+                    window.location.href = url;
+                },
+                goToStateView() {
+                    const statesArray = this.countryStates[this.country] || [];
+                    const stateObj = statesArray.find(s => s.id === this.state);
 
-                    const url = `{{ route('admin.country.edit', ':id') }}`.replace(':id', countryObj.id);
+                    if (!stateObj || !stateObj.id) return;
+
+                    const url = `{{ route('admin.states.edit', ':id') }}`.replace(':id', stateObj.id);
                     window.location.href = url;
                 }
 

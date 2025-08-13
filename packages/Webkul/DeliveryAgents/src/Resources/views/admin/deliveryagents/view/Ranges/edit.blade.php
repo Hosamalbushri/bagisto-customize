@@ -17,7 +17,7 @@
 
                 @click="$refs.RangeEditModal.toggle()"
             >
-                @lang('deliveryagent::app.range.edit.edit-btn')
+                @lang('deliveryagent::app.range.edit.view-edit-btn')
             </div>
 
         @endif
@@ -29,7 +29,7 @@
                 <form @submit="handleSubmit($event,update)" >
                     <x-admin::modal  ref="RangeEditModal">
                         <x-slot:header>
-                            @lang('deliveryagent::app.range.create.title')
+                            @lang('deliveryagent::app.range.edit.title')
                             </x-slot>
 
                             <x-slot:content>
@@ -41,17 +41,17 @@
                                         type="select"
                                         name="country"
                                         rules="required"
-                                        v-model="editingRange.country"
-                                        :label="trans('deliveryagent::app.range.create.country')"
+                                        v-model="countryId"
+                                        :label="trans('deliveryagent::app.range.edit.country')"
                                     >
                                         <option value="" disabled selected hidden>
-                                            @lang('deliveryagent::app.range.create.select_country')
+                                            @lang('deliveryagent::app.range.edit.select_country')
                                         </option>
 
                                         @foreach (core()->countries() as $country)
                                             <option
-                                                {{ $country->code === config('app.default_country') ? 'selected' : '' }}
-                                                value="{{ $country->code }}"
+                                                {{ $country->id === config('app.default_country') ? 'selected' : '' }}
+                                                value="{{ $country->id }}"
                                             >
                                                 {{ $country->name }}
                                             </option>
@@ -64,7 +64,7 @@
                                 <!-- State Name -->
                                 <x-admin::form.control-group class="w-full">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('deliveryagent::app.range.create.state')
+                                        @lang('deliveryagent::app.range.edit.state')
                                     </x-admin::form.control-group.label>
 
                                         <x-admin::form.control-group.control
@@ -72,16 +72,14 @@
                                             id="state"
                                             name="state"
                                             rules="required"
-                                            :label="trans('admin::app.customers.customers.view.address.edit.state')"
-                                            :placeholder="trans('admin::app.customers.customers.view.address.edit.state')"
-                                            v-model="editingRange.state"
+                                            :label="trans('deliveryagent::app.range.edit.state')"
+                                            :placeholder="trans('deliveryagent::app.range.edit.state')"
+                                            v-model="editingRange.state_area.country_state_id"
                                             ::disabled="!haveStates()"
-
-
                                         >
                                             <option
-                                                v-for='(state, index) in countryStates[editingRange.country]'
-                                                :value="state.code"
+                                                v-for='(state, index) in countryStates[countryId]'
+                                                :value="state.id"
                                             >
                                                 @{{ state.default_name }}
                                             </option>
@@ -91,55 +89,84 @@
                                     <x-admin::form.control-group.error control-name="state" />
 
                                 </x-admin::form.control-group>
-
-                                <x-admin::form.control-group class="mb-2.5 w-full">
+                                <!-- Area -->
+                                <x-admin::form.control-group class="w-full">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('deliveryagent::app.range.create.area-name')
+                                        @lang('deliveryagent::app.range.edit.area-name')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
-                                        type="text"
-                                        id="area_name"
-                                        name="area_name"
+                                        type="select"
+                                        id="state_area_id"
+                                        name="state_area_id"
                                         rules="required"
-                                        v-model="editingRange.area_name"
-                                        :label="trans('deliveryagent::app.range.create.area-name')"
-                                        :placeholder="trans('deliveryagent::app.range.create.area-name')"
-                                    />
-                                    <x-admin::form.control-group.error control-name="area_name" />
+                                        v-model="editingRange.state_area_id"
+                                        :label="trans('deliveryagent::app.range.edit.area-name')"
+                                        :placeholder="trans('deliveryagent::app.range.edit.area-name')"
+                                        ::disabled="!haveAreas()"
+                                    >
+                                        <option value="" disabled selected hidden>
+                                            @lang('deliveryagent::app.range.edit.select_state_area')
+                                        </option>
+
+                                        <option
+                                            v-for="(area, index) in stateAreas[editingRange.state_area.country_state_id]"
+                                            :value="area.id"
+                                        >
+                                            @{{ area.area_name }}
+                                        </option>
+                                    </x-admin::form.control-group.control>
                                 </x-admin::form.control-group>
 
 
-                                <x-admin::form.control-group.control
-                                    type="hidden"
-                                    name="delivery_agent_id"
-                                    v-model="editingRange.id"
-                                />
-
-                                <template v-if="range.country && !haveStates()">
+                                <template v-if="editingRange.state_area.country_code && !haveStates()">
                                     <div class="mt-4 p-3 rounded bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 text-sm">
-                                        @lang('deliveryagent::app.range.create.no_states_for_country')
+                                        @lang('deliveryagent::app.range.edit.no_states_for_country')
                                     </div>
                                     <div class="mt-3">
+                                        @if (bouncer()->hasPermission('delivery.countries.country.edit'))
+
                                         <button
                                             class="acma-icon-plus3 text-blue-600 transition-all text-sm"
                                             type="button"
                                             @click="goToCountryView"
                                         >
                                             <span class="text-blue-600">
-                                                @lang('deliveryagent::app.range.create.add_state')
+                                                @lang('deliveryagent::app.range.edit.add_state')
                                             </span>
 
                                         </button>
+                                        @endif
+                                    </div>
+                                </template>
+                                <template v-if="editingRange.state_area.country_state_id && !haveAreas()">
+                                    <div class="mt-4 p-3 rounded bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 text-sm">
+                                        @lang('deliveryagent::app.range.edit.no_areas_for_state')
+                                    </div>
+                                    <div class="mt-3">
+                                        @if (bouncer()->hasPermission('delivery.countries.states.areas.edit'))
+
+                                            <button
+                                                class="acma-icon-plus3 text-blue-600 transition-all text-sm"
+                                                type="button"
+                                                @click="goToStateView"
+                                            >
+                                            <span class="text-blue-600">
+                                                @lang('deliveryagent::app.range.edit.add_area')
+                                            </span>
+
+                                            </button>
+                                        @endif
                                     </div>
                                 </template>
                                 </x-slot>
+
 
                                 <x-slot:footer>
                                     <x-admin::button
                                         button-type="submit"
                                         class="primary-button"
-                                        :title="trans('deliveryagent::app.range.create.create-btn')"
+                                        :title="trans('deliveryagent::app.range.edit.edit-btn')"
                                         ::loading="isLoading"
                                         ::disabled="isLoading"
                                     />
@@ -158,15 +185,17 @@
             emits: ['range-updated'],
             data() {
                 return {
-                    country: "",
                     allCountries: @json(core()->countries()),
                     countryStates: window.countryStates || {},
+                    stateAreas: window.stateAreas ||{},
                     editingRange: null,
+                    countryId: null,
                     isLoading: false,
                 };
             },
             mounted() {
                 this.resetEditingRange();
+                this.setCountryIdFromCode();
             },
             openModal() {
                 this.resetEditingRange();
@@ -174,10 +203,19 @@
             },
 
 
+
             methods: {
+                setCountryIdFromCode() {
+                    const country = this.allCountries.find(c => c.code === this.editingRange.state_area.country_code);
+                    this.countryId = country ? country.id : null;
+                },
+
                 resetEditingRange() {
                     // إنشاء نسخة مؤقتة قابلة للتعديل بدون التأثير على الأصل
                     this.editingRange = JSON.parse(JSON.stringify(this.range));
+                },
+                getCountryId(code) {
+                    return this.country[code] || code;
                 },
                 update(params, { resetForm, setErrors }) {
                     this.isLoading = true;
@@ -210,17 +248,28 @@
                     * It ensures that the final result is a boolean value,
                     * true if the array has a length greater than 0, and otherwise false.
                     */
-                    return !!this.countryStates[this.editingRange.country]?.length;
+                    return !!this.countryStates[this.countryId]?.length;
+                },
+                haveAreas() {
+                    return !!this.stateAreas[this.editingRange.state_area.country_state_id]?.length;
                 },
 
                 goToCountryView() {
-                    const countryObj = this.allCountries.find(c => c.code === this.editingRange.country);
+                    const countryObj = this.countryId;
+                    if (!countryObj ) return;
 
-                    if (!countryObj || !countryObj.id) return;
-
-                    const url = `{{ route('admin.country.edit', ':id') }}`.replace(':id', countryObj.id);
+                    const url = `{{ route('admin.country.edit', ':id') }}`.replace(':id', countryObj);
                     window.location.href = url;
-                }
+                },
+                goToStateView() {
+                    const statesArray = this.countryStates[this.countryId] || [];
+                    const stateObj = statesArray.find(s => s.id === this.editingRange.state_area.country_state_id);
+
+                    if (!stateObj || !stateObj.id) return;
+
+                    const url = `{{ route('admin.states.edit', ':id') }}`.replace(':id', stateObj.id);
+                    window.location.href = url;
+                },
 
 
             },

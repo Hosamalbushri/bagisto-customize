@@ -32,12 +32,8 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
         );
 
         $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
-
         $this->loadRoutesFrom(__DIR__.'/../Routes/DeliveryAgent-routes.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/Country-routes.php');
-        $this->loadRoutesFrom(__DIR__.'/../Routes/State-routes.php');
-
-        $this->loadRoutesFrom(__DIR__.'/../Routes/shop-routes.php');
 
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'deliveryagent');
 

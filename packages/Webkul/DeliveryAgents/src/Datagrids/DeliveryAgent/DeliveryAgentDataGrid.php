@@ -28,8 +28,8 @@ class DeliveryAgentDataGrid extends DataGrid
                 'delivery_agents.phone',
                 'delivery_agents.gender',
                 'delivery_agents.status',
-                'delivery_agent_ranges.state',
-                'delivery_agent_ranges.country'
+//                'delivery_agent_ranges.state',
+//                'delivery_agent_ranges.country'
             )
             ->addSelect(DB::raw('COUNT(DISTINCT '.$tablePrefix.'delivery_agent_ranges.id) as range_count'))
             ->addSelect(DB::raw('COUNT(DISTINCT '.$tablePrefix.'orders.id) as order_count'))
