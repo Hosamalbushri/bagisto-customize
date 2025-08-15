@@ -34,13 +34,13 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/country'], fu
     /**
      * area state routes.
      */
-        Route::controller(AreasController::class)->prefix('area')->group(function () {
-            Route::get('', 'index')->name('admin.area.index');
-            Route::post('create', 'store')->name('admin.area.store');
-            Route::get('edit/{id}', 'edit')->name('admin.area.edit');
-            Route::put('edit', 'update')->name('admin.area.update');
+    Route::controller(AreasController::class)->prefix('area')->group(function () {
+        Route::get('', 'index')->name('admin.area.index');
+        Route::post('create', 'store')->name('admin.area.store');
+        Route::get('edit/{id}', 'edit')->name('admin.area.edit');
+        Route::put('edit', 'update')->name('admin.area.update');
+        Route::delete('edit/{id}', 'delete')->name('admin.area.delete');
 
-
-        });
+    });
 
 });

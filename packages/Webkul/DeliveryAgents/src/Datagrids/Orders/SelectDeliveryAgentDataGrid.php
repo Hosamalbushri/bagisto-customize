@@ -11,7 +11,7 @@ class SelectDeliveryAgentDataGrid extends DataGrid
 
     public function prepareQueryBuilder()
     {
-        $stateCode = request()->get('state_code');
+        $areaId = request()->get('area_id');
         $tablePrefix = DB::getTablePrefix();
         $queryBuilder = DB::table('delivery_agents')
             ->leftJoin('delivery_agent_ranges', 'delivery_agents.id', '=', 'delivery_agent_ranges.delivery_agent_id')
@@ -20,19 +20,17 @@ class SelectDeliveryAgentDataGrid extends DataGrid
                 'delivery_agents.email',
                 'delivery_agents.phone',
                 'delivery_agents.gender',
-                'delivery_agent_ranges.state',
+                'delivery_agent_ranges.state_area_id',
                 'delivery_agents.status',
             )
             ->addSelect(DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name) as full_name'))
             ->groupBy('delivery_agents_id');
 
-        $this->addFilter('delivery_agents_id', 'delivery_agents.id');
-        $this->addFilter('email', 'delivery_agents.email');
         $this->addFilter('full_name', DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name)'));
         $this->addFilter('phone', 'delivery_agents.phone');
         $this->addFilter('status', 'delivery_agents.status');
-        if ($stateCode) {
-            $queryBuilder->where('delivery_agent_ranges.state', $stateCode);
+        if ($areaId) {
+            $queryBuilder->where('delivery_agent_ranges.state_area_id', $areaId);
         }
 
         return $queryBuilder;
@@ -46,7 +44,7 @@ class SelectDeliveryAgentDataGrid extends DataGrid
             'type'       => 'string',
             'searchable' => false,
             'sortable'   => true,
-            'filterable' => true,
+            'filterable' => false,
 
         ]);
 

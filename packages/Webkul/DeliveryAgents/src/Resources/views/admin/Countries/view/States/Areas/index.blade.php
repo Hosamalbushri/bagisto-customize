@@ -62,13 +62,11 @@
                     <div
                         v-for="record in available.records"
                         class="row grid items-center gap-2.5 border-b px-4 py-4 text-gray-600 transition-all hover:bg-gray-50 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-950"
-                        :style="`grid-template-columns: repeat(5, minmax(0, 1fr))`"
+                        :style="`grid-template-columns: repeat(4, minmax(0, 1fr))`"
                     >
                         <p>@{{ record.state_areas_id }}</p>
 
-                        <!-- Code -->
                         <p>@{{ record.area_name }}</p>
-                        <p>@{{ record.country_code }}</p>
                         <p>@{{ record.delivery_agents_count }}</p>
 
 

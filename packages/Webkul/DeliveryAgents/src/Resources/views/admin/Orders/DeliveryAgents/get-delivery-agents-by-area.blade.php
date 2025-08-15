@@ -2,7 +2,7 @@
 <div class="box-shadow rounded bg-white p-4 dark:bg-gray-900">
 
     <x-admin::datagrid
-        src="{{ route('admin.deliveryagents.order.select-delivery-agent') }}?state_code={{ $order->shipping_address->state }}"    >
+        src="{{ route('admin.deliveryagents.order.select-delivery-agent') }}?area_id={{ $order->shipping_address->state_area_id }}"    >
         @php
             $hasPermission = bouncer()->hasPermission('delivery.deliveryAgent.edit') || bouncer()->hasPermission('delivery.deliveryAgent.delete');
         @endphp

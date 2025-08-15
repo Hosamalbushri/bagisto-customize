@@ -18,13 +18,10 @@ class DeliveryAgentRepository extends Repository
     {
         return '\Webkul\DeliveryAgents\Models\DeliveryAgent';
     }
-
-
     /**
      * Upload customer's images.
      *
      * @param  array  $data
-     * @param  \ACME\DeliveryAgents\Contracts\DeliveryAgent  $deliveryagent
      * @param  string  $type
      * @return void
      */

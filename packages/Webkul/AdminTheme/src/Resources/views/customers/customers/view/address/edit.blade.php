@@ -167,6 +167,107 @@
                                 <x-admin::form.control-group.error control-name="phone" />
                             </x-admin::form.control-group>
 
+                            <!-- Country Name -->
+                            <x-admin::form.control-group class="w-full">
+                                <x-admin::form.control-group.label>
+                                    @lang('admin::app.customers.customers.view.address.edit.country')
+                                </x-admin::form.control-group.label>
+
+                                <x-admin::form.control-group.control
+                                    type="select"
+                                    name="country"
+                                    rules="required"
+                                    :label="trans('admin::app.customers.customers.view.address.edit.country')"
+                                    v-model="address.country"
+                                >
+                                    <option value="" >
+                                        @lang('admin::app.customers.customers.view.address.create.select-country')
+                                    </option>
+
+                                    @foreach (core()->countries() as $country)
+                                        <option
+                                            {{ $country->code === config('app.default_country') ? 'selected' : '' }}
+                                            value="{{ $country->code }}"
+                                        >
+                                            {{ $country->name }}
+                                        </option>
+                                    @endforeach
+                                </x-admin::form.control-group.control>
+
+                                <x-admin::form.control-group.error control-name="country" />
+                            </x-admin::form.control-group>
+
+                            <!-- State Name -->
+                            <x-admin::form.control-group class="w-full">
+                                <x-admin::form.control-group.label class="required">
+                                    @lang('admin::app.customers.customers.view.address.edit.state')
+                                </x-admin::form.control-group.label>
+                                    <x-admin::form.control-group.control
+                                        type="select"
+                                        id="state"
+                                        name="state"
+                                        rules="required"
+                                        :label="trans('admin::app.customers.customers.view.address.edit.state')"
+                                        :placeholder="trans('admin::app.customers.customers.view.address.edit.state')"
+                                        v-model="state"
+                                        ::disabled="!haveStates()"
+
+                                    >
+                                        <option value="" >
+                                            @lang('admin::app.customers.customers.view.address.create.select_state')
+                                        </option>
+                                        <option
+                                            v-for='(state, index) in countryStates[address.country]'
+                                            :value="state.code"
+                                        >
+                                            @{{ state.default_name }}
+                                        </option>
+                                    </x-admin::form.control-group.control>
+                                <x-admin::form.control-group.error control-name="state" />
+                            </x-admin::form.control-group>
+
+                            <x-admin::form.control-group class="w-full">
+                                <x-admin::form.control-group.label class="required">
+                                    @lang('admin::app.customers.customers.view.address.create.city')
+                                </x-admin::form.control-group.label>
+
+                                <x-admin::form.control-group.control
+                                    type="select"
+                                    id="state_area_id"
+                                    name="state_area_id"
+                                    rules="required"
+                                    :label="trans('deliveryagent::app.range.create.area-name')"
+                                    :placeholder="trans('deliveryagent::app.range.create.area-name')"
+                                    v-model="area"
+                                    ::disabled="!haveAreas()"
+                                >
+                                    <option value="">
+                                        @lang('admin::app.customers.customers.view.address.create.select_state_area')
+                                    </option>
+                                    <option
+                                        v-for="(opt,index) in stateAreas[state]"
+                                        :key="opt.id"
+                                        :value="String(opt.id)"
+                                    >
+                                        @{{ opt.area_name }}
+                                    </option>
+                                </x-admin::form.control-group.control>
+
+                                {{-- حقل المدينة دائماً موجود: يترسل للنموذج ويصير read-only عندما عندك مناطق --}}
+                                <x-admin::form.control-group.control
+                                    type="hidden"
+                                    name="city"
+                                    v-model="city"
+                                    rules="required"
+                                    ::readonly="haveAreas()"
+                                    :label="trans('admin::app.customers.customers.view.address.create.city')"
+                                    :placeholder="trans('admin::app.customers.customers.view.address.create.city')"
+                                    class="mt-3"
+                                />
+                                <x-admin::form.control-group.error control-name="city" />
+                            </x-admin::form.control-group>
+
+
                             <!-- Street Address -->
                             <x-admin::form.control-group>
                                 <x-admin::form.control-group.label class="required">
@@ -206,24 +307,6 @@
                                 @endif
                             </x-admin::form.control-group>
 
-                            <!-- City -->
-                            <x-admin::form.control-group class="w-full">
-                                <x-admin::form.control-group.label class="required">
-                                    @lang('admin::app.customers.customers.view.address.edit.city')
-                                </x-admin::form.control-group.label>
-
-                                <x-admin::form.control-group.control
-                                    type="text"
-                                    name="city"
-                                    ::value="address.city"
-                                    rules="required"
-                                    :label="trans('admin::app.customers.customers.view.address.edit.city')"
-                                    :placeholder="trans('admin::app.customers.customers.view.address.edit.city')"
-                                />
-
-                                <x-admin::form.control-group.error control-name="city" />
-                            </x-admin::form.control-group>
-
                             <!-- PostCode -->
                             <x-admin::form.control-group class="w-full">
                                 <x-admin::form.control-group.label class="required">
@@ -240,71 +323,6 @@
                                 />
 
                                 <x-admin::form.control-group.error control-name="postcode" />
-                            </x-admin::form.control-group>
-
-                            <!-- Country Name -->
-                            <x-admin::form.control-group class="w-full">
-                                <x-admin::form.control-group.label>
-                                    @lang('admin::app.customers.customers.view.address.edit.country')
-                                </x-admin::form.control-group.label>
-
-                                <x-admin::form.control-group.control
-                                    type="select"
-                                    name="country"
-                                    rules="required"
-                                    :label="trans('admin::app.customers.customers.view.address.edit.country')"
-                                    v-model="address.country"
-                                >
-                                    @foreach (core()->countries() as $country)
-                                        <option
-                                            {{ $country->code === config('app.default_country') ? 'selected' : '' }}
-                                            value="{{ $country->code }}"
-                                        >
-                                            {{ $country->name }}
-                                        </option>
-                                    @endforeach
-                                </x-admin::form.control-group.control>
-
-                                <x-admin::form.control-group.error control-name="country" />
-                            </x-admin::form.control-group>
-
-                            <!-- State Name -->
-                            <x-admin::form.control-group class="w-full">
-                                <x-admin::form.control-group.label class="required">
-                                    @lang('admin::app.customers.customers.view.address.edit.state')
-                                </x-admin::form.control-group.label>
-
-                                <template v-if="haveStates()">
-                                    <x-admin::form.control-group.control
-                                        type="select"
-                                        id="state"
-                                        name="state"
-                                        rules="required"
-                                        :label="trans('admin::app.customers.customers.view.address.edit.state')"
-                                        :placeholder="trans('admin::app.customers.customers.view.address.edit.state')"
-                                        v-model="address.state"
-                                    >
-                                        <option
-                                            v-for='(state, index) in countryStates[address.country]'
-                                            :value="state.code"
-                                        >
-                                            @{{ state.default_name }}
-                                        </option>
-                                    </x-admin::form.control-group.control>
-                                </template>
-
-                                <template v-else>
-                                    <x-admin::form.control-group.control
-                                        type="text"
-                                        name="state"
-                                        ::value="address.state"
-                                        rules="required"
-                                        :label="trans('admin::app.customers.customers.view.address.edit.state')"
-                                        :placeholder="trans('admin::app.customers.customers.view.address.edit.state')"
-                                    />
-                                </template>
-
-                                <x-admin::form.control-group.error control-name="state" />
                             </x-admin::form.control-group>
 
                             <!-- Default Address -->
@@ -361,8 +379,11 @@
 
             data() {
                 return {
+                    state:this.address.state,
+                    city: this.address.city,
+                    area: this.address.state_area_id,
                     countryStates: @json(core()->groupedStatesByCountries()),
-
+                    stateAreas: @json(\Webkul\DeliveryAgents\Helpers\CustomHelper::groupedAreasByStatesCode()),
                     isLoading: false,
                 };
             },
@@ -397,9 +418,40 @@
                 },
 
                 haveStates() {
-                    return !!this.countryStates[this.address.country]?.length;
-                }
-            }
+                    const list = this.countryStates?.[this.address.country]
+                    return Array.isArray(list) && list.length > 0;
+
+                },
+                haveAreas() {
+                    const list = this.stateAreas?.[this.state];
+                    return Array.isArray(list) && list.length > 0;
+                },
+            },
+            watch: {
+                // عند تغيير الولاية: صفّر المنطقة والمدينة
+                'address.country'() {
+                    this.state = '';
+                },
+                'state'() {
+                    this.area = '';
+                },
+
+                // عند اختيار المنطقة: عيّن اسم المدينة = اسم المنطقة
+                area(newAreaId) {
+                    if (!this.haveAreas() || !newAreaId) {
+                        this.city = '';
+                        return;
+                    }
+
+                    const list = this.stateAreas[this.state] || [];
+
+                    // قيم select عادة تكون string → نحول للرقم للمطابقة
+                    const id = Number(newAreaId);
+                    const selected = list.find(a => Number(a.id) === id);
+
+                    this.city = selected ? selected.area_name : '';
+                },
+            },
         });
     </script>
 @endPushOnce
