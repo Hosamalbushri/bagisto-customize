@@ -12,7 +12,7 @@ class AreaDataGrid extends DataGrid
     public function prepareQueryBuilder()
     {
         $queryBuilder = DB::table('state_areas')
-            ->leftJoin('delivery_agent_ranges','state_areas.id','=','delivery_agent_ranges.state_area_id')
+            ->leftJoin('delivery_agent_ranges', 'state_areas.id', '=', 'delivery_agent_ranges.state_area_id')
 
             ->addSelect(
                 'state_areas.id as state_areas_id',
@@ -32,41 +32,33 @@ class AreaDataGrid extends DataGrid
     {
         $this->addColumn([
             'index'      => 'state_areas_id',
-            'label'      => trans('deliveryagent::app.country.state.area.datagrid.name'),
+            'label'      => trans('deliveryagent::app.country.state.area.datagrid.id'),
             'type'       => 'integer',
-            //            'searchable' => true,
-            //            'sortable'   => true,
-            //            'filterable' => true,
+            'searchable' => true,
+            'sortable'   => true,
+            'filterable' => true,
 
         ]);
         $this->addColumn([
             'index'      => 'area_name',
             'label'      => trans('deliveryagent::app.country.state.area.datagrid.name'),
             'type'       => 'string',
-            //            'searchable' => true,
-            //            'sortable'   => true,
-            //            'filterable' => true,
+            'searchable' => true,
+            'sortable'   => true,
+            'filterable' => true,
 
         ]);
         $this->addColumn([
-            'index'      => 'country_code',
-            'label'      => trans('deliveryagent::app.country.state.area.datagrid.name'),
+            'index'      => 'delivery_agents_count',
+            'label'      => trans('deliveryagent::app.country.state.area.datagrid.deleivery_count'),
             'type'       => 'string',
-            //            'searchable' => true,
-            //            'sortable'   => true,
-            //            'filterable' => true,
+            'searchable' => true,
+            'sortable'   => true,
+            'filterable' => true,
 
         ]);
-                $this->addColumn([
-                    'index'      => 'delivery_agents_count',
-                    'label'      => trans('deliveryagent::app.country.state.area.datagrid.name'),
-                    'type'       => 'string',
-                    //            'searchable' => true,
-                    //            'sortable'   => true,
-                    //            'filterable' => true,
-
-                ]);
     }
+
     /**
      * Prepare mass actions.
      *
@@ -78,7 +70,7 @@ class AreaDataGrid extends DataGrid
             $this->addAction([
                 'index'  => 'edit',
                 'icon'   => 'icon-edit',
-                'title'  => trans('admin::app.customers.groups.index.datagrid.edit'),
+                'title'  => trans('deliveryagent::app.country.state.area.datagrid.actions.edit'),
                 'method' => 'GET',
                 'url'    => function ($row) {
                     return route('admin.area.edit', $row->state_areas_id);
@@ -92,14 +84,13 @@ class AreaDataGrid extends DataGrid
             $this->addAction([
                 'index'  => 'delete',
                 'icon'   => 'icon-delete',
-                'title'  => trans('deliveryagent::app.country.datagrid.actions.delete'),
+                'title'  => trans('deliveryagent::app.country.state.area.datagrid.actions.delete'),
                 'method' => 'DELETE',
                 'url'    => function ($row) {
-                    return route('admin.country.delete', $row->state_areas_id);
+                    return route('admin.area.delete', $row->state_areas_id);
                 },
             ]);
         }
 
     }
-
 }

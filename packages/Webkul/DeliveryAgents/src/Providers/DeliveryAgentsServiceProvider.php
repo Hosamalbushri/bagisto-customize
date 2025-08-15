@@ -20,19 +20,22 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
         });
         Event::listen('bagisto.admin.sales.order.page_action.before', function ($viewRenderEventManager) {
 
-            $viewRenderEventManager->addTemplate('deliveryagents::admin.Orders.selected-delivery-agent');
+            $viewRenderEventManager->addTemplate('deliveryagents::admin.Orders.index');
         });
         Event::listen('bagisto.admin.sales.order.right_component.after', function ($viewRenderEventManager) {
 
-            $viewRenderEventManager->addTemplate('deliveryagents::admin.Orders.delivery-agent-order-details');
+            $viewRenderEventManager->addTemplate('deliveryagents::admin.Orders.view');
         });
         $this->app->concord->registerModel(
             \Webkul\Sales\Contracts\Order::class,
-            \Webkul\DeliveryAgents\Models\Order::class
+            \Webkul\DeliveryAgents\Models\Order::class,
+            \Webkul\DeliveryAgents\Models\Address::class
         );
 
         $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
         $this->loadRoutesFrom(__DIR__.'/../Routes/DeliveryAgent-routes.php');
+        $this->loadRoutesFrom(__DIR__.'/../Routes/api.php');
+
         $this->loadRoutesFrom(__DIR__.'/../Routes/Country-routes.php');
 
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'deliveryagent');

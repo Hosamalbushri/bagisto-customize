@@ -1,5 +1,4 @@
 <v-selected-delivery-form
-
 >
     <div
         class="transparent-button px-1 py-1.5 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
@@ -51,22 +50,22 @@
                 <x-slot:content>
                     <x-admin::tabs position="right">
                         <x-admin::tabs.item
-                            title="Tab-1"
+                            title="{{ __('deliveryagent::app.select-order.index.tabs.in-the-same-area') }}"
                             :is-selected="true"
                             class="text-black-600 dark:text-indigo-400 font-semibold hover:text-indigo-800 dark:hover:text-indigo-300"
                         >
-{{--                            <div>--}}
-{{--                                @include('deliveryagents::admin.Orders.get-delivery-agents-by-states')--}}
-{{--                            </div>--}}
+                            <div>
+                                @include('deliveryagents::admin.Orders.DeliveryAgents.get-delivery-agents-by-area')
+                            </div>
                         </x-admin::tabs.item>
 
                         <x-admin::tabs.item
                             class="container"
-                            title="Tab-2"
+                            title="{{ __('deliveryagent::app.select-order.index.tabs.all') }}"
                         >
                             <div>
                                 <div>
-                                    @include('deliveryagents::admin.Orders.get-all-delivery-agents')
+                                    @include('deliveryagents::admin.Orders.DeliveryAgents.get-all-delivery-agents')
                                 </div>
                             </div>
                         </x-admin::tabs.item>

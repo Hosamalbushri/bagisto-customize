@@ -65,6 +65,7 @@ class AddressController extends Controller
             'phone',
             'email',
             'default_address',
+            'state_area_id',
         ]), [
             'address' => implode(PHP_EOL, array_filter(request()->input('address'))),
         ]);
@@ -120,6 +121,7 @@ class AddressController extends Controller
             'phone',
             'email',
             'default_address',
+            'state_area_id',
         ]), [
             'address' => implode(PHP_EOL, array_filter(request()->input('address'))),
         ]);

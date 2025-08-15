@@ -266,13 +266,13 @@
                                         </p>
 
                                         <p class="text-gray-600 dark:text-gray-300">
+                                            @{{getCountryName(address.country)}},
+                                            @{{getStateName(address.country, address.state)}},
+                                            @{{ address.city }},
                                             <template v-if="address.address">
                                                 @{{ address.address.split('\n').join(', ') }},
                                             </template>
 
-                                            @{{ address.city }},
-                                            @{{ address.state }},
-                                            @{{ address.country }},
                                             @{{ address.postcode }}
                                         </p>
 
@@ -354,7 +354,8 @@
                 data() {
                     return {
                         customer: @json($customer),
-
+                        countries: @json(core()->countries()->pluck('name', 'code')),
+                        countryStates: @json(core()->groupedStatesByCountries()),
                         isUpdating: {},
                     };
                 },
@@ -433,6 +434,15 @@
 
                             return address;
                         });
+                    },
+                    getCountryName(code) {
+                        return this.countries[code] || code;
+                    },
+
+                    getStateName(countryCode, stateCode) {
+                        const states = this.countryStates[countryCode] || [];
+                        const state = states.find(s => s.code === stateCode);
+                        return state ? state.default_name : stateCode;
                     },
                 },
             });
