@@ -13,15 +13,12 @@
         </p>
     @endif
 
-    <p class="!leading-6 text-gray-600 dark:text-gray-300">
-        {{ $address->address }}<br>
-
-        {{ $address->city }}<br>
-
-        {{ $address->state }}<br>
-
-        {{ core()->country_name($address->country) }} @if ($address->postcode) ({{ $address->postcode }}) @endif<br>
-
-        {{ __('admin::app.sales.orders.view.contact') }} : {{ $address->phone }}
+    <p class="!leading-6 text-gray-600 dark:text-gray-300 flex flex-wrap gap-x-1">
+        <span class="after:content-[',']">{{ core()->country_name($address->country) }}@if ($address->postcode) ({{ $address->postcode }})@endif</span>
+        <span class="after:content-[',']">{{ $address->state }}</span>
+        <span class="after:content-[',']">{{ $address->city }}</span>
+        <span class="after:content-[',']">{{ $address->address }}</span>
+        <span>{{ __('admin::app.sales.orders.view.contact') }}: {{ $address->phone }}</span>
     </p>
+
 </div>

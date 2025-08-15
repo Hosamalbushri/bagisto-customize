@@ -6,6 +6,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Event;
 use Webkul\DeliveryAgents\Datagrids\Country\AreaDataGrid;
 use Webkul\DeliveryAgents\Repositories\AreaRepository;
 
@@ -82,5 +83,17 @@ class AreasController extends Controller
             'message' => trans('deliveryagent::app.country.state.area.edit.edit-success'),
         ]);
 
+    }
+    public function delete(int $id): JsonResponse
+    {
+        try {
+            Event::dispatch('area.before.delete', $id);
+            $this->areaRepository->delete($id);
+            Event::dispatch('area.after.delete', $id);
+
+            return new JsonResponse(['message' => trans('deliveryagent::app.country.state.area.datagrid.delete-success')]);
+        } catch (\Exception $e) {
+            return new JsonResponse(['message' => trans('deliveryagent::app.country.state.area.datagrid.no-resource')], 400);
+        }
     }
 }

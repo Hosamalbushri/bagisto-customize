@@ -107,6 +107,136 @@
 
             {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.email.after') !!}
 
+            <!-- Phone Number -->
+            <x-admin::form.control-group>
+                <x-admin::form.control-group.label class="required !mt-0">
+                    @lang('admin::app.sales.orders.create.cart.address.telephone')
+                </x-admin::form.control-group.label>
+
+                <x-admin::form.control-group.control
+                    type="text"
+                    ::name="controlName + '.phone'"
+                    ::value="address.phone"
+                    rules="required|numeric"
+                    :label="trans('admin::app.sales.orders.create.cart.address.telephone')"
+                    :placeholder="trans('admin::app.sales.orders.create.cart.address.telephone')"
+                />
+
+                <x-admin::form.control-group.error ::name="controlName + '.phone'" />
+            </x-admin::form.control-group>
+
+            {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.phone.after') !!}
+            <!-- Country -->
+            <x-admin::form.control-group class="!mb-4">
+                <x-admin::form.control-group.label class="required">
+                    @lang('admin::app.sales.orders.create.cart.address.country')
+                </x-admin::form.control-group.label>
+
+                <x-admin::form.control-group.control
+                    type="select"
+                    ::name="controlName + '.country'"
+                    ::value="address.country"
+                    v-model="selectedCountry"
+                    rules="required"
+                    :label="trans('admin::app.sales.orders.create.cart.address.country')"
+                    :placeholder="trans('admin::app.sales.orders.create.cart.address.country')"
+                >
+                    <option value="">
+                        @lang('admin::app.sales.orders.create.cart.address.select-country')
+                    </option>
+
+                    <option
+                        v-for="country in countries"
+                        :value="country.code"
+                    >
+                        @{{ country.name }}
+                    </option>
+                </x-admin::form.control-group.control>
+
+                <x-admin::form.control-group.error ::name="controlName + '.country'" />
+            </x-admin::form.control-group>
+
+            {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.country.after') !!}
+
+            <!-- State -->
+            <x-admin::form.control-group>
+                <x-admin::form.control-group.label class="required">
+                    @lang('admin::app.sales.orders.create.cart.address.state')
+                </x-admin::form.control-group.label>
+
+                        <x-admin::form.control-group.control
+                            type="select"
+                            ::name="controlName + '.state'"
+                            ::value="address.state"
+                            v-model="selectedState"
+                            rules="required"
+                            :label="trans('admin::app.sales.orders.create.cart.address.state')"
+                            :placeholder="trans('admin::app.sales.orders.create.cart.address.state')"
+                            ::disabled="!haveStates"
+
+                        >
+                            <option value="">
+                                @lang('admin::app.sales.orders.create.cart.address.select-state')
+                            </option>
+
+                            <option
+                                v-for='state in states[selectedCountry]'
+                                :value="state.code"
+                            >
+                                @{{ state.default_name }}
+                            </option>
+                        </x-admin::form.control-group.control>
+                <x-admin::form.control-group.error ::name="controlName + '.state'" />
+            </x-admin::form.control-group>
+
+
+            {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.state.after') !!}
+
+            <!-- City -->
+            <x-admin::form.control-group>
+                <x-admin::form.control-group.label class="required !mt-0">
+                    @lang('admin::app.sales.orders.create.cart.address.city')
+                </x-admin::form.control-group.label>
+                <x-admin::form.control-group.control
+                    type="select"
+                    ::name="controlName + '.state_area_id'"
+                    ::value="address.state_area_id"
+                    v-model="selectedArea"
+                    rules="required"
+                    :label="trans('admin::app.sales.orders.create.cart.address.city')"
+                    :placeholder="trans('admin::app.sales.orders.create.cart.address.city')"
+                    ::disabled="!haveAreas"
+                >
+                    <option value="">
+                        @lang('admin::app.customers.customers.view.address.create.select_state_area')
+                    </option>
+
+                    <option
+                        v-for="opt in areas[selectedState]"
+                        :key="opt.id"
+                        :value="String(opt.id)"
+                    >
+                        @{{ opt.area_name }}
+                    </option>
+                </x-admin::form.control-group.control>
+
+                <x-admin::form.control-group.control
+                    type="hidden"
+                    ::name="controlName + '.city'"
+                    ::value="address.city"
+                    v-model="city"
+                    rules="required"
+                    :label="trans('admin::app.sales.orders.create.cart.address.city')"
+                    :placeholder="trans('admin::app.sales.orders.create.cart.address.city')"
+                />
+
+
+                <x-admin::form.control-group.error ::name="controlName + '.city'" />
+            </x-admin::form.control-group>
+
+
+            {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.city.after') !!}
+
             <!-- Street Address -->
             <x-admin::form.control-group>
                 <x-admin::form.control-group.label class="required !mt-0">
@@ -148,104 +278,6 @@
 
             {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.address.after') !!}
 
-            <!-- Country -->
-            <x-admin::form.control-group class="!mb-4">
-                <x-admin::form.control-group.label class="{{ core()->isCountryRequired() ? 'required' : '' }} !mt-0">
-                    @lang('admin::app.sales.orders.create.cart.address.country')
-                </x-admin::form.control-group.label>
-
-                <x-admin::form.control-group.control
-                    type="select"
-                    ::name="controlName + '.country'"
-                    ::value="address.country"
-                    v-model="selectedCountry"
-                    rules="{{ core()->isCountryRequired() ? 'required' : '' }}"
-                    :label="trans('admin::app.sales.orders.create.cart.address.country')"
-                    :placeholder="trans('admin::app.sales.orders.create.cart.address.country')"
-                >
-                    <option value="">
-                        @lang('admin::app.sales.orders.create.cart.address.select-country')
-                    </option>
-
-                    <option
-                        v-for="country in countries"
-                        :value="country.code"
-                    >
-                        @{{ country.name }}
-                    </option>
-                </x-admin::form.control-group.control>
-
-                <x-admin::form.control-group.error ::name="controlName + '.country'" />
-            </x-admin::form.control-group>
-
-            {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.country.after') !!}
-
-            <!-- State -->
-            <x-admin::form.control-group>
-                <x-admin::form.control-group.label class="{{ core()->isStateRequired() ? 'required' : '' }} !mt-0">
-                    @lang('admin::app.sales.orders.create.cart.address.state')
-                </x-admin::form.control-group.label>
-
-                <template v-if="states">
-                    <template v-if="haveStates">
-                        <x-admin::form.control-group.control
-                            type="select"
-                            ::name="controlName + '.state'"
-                            ::value="address.state"
-                            rules="{{ core()->isStateRequired() ? 'required' : '' }}"
-                            :label="trans('admin::app.sales.orders.create.cart.address.state')"
-                            :placeholder="trans('admin::app.sales.orders.create.cart.address.state')"
-                        >
-                            <option value="">
-                                @lang('admin::app.sales.orders.create.cart.address.select-state')
-                            </option>
-
-                            <option
-                                v-for='state in states[selectedCountry]'
-                                :value="state.code"
-                            >
-                                @{{ state.default_name }}
-                            </option>
-                        </x-admin::form.control-group.control>
-                    </template>
-
-                    <template v-else>
-                        <x-admin::form.control-group.control
-                            type="text"
-                            ::name="controlName + '.state'"
-                            ::value="address.state"
-                            rules="{{ core()->isStateRequired() ? 'required' : '' }}"
-                            :label="trans('admin::app.sales.orders.create.cart.address.state')"
-                            :placeholder="trans('admin::app.sales.orders.create.cart.address.state')"
-                        />
-                    </template>
-                </template>
-
-                <x-admin::form.control-group.error ::name="controlName + '.state'" />
-            </x-admin::form.control-group>
-
-            {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.state.after') !!}
-
-            <!-- City -->
-            <x-admin::form.control-group>
-                <x-admin::form.control-group.label class="required !mt-0">
-                    @lang('admin::app.sales.orders.create.cart.address.city')
-                </x-admin::form.control-group.label>
-
-                <x-admin::form.control-group.control
-                    type="text"
-                    ::name="controlName + '.city'"
-                    ::value="address.city"
-                    rules="required"
-                    :label="trans('admin::app.sales.orders.create.cart.address.city')"
-                    :placeholder="trans('admin::app.sales.orders.create.cart.address.city')"
-                />
-
-                <x-admin::form.control-group.error ::name="controlName + '.city'" />
-            </x-admin::form.control-group>
-
-            {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.city.after') !!}
-
             <!-- Postcode -->
             <x-admin::form.control-group>
                 <x-admin::form.control-group.label class="{{ core()->isPostCodeRequired() ? 'required' : '' }} !mt-0">
@@ -266,25 +298,6 @@
 
             {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.postcode.after') !!}
 
-            <!-- Phone Number -->
-            <x-admin::form.control-group>
-                <x-admin::form.control-group.label class="required !mt-0">
-                    @lang('admin::app.sales.orders.create.cart.address.telephone')
-                </x-admin::form.control-group.label>
-
-                <x-admin::form.control-group.control
-                    type="text"
-                    ::name="controlName + '.phone'"
-                    ::value="address.phone"
-                    rules="required|numeric"
-                    :label="trans('admin::app.sales.orders.create.cart.address.telephone')"
-                    :placeholder="trans('admin::app.sales.orders.create.cart.address.telephone')"
-                />
-
-                <x-admin::form.control-group.error ::name="controlName + '.phone'" />
-            </x-admin::form.control-group>
-
-            {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.phone.after') !!}
         </div>
     </script>
 
@@ -310,6 +323,7 @@
                         address: [],
                         country: '',
                         state: '',
+                        state_area_id:'',
                         city: '',
                         postcode: '',
                         phone: '',
@@ -320,22 +334,56 @@
             data() {
                 return {
                     selectedCountry: this.address.country,
+                    selectedState: this.address.state,
+                    selectedArea: this.address.state_area_id,
 
                     countries: [],
 
                     states: null,
+
+                    areas:  null,
+
                 }
             },
 
             created() {
                 this.getCountries();
-
                 this.getStates();
+                this.getAreas();
             },
 
             computed: {
                 haveStates() {
                     return !! this.states[this.selectedCountry]?.length;
+                },
+                haveAreas() {
+                    const list = this.areas?.[this.selectedState];
+                    return Array.isArray(list) && list.length > 0;
+                },
+            },
+            watch: {
+                // عند تغيير الولاية: صفّر المنطقة والمدينة
+                'selectedCountry'() {
+                    this.selectedState = '';
+                },
+                'selectedState'() {
+                    this.selectedArea = '';
+                },
+
+                // عند اختيار المنطقة: عيّن اسم المدينة = اسم المنطقة
+                selectedArea(newAreaId) {
+                    if (!this.haveAreas || !newAreaId) {
+                        this.city = '';
+                        return;
+                    }
+
+                    const list = this.areas[this.selectedState] || [];
+
+                    // قيم select عادة تكون string → نحول للرقم للمطابقة
+                    const id = Number(newAreaId);
+                    const selected = list.find(a => Number(a.id) === id);
+
+                    this.city = selected ? selected.area_name : '';
                 },
             },
 
@@ -352,6 +400,13 @@
                     this.$axios.get("{{ route('shop.api.core.states') }}")
                         .then(response => {
                             this.states = response.data.data;
+                        })
+                        .catch(() => {});
+                },
+                getAreas() {
+                    this.$axios.get("{{ route('shop.api.core.areas') }}")
+                        .then(response => {
+                            this.areas = response.data.data;
                         })
                         .catch(() => {});
                 },

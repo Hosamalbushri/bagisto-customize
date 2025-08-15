@@ -1802,6 +1802,8 @@ return [
                         'post-code'          => 'الرمز البريدي',
                         'save-btn-title'     => 'حفظ العنوان',
                         'select-country'     => 'اختر البلد',
+                        'select_state'       => 'اختر المنطقة',
+                        'select_state_area'  => 'اختر المدينة او الحــي',
                         'state'              => 'الولاية',
                         'street-address'     => 'عنوان الشارع',
                         'title'              => 'إضافة عنوان',
@@ -1836,7 +1838,7 @@ return [
 
                 'datagrid' => [
                     'invoices' => [
-                        'empty-invoice'  => 'لا توجد تقييمات',
+                        'empty-invoice'  => 'لا توجد فواتير',
                         'increment-id'   => 'رقم الفاتورة',
                         'invoice-amount' => 'مبلغ الفاتورة',
                         'invoice-date'   => 'تاريخ الفاتورة',
@@ -1870,7 +1872,7 @@ return [
                         'comment'       => 'التعليق',
                         'created-at'    => 'تاريخ الإنشاء',
                         'disapproved'   => 'تم رفضه',
-                        'empty-reviews' => 'لا توجد فواتير متاحة',
+                        'empty-reviews' => 'لا توجد مراجعات متاحة',
                         'id'            => 'المعرف',
                         'invoice-date'  => 'تاريخ الفاتورة',
                         'pending'       => 'قيد الانتظار',
@@ -4700,7 +4702,7 @@ return [
             ],
 
             'powered-by' => [
-                'description' => 'تم تطوير المنتج بواسطة شركة اتقان',
+                'description' => 'تم تطوير المنتج بواسطة شركة نـجـاز',
             ],
         ],
 

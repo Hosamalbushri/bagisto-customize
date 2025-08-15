@@ -255,21 +255,29 @@ return [
                 'create'=> [
                     'title'         => 'إضافة مدينة / حي جديد',
                     'name'          => 'اسم المدينة او الحــي',
-                    'save-btn'    => 'حفظ',
+                    'save-btn'      => 'حفظ',
                     'create-success'=> 'تم اضافة المدينة بنجاح',
 
                 ],
                 'edit'=> [
                     'title'         => 'تعديل المدينة او الحــي ',
                     'name'          => 'اسم المدينة او الحــي',
-                    'edit-btn'    => 'تعديل',
-                    'edit-success' =>'تم التحديث بنجاح'
+                    'edit-btn'      => 'تعديل',
+                    'edit-success'  => 'تم التحديث بنجاح',
                 ],
                 'update'=> [
 
                 ],
                 'datagrid'=> [
-                    'name'          => 'اسم المدينة او الحــي',
+                    'id'             => 'المعرف',
+                    'name'           => 'اسم المدينة او الحــي',
+                    'deleivery_count'=> 'عدد المناديب',
+                    'actions'        => [
+                        'edit'  => 'تعديل',
+                        'delete'=> 'حذف',
+                    ],
+                    'delete-success'=> 'تم الحذف بنجاح',
+                    'no-resource'   => 'فشلت عملية الحذف',
 
                 ],
             ],
@@ -346,6 +354,10 @@ return [
         'index'=> [
             'select-delivery-agent-btn'=> 'تعيين مندوب التوصيل',
             'select-delivery-agent'    => 'تعيين المندوب للطلب رقــم #',
+            'tabs'                     => [
+                'in-the-same-area'=> 'نفس موقع الطلب',
+                'all'             => 'الكل',
+            ],
         ],
         'create'=> [
             'create-success'    => 'تم تعيين المندوب بنجاح',
