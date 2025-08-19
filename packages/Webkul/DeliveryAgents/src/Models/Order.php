@@ -7,10 +7,49 @@ use Webkul\Sales\Models\Order as BaseModel;
 
 class Order extends BaseModel
 {
-    public function delivery_agent(): BelongsTo
+    const STATUS_ASSIGNED_TO_AGENT = 'assigned_to_agent';
+
+    const STATUS_ACCEPTED_BY_AGENT = 'accepted_by_agent';
+
+    const STATUS_REJECTED_BY_AGENT = 'rejected_by_agent';
+
+    const STATUS_OUT_FOR_DELIVERY = 'out_for_delivery';
+
+    const STATUS_DELIVERED = 'delivered';
+
+    protected $statusLabelKeys = [
+        self::STATUS_PENDING              => 'deliveryagent::app.orders.status.pending',
+        self::STATUS_PENDING_PAYMENT      => 'deliveryagent::app.orders.status.pending_payment',
+        self::STATUS_PROCESSING           => 'deliveryagent::app.orders.status.processing',
+        self::STATUS_COMPLETED            => 'deliveryagent::app.orders.status.completed',
+        self::STATUS_CANCELED             => 'deliveryagent::app.orders.status.canceled',
+        self::STATUS_CLOSED               => 'deliveryagent::app.orders.status.closed',
+        self::STATUS_FRAUD                => 'deliveryagent::app.orders.status.fraud',
+
+        self::STATUS_ASSIGNED_TO_AGENT    => 'deliveryagent::app.orders.status.assigned_to_agent',
+        self::STATUS_ACCEPTED_BY_AGENT    => 'deliveryagent::app.orders.status.accepted_by_agent',
+        self::STATUS_REJECTED_BY_AGENT    => 'deliveryagent::app.orders.status.rejected_by_agent',
+        self::STATUS_OUT_FOR_DELIVERY     => 'deliveryagent::app.orders.status.out_for_delivery',
+        self::STATUS_DELIVERED            => 'deliveryagent::app.orders.status.delivered',
+    ];
+
+    public function getStatusLabelAttribute(): string
+    {
+        $key = $this->statusLabelKeys[$this->status] ?? null;
+
+        return $key ? __($key) : (string) $this->status;
+    }
+
+    public function deliveryAgent(): BelongsTo
     {
         return $this->belongsTo(DeliveryAgent::class, 'delivery_agent_id');
     }
+
+    public function deliveryAssignments()
+    {
+        return $this->hasMany(DeliveryAgentOrder::class);
+    }
+
     public function canShip(): bool
     {
         foreach ($this->items as $item) {
@@ -19,8 +58,12 @@ class Order extends BaseModel
                 && ! in_array($item->order->status, [
                     self::STATUS_CLOSED,
                     self::STATUS_FRAUD,
+                ]) && ! in_array($item->order->delivery_status, [
+                    self::STATUS_ASSIGNED_TO_AGENT,
+                    self::STATUS_ACCEPTED_BY_AGENT,
+                    self::STATUS_OUT_FOR_DELIVERY,
+                    self::STATUS_DELIVERED,
                 ])
-                && empty($item->order->delivery_agent_id) // إذا ما تم تعيين مندوب
             ) {
                 return true;
             }
@@ -29,8 +72,12 @@ class Order extends BaseModel
         return false;
     }
 
-    public function getStateIdFromCode(string $code): ?int
+    public function isRejected(): bool
     {
-        return State::getIdByCode($code);
+        if ($this->delivery_status == self::STATUS_REJECTED_BY_AGENT) {
+            return true;
+        }
+
+        return false;
     }
 }

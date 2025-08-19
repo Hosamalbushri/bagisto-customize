@@ -186,8 +186,8 @@
             data() {
                 return {
                     allCountries: @json(core()->countries()),
-                    countryStates: window.countryStates || {},
-                    stateAreas: window.stateAreas ||{},
+                    countryStates: @json(myHelper()->groupedStatesByCountries()),
+                    stateAreas: @json(myHelper()->groupedAreasByStates()),
                     editingRange: null,
                     countryId: null,
                     isLoading: false,

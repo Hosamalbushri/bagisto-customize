@@ -145,28 +145,32 @@ return [
                 ],
 
                 'datagrid' => [
-                    'canceled'        => 'تم الإلغاء',
-                    'channel-name'    => 'القناة',
-                    'closed'          => 'مغلق',
-                    'completed'       => 'تم الانتهاء',
-                    'customer'        => 'العميل',
-                    'date'            => 'التاريخ',
-                    'email'           => 'البريد الإلكتروني',
-                    'fraud'           => 'احتيال',
-                    'grand-total'     => 'الإجمالي الكبير',
-                    'id'              => '#:id',
-                    'items'           => 'العناصر',
-                    'location'        => 'الموقع',
-                    'order-id'        => 'رقم الطلب',
-                    'pay-by'          => 'الدفع بواسطة - :method',
-                    'pay-via'         => 'الدفع عبر',
-                    'pending-payment' => 'قيد الدفع',
-                    'pending'         => 'قيد الانتظار',
-                    'processing'      => 'جاري المعالجة',
-                    'product-count'   => ':count + المزيد من المنتجات',
-                    'status'          => 'الحالة',
-                    'success'         => 'ناجح',
-                    'view'            => 'عرض',
+                    'assigned_to_agent'              => 'تم تعيين المندوب',
+                    'accepted_by_agent'              => 'تم قبول الطلب',
+                    'canceled'                       => 'تم الإلغاء',
+                    'channel-name'                   => 'القناة',
+                    'closed'                         => 'مغلق',
+                    'completed'                      => 'تم الانتهاء',
+                    'customer'                       => 'العميل',
+                    'date'                           => 'التاريخ',
+                    'email'                          => 'البريد الإلكتروني',
+                    'fraud'                          => 'احتيال',
+                    'grand-total'                    => 'الإجمالي الكبير',
+                    'id'                             => '#:id',
+                    'items'                          => 'العناصر',
+                    'location'                       => 'الموقع',
+                    'order-id'                       => 'رقم الطلب',
+                    'out_for_delivery'               => 'جاري التوصيل',
+                    'rejected_by_agent'              => 'تم رفض الطلب',
+                    'pay-by'                         => 'الدفع بواسطة - :method',
+                    'pay-via'                        => 'الدفع عبر',
+                    'pending-payment'                => 'قيد الدفع',
+                    'pending'                        => 'قيد الانتظار',
+                    'processing'                     => 'جاري المعالجة',
+                    'product-count'                  => ':count + المزيد من المنتجات',
+                    'status'                         => 'الحالة',
+                    'success'                        => 'ناجح',
+                    'view'                           => 'عرض',
                 ],
             ],
 
@@ -348,6 +352,8 @@ return [
 
             'view' => [
                 'amount-per-unit'                => ':amount لكل وحدة x :qty الكمية',
+                'assigned_to_agent'              => 'تم تعيين المندوب',
+                'accepted_by_agent'              => 'تم قبول الطلب',
                 'billing-address'                => 'عنوان الفوترة',
                 'cancel'                         => 'إلغاء',
                 'cancel-msg'                     => 'هل أنت متأكد أنك تريد إلغاء هذا الطلب',
@@ -370,7 +376,7 @@ return [
                 'fraud'                          => 'احتيال',
                 'grand-total'                    => 'المجموع الكلي - :grand_total',
                 'invoice-id'                     => 'الفاتورة #:invoice',
-                'order-items'                    =>'عناصر الطلب',
+                'order-items'                    => 'عناصر الطلب',
                 'invoices'                       => 'الفواتير',
                 'item-canceled'                  => 'تم الإلغاء (:qty_canceled)',
                 'item-invoice'                   => 'تمت الفوترة (:qty_invoiced)',
@@ -385,6 +391,7 @@ return [
                 'order-date'                     => 'تاريخ الطلب',
                 'order-information'              => 'معلومات الطلب',
                 'order-status'                   => 'حالة الطلب',
+                'out_for_delivery'               => 'جاري التوصيل',
                 'payment-and-shipping'           => 'الدفع والشحن',
                 'payment-method'                 => 'طريقة الدفع',
                 'pending'                        => 'معلق',
@@ -399,6 +406,7 @@ return [
                 'refund-id'                      => 'الاسترداد #:refund',
                 'refunded'                       => 'تم الاسترداد',
                 'reorder'                        => 'إعادة الطلب',
+                'rejected_by_agent'              => 'تم رفض الطلب',
                 'ship'                           => 'شحن',
                 'shipment'                       => 'الشحنة #:shipment',
                 'shipments'                      => 'الشحنات',
@@ -1950,8 +1958,8 @@ return [
         ],
 
         'groups' => [
-            'customer-associate'=>'لا يمكنك حذف المجموعة لانها مرتبطة بعملاء',
-            'index' => [
+            'customer-associate'=> 'لا يمكنك حذف المجموعة لانها مرتبطة بعملاء',
+            'index'             => [
                 'title' => 'المجموعات',
 
                 'create' => [
@@ -4894,9 +4902,9 @@ return [
                 'vicuna-7b'                => 'Vicuna (7b)',
             ],
         ],
-        'alert'=>[
-            'close'=>'اغلاق'
-        ]
+        'alert'=> [
+            'close'=> 'اغلاق',
+        ],
     ],
 
     'acl' => [

@@ -550,6 +550,10 @@
     .label-fraud,
     .label-pending_payment,
     .label-completed,
+    .label-assigned_to_agent,
+    .label-accepted_by_agent,
+    .label-rejected_by_agent,
+    .label-out_for_delivery,
     .label-active {
         @apply text-[12px] text-white font-semibold py-px px-1.5 max-w-max rounded-[35px];
     }
@@ -559,12 +563,14 @@
         @apply bg-yellow-500;
     }
 
-    .label-processing{
+    .label-processing,
+    .label-assigned_to_agent{
         @apply bg-cyan-600;
     }
 
     .label-completed,
-    .label-active {
+    .label-active ,
+    .label-accepted_by_agent{
         @apply bg-green-600;
     }
 
@@ -573,13 +579,33 @@
     }
 
     .label-canceled,
-    .label-fraud {
+    .label-fraud ,
+    .label-rejected_by_agent{
         @apply bg-rose-600;
     }
-
-    .label-info {
+    .label-info ,
+    .label-out_for_delivery {
         @apply bg-slate-400;
     }
+
+    /*.label-assigned_to_agent{*/
+    /*    @apply bg-cyan-600;*/
+    /*}*/
+    /*.label-accepted_by_agent{*/
+    /*    @apply bg-green-600;*/
+    /*}*/
+    /*.label-rejected_by_agent {*/
+    /*    @apply bg-rose-600;*/
+    /*}*/
+    /* custom labels */
+    /*.label-assigned_to_agent,*/
+    /*.label-accepted_by_agent,*/
+    /*.label-rejected_by_agent,*/
+    /*.label-out_for_delivery {*/
+    /*    @apply text-[12px] text-white font-semibold py-px px-1.5 max-w-max rounded-[35px];*/
+    /*}*/
+
+
 
     /* status */
     .status-enable {

@@ -17,6 +17,11 @@
                 <span class="label-{{ $order->status }} text-sm mx-1.5">
                     @lang("admin::app.sales.orders.view.$order->status")
                 </span>
+                @if($order->delivery_status)
+                    <span class="label-{{ $order->delivery_status }} text-sm mx-1.5">
+                    @lang("admin::app.sales.orders.view.$order->delivery_status")
+                </span>
+                @endif
             </div>
 
             {!! view_render_event('bagisto.admin.sales.order.title.after', ['order' => $order]) !!}
@@ -798,6 +803,9 @@
                         @endforelse
                     </x-slot>
                 </x-admin::accordion>
+
+                {!! view_render_event('bagisto.admin.sales.order.Invoice.after', ['order' => $order]) !!}
+
 
                 <!-- Shipment Information-->
                 <x-admin::accordion>

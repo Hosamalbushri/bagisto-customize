@@ -76,6 +76,12 @@ return [
         'route'  => 'admin.deliveryagents.order.select-delivery-agent',
         'sort'   => 1,
     ],
+    [
+        'key'    => 'delivery.deliveryAgent.order.assign-delivery-agent',
+        'name'   => 'deliveryagent::app.orders.acl.select-delivery',
+        'route'  => 'admin.deliveryagents.order.select-delivery-agent',
+        'sort'   => 1,
+    ],
 
     //     Country ACL
 

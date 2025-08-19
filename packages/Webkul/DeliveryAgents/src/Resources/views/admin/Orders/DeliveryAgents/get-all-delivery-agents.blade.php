@@ -1,30 +1,26 @@
+<div class="box-shadow rounded bg-white p-4 dark:bg-gray-900">
+    <x-admin::datagrid
+        src="{{ route('admin.deliveryagents.index') }}"
+    >
+        @php
+            $hasPermission = bouncer()->hasPermission('delivery.deliveryAgent.edit') || bouncer()->hasPermission('delivery.deliveryAgent.delete');
+        @endphp
+        <template #header="{
+        isLoading,
+         available,
+         applied,
+         selectAll,
+         sort,
+         performAction
+         }">
 
-        <div class="box-shadow rounded bg-white p-4 dark:bg-gray-900">
-
-            <x-admin::datagrid
-                src="{{ route('admin.deliveryagents.index') }}"
-            >
-                @php
-                    $hasPermission = bouncer()->hasPermission('delivery.deliveryAgent.edit') || bouncer()->hasPermission('delivery.deliveryAgent.delete');
-                @endphp
-                <template #header="{
-                                     isLoading,
-                                     available,
-                                     applied,
-                                     selectAll,
-                                     sort,
-                                     performAction
-                                     }">
-
-                    <template v-if="isLoading">
-                        <x-admin::shimmer.datagrid.table.head/>
-                    </template>
-                    <template v-else>
-                        <div
-                            class="row grid grid-cols-[2fr_1fr_1fr] grid-rows-1 items-center border-b px-4 py-2.5 dark:border-gray-800">
-                            <div
-                                class="flex select-none items-center gap-2.5"
-                                v-for="(columnGroup, index) in [['full_name', 'email'], ['status', 'phone']]"
+            <template v-if="isLoading">
+                <x-admin::shimmer.datagrid.table.head/>
+            </template>
+            <template v-else>
+                <div class="row grid grid-cols-[2fr_1fr_1fr] grid-rows-1 items-center border-b px-4 py-2.5 dark:border-gray-800">
+                    <div class="flex select-none items-center gap-2.5"
+                         v-for="(columnGroup, index) in [['full_name', 'email'], ['status', 'phone']]"
                             >
                                 @if ($hasPermission)
                                     <label
@@ -116,14 +112,14 @@
                             </div>
                             <div class="flex flex-col gap-1.5">
                                 <div class="flex gap-1.5">
-                                                        <span
-                                                            :class="{
-                                                            'label-canceled': record.status == '',
-                                                            'label-active': record.status == 1,
-                                                            }"
-                                                        >
-                                                            @{{ record.status ? '@lang('deliveryagent::app.deliveryagents.datagrid.active')' : '@lang('admin::app.customers.customers.index.datagrid.inactive')' }}
-                                                        </span>
+                                <span
+                                :class="{
+                                'label-canceled': record.status == '',
+                                'label-active': record.status == 1,
+                                }"
+                                >
+                                @{{ record.status ? '@lang('deliveryagent::app.deliveryagents.datagrid.active')' : '@lang('admin::app.customers.customers.index.datagrid.inactive')' }}
+                                </span>
                                 </div>
                                 <p class="text-gray-600 dark:text-gray-300">
                                     @{{ record.phone ?? 'N/A' }}
@@ -131,29 +127,41 @@
                             </div>
                             <div class="flex w-full flex-col gap-1.5">
                                 <div class="flex w-full justify-end gap-1">
-
-                                    <form
-                                        method="post"
-                                        :action="`{{ route('admin.orders.assignDeliveryAgent', [':order', ':agent']) }}`
-                                                        .replace(':order', '{{$order->id}}')
-                                                        .replace(':agent', record.delivery_agents_id)"
-                                    >
-                                        @csrf
-                                        <input type="hidden" name="delivery_agent_id"
-                                               :value="record.delivery_agents_id"/>
-                                        <input type="hidden" name="order_id" value="{{$order->id}}"/>
+                                    @if (bouncer()->hasPermission('delivery.deliveryAgent.order.assign-delivery-agent'))
                                         <button
-                                            type="submit"
+                                            type="button"
                                             class="acma-icon-plus1 rtl:acma-icon-checkmark cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+                                            @click="$emitter.emit('request-assign-delivery', { orderId: {{ $order->id }}, agentId: record.delivery_agents_id })"
                                         >
-
                                         </button>
-                                    </form>
+{{--                                        <form--}}
+{{--                                            method="post"--}}
+{{--                                            :action="`{{ route('admin.orders.assignDeliveryAgent', [':order', ':agent']) }}`--}}
+{{--                                                        .replace(':order', '{{$order->id}}')--}}
+{{--                                                        .replace(':agent', record.delivery_agents_id)"--}}
+{{--                                            ref="assignDeliveryForm"--}}
+{{--                                        >--}}
+{{--                                            @csrf--}}
+{{--                                            <input type="hidden" name="delivery_agent_id"--}}
+{{--                                                   :value="record.delivery_agents_id"/>--}}
+{{--                                            <input type="hidden" name="order_id" value="{{$order->id}}"/>--}}
+{{--                                        </form>--}}
+
+{{--                                        <div--}}
+{{--                                            class="acma-icon-plus1 rtl:acma-icon-checkmark cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"--}}
+{{--                                            @click="$emitter.emit('open-confirm-modal', {--}}
+{{--                                            message: '@lang('deliveryagent::app.select-order.index.assign-delivery-agent-confirmation')',--}}
+{{--                                            agree: () => {--}}
+{{--                                            this.$refs['assignDeliveryForm'].submit()--}}
+{{--                                             }})"--}}
+{{--                                        >--}}
+{{--                                        </div>--}}
+                                    @endif
+
                                     <a
                                         :href="`{{ route('admin.deliveryagents.view', '') }}/${record.delivery_agents_id}`"
                                         class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
                                     >
-
                                     </a>
                                 </div>
                             </div>
@@ -162,5 +170,5 @@
                 </template>
 
             </x-admin::datagrid>
-        </div>
+</div>
 

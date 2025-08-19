@@ -27,34 +27,29 @@ class RangesController extends Controller
             'state_area_id'        => 'required|integer|exists:state_areas,id',
 
         ]);
-        try {
 
-            $deliveryAgent = $this->deliveryAgentRepository->find($request->delivery_agent_id);
+        $deliveryAgent = $this->deliveryAgentRepository->find($request->delivery_agent_id);
 
-            $existingRecord = $deliveryAgent->ranges()
-                ->where('state_area_id', $request->state_area_id)
-                ->first();
+        $existingRecord = $deliveryAgent->ranges()
+            ->where('state_area_id', $request->state_area_id)
+            ->first();
 
-            if ($existingRecord) {
-                return new JsonResponse([
-                    'message' => trans('deliveryagent::app.range.create.create-failed'),
-                ], 422); // 422 Unprocessable Entity
-            }
-
-            $deliveryAgent->ranges()->create([
-                'state_area_id'       => $request->state_area_id,
-            ]);
-            $range = $deliveryAgent->ranges()->first();
-
+        if ($existingRecord) {
             return response()->json([
-                'message' => trans('deliveryagent::app.range.create.create-success'),
-                'data'    => $range,
-            ]);
+                'message' => trans('deliveryagent::app.range.create.create-failed'),
+                'status'  => 'error',
+            ],422);
+        }
 
-        } catch (\Exception $exception) {}
-        return new JsonResponse([
-            'message' =>trans('deliveryagent::app.range.create.create-failed'),
-        ],500);
+        $deliveryAgent->ranges()->create([
+            'state_area_id'       => $request->state_area_id,
+        ]);
+        $range = $deliveryAgent->ranges()->first();
+
+        return response()->json([
+            'message' => trans('deliveryagent::app.range.create.create-success'),
+            'data'    => $range,
+        ]);
 
     }
 
@@ -71,7 +66,7 @@ class RangesController extends Controller
 
         return response()->json([
             'message' => trans('deliveryagent::app.range.edit.edit-success'),
-//            'data'    => $range,
+            //            'data'    => $range,
         ]);
 
     }
