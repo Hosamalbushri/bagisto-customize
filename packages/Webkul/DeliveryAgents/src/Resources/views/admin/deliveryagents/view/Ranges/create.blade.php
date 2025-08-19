@@ -53,7 +53,7 @@
                                         </option>
 
                                         @foreach (core()->countries() as $country)
-                                            <option value="{{ $country->id }}">{{ $country->name }}
+                                            <option value="{{ $country->code }}">{{ $country->name }}
                                             </option>
                                         @endforeach
                                     </x-admin::form.control-group.control>
@@ -82,7 +82,7 @@
                                         </option>
                                         <option
                                             v-for='(state, index) in countryStates[country]'
-                                            :value="state.id"
+                                            :value="state.code"
                                         >
                                             @{{ state.default_name }}
                                         </option>
@@ -201,15 +201,12 @@
                     state: "",
                     countryStates: window.countryStates || {},
                     stateAreas: window.stateAreas ||{},
-                    allCountries: @json(core()->countries()),
-                    allStates:@json(core()->countries()),
                     isLoading: false,
 
                 };
             },
 
             methods: {
-                allCountries: undefined,
                 openModal() {
                     this.$refs.RangeCreateModal.open();
                 },

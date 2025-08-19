@@ -1,3 +1,3 @@
-@if ($order->canShip() && is_null($order->delivery_agent_id))
+@if ($order->canShip())
     @include('deliveryagents::admin.Orders.DeliveryAgents.index',['order' => $order])
 @endif

@@ -383,7 +383,7 @@
                     city: this.address.city,
                     area: this.address.state_area_id,
                     countryStates: @json(core()->groupedStatesByCountries()),
-                    stateAreas: @json(\Webkul\DeliveryAgents\Helpers\CustomHelper::groupedAreasByStatesCode()),
+                    stateAreas: @json(myHelper()->groupedAreasByStatesCode()),
                     isLoading: false,
                 };
             },

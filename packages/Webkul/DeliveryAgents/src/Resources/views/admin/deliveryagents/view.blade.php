@@ -7,9 +7,8 @@
 
         <script>
             window.countries = @json(core()->countries()->pluck('name', 'code'));
-            window.countryStates = @json(\Webkul\DeliveryAgents\Helpers\CustomHelper::groupedStatesByCountries());
-            window.stateAreas =@json(\Webkul\DeliveryAgents\Helpers\CustomHelper::groupedAreasByStates());
-
+            window.countryStates = @json(core()->groupedStatesByCountries());
+            window.stateAreas =@json(myHelper()->groupedAreasByStatesCode());
 
         </script>
 

@@ -28,6 +28,27 @@
 
             {!! view_render_event('bagisto.shop.checkout.onepage.address.form.company_name.after') !!}
 
+            <!-- Vat ID -->
+            <template v-if="controlName=='billing'">
+                <x-shop::form.control-group>
+                    <x-shop::form.control-group.label>
+                        @lang('shop::app.checkout.onepage.address.vat-id')
+                    </x-shop::form.control-group.label>
+
+                    <x-shop::form.control-group.control
+                        type="text"
+                        ::name="controlName + '.vat_id'"
+                        ::value="address.vat_id"
+                        :label="trans('shop::app.checkout.onepage.address.vat-id')"
+                        :placeholder="trans('shop::app.checkout.onepage.address.vat-id')"
+                    />
+
+                    <x-shop::form.control-group.error ::name="controlName + '.vat_id'" />
+                </x-shop::form.control-group>
+
+                {!! view_render_event('bagisto.shop.checkout.onepage.address.form.vat_id.after') !!}
+            </template>
+
             <!-- First Name -->
             <div class="grid grid-cols-2 gap-x-5 max-md:grid-cols-1">
                 <x-shop::form.control-group>
@@ -90,66 +111,25 @@
 
             {!! view_render_event('bagisto.shop.checkout.onepage.address.form.email.after') !!}
 
-            <!-- Vat ID -->
-            <template v-if="controlName=='billing'">
-                <x-shop::form.control-group>
-                    <x-shop::form.control-group.label>
-                        @lang('shop::app.checkout.onepage.address.vat-id')
-                    </x-shop::form.control-group.label>
-
-                    <x-shop::form.control-group.control
-                        type="text"
-                        ::name="controlName + '.vat_id'"
-                        ::value="address.vat_id"
-                        :label="trans('shop::app.checkout.onepage.address.vat-id')"
-                        :placeholder="trans('shop::app.checkout.onepage.address.vat-id')"
-                    />
-
-                    <x-shop::form.control-group.error ::name="controlName + '.vat_id'" />
-                </x-shop::form.control-group>
-
-                {!! view_render_event('bagisto.shop.checkout.onepage.address.form.vat_id.after') !!}
-            </template>
-
-            <!-- Street Address -->
+            <!-- Phone Number -->
             <x-shop::form.control-group>
                 <x-shop::form.control-group.label class="required !mt-0">
-                    @lang('shop::app.checkout.onepage.address.street-address')
+                    @lang('shop::app.checkout.onepage.address.telephone')
                 </x-shop::form.control-group.label>
 
                 <x-shop::form.control-group.control
                     type="text"
-                    ::name="controlName + '.address.[0]'"
-                    ::value="address.address[0]"
-                    rules="required|address"
-                    :label="trans('shop::app.checkout.onepage.address.street-address')"
-                    :placeholder="trans('shop::app.checkout.onepage.address.street-address')"
+                    ::name="controlName + '.phone'"
+                    ::value="address.phone"
+                    rules="required|numeric"
+                    :label="trans('shop::app.checkout.onepage.address.telephone')"
+                    :placeholder="trans('shop::app.checkout.onepage.address.telephone')"
                 />
 
-                <x-shop::form.control-group.error
-                    class="mb-2"
-                    ::name="controlName + '.address.[0]'"
-                />
-
-                @if (core()->getConfigData('customer.address.information.street_lines') > 1)
-                    @for ($i = 1; $i < core()->getConfigData('customer.address.information.street_lines'); $i++)
-                        <x-shop::form.control-group.control
-                            type="text"
-                            ::name="controlName + '.address.[{{ $i }}]'"
-                            rules="address"
-                            :label="trans('shop::app.checkout.onepage.address.street-address')"
-                            :placeholder="trans('shop::app.checkout.onepage.address.street-address')"
-                        />
-
-                        <x-shop::form.control-group.error
-                            class="mb-2"
-                            ::name="controlName + '.address.[{{ $i }}]'"
-                        />
-                    @endfor
-                @endif
+                <x-shop::form.control-group.error ::name="controlName + '.phone'" />
             </x-shop::form.control-group>
 
-            {!! view_render_event('bagisto.shop.checkout.onepage.address.form.address.after') !!}
+            {!! view_render_event('bagisto.shop.checkout.onepage.address.form.phone.after') !!}
 
             <div class="grid grid-cols-2 gap-x-5 max-md:grid-cols-1">
                 <!-- Country -->
@@ -190,15 +170,15 @@
                         @lang('shop::app.checkout.onepage.address.state')
                     </x-shop::form.control-group.label>
 
-                    <template v-if="states">
-                        <template v-if="haveStates">
                             <x-shop::form.control-group.control
                                 type="select"
                                 ::name="controlName + '.state'"
                                 rules="{{ core()->isStateRequired() ? 'required' : '' }}"
                                 ::value="address.state"
+                                v-model="selectedState"
                                 :label="trans('shop::app.checkout.onepage.address.state')"
                                 :placeholder="trans('shop::app.checkout.onepage.address.state')"
+                                ::disabled="!haveStates"
                             >
                                 <option value="">
                                     @lang('shop::app.checkout.onepage.address.select-state')
@@ -211,19 +191,6 @@
                                     @{{ state.default_name }}
                                 </option>
                             </x-shop::form.control-group.control>
-                        </template>
-
-                        <template v-else>
-                            <x-shop::form.control-group.control
-                                type="text"
-                                ::name="controlName + '.state'"
-                                ::value="address.state"
-                                rules="{{ core()->isStateRequired() ? 'required' : '' }}"
-                                :label="trans('shop::app.checkout.onepage.address.state')"
-                                :placeholder="trans('shop::app.checkout.onepage.address.state')"
-                            />
-                        </template>
-                    </template>
 
                     <x-shop::form.control-group.error ::name="controlName + '.state'" />
                 </x-shop::form.control-group>
@@ -232,24 +199,48 @@
             </div>
 
             <div class="grid grid-cols-2 gap-x-5 max-md:grid-cols-1">
+
                 <!-- City -->
                 <x-shop::form.control-group>
                     <x-shop::form.control-group.label class="required !mt-0">
                         @lang('shop::app.checkout.onepage.address.city')
                     </x-shop::form.control-group.label>
+                    <x-shop::form.control-group.control
+                        type="select"
+                        ::name="controlName + '.state_area_id'"
+                        ::value="address.state_area_id"
+                        v-model="selectedArea"
+                        rules="required"
+                        :label="trans('admin::app.sales.orders.create.cart.address.city')"
+                        :placeholder="trans('admin::app.sales.orders.create.cart.address.city')"
+                        ::disabled="!haveAreas"
+                    >
+                        <option value="">
+                            @lang('admin::app.customers.customers.view.address.create.select_state_area')
+                        </option>
+
+                        <option
+                            v-for="opt in areas[selectedState]"
+                            :key="opt.id"
+                            :value="String(opt.id)"
+                        >
+                            @{{ opt.area_name }}
+                        </option>
+                    </x-shop::form.control-group.control>
 
                     <x-shop::form.control-group.control
-                        type="text"
+                        type="hidden"
                         ::name="controlName + '.city'"
                         ::value="address.city"
+                        v-model="city"
                         rules="required"
                         :label="trans('shop::app.checkout.onepage.address.city')"
                         :placeholder="trans('shop::app.checkout.onepage.address.city')"
                     />
 
+
                     <x-shop::form.control-group.error ::name="controlName + '.city'" />
                 </x-shop::form.control-group>
-
                 {!! view_render_event('bagisto.shop.checkout.onepage.address.form.city.after') !!}
 
                 <!-- Postcode -->
@@ -273,25 +264,45 @@
                 {!! view_render_event('bagisto.shop.checkout.onepage.address.form.postcode.after') !!}
             </div>
 
-            <!-- Phone Number -->
+            <!-- Street Address -->
             <x-shop::form.control-group>
                 <x-shop::form.control-group.label class="required !mt-0">
-                    @lang('shop::app.checkout.onepage.address.telephone')
+                    @lang('shop::app.checkout.onepage.address.street-address')
                 </x-shop::form.control-group.label>
 
                 <x-shop::form.control-group.control
                     type="text"
-                    ::name="controlName + '.phone'"
-                    ::value="address.phone"
-                    rules="required|numeric"
-                    :label="trans('shop::app.checkout.onepage.address.telephone')"
-                    :placeholder="trans('shop::app.checkout.onepage.address.telephone')"
+                    ::name="controlName + '.address.[0]'"
+                    ::value="address.address[0]"
+                    rules="required|address"
+                    :label="trans('shop::app.checkout.onepage.address.street-address')"
+                    :placeholder="trans('shop::app.checkout.onepage.address.street-address')"
                 />
 
-                <x-shop::form.control-group.error ::name="controlName + '.phone'" />
+                <x-shop::form.control-group.error
+                    class="mb-2"
+                    ::name="controlName + '.address.[0]'"
+                />
+
+                @if (core()->getConfigData('customer.address.information.street_lines') > 1)
+                    @for ($i = 1; $i < core()->getConfigData('customer.address.information.street_lines'); $i++)
+                        <x-shop::form.control-group.control
+                            type="text"
+                            ::name="controlName + '.address.[{{ $i }}]'"
+                            rules="address"
+                            :label="trans('shop::app.checkout.onepage.address.street-address')"
+                            :placeholder="trans('shop::app.checkout.onepage.address.street-address')"
+                        />
+
+                        <x-shop::form.control-group.error
+                            class="mb-2"
+                            ::name="controlName + '.address.[{{ $i }}]'"
+                        />
+                    @endfor
+                @endif
             </x-shop::form.control-group>
 
-            {!! view_render_event('bagisto.shop.checkout.onepage.address.form.phone.after') !!}
+            {!! view_render_event('bagisto.shop.checkout.onepage.address.form.address.after') !!}
         </div>
     </script>
 
@@ -317,6 +328,7 @@
                         address: [],
                         country: '',
                         state: '',
+                        state_area_id:'',
                         city: '',
                         postcode: '',
                         phone: '',
@@ -327,10 +339,14 @@
             data() {
                 return {
                     selectedCountry: this.address.country,
+                    selectedState: this.address.state,
+                    selectedArea: this.address.state_area_id,
 
                     countries: [],
 
                     states: null,
+                    areas:  null,
+
                 }
             },
 
@@ -338,12 +354,43 @@
                 haveStates() {
                     return !! this.states[this.selectedCountry]?.length;
                 },
+                haveAreas() {
+                    const list = this.areas?.[this.selectedState];
+                    return Array.isArray(list) && list.length > 0;
+                },
             },
 
             mounted() {
                 this.getCountries();
 
                 this.getStates();
+                this.getAreas();
+
+            },
+            watch: {
+                // عند تغيير الولاية: صفّر المنطقة والمدينة
+                'selectedCountry'() {
+                    this.selectedState = '';
+                },
+                'selectedState'() {
+                    this.selectedArea = '';
+                },
+
+                // عند اختيار المنطقة: عيّن اسم المدينة = اسم المنطقة
+                selectedArea(newAreaId) {
+                    if (!this.haveAreas || !newAreaId) {
+                        this.city = '';
+                        return;
+                    }
+
+                    const list = this.areas[this.selectedState] || [];
+
+                    // قيم select عادة تكون string → نحول للرقم للمطابقة
+                    const id = Number(newAreaId);
+                    const selected = list.find(a => Number(a.id) === id);
+
+                    this.city = selected ? selected.area_name : '';
+                },
             },
 
             methods: {
@@ -354,11 +401,17 @@
                         })
                         .catch(() => {});
                 },
-
                 getStates() {
                     this.$axios.get("{{ route('shop.api.core.states') }}")
                         .then(response => {
                             this.states = response.data.data;
+                        })
+                        .catch(() => {});
+                },
+                getAreas() {
+                    this.$axios.get("{{ route('shop.api.core.areas') }}")
+                        .then(response => {
+                            this.areas = response.data.data;
                         })
                         .catch(() => {});
                 },

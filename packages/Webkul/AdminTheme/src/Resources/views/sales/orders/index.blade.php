@@ -10,7 +10,7 @@
         </p>
 
         <div class="flex items-center gap-x-2.5">
-            <x-admin::datagrid.export src="{{ route('admin.sales.orders.index') }}" />
+            <x-admin::datagrid.export src="{{ route('admin.sales.order.index') }}" />
 
             {!! view_render_event('bagisto.admin.sales.orders.create.before') !!}
 
