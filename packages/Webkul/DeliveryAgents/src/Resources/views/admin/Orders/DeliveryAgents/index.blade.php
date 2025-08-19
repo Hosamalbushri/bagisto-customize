@@ -4,8 +4,11 @@
         class="transparent-button px-1 py-1.5 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
     >
         <span class="acma-icon-how_to_reg text-2xl"></span>
-
-        @lang('deliveryagent::app.select-order.index.select-delivery-agent-btn')
+        @if($order->isRejected())
+            @lang('deliveryagent::app.select-order.index.reselect-delivery-agent-btn')
+        @else
+            @lang('deliveryagent::app.select-order.index.select-delivery-agent-btn')
+        @endif
     </div>
 </v-selected-delivery-form>
 
@@ -17,6 +20,7 @@
         type="text/x-template"
         id="v-selected-delivery-form-template"
     >
+
         <div
             class="transparent-button px-1 py-1.5 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
             @click="$refs.drawerRef.open()"
@@ -26,7 +30,11 @@
             tabindex="0"
       >
       </span>
-            @lang('deliveryagent::app.select-order.index.select-delivery-agent-btn')
+            @if($order->isRejected())
+                @lang('deliveryagent::app.select-order.index.reselect-delivery-agent-btn')
+            @else
+                @lang('deliveryagent::app.select-order.index.select-delivery-agent-btn')
+            @endif
         </div>
 
         <div id="selected-form">
@@ -50,9 +58,8 @@
                 <x-slot:content>
                     <x-admin::tabs position="right">
                         <x-admin::tabs.item
-                            title="{{ __('deliveryagent::app.select-order.index.tabs.in-the-same-area') }}"
-                            :is-selected="true"
-                            class="text-black-600 dark:text-indigo-400 font-semibold hover:text-indigo-800 dark:hover:text-indigo-300"
+                            title="{{ __('deliveryagent::app.select-order.index.tabs.in-the-same-area', ['city' => $order->shipping_address->city]) }}"                            :is-selected="true"
+                            class="container"
                         >
                             <div>
                                 @include('deliveryagents::admin.Orders.DeliveryAgents.get-delivery-agents-by-area')
@@ -81,6 +88,41 @@
             template: '#v-selected-delivery-form-template',
             data() {
             },
-        });
+            mounted() {
+                // الاستماع لطلب التعيين من أي مكان
+                this.$emitter.on('request-assign-delivery', ({ orderId, agentId }) => {
+                    this.assignDelivery(orderId, agentId);
+                });
+            },
+
+            beforeUnmount() {
+                this.$emitter.off('request-assign-delivery');
+            },
+            methods: {
+                assignDelivery(orderId, agentId) {
+                    this.$emitter.emit('open-confirm-modal', {
+                        message: "@lang('deliveryagent::app.select-order.index.assign-delivery-agent-confirmation')",
+                        agree: () => {
+                            this.$axios.post(
+                                `{{ route('admin.orders.assignDeliveryAgent', [':order', ':agent']) }}`
+                                    .replace(':order', orderId)
+                                    .replace(':agent', agentId),
+                                { delivery_agent_id: agentId, order_id: orderId }
+                            )
+                                .then((response) => {
+                                    this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });
+                                    window.location.reload();
+                                })
+                                .catch((error) => {
+                                    this.$emitter.emit('add-flash', {
+                                        type: 'error',
+                                        message: error?.response?.data?.message || 'حصل خطأ أثناء التعيين'
+                                    });
+                                });
+                        },
+                    });
+                },
+            },
+            });
     </script>
 @endPushOnce

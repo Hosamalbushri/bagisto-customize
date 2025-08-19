@@ -19,7 +19,7 @@
             >
                 <div
                     v-for="tab in tabs"
-                    class="cursor-pointer px-2.5 pb-3.5 text-base font-medium text-gray-300"
+                    class="cursor-pointer px-2.5 pb-3.5 text-base font-medium text-black-300"
                     :class="{'active-tab': tab.isActive }"
                     @click="change(tab)"
                 >

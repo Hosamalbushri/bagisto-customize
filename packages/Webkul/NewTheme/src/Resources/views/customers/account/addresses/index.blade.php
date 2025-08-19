@@ -3,7 +3,7 @@
     <x-slot:title>
         @lang('shop::app.customers.account.addresses.index.add-address')
     </x-slot>
-    
+
     <!-- Breadcrumbs -->
     @if ((core()->getConfigData('general.general.breadcrumbs.shop')))
         @section('breadcrumbs')
@@ -25,7 +25,7 @@
                 >
                     <span class="icon-arrow-left rtl:icon-arrow-right text-2xl"></span>
                 </a>
-    
+
                 <h2 class="text-2xl font-medium max-md:text-xl max-sm:text-base ltr:ml-2.5 md:ltr:ml-0 rtl:mr-2.5 md:rtl:mr-0">
                     @lang('shop::app.customers.account.addresses.index.title')
                 </h2>
@@ -35,7 +35,7 @@
                 href="{{ route('shop.customers.account.addresses.create') }}"
                 class="secondary-button border-zinc-200 px-5 py-3 font-normal max-md:rounded-lg max-md:py-2 max-sm:py-1.5 max-sm:text-sm"
             >
-                @lang('shop::app.customers.account.addresses.index.add-address') 
+                @lang('shop::app.customers.account.addresses.index.add-address')
             </a>
         </div>
 
@@ -59,15 +59,15 @@
                             <div class="flex gap-4 max-sm:gap-2.5">
                                 @if ($address->default_address)
                                     <div class="label-pending block h-fit w-max px-2.5 py-1 max-md:px-1.5">
-                                        @lang('shop::app.customers.account.addresses.index.default-address') 
+                                        @lang('shop::app.customers.account.addresses.index.default-address')
                                     </div>
                                 @endif
 
                                 <!-- Dropdown Actions -->
                                 <x-shop::dropdown position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'right' : 'left' }}">
                                     <x-slot:toggle>
-                                        <button 
-                                            class="icon-more cursor-pointer rounded-md px-1.5 py-1 text-2xl text-zinc-500 transition-all hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black max-md:p-0" 
+                                        <button
+                                            class="icon-more cursor-pointer rounded-md px-1.5 py-1 text-2xl text-zinc-500 transition-all hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black max-md:p-0"
                                             aria-label="More Options"
                                         >
                                         </button>
@@ -79,7 +79,7 @@
                                                 <p class="w-full">
                                                     @lang('shop::app.customers.account.addresses.index.edit')
                                                 </p>
-                                            </a>    
+                                            </a>
                                         </x-shop::dropdown.menu.item>
 
                                         <x-shop::dropdown.menu.item>
@@ -92,8 +92,8 @@
                                                 @csrf
                                             </form>
 
-                                            <a 
-                                                href="javascript:void(0);"                                                
+                                            <a
+                                                href="javascript:void(0);"
                                                 @click="$emitter.emit('open-confirm-modal', {
                                                     agree: () => {
                                                         $refs['addressDelete'].submit()
@@ -118,8 +118,8 @@
 
                                                 </form>
 
-                                                <a 
-                                                    href="javascript:void(0);"                                                
+                                                <a
+                                                    href="javascript:void(0);"
                                                     @click="$emitter.emit('open-confirm-modal', {
                                                         agree: () => {
                                                             $refs['setAsDefault'].submit()
@@ -138,13 +138,13 @@
                         </div>
 
                         <p class="mt-6 text-zinc-500 max-md:mt-5 max-md:text-sm">
-                            {{ $address->address }},
-
-                            {{ $address->city }}, 
-                            {{ $address->state }}, {{ $address->country }}, 
-                            {{ $address->postcode }}
+                            {{core()->country_name( $address->country) }} ,
+                            {{ state_name($address->state) }} ,
+                            {{ $address->city }} ,
+                            {{ $address->address }}
+{{--                            {{ $address->postcode }}--}}
                         </p>
-                    </div>    
+                    </div>
                 @endforeach
             </div>
 
@@ -153,20 +153,20 @@
         @else
             <!-- Address Empty Page -->
             <div class="m-auto grid w-full place-content-center items-center justify-items-center py-32 text-center">
-                <img 
+                <img
                     class="max-md:h-[100px] max-md:w-[100px]"
-                    src="{{ bagisto_asset('images/no-address.png') }}" 
-                    alt="Empty Address" 
+                    src="{{ bagisto_asset('images/no-address.png') }}"
+                    alt="Empty Address"
                     title=""
                 >
-                
+
                 <p
                     class="text-xl max-md:text-sm"
                     role="heading"
                 >
                     @lang('shop::app.customers.account.addresses.index.empty-address')
                 </p>
-            </div>    
+            </div>
         @endif
     </div>
 </x-shop::layouts.account>

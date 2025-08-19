@@ -273,8 +273,9 @@
 
                 edit(params, { resetForm, setErrors }) {
                     this.isLoading = true;
-
-                    this.$axios.post("{{ route('admin.deliveryagents.update',$deliveryAgent -> id) }}", params)
+                    let formData = new FormData(this.$refs.deliveryAgentEditForm);
+                    formData.append('_method', 'put');
+                    this.$axios.post("{{ route('admin.deliveryagents.update',$deliveryAgent -> id) }}", formData)
                         .then((response) => {
                             this.$refs.DeliveryAgentEditModal.close();
                             this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });

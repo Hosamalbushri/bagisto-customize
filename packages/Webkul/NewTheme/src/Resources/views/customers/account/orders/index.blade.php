@@ -63,7 +63,7 @@
                     <template v-if="isLoading">
                         <x-shop::shimmer.datagrid.table.body />
                     </template>
-    
+
                     <template v-else>
                         <template v-for="record in available.records">
                             <div class="w-full p-4 border rounded-md transition-all hover:bg-gray-50 [&>*]:border-0 mb-4 last:mb-0">
@@ -71,18 +71,18 @@
                                     <div class="flex justify-between">
                                         <div class="text-sm font-semibold">
                                             @lang('shop::app.customers.account.orders.order-id'): #@{{ record.id }}
-    
+
                                             <p class="text-xs font-normal text-neutral-500">
                                                 @{{ record.created_at }}
                                             </p>
                                         </div>
-    
+
                                         <p v-html="record.status"></p>
                                     </div>
-        
+
                                     <div class="mt-2.5 text-xs font-normal text-neutral-500">
                                         @lang('shop::app.customers.account.orders.subtotal')
-    
+
                                         <p class="text-xl font-semibold text-black">
                                             @{{ record.grand_total }}
                                         </p>
@@ -94,7 +94,7 @@
                 </template>
             </x-shop::datagrid>
         </div>
-    
+
         {!! view_render_event('bagisto.shop.customers.account.orders.list.after') !!}
 
     </div>

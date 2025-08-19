@@ -70,10 +70,6 @@ class DeliveryAgent extends Authenticatable implements DeliveryAgentContract
 
     public function orders(): HasMany
     {
-        return $this->hasMany(OrderProxy::modelClass(), 'delivery_agent_id');
-    }
-    public function getStateIdFromCode(string $code): ?int
-    {
-        return State::getIdByCode($code);
+        return $this->hasMany(Order::class, 'delivery_agent_id');
     }
 }

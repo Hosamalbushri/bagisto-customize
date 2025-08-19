@@ -353,11 +353,13 @@ return [
     'select-order'=> [
         'index'=> [
             'select-delivery-agent-btn'=> 'تعيين مندوب التوصيل',
+            'reselect-delivery-agent-btn'   => 'اعادة تعيين مندوب للطلب',
             'select-delivery-agent'    => 'تعيين المندوب للطلب رقــم #',
             'tabs'                     => [
-                'in-the-same-area'=> 'نفس موقع الطلب',
+                'in-the-same-area'=> 'المتواجدون في :city',
                 'all'             => 'الكل',
             ],
+            'assign-delivery-agent-confirmation'=> ' هل انت متاكد انك تريد تعيين هذا المندوب لهذا الطلب ',
         ],
         'create'=> [
             'create-success'    => 'تم تعيين المندوب بنجاح',
@@ -368,6 +370,9 @@ return [
     'orders'=> [
         'view'=> [
             'delivery-agent'=> 'التوصيل',
+            'delivery'=>[
+
+            ]
         ],
         'acl' => [
             'title'             => 'الطلـبيات',
@@ -375,6 +380,21 @@ return [
             'create'            => 'إضافة',
             'edit'              => 'تحرير',
             'delete'            => 'حذف',
+        ],
+        'status' => [
+            'pending'             => 'قيد الانتظار',
+            'pending_payment'     => 'بانتظار الدفع',
+            'processing'          => 'قيد المعالجة',
+            'completed'           => 'مكتمل',
+            'canceled'            => 'ملغي',
+            'closed'              => 'مغلق',
+            'fraud'               => 'احتيال',
+
+            'assigned_to_agent'   => 'مُعيّن لمندوب التوصيل',
+            'accepted_by_agent'   => 'مقبول من المندوب',
+            'rejected_by_agent'   => 'مرفوض من المندوب',
+            'out_for_delivery'    => 'خارج للتوصيل',
+            'delivered'           => 'تم التوصيل',
         ],
     ],
 

@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Webkul\DeliveryAgents\Http\Controllers\Admin\DeliveryAgents\DeliveryAgentsController;
-use Webkul\DeliveryAgents\Http\Controllers\Admin\DeliveryAgents\OrdersController;
 use Webkul\DeliveryAgents\Http\Controllers\Admin\DeliveryAgents\RangesController;
+use Webkul\DeliveryAgents\Http\Controllers\Admin\Orders\OrdersController;
 
 Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/delivery'], function () {
     /**

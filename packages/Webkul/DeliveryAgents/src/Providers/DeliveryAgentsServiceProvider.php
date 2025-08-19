@@ -22,7 +22,7 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
 
             $viewRenderEventManager->addTemplate('deliveryagents::admin.Orders.index');
         });
-        Event::listen('bagisto.admin.sales.order.right_component.after', function ($viewRenderEventManager) {
+        Event::listen('bagisto.admin.sales.order.Invoice.after', function ($viewRenderEventManager) {
 
             $viewRenderEventManager->addTemplate('deliveryagents::admin.Orders.view');
         });
@@ -35,7 +35,7 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
         $this->loadRoutesFrom(__DIR__.'/../Routes/DeliveryAgent-routes.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/api.php');
-
+        $this->loadRoutesFrom(__DIR__.'/../Routes/Order-routes.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/Country-routes.php');
 
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'deliveryagent');

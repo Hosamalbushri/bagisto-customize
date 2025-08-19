@@ -51,7 +51,7 @@
                         <x-shop::form.control-group.label>
                             @lang('shop::app.customers.account.addresses.create.company-name')
                         </x-shop::form.control-group.label>
-            
+
                         <x-shop::form.control-group.control
                             type="text"
                             name="company_name"
@@ -59,11 +59,30 @@
                             :label="trans('shop::app.customers.account.addresses.create.company-name')"
                             :placeholder="trans('shop::app.customers.account.addresses.create.company-name')"
                         />
-            
+
                         <x-shop::form.control-group.error control-name="company_name" />
                     </x-shop::form.control-group>
 
                     {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.company_name.after') !!}
+
+                    <!-- Vat Id -->
+                    <x-shop::form.control-group>
+                        <x-shop::form.control-group.label>
+                            @lang('shop::app.customers.account.addresses.create.vat-id')
+                        </x-shop::form.control-group.label>
+
+                        <x-shop::form.control-group.control
+                            type="text"
+                            name="vat_id"
+                            :value="old('vat_id')"
+                            :label="trans('shop::app.customers.account.addresses.create.vat-id')"
+                            :placeholder="trans('shop::app.customers.account.addresses.create.vat-id')"
+                        />
+
+                        <x-shop::form.control-group.error control-name="vat_id" />
+                    </x-shop::form.control-group>
+
+                    {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.vat_id.after') !!}
 
                     <!-- First Name -->
                     <x-shop::form.control-group>
@@ -125,24 +144,129 @@
 
                     {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.email.after') !!}
 
-                    <!-- Vat Id -->
+
+
+                    <!-- Contact -->
                     <x-shop::form.control-group>
-                        <x-shop::form.control-group.label>
-                            @lang('shop::app.customers.account.addresses.create.vat-id')
+                        <x-shop::form.control-group.label class="required">
+                            @lang('shop::app.customers.account.addresses.create.phone')
                         </x-shop::form.control-group.label>
 
                         <x-shop::form.control-group.control
                             type="text"
-                            name="vat_id"
-                            :value="old('vat_id')"
-                            :label="trans('shop::app.customers.account.addresses.create.vat-id')"
-                            :placeholder="trans('shop::app.customers.account.addresses.create.vat-id')"
+                            name="phone"
+                            rules="required|phone"
+                            :value="old('phone')"
+                            :label="trans('shop::app.customers.account.addresses.create.phone')"
+                            :placeholder="trans('shop::app.customers.account.addresses.create.phone')"
                         />
 
-                        <x-shop::form.control-group.error control-name="vat_id" />
+                        <x-shop::form.control-group.error control-name="phone" />
                     </x-shop::form.control-group>
 
-                    {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.vat_id.after') !!}
+                    {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.phone.after') !!}
+
+                    <!-- Country List-->
+                    <x-shop::form.control-group>
+                        <x-shop::form.control-group.label class="{{ core()->isCountryRequired() ? 'required' : '' }}">
+                            @lang('shop::app.customers.account.addresses.create.country')
+                        </x-shop::form.control-group.label>
+
+                        <x-shop::form.control-group.control
+                            type="select"
+                            name="country"
+                            rules="{{ core()->isCountryRequired() ? 'required' : '' }}"
+                            v-model="country"
+                            :aria-label="trans('shop::app.customers.account.addresses.create.country')"
+                            :label="trans('shop::app.customers.account.addresses.create.country')"
+                        >
+                            <option value="">
+                                @lang('shop::app.customers.account.addresses.create.select-country')
+                            </option>
+
+                            @foreach (core()->countries() as $country)
+                                <option value="{{ $country->code }}">{{ $country->name }}</option>
+                            @endforeach
+                        </x-shop::form.control-group.control>
+
+                        <x-shop::form.control-group.error control-name="country" />
+                    </x-shop::form.control-group>
+
+                    <!-- State Name -->
+                    <x-shop::form.control-group>
+                        <x-shop::form.control-group.label class="{{ core()->isStateRequired() ? 'required' : '' }}">
+                            @lang('shop::app.customers.account.addresses.create.state')
+                        </x-shop::form.control-group.label>
+
+                            <x-shop::form.control-group.control
+                                type="select"
+                                id="state"
+                                name="state"
+                                rules="{{ core()->isStateRequired() ? 'required' : '' }}"
+                                v-model="state"
+                                :label="trans('shop::app.customers.account.addresses.create.state')"
+                                :placeholder="trans('shop::app.customers.account.addresses.create.state')"
+                                ::disabled="!haveStates()"
+                            >
+                                <option value="">
+                                    @lang('shop::app.customers.account.addresses.create.select-state')
+                                </option>
+
+                                <option
+                                    v-for='(state, index) in countryStates[country]'
+                                    :value="state.code"
+                                >
+                                    @{{ state.default_name }}
+                                </option>
+                            </x-shop::form.control-group.control>
+                        <x-shop::form.control-group.error control-name="state" />
+                    </x-shop::form.control-group>
+
+                    {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.state.after') !!}
+
+                    <!-- City -->
+                    <x-shop::form.control-group>
+                        <x-shop::form.control-group.label class="required">
+                            @lang('shop::app.customers.account.addresses.create.city')
+                        </x-shop::form.control-group.label>
+
+                        <x-shop::form.control-group.control
+                            type="select"
+                            id="state_area_id"
+                            name="state_area_id"
+                            v-model="area"
+                            rules="required"
+                            :label="trans('deliveryagent::app.range.create.area-name')"
+                            :placeholder="trans('deliveryagent::app.range.create.area-name')"
+                            ::disabled="!haveAreas()"
+                        >
+                            <option value="">
+                                @lang('admin::app.customers.customers.view.address.create.select_state_area')
+                            </option>
+
+                            <option
+                                v-for="opt in stateAreas[state]"
+                                :key="opt.id"
+                                :value="String(opt.id)"
+                            >
+                                @{{ opt.area_name }}
+                            </option>
+                        </x-shop::form.control-group.control>
+
+                        <x-shop::form.control-group.control
+                            type="hidden"
+                            name="city"
+                            v-model="city"
+                            rules="required"
+                            ::readonly="haveAreas()"
+                            :label="trans('shop::app.customers.account.addresses.create.city')"
+                            :placeholder="trans('shop::app.customers.account.addresses.create.city')"
+                            class="mt-3"
+                        />
+                        <x-shop::form.control-group.error control-name="city" />
+                    </x-shop::form.control-group>
+
+                    {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.city.after') !!}
 
                     <!-- Street Address -->
                     <x-shop::form.control-group>
@@ -187,93 +311,6 @@
 
                     {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.street_address.after') !!}
 
-                    <!-- Country List-->
-                    <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="{{ core()->isCountryRequired() ? 'required' : '' }}">
-                            @lang('shop::app.customers.account.addresses.create.country')
-                        </x-shop::form.control-group.label>
-            
-                        <x-shop::form.control-group.control
-                            type="select"
-                            name="country"
-                            rules="{{ core()->isCountryRequired() ? 'required' : '' }}"
-                            v-model="country"
-                            :aria-label="trans('shop::app.customers.account.addresses.create.country')"
-                            :label="trans('shop::app.customers.account.addresses.create.country')"
-                        >
-                            <option value="">
-                                @lang('shop::app.customers.account.addresses.create.select-country')
-                            </option>
-            
-                            @foreach (core()->countries() as $country)
-                                <option value="{{ $country->code }}">{{ $country->name }}</option>
-                            @endforeach
-                        </x-shop::form.control-group.control>
-            
-                        <x-shop::form.control-group.error control-name="country" />
-                    </x-shop::form.control-group>
-        
-                    <!-- State Name -->
-                    <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="{{ core()->isStateRequired() ? 'required' : '' }}">
-                            @lang('shop::app.customers.account.addresses.create.state')
-                        </x-shop::form.control-group.label>
-        
-                        <template v-if="haveStates()">
-                            <x-shop::form.control-group.control
-                                type="select"
-                                id="state"
-                                name="state"
-                                rules="{{ core()->isStateRequired() ? 'required' : '' }}"
-                                v-model="state"
-                                :label="trans('shop::app.customers.account.addresses.create.state')"
-                                :placeholder="trans('shop::app.customers.account.addresses.create.state')"
-                            >
-                                <option 
-                                    v-for='(state, index) in countryStates[country]'
-                                    :value="state.code"
-                                >
-                                    @{{ state.default_name }}
-                                </option>
-                            </x-shop::form.control-group.control>
-                        </template>
-        
-                        <template v-else>
-                            <x-shop::form.control-group.control
-                                type="text"
-                                name="state"
-                                :value="old('state')"
-                                rules="{{ core()->isStateRequired() ? 'required' : '' }}"
-                                :label="trans('shop::app.customers.account.addresses.create.state')"
-                                :placeholder="trans('shop::app.customers.account.addresses.create.state')"
-                            />
-                        </template>
-        
-                        <x-shop::form.control-group.error control-name="state" />
-                    </x-shop::form.control-group>
-
-                    {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.state.after') !!}
-
-                    <!-- City -->
-                    <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="required">
-                            @lang('shop::app.customers.account.addresses.create.city')
-                        </x-shop::form.control-group.label>
-
-                        <x-shop::form.control-group.control
-                            type="text"
-                            name="city"
-                            rules="required"
-                            :value="old('city')"
-                            :label="trans('shop::app.customers.account.addresses.create.city')"
-                            :placeholder="trans('shop::app.customers.account.addresses.create.city')"
-                        />
-
-                        <x-shop::form.control-group.error control-name="city" />
-                    </x-shop::form.control-group>
-
-                    {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.city.after') !!}
-
                     <!-- Post Code -->
                     <x-shop::form.control-group>
                         <x-shop::form.control-group.label class="{{ core()->isPostCodeRequired() ? 'required' : '' }}">
@@ -294,25 +331,6 @@
 
                     {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.postcode.after') !!}
 
-                    <!-- Contact -->
-                    <x-shop::form.control-group>
-                        <x-shop::form.control-group.label class="required">
-                            @lang('shop::app.customers.account.addresses.create.phone')
-                        </x-shop::form.control-group.label>
-
-                        <x-shop::form.control-group.control
-                            type="text"
-                            name="phone"
-                            rules="required|phone"
-                            :value="old('phone')"
-                            :label="trans('shop::app.customers.account.addresses.create.phone')"
-                            :placeholder="trans('shop::app.customers.account.addresses.create.phone')"
-                        />
-
-                        <x-shop::form.control-group.error control-name="phone" />
-                    </x-shop::form.control-group>
-
-                    {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.phone.after') !!}
 
                     <!-- Set As Default -->
                     <div class="text-md mb-4 flex select-none items-center gap-x-1.5 text-zinc-500">
@@ -330,7 +348,7 @@
                         >
                         </label>
 
-                        <label 
+                        <label
                             class="block cursor-pointer text-base max-md:text-sm"
                             for="default_address"
                         >
@@ -350,21 +368,23 @@
                 {!! view_render_event('bagisto.shop.customers.account.address.create.after') !!}
             </div>
         </script>
-    
+
         <script type="module">
             app.component('v-create-customer-address', {
                 template: '#v-create-customer-address-template',
-    
+
                 data() {
                     return {
                         country: "{{ old('country') }}",
-
                         state: "{{ old('state') }}",
-
+                        area: '',         // select الخاص بالمناطق
+                        city: '',
                         countryStates: @json(core()->groupedStatesByCountries()),
+                        stateAreas: @json(myHelper()->groupedAreasByStatesCode()),
+
                     }
                 },
-    
+
                 methods: {
                     haveStates() {
                         /*
@@ -374,7 +394,34 @@
                         */
                         return !!this.countryStates[this.country]?.length;
                     },
-                }
+                    haveAreas() {
+                        const list = this.stateAreas?.[this.state];
+                        return Array.isArray(list) && list.length > 0;
+                    },
+                },
+                watch: {
+                    country() {
+                        this.state = '';
+                        this.area = '';                },
+                    // عند تغيير الولاية: صفّر المنطقة والمدينة
+                    state() {
+                        this.area = '';
+                    },
+
+                    // عند اختيار المنطقة: عيّن اسم المدينة = اسم المنطقة
+                    area(newAreaId) {
+                        if (!this.haveAreas() || !newAreaId) {
+                            this.city = '';
+                            return;}
+
+                        const list = this.stateAreas[this.state] || [];
+
+                        // قيم select عادة تكون string → نحول للرقم للمطابقة
+                        const id = Number(newAreaId);
+                        const selected = list.find(a => Number(a.id) === id);
+                        this.city = selected ? selected.area_name : '';
+                    },
+                },
             });
         </script>
     @endpush
