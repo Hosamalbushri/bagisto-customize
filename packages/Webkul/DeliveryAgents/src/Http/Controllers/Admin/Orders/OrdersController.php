@@ -32,23 +32,23 @@ class OrdersController extends Controller
     public function assignToAgent(Request $request)
     {
         $order = $this->orderRepository->findOrFail($request->order_id);
-        if ($order->delivery_agent_id) {
-            return response()->json([
-                'message' => trans('deliveryagent::app.select-order.create.order-has-delivery'),
-                'status'  => 'error',
-            ], 400);
-        }
+        //        if ($order->delivery_agent_id) {
+        //            return response()->json([
+        //                'message' => trans('deliveryagent::app.select-order.create.order-has-delivery'),
+        //                'status'  => 'error',
+        //            ], 400);
+        //        }
         $deliveryAgent = $this->deliveryAgentRepository->find($request->delivery_agent_id);
 
         if ($deliveryAgent && $deliveryAgent->status == 1 && $deliveryAgent->ranges->count() > 0) {
             $order->delivery_agent_id = $request->delivery_agent_id;
             $order->delivery_status = Order::STATUS_ASSIGNED_TO_AGENT;
             $order->save();
-            $order->deliveryAssignments()->create([
-                'delivery_agent_id' => $deliveryAgent->id,
-                'status'            => DeliveryAgentOrder::STATUS_ASSIGNED_TO_AGENT,
-                'assigned_at'       => now(),
-            ]);
+//            $order->deliveryAssignments()->create([
+//                'delivery_agent_id' => $deliveryAgent->id,
+//                'status'            => DeliveryAgentOrder::STATUS_ASSIGNED_TO_AGENT,
+//                'assigned_at'       => now(),
+//            ]);
 
             return response()->json([
                 'message' => trans('deliveryagent::app.select-order.create.create-success'),
@@ -60,6 +60,32 @@ class OrdersController extends Controller
             'message' => trans('deliveryagent::app.select-order.create.create-error'),
             'status'  => 'error',
         ], 400);
+
+    }
+
+    public function view(int $id)
+    {
+        $order = $this->orderRepository->findOrFail($id);
+
+        return view('deliveryagents::admin.deliveryagents.orders.view', compact('order'));
+    }
+
+    public function changeStatus($id, Request $request)
+    {
+//        return response()->json($request);
+        $order = $this->orderRepository->findOrFail($id);
+        $allowedStatuses = [Order::STATUS_ACCEPTED_BY_AGENT, Order::STATUS_ACCEPTED_BY_AGENT];
+        $status = $request->status;
+//        if (! in_array($status, $allowedStatuses)) {
+//            abort(400, 'Invalid status');
+//        }
+
+        $order->delivery_status = $status;
+        $order->save();
+
+        session()->flash('success', __('Order status updated successfully.'));
+
+        return redirect()->back();
 
     }
 }

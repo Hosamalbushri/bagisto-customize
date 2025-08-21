@@ -50,6 +50,23 @@ return [
 
         ],
 
+        'orders'=> [
+            'view'=> [
+                'accepted-order'             => 'قبول الطلب',
+                'accepted-order-confirmation'=> 'هل أنت متأكد أنك تريد قبول هذا الطلب؟',
+                'rejected-order'             => 'رفض الطلب',
+                'rejected-order-confirmation'=> 'هل أنت متأكد أنك تريد رفض هذا الطلب؟',
+            ],
+            'status'=> [
+
+                'assigned_to_agent'   => 'طلب جديد',
+                'accepted_by_agent'   => ' طلب مقبول',
+                'rejected_by_agent'   => 'طلب مرفوض ',
+                'out_for_delivery'    => 'جاري التوصيل',
+                'delivered'           => 'تم التوصيل',
+            ],
+        ],
+
         'create' => [
             'title'             => 'إضافة مندوب توصيل جديد',
             'create-btn'        => 'حفظ البيانات',
@@ -125,6 +142,15 @@ return [
             'update-status' => 'تحديث الحالة',
             'delete-success'=> 'تم حذف المندوب بنجاح',
             'update-success'=> 'تم نحديث الحالة بنجاح',
+            'orders'        => [
+                'status'=> [
+                    'assigned_to_agent'   => 'الطلبات الجديدة',
+                    'accepted_by_agent'   => 'الطلبات المقبولة',
+                    'rejected_by_agent'   => 'الطلبات المرفوضة',
+                    'out_for_delivery'    => 'الطلبات قيد التوصيل',
+                    'delivered'           => 'الطلبات المكتملة',
+                ],
+            ],
 
         ],
 
@@ -340,6 +366,7 @@ return [
             'no_states_for_country'      => 'لا توجد مناطق لهذه البلدة. الرجاء اختيار بلدة تحتوي على مناطق او اضف منطقة جديدة.',
             'no_areas_for_state'         => 'لا توجد دولة او حــي لهذه المنطقة. الرجاء اختيار منطقة تحتوي على دول او احياء او اضف دولة او حــي .',
             'edit-success'               => 'تم تحديث بيانات النطاق بنجاح.',
+            'edit-failed'                => 'هذا المندوب مسجل بالفعل في هذه المنطقة الجغرافية',
 
         ],
 
@@ -352,10 +379,10 @@ return [
 */
     'select-order'=> [
         'index'=> [
-            'select-delivery-agent-btn'=> 'تعيين مندوب التوصيل',
+            'select-delivery-agent-btn'     => 'تعيين مندوب التوصيل',
             'reselect-delivery-agent-btn'   => 'اعادة تعيين مندوب للطلب',
-            'select-delivery-agent'    => 'تعيين المندوب للطلب رقــم #',
-            'tabs'                     => [
+            'select-delivery-agent'         => 'تعيين المندوب للطلب رقــم #',
+            'tabs'                          => [
                 'in-the-same-area'=> 'المتواجدون في :city',
                 'all'             => 'الكل',
             ],
@@ -369,10 +396,11 @@ return [
     ],
     'orders'=> [
         'view'=> [
-            'delivery-agent'=> 'التوصيل',
-            'delivery'=>[
+            'delivery'                       => 'مندوب التوصيل',
+            'no-delivery-agent-found'        => 'لم يتم تعيين مندوب لهذا الطلب',
+            'view'                           => 'عرض',
+            'contact'                        => 'اتصال',
 
-            ]
         ],
         'acl' => [
             'title'             => 'الطلـبيات',
@@ -390,11 +418,6 @@ return [
             'closed'              => 'مغلق',
             'fraud'               => 'احتيال',
 
-            'assigned_to_agent'   => 'مُعيّن لمندوب التوصيل',
-            'accepted_by_agent'   => 'مقبول من المندوب',
-            'rejected_by_agent'   => 'مرفوض من المندوب',
-            'out_for_delivery'    => 'خارج للتوصيل',
-            'delivered'           => 'تم التوصيل',
         ],
     ],
 

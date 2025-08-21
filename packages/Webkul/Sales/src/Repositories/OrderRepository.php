@@ -285,7 +285,6 @@ class OrderRepository extends Repository
 
         return $totalQtyOrdered === $totalQtyRefunded + $totalQtyCanceled;
     }
-
     /**
      * Update order status.
      *

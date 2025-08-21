@@ -139,7 +139,7 @@
 
                         <p class="mt-6 text-zinc-500 max-md:mt-5 max-md:text-sm">
                             {{core()->country_name( $address->country) }} ,
-                            {{ state_name($address->state) }} ,
+                            {{ myHelper()->state_name($address->state) }} ,
                             {{ $address->city }} ,
                             {{ $address->address }}
 {{--                            {{ $address->postcode }}--}}

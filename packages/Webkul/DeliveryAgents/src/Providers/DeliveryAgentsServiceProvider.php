@@ -4,6 +4,7 @@ namespace Webkul\DeliveryAgents\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Webkul\DeliveryAgents\Listeners\UpdateInOrderFields;
 
 class DeliveryAgentsServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,8 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
 
             $viewRenderEventManager->addTemplate('deliveryagents::admin.Orders.view');
         });
+        Event::listen('sales.shipment.save.before', UpdateInOrderFields::class);
+
         $this->app->concord->registerModel(
             \Webkul\Sales\Contracts\Order::class,
             \Webkul\DeliveryAgents\Models\Order::class,

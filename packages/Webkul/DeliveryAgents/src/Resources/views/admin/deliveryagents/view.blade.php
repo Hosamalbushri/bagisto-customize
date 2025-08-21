@@ -3,7 +3,7 @@
     <v-delivery-agente-view>
         <!-- Shimmer Effect -->
     </v-delivery-agente-view>
-     @pushOnce('scripts')
+    @pushOnce('scripts')
 
         <script>
             window.countries = @json(core()->countries()->pluck('name', 'code'));
@@ -39,16 +39,16 @@
                                 ></h1>
 
                                 <!-- status -->
-{{--                                <span--}}
-{{--                                    v-if="deliveryagent.status"--}}
-{{--                                    class="label-active mx-1.5 text-sm">--}}
-{{--                                     @lang('deliveryagent::app.deliveryagents.view.active')--}}
-{{--                                </span>--}}
-{{--                                <span--}}
-{{--                                    v-else--}}
-{{--                                    class="label-canceled mx-1.5 text-sm">--}}
-{{--                                      @lang('deliveryagent::app.deliveryagents.view.inactive')--}}
-{{--                                </span>--}}
+                                {{--                                <span--}}
+                                {{--                                    v-if="deliveryagent.status"--}}
+                                {{--                                    class="label-active mx-1.5 text-sm">--}}
+                                {{--                                     @lang('deliveryagent::app.deliveryagents.view.active')--}}
+                                {{--                                </span>--}}
+                                {{--                                <span--}}
+                                {{--                                    v-else--}}
+                                {{--                                    class="label-canceled mx-1.5 text-sm">--}}
+                                {{--                                      @lang('deliveryagent::app.deliveryagents.view.inactive')--}}
+                                {{--                                </span>--}}
                                 <span
                                     v-if="deliveryagent && deliveryagent.status==1"
                                     class="mx-1.5 text-sm label-active"
@@ -57,7 +57,8 @@
 
                                 </span>
                                 <span
-                                    v-else-if="deliveryagent && deliveryagent.status == 0"                                    class="mx-1.5 text-sm label-canceled"
+                                    v-else-if="deliveryagent && deliveryagent.status == 0"
+                                    class="mx-1.5 text-sm label-canceled"
                                     v-text="`@lang('deliveryagent::app.deliveryagents.view.inactive')`"
                                 >
                                 </span>
@@ -80,7 +81,7 @@
                 <div class="mt-3.5 flex gap-2.5 max-xl:flex-wrap">
                     <!-- Left Component -->
                     <div class="flex flex-1 flex-col gap-2 max-xl:flex-auto">
-                        @include('deliveryagents::admin.deliveryagents.view.orders')
+                        @include('deliveryagents::admin.deliveryagents.orders.index')
 
                     </div>
                     <!-- Right Component -->
@@ -147,12 +148,13 @@
                                 <x-slot:header>
                                     <div class="flex w-full">
                                         <p class="w-full p-2.5 text-base font-semibold text-gray-800 dark:text-white">
-                                            @{{ "@lang('deliveryagent::app.range.view.count')".replace(':count',deliveryagent.ranges.length) }}
+                                            @{{ "@lang('deliveryagent::app.range.view.count')
+                                            ".replace(':count',deliveryagent.ranges.length) }}
                                         </p>
 
                                         <!-- Ranges Create component -->
                                         @if (bouncer()->hasPermission('delivery.deliveryAgent.range.create'))
-                                        @include('deliveryagents::admin.deliveryagents.view.Ranges.create')
+                                            @include('deliveryagents::admin.deliveryagents.view.Ranges.create')
                                         @endif
 
                                     </div>
@@ -166,13 +168,16 @@
                                                 v-for="(range, index) in deliveryagent.ranges"
                                             >
                                                 <p class="text-sm mt-3 text-gray-600 dark:text-gray-300 font-medium">
-                                                    @{{ getCountryName(range.state_area.country_code) }} <span class="mx-1 text-gray-400">/</span>
-                                                    @{{ getStateName(range.state_area.country_code, range.state_area.state_code) }} <span class="mx-1 text-gray-400">/</span>
+                                                    @{{ getCountryName(range.state_area.country_code) }} <span
+                                                        class="mx-1 text-gray-400">/</span>
+                                                    @{{ getStateName(range.state_area.country_code,
+                                                    range.state_area.state_code) }} <span
+                                                        class="mx-1 text-gray-400">/</span>
                                                     @{{ range.state_area.area_name }}
                                                 </p>
 
                                                 <div class=" flex items-center gap-2.5">
-                                                     @include('deliveryagents::admin.deliveryagents.view.Ranges.edit')
+                                                    @include('deliveryagents::admin.deliveryagents.view.Ranges.edit')
 
                                                     @if (bouncer()->hasPermission('delivery.deliveryAgent.range.delete'))
                                                         <button
@@ -284,17 +289,20 @@
                             agree: () => {
                                 this.$axios.post(`{{ route('admin.range.delete', '') }}/${id}`)
                                     .then((response) => {
-                                        this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });
+                                        this.$emitter.emit('add-flash', {
+                                            type: 'success',
+                                            message: response.data.message
+                                        });
                                         this.deliveryagent.ranges = this.deliveryagent.ranges.filter(range => range.id !== id);
                                     })
-                                    .catch((error) => {});
+                                    .catch((error) => {
+                                    });
                             },
                         });
                     },
 
 
                 },
-
 
 
             })

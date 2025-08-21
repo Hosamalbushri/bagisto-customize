@@ -47,10 +47,15 @@ class Order extends BaseModel
 
     public function deliveryAssignments()
     {
-        return $this->hasMany(DeliveryAgentOrder::class);
+        return $this->hasMany(DeliveryAgentOrder::class)->where('delivery_agent_id', $this->delivery_agent_id);
     }
 
-    public function canShip(): bool
+    public function currentDeliveryAgentOrder()
+    {
+        return $this->hasOne(DeliveryAgentOrder::class)->where('delivery_agent_id', $this->delivery_agent_id)->latestOfMany();
+    }
+
+    public function canAssigndDelivery(): bool
     {
         foreach ($this->items as $item) {
             if (
@@ -72,9 +77,42 @@ class Order extends BaseModel
         return false;
     }
 
+    public function notVisible(): bool
+    {
+        // إذا لم يتم تعيين المندوب
+        if (empty($this->delivery_status)) {
+            return true;
+        }
+        if (! $this->canShip()) {
+            return true;
+        }
+
+        // إذا الطلب مغلق أو احتيال
+        if (in_array($this->status, [
+            self::STATUS_CLOSED,
+            self::STATUS_FRAUD,
+            self::STATUS_COMPLETED,
+            self::STATUS_CANCELED,
+
+        ])) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function isRejected(): bool
     {
         if ($this->delivery_status == self::STATUS_REJECTED_BY_AGENT) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isAccepted(): bool
+    {
+        if ($this->delivery_status == self::STATUS_ACCEPTED_BY_AGENT) {
             return true;
         }
 
