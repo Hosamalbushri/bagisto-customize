@@ -31,7 +31,7 @@
                 <div class="row grid grid-cols-[0.5fr_0.5fr_1fr] grid-rows-1 items-center border-b border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-600 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
                     <div
                         class="flex select-none items-center gap-2.5"
-                        v-for="(columnGroup, index) in [['increment_id', 'created_at', 'status'], ['base_grand_total', 'method', 'channel_name'], ['full_name', 'customer_email', 'location', 'image']]"
+                        v-for="(columnGroup, index) in [['increment_id', 'created_at', 'delivery_status'], ['base_grand_total', 'method'], ['full_name', 'customer_email', 'location']]"
                     >
                         <p class="text-gray-600 dark:text-gray-300">
                             <span class="[&>*]:after:content-['_/_']">
@@ -94,7 +94,7 @@
                                     @{{ record.created_at }}
                                 </p>
 
-                                <p v-html="record.status"></p>
+                                <p v-html="record.delivery_status"></p>
                             </div>
                         </div>
                     </div>
@@ -108,10 +108,6 @@
 
                             <p class="text-gray-600 dark:text-gray-300">
                                 @lang('admin::app.sales.orders.index.datagrid.pay-by', ['method' => ''])@{{ record.method }}
-                            </p>
-
-                            <p class="text-gray-600 dark:text-gray-300">
-                                @{{ record.channel_name }}
                             </p>
                         </div>
                     </div>
@@ -134,7 +130,7 @@
                     </div>
 
                     <div class="flex items-center justify-end gap-x-2">
-                        <a :href="`{{ route('admin.sales.orders.view', '') }}/${record.id}`">
+                        <a :href="`{{ route('admin.delivery.orders.view', '') }}/${record.id}`">
                             <span class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"></span>
                         </a>
                     </div>

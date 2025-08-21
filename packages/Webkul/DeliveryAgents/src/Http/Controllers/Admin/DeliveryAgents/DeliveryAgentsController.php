@@ -72,9 +72,8 @@ class DeliveryAgentsController extends Controller
             'phone'         => ['unique:delivery_agents,phone', new PhoneNumber],
         ]);
 
-        $password = rand(100000, 10000000);
         $data = array_merge([
-            'password'    => bcrypt($password),
+            'password'    => bcrypt($request->password),
             'is_verified' => 1,
         ], request()->only([
             'first_name',
@@ -97,7 +96,14 @@ class DeliveryAgentsController extends Controller
 
     public function view(Request $request, $id)
     {
-        $deliveryAgent = $this->deliveryAgentRepository->with(['ranges.stateArea', 'orders'])->findOrFail($id);
+        $deliveryAgent = $this->deliveryAgentRepository->with([
+            'ranges.stateArea'=> function ($q) {
+                $q->limit(10); // أو paginate بدلها
+            },
+            'orders'=> function ($q) {
+                $q->limit(10); // أو paginate بدلها
+            },
+        ])->findOrFail($id);
         if ($request->ajax()) {
             switch (request()->query('type')) {
                 case self::ORDERS:
@@ -127,7 +133,7 @@ class DeliveryAgentsController extends Controller
             'gender'         => 'required',
             'email'          => 'required|unique:delivery_agents,email,'.$id,
             'password'       => 'nullable|min:6|confirmed',
-            'date_of_birth'  => 'date|before:today',
+            'date_of_birth'  => 'nullable|date|before:today',
             'phone'          => ['unique:delivery_agents,phone,'.$id, new PhoneNumber],
             'status'         => 'required|boolean',
         ]);
@@ -174,6 +180,7 @@ class DeliveryAgentsController extends Controller
         return response()->json(['message' => trans('deliveryagent::app.deliveryagents.delete.successful_deletion_message')]);
 
     }
+
     public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResponse
     {
         $deliveryAgents = $this->deliveryAgentRepository->findWhereIn('id', $massDestroyRequest->input('indices'));
@@ -182,11 +189,11 @@ class DeliveryAgentsController extends Controller
             /**
              * Ensure that deliveryAgents do not have any active orders before performing deletion.
              */
-//            foreach ($deliveryAgents as $deliveryAgent) {
-//                if ($this->deliveryAgentRepository->haveActiveOrders($deliveryAgent)) {
-//                    throw new \Exception(trans('admin::app.customers.customers.index.datagrid.order-pending'));
-//                }
-//            }
+            //            foreach ($deliveryAgents as $deliveryAgent) {
+            //                if ($this->deliveryAgentRepository->haveActiveOrders($deliveryAgent)) {
+            //                    throw new \Exception(trans('admin::app.customers.customers.index.datagrid.order-pending'));
+            //                }
+            //            }
 
             /**
              * After ensuring that they have no active orders delete the corresponding customer.
@@ -209,6 +216,7 @@ class DeliveryAgentsController extends Controller
         }
 
     }
+
     public function massUpdate(MassUpdateRequest $massUpdateRequest): JsonResponse
     {
         $selectedDeliveryAgentIds = $massUpdateRequest->input('indices');
@@ -237,9 +245,4 @@ class DeliveryAgentsController extends Controller
         abort(404);
 
     }
-
-
-
-
-
 }

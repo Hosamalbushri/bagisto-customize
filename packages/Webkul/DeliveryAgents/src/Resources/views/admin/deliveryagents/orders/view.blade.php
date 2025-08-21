@@ -12,12 +12,8 @@
                 <p class="text-xl font-bold leading-6 text-gray-800 dark:text-white">
                     @lang('admin::app.sales.orders.view.title', ['order_id' => $order->increment_id])
                 </p>
-
                 <!-- Order Status -->
-                <span class="label-{{ $order->status }} text-sm mx-1.5">
-                    @lang("admin::app.sales.orders.view.$order->status")
-                </span>
-                @if(!$order->notVisible())
+                @if($order->delivery_status)
                     <span class="label-{{ $order->delivery_status }} text-sm mx-1.5">
                     @lang("admin::app.sales.orders.view.$order->delivery_status")
                 </span>
@@ -28,90 +24,78 @@
 
             <!-- Back Button -->
             <a
-                href="{{ route('admin.sales.orders.index') }}"
+                href="{{ route('admin.deliveryagents.view',$order->delivery_agent_id) }}"
                 class="transparent-button hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
             >
                 @lang('admin::app.account.edit.back-btn')
             </a>
         </div>
     </div>
-
     <div class="mt-5 flex-wrap items-center justify-between gap-x-1 gap-y-2">
         <div class="flex gap-1.5">
-            {!! view_render_event('bagisto.admin.sales.order.page_action.before', ['order' => $order]) !!}
+{{--            {!! view_render_event('bagisto.admin.sales.order.page_action.before', ['order' => $order]) !!}--}}
 
-            @if (
-                $order->canReorder()
-                && bouncer()->hasPermission('sales.orders.create')
-                && core()->getConfigData('sales.order_settings.reorder.admin')
-            )
-                <a
-                    href="{{ route('admin.sales.orders.reorder', $order->id) }}"
-                    class="transparent-button px-1 py-1.5 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
-                >
-                    <span class="icon-cart text-2xl"></span>
-
-                    @lang('admin::app.sales.orders.view.reorder')
-                </a>
-            @endif
-
-            @if (
-                $order->canInvoice()
-                && bouncer()->hasPermission('sales.invoices.create')
-                && $order->payment->method !== 'paypal_standard'
-            )
-                @include('admin::sales.invoices.create')
-            @endif
-
-            @if (
-                $order->canShip()
-                && bouncer()->hasPermission('sales.shipments.create') && $order->canAssigndDelivery()
-            )
-                @include('admin::sales.shipments.create')
-            @endif
-
-            @if (
-                $order->canRefund()
-                && bouncer()->hasPermission('sales.refunds.create')
-            )
-                @include('admin::sales.refunds.create')
-            @endif
-
-            @if (
-                $order->canCancel()
-                && bouncer()->hasPermission('sales.orders.cancel')
-            )
-               <form
-                    method="POST"
-                    ref="cancelOrderForm"
-                    action="{{ route('admin.sales.orders.cancel', $order->id) }}"
-                >
-                    @csrf
-                </form>
-
+            @if (bouncer()->hasPermission('')&& !$order->isAccepted())
                 <div
-                    class="transparent-button px-1 py-1.5 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
+                    class="inline-flex w-full max-w-max cursor-pointer items-center justify-between gap-x-2 px-1 py-1.5 text-center font-semibold text-gray-600 transition-all hover:rounded-md hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800"
                     @click="$emitter.emit('open-confirm-modal', {
-                        message: '@lang('admin::app.sales.orders.view.cancel-msg')',
-                        agree: () => {
-                            this.$refs['cancelOrderForm'].submit()
-                        }
-                    })"
-                >
-                    <span
-                        class="icon-cancel text-2xl"
-                        role="presentation"
-                        tabindex="0"
-                    >
-                    </span>
+                            message: '@lang('deliveryagent::app.deliveryagents.orders.view.accepted-order-confirmation')',
 
-                    <a href="javascript:void(0);">
-                        @lang('admin::app.sales.orders.view.cancel')
-                    </a>
+                            agree: () => {
+                                this.$refs['accept-order'].submit()
+                            }
+                        })"
+                >
+                    <span class="acma-icon-checkmark text-2xl"></span>
+
+                    @lang('deliveryagent::app.deliveryagents.orders.view.accepted-order')
+
+                    <!-- Accept Order -->
+                    <form
+                        method="post"
+                        action="{{ route('admin.orders.changeStatus',$order->id) }}"
+                        ref="accept-order"
+                    >
+                        @csrf
+                        <x-admin::form.control-group.control
+                            type="hidden"
+                            name="status"
+                            value="accepted_by_agent"
+                        />
+                    </form>
                 </div>
             @endif
 
-            {!! view_render_event('bagisto.admin.sales.order.page_action.after', ['order' => $order]) !!}
+            @if (bouncer()->hasPermission('')&& !$order->isRejected() &&! $order->notVisible())
+                <div
+                    class="inline-flex w-full max-w-max cursor-pointer items-center justify-between gap-x-2 px-1 py-1.5 text-center font-semibold text-gray-600 transition-all hover:rounded-md hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800"
+                    @click="$emitter.emit('open-confirm-modal', {
+                            message: '@lang('deliveryagent::app.deliveryagents.orders.view.rejected-order-confirmation')',
+
+                            agree: () => {
+                                this.$refs['reject-order'].submit()
+                            }
+                        })"
+                >
+                    <span class="icon-cancel text-2xl"></span>
+
+                    @lang('deliveryagent::app.deliveryagents.orders.view.rejected-order')
+
+                    <!-- Reject Order -->
+                    <form
+                        method="post"
+                        action="{{ route('admin.orders.changeStatus',$order->id) }}"
+                        ref="reject-order"
+                    >
+                        @csrf
+                        <x-admin::form.control-group.control
+                            type="hidden"
+                            name="status"
+                            value="rejected_by_agent"
+                        />
+                    </form>
+                </div>
+            @endif
         </div>
 
         <!-- Order details -->
@@ -193,17 +177,17 @@
                                                 @lang('admin::app.sales.orders.view.sku', ['sku' => $item->sku])
                                             </p>
 
-                                            <p class="text-gray-600 dark:text-gray-300">
-                                                {{ $item->qty_ordered ? trans('admin::app.sales.orders.view.item-ordered', ['qty_ordered' => $item->qty_ordered]) : '' }}
+{{--                                            <p class="text-gray-600 dark:text-gray-300">--}}
+{{--                                                {{ $item->qty_ordered ? trans('admin::app.sales.orders.view.item-ordered', ['qty_ordered' => $item->qty_ordered]) : '' }}--}}
 
-                                                {{ $item->qty_invoiced ? trans('admin::app.sales.orders.view.item-invoice', ['qty_invoiced' => $item->qty_invoiced]) : '' }}
+{{--                                                {{ $item->qty_invoiced ? trans('admin::app.sales.orders.view.item-invoice', ['qty_invoiced' => $item->qty_invoiced]) : '' }}--}}
 
-                                                {{ $item->qty_shipped ? trans('admin::app.sales.orders.view.item-shipped', ['qty_shipped' => $item->qty_shipped]) : '' }}
+{{--                                                {{ $item->qty_shipped ? trans('admin::app.sales.orders.view.item-shipped', ['qty_shipped' => $item->qty_shipped]) : '' }}--}}
 
-                                                {{ $item->qty_refunded ? trans('admin::app.sales.orders.view.item-refunded', ['qty_refunded' => $item->qty_refunded]) : '' }}
+{{--                                                {{ $item->qty_refunded ? trans('admin::app.sales.orders.view.item-refunded', ['qty_refunded' => $item->qty_refunded]) : '' }}--}}
 
-                                                {{ $item->qty_canceled ? trans('admin::app.sales.orders.view.item-canceled', ['qty_canceled' => $item->qty_canceled]) : '' }}
-                                            </p>
+{{--                                                {{ $item->qty_canceled ? trans('admin::app.sales.orders.view.item-canceled', ['qty_canceled' => $item->qty_canceled]) : '' }}--}}
+{{--                                            </p>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -471,94 +455,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Customer's comment form -->
-                <div class="box-shadow rounded bg-white dark:bg-gray-900">
-                    <p class="p-4 pb-0 text-base font-semibold text-gray-800 dark:text-white">
-                        @lang('admin::app.sales.orders.view.comments')
-                    </p>
-
-                    <x-admin::form action="{{ route('admin.sales.orders.comment', $order->id) }}">
-                        <div class="p-4">
-                            <div class="mb-2.5">
-                                <x-admin::form.control-group>
-                                    <x-admin::form.control-group.control
-                                        type="textarea"
-                                        id="comment"
-                                        name="comment"
-                                        rules="required"
-                                        :label="trans('admin::app.sales.orders.view.comments')"
-                                        :placeholder="trans('admin::app.sales.orders.view.write-your-comment')"
-                                        rows="3"
-                                    />
-
-                                    <x-admin::form.control-group.error control-name="comment" />
-                                </x-admin::form.control-group>
-                            </div>
-
-                            <div class="flex items-center justify-between">
-                                <label
-                                    class="flex w-max cursor-pointer select-none items-center gap-1 p-1.5"
-                                    for="customer_notified"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        name="customer_notified"
-                                        id="customer_notified"
-                                        value="1"
-                                        class="peer hidden"
-                                    >
-
-                                    <span
-                                        class="icon-uncheckbox peer-checked:icon-checked cursor-pointer rounded-md text-2xl peer-checked:active-checkbox"
-                                        role="button"
-                                        tabindex="0"
-                                    >
-                                    </span>
-
-                                    <p class="flex cursor-pointer items-center gap-x-1 font-semibold text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
-                                        @lang('admin::app.sales.orders.view.notify-customer')
-                                    </p>
-                                </label>
-
-                                <button
-                                    type="submit"
-                                    class="secondary-button"
-                                    aria-label="{{ trans('admin::app.sales.orders.view.submit-comment') }}"
-                                >
-                                    @lang('admin::app.sales.orders.view.submit-comment')
-                                </button>
-                            </div>
-                        </div>
-                    </x-admin::form>
-
-                    <span class="block w-full border-b dark:border-gray-800"></span>
-
-                    <!-- Comment List -->
-                    @foreach ($order->comments()->orderBy('id', 'desc')->get() as $comment)
-                        <div class="grid gap-1.5 p-4">
-                            <p class="break-all text-base leading-6 text-gray-800 dark:text-white">
-                                {{ $comment->comment }}
-                            </p>
-
-                            <!-- Notes List Title and Time -->
-                            <p class="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                                @if ($comment->customer_notified)
-                                    <span class="icon-done h-fit rounded-full bg-blue-100 text-2xl text-blue-600"></span>
-
-                                    @lang('admin::app.sales.orders.view.customer-notified', ['date' => core()->formatDate($comment->created_at, 'Y-m-d H:i:s a')])
-                                @else
-                                    <span class="icon-cancel-1 h-fit rounded-full bg-red-100 text-2xl text-red-600"></span>
-
-                                    @lang('admin::app.sales.orders.view.customer-not-notified', ['date' => core()->formatDate($comment->created_at, 'Y-m-d H:i:s a')])
-                                @endif
-                            </p>
-                        </div>
-
-                        <span class="block w-full border-b dark:border-gray-800"></span>
-                    @endforeach
-                </div>
-
                 {!! view_render_event('bagisto.admin.sales.order.left_component.after', ['order' => $order]) !!}
             </div>
 
@@ -589,31 +485,26 @@
 
                                 {!! view_render_event('bagisto.admin.sales.order.customer_email.after', ['order' => $order]) !!}
 
-                                <p class="text-gray-600 dark:text-gray-300">
-                                    @lang('admin::app.sales.orders.view.customer-group') : {{ $order->is_guest ? core()->getGuestCustomerGroup()?->name : ($order->customer->group->name ?? '') }}
-                                </p>
-
-                                {!! view_render_event('bagisto.admin.sales.order.customer_group.after', ['order' => $order]) !!}
                             </div>
                         </div>
 
-                        <!-- Billing Address -->
-                        @if ($order->billing_address)
-                            <span class="block w-full border-b dark:border-gray-800"></span>
+{{--                        <!-- Billing Address -->--}}
+{{--                        @if ($order->billing_address)--}}
+{{--                            <span class="block w-full border-b dark:border-gray-800"></span>--}}
 
-                            <div class="{{ $order->shipping_address ? 'pb-4' : '' }}">
+{{--                            <div class="{{ $order->shipping_address ? 'pb-4' : '' }}">--}}
 
-                                <div class="flex items-center justify-between">
-                                    <p class="py-4 text-base font-semibold text-gray-600 dark:text-gray-300">
-                                        @lang('admin::app.sales.orders.view.billing-address')
-                                    </p>
-                                </div>
+{{--                                <div class="flex items-center justify-between">--}}
+{{--                                    <p class="py-4 text-base font-semibold text-gray-600 dark:text-gray-300">--}}
+{{--                                        @lang('admin::app.sales.orders.view.billing-address')--}}
+{{--                                    </p>--}}
+{{--                                </div>--}}
 
-                                @include ('admin::sales.address', ['address' => $order->billing_address])
+{{--                                @include ('admin::sales.address', ['address' => $order->billing_address])--}}
 
-                                {!! view_render_event('bagisto.admin.sales.order.billing_address.after', ['order' => $order]) !!}
-                            </div>
-                        @endif
+{{--                                {!! view_render_event('bagisto.admin.sales.order.billing_address.after', ['order' => $order]) !!}--}}
+{{--                            </div>--}}
+{{--                        @endif--}}
 
                         <!-- Shipping Address -->
                         @if ($order->shipping_address)
@@ -629,61 +520,9 @@
 
                             {!! view_render_event('bagisto.admin.sales.order.shipping_address.after', ['order' => $order]) !!}
                         @endif
+
                     </x-slot>
                 </x-admin::accordion>
-
-                <!-- Order Information -->
-                <x-admin::accordion>
-                    <x-slot:header>
-                        <p class="p-2.5 text-base font-semibold text-gray-600 dark:text-gray-300">
-                            @lang('admin::app.sales.orders.view.order-information')
-                        </p>
-                    </x-slot>
-
-                    <x-slot:content>
-                        <div class="flex w-full justify-start gap-5">
-                            <div class="flex flex-col gap-y-1.5">
-                                <p class="text-gray-600 dark:text-gray-300">
-                                    @lang('admin::app.sales.orders.view.order-date')
-                                </p>
-
-                                <p class="text-gray-600 dark:text-gray-300">
-                                    @lang('admin::app.sales.orders.view.order-status')
-                                </p>
-
-                                <p class="text-gray-600 dark:text-gray-300">
-                                    @lang('admin::app.sales.orders.view.channel')
-                                </p>
-                            </div>
-
-                            <div class="flex flex-col gap-y-1.5">
-                                {!! view_render_event('bagisto.admin.sales.order.created_at.before', ['order' => $order]) !!}
-
-                                <!-- Order Date -->
-                                <p class="text-gray-600 dark:text-gray-300">
-                                    {{core()->formatDate($order->created_at) }}
-                                </p>
-
-                                {!! view_render_event('bagisto.admin.sales.order.created_at.after', ['order' => $order]) !!}
-
-                                <!-- Order Status -->
-                                <p class="text-gray-600 dark:text-gray-300">
-                                    {{$order->status_label}}
-                                </p>
-
-                                {!! view_render_event('bagisto.admin.sales.order.status_label.after', ['order' => $order]) !!}
-
-                                <!-- Order Channel -->
-                                <p class="text-gray-600 dark:text-gray-300">
-                                    {{$order->channel_name}}
-                                </p>
-
-                                {!! view_render_event('bagisto.admin.sales.order.channel_name.after', ['order' => $order]) !!}
-                            </div>
-                        </div>
-                    </x-slot>
-                </x-admin::accordion>
-
                 <!-- Payment and Shipping Information-->
                 <x-admin::accordion>
                     <x-slot:header>
@@ -714,7 +553,7 @@
 
                             @php $additionalDetails = \Webkul\Payment\Payment::getAdditionalDetails($order->payment->method); @endphp
 
-                            <!-- Additional details -->
+                                <!-- Additional details -->
                             @if (! empty($additionalDetails))
                                 <p class="pt-4 font-semibold text-gray-800 dark:text-white">
                                     {{ $additionalDetails['title'] }}
@@ -754,157 +593,6 @@
                         @endif
                     </x-slot>
                 </x-admin::accordion>
-
-                <!-- Invoice Information-->
-                <x-admin::accordion>
-                    <x-slot:header>
-                        <p class="p-2.5 text-base font-semibold text-gray-600 dark:text-gray-300">
-                            @lang('admin::app.sales.orders.view.invoices') ({{ count($order->invoices) }})
-                        </p>
-                    </x-slot>
-
-                    <x-slot:content>
-                        @forelse ($order->invoices as $index => $invoice)
-                            <div class="grid gap-y-2.5">
-                                <div>
-                                    <p class="font-semibold text-gray-800 dark:text-white">
-                                        @lang('admin::app.sales.orders.view.invoice-id', ['invoice' => $invoice->increment_id ?? $invoice->id])
-                                    </p>
-
-                                    <p class="text-gray-600 dark:text-gray-300">
-                                        {{ core()->formatDate($invoice->created_at, 'd M, Y H:i:s a') }}
-                                    </p>
-                                </div>
-
-                                <div class="flex gap-2.5">
-                                    <a
-                                        href="{{ route('admin.sales.invoices.view', $invoice->id) }}"
-                                        class="text-sm text-blue-600 transition-all hover:underline"
-                                    >
-                                        @lang('admin::app.sales.orders.view.view')
-                                    </a>
-
-                                    <a
-                                        href="{{ route('admin.sales.invoices.print', $invoice->id) }}"
-                                        class="text-sm text-blue-600 transition-all hover:underline"
-                                    >
-                                        @lang('admin::app.sales.orders.view.download-pdf')
-                                    </a>
-                                </div>
-                            </div>
-
-                            @if ($index < count($order->invoices) - 1)
-                                <span class="mb-4 mt-4 block w-full border-b dark:border-gray-800"></span>
-                            @endif
-                        @empty
-                            <p class="text-gray-600 dark:text-gray-300">
-                                @lang('admin::app.sales.orders.view.no-invoice-found')
-                            </p>
-                        @endforelse
-                    </x-slot>
-                </x-admin::accordion>
-
-                {!! view_render_event('bagisto.admin.sales.order.Invoice.after', ['order' => $order]) !!}
-
-
-                <!-- Shipment Information-->
-                <x-admin::accordion>
-                    <x-slot:header>
-                        <p class="p-2.5 text-base font-semibold text-gray-600 dark:text-gray-300">
-                            @lang('admin::app.sales.orders.view.shipments') ({{ count($order->shipments) }})
-                        </p>
-                    </x-slot>
-
-                    <x-slot:content>
-                        @forelse ($order->shipments as $shipment)
-                            <div class="grid gap-y-2.5">
-                                <div>
-                                    <!-- Shipment Id -->
-                                    <p class="font-semibold text-gray-800 dark:text-white">
-                                        @lang('admin::app.sales.orders.view.shipment', ['shipment' => $shipment->id])
-                                    </p>
-
-                                    <!-- Shipment Created -->
-                                    <p class="text-gray-600 dark:text-gray-300">
-                                        {{ core()->formatDate($shipment->created_at, 'd M, Y H:i:s a') }}
-                                    </p>
-                                </div>
-
-                                <div class="flex gap-2.5">
-                                    <a
-                                        href="{{ route('admin.sales.shipments.view', $shipment->id) }}"
-                                        class="text-sm text-blue-600 transition-all hover:underline"
-                                    >
-                                        @lang('admin::app.sales.orders.view.view')
-                                    </a>
-                                </div>
-                            </div>
-                        @empty
-                            <p class="text-gray-600 dark:text-gray-300">
-                                @lang('admin::app.sales.orders.view.no-shipment-found')
-                            </p>
-                        @endforelse
-                    </x-slot>
-                </x-admin::accordion>
-
-                <!-- Refund Information -->
-                <x-admin::accordion>
-                    <x-slot:header>
-                        <p class="p-2.5 text-base font-semibold text-gray-600 dark:text-gray-300">
-                            @lang('admin::app.sales.orders.view.refund')
-                        </p>
-                    </x-slot>
-
-                    <x-slot:content>
-                        @forelse ($order->refunds as $refund)
-                            <div class="grid gap-y-2.5">
-                                <div>
-                                    <p class="font-semibold text-gray-800 dark:text-white">
-                                        @lang('admin::app.sales.orders.view.refund-id', ['refund' => $refund->id])
-                                    </p>
-
-                                    <p class="text-gray-600 dark:text-gray-300">
-                                        {{ core()->formatDate($refund->created_at, 'd M, Y H:i:s a') }}
-                                    </p>
-
-                                    <p class="mt-4 font-semibold text-gray-800 dark:text-white">
-                                        @lang('admin::app.sales.orders.view.name')
-                                    </p>
-
-                                    <p class="text-gray-600 dark:text-gray-300">
-                                        {{ $refund->order->customer_full_name }}
-                                    </p>
-
-                                    <p class="mt-4 font-semibold text-gray-800 dark:text-white">
-                                        @lang('admin::app.sales.orders.view.status')
-                                    </p>
-
-                                    <p class="text-gray-600 dark:text-gray-300">
-                                        @lang('admin::app.sales.orders.view.refunded')
-
-                                        <span class="font-semibold text-gray-800 dark:text-white">
-                                            {{ core()->formatBasePrice($refund->base_grand_total) }}
-                                        </span>
-                                    </p>
-                                </div>
-
-                                <div class="flex gap-2.5">
-                                    <a
-                                        href="{{ route('admin.sales.refunds.view', $refund->id) }}"
-                                        class="text-sm text-blue-600 transition-all hover:underline"
-                                    >
-                                        @lang('admin::app.sales.orders.view.view')
-                                    </a>
-                                </div>
-                            </div>
-                        @empty
-                            <p class="text-gray-600 dark:text-gray-300">
-                                @lang('admin::app.sales.orders.view.no-refund-found')
-                            </p>
-                        @endforelse
-                    </x-slot>
-                </x-admin::accordion>
-
                 {!! view_render_event('bagisto.admin.sales.order.right_component.after', ['order' => $order]) !!}
             </div>
         </div>

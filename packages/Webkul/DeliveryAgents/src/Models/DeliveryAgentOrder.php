@@ -8,15 +8,16 @@ class DeliveryAgentOrder extends Model
 {
     protected $table = 'delivery_agent_orders';
 
+    public const STATUS_PENDING = 'pending';
     const STATUS_ASSIGNED_TO_AGENT = 'assigned_to_agent';
 
     const STATUS_ACCEPTED_BY_AGENT = 'accepted_by_agent';
+
     const STATUS_REJECTED_BY_AGENT = 'rejected_by_agent';
 
     const STATUS_OUT_FOR_DELIVERY = 'out_for_delivery';
+
     const STATUS_DELIVERED = 'delivered';
-
-
 
     protected $fillable = [
         'order_id',
@@ -24,8 +25,10 @@ class DeliveryAgentOrder extends Model
         'status',
         'assigned_at',
         'completed_at',
-        'notes',
+        'rejected_at',
+        'accepted_at',
     ];
+
     public function order()
     {
         return $this->belongsTo(Order::class);
@@ -47,7 +50,16 @@ class DeliveryAgentOrder extends Model
     public function getStatusLabelAttribute(): string
     {
         $key = $this->statusLabelKeys[$this->status] ?? null;
+
         return $key ? __($key) : (string) $this->status;
     }
 
+    public function isRejected(): bool
+    {
+        if ($this->status == self::STATUS_REJECTED_BY_AGENT) {
+            return true;
+        }
+
+        return false;
+    }
 }

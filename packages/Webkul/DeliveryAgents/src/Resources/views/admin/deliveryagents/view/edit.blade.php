@@ -162,7 +162,7 @@
                                             type="date"
                                             id="dob"
                                             name="date_of_birth"
-                                            ::value="deliveryAgent.date_of_birth"
+                                            v-model="deliveryAgent.date_of_birth"
                                             :label="trans('deliveryagent::app.deliveryagents.edit.date-of-birth')"
                                             :placeholder="trans('deliveryagent::app.deliveryagents.edit.date-of-birth')"
                                         />
@@ -207,34 +207,55 @@
                                     </x-admin::form.control-group>
                                 </div>
 
+{{--                                <div class="flex gap-60 max-sm:flex-wrap">--}}
+{{--                                    <!-- Customer Status -->--}}
+
+
+{{--                                                    <!-- الحالة -->--}}
+{{--                                                    <x-admin::form.control-group class="mb-2.5 w-full">--}}
+{{--                                                        <x-admin::form.control-group.label class="required">--}}
+{{--                                                            @lang('deliveryagent::app.deliveryagents.create.status')--}}
+{{--                                                        </x-admin::form.control-group.label>--}}
+{{--                                                        <x-admin::form.control-group.control--}}
+{{--                                                            type="select"--}}
+{{--                                                            name="status"--}}
+{{--                                                            id="status"--}}
+{{--                                                            ::value="deliveryAgent.status"--}}
+{{--                                                            rules="required"--}}
+{{--                                                            :label="trans('deliveryagent::app.deliveryagents.create.status')"--}}
+{{--                                                        >--}}
+{{--                                                            <option value="">@lang('deliveryagent::app.deliveryagents.create.select-status')</option>--}}
+{{--                                                            <option value="1">@lang('deliveryagent::app.deliveryagents.create.active')</option>--}}
+{{--                                                            <option value="0">@lang('deliveryagent::app.deliveryagents.create.inactive')</option>--}}
+{{--                                                        </x-admin::form.control-group.control>--}}
+{{--                                                        <x-admin::form.control-group.error control-name="status" />--}}
+{{--                                                    </x-admin::form.control-group>--}}
+
+{{--                                </div>--}}
                                 <div class="flex gap-60 max-sm:flex-wrap">
-                                    <!-- Customer Status -->
+                                    <x-admin::form.control-group class="!mb-0">
+                                        <x-admin::form.control-group.label>
+                                            @lang('deliveryagent::app.deliveryagents.create.status')
+                                        </x-admin::form.control-group.label>
 
+                                        <x-admin::form.control-group.control
+                                            type="hidden"
+                                            name="status"
+                                            value="0"
+                                        />
 
-                                                    <!-- الحالة -->
-                                                    <x-admin::form.control-group class="mb-2.5 w-full">
-                                                        <x-admin::form.control-group.label class="required">
-                                                            @lang('deliveryagent::app.deliveryagents.create.status')
-                                                        </x-admin::form.control-group.label>
-                                                        <x-admin::form.control-group.control
-                                                            type="select"
-                                                            name="status"
-                                                            id="status"
-                                                            ::value="deliveryAgent.status"
-                                                            rules="required"
-                                                            :label="trans('deliveryagent::app.deliveryagents.create.status')"
-                                                        >
-                                                            <option value="">@lang('deliveryagent::app.deliveryagents.create.select-status')</option>
-                                                            <option value="1">@lang('deliveryagent::app.deliveryagents.create.active')</option>
-                                                            <option value="0">@lang('deliveryagent::app.deliveryagents.create.inactive')</option>
-                                                        </x-admin::form.control-group.control>
-                                                        <x-admin::form.control-group.error control-name="status" />
-                                                    </x-admin::form.control-group>
-
+                                        <x-admin::form.control-group.control
+                                            type="switch"
+                                            name="status"
+                                            :value="1"
+                                            :label="trans('deliveryagent::app.deliveryagents.create.status')"
+                                            ::checked="deliveryAgent.status"
+                                        />
+                                    </x-admin::form.control-group>
                                 </div>
 
 
-                                </x-slot>
+                                    </x-slot>
 
                                 <x-slot:footer>
                                     <x-admin::button
