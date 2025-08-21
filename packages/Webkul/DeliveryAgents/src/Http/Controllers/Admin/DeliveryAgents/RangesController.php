@@ -28,7 +28,7 @@ class RangesController extends Controller
 
         ]);
 
-        $deliveryAgent = $this->deliveryAgentRepository->find($request->delivery_agent_id);
+        $deliveryAgent = $this->deliveryAgentRepository->findOrFail($request->delivery_agent_id);
 
         $existingRecord = $deliveryAgent->ranges()
             ->where('state_area_id', $request->state_area_id)
@@ -62,11 +62,22 @@ class RangesController extends Controller
             'state_area_id',
         ]);
         $range = $this->rangeRepository->findOrFail($id);
+        $duplicate = $this->rangeRepository->where('delivery_agent_id', $range->delivery_agent_id)
+            ->where('state_area_id', $data['state_area_id'])
+            ->where('id', '!=', $id)
+            ->first();
+
+        if ($duplicate) {
+            return response()->json([
+                'message' => trans('deliveryagent::app.range.edit.edit-failed'),
+                'status'  => 'error',
+            ], 422);
+        }
+
         $range->update($data);
 
         return response()->json([
             'message' => trans('deliveryagent::app.range.edit.edit-success'),
-            //            'data'    => $range,
         ]);
 
     }

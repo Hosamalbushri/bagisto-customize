@@ -4,7 +4,7 @@ namespace Webkul\DeliveryAgents\Datagrids\DeliveryAgent\Views;
 
 use Illuminate\Support\Facades\DB;
 use Webkul\DataGrid\DataGrid;
-use Webkul\Sales\Models\Order;
+use Webkul\DeliveryAgents\Models\Order;
 use Webkul\Sales\Models\OrderAddress;
 
 class OrderDateGrid extends DataGrid
@@ -31,9 +31,8 @@ class OrderDateGrid extends DataGrid
                 'orders.base_grand_total',
                 'orders.created_at',
                 'channel_name',
-                'status',
+                'delivery_status',
                 'order_address_billing.email as customer_email',
-                'orders.cart_id as image',
                 DB::raw('CONCAT('.$tablePrefix.'order_address_billing.first_name, " ", '.$tablePrefix.'order_address_billing.last_name) as full_name'),
                 DB::raw('CONCAT('.$tablePrefix.'order_address_billing.address, ", ", '.$tablePrefix.'order_address_billing.city,", ", '.$tablePrefix.'order_address_billing.state, ", ", '.$tablePrefix.'order_address_billing.country) as location')
             )
@@ -62,7 +61,7 @@ class OrderDateGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'              => 'status',
+            'index'              => 'delivery_status',
             'label'              => trans('admin::app.customers.customers.view.datagrid.orders.status'),
             'type'               => 'string',
             'searchable'         => true,
@@ -70,57 +69,36 @@ class OrderDateGrid extends DataGrid
             'filterable_type'    => 'dropdown',
             'filterable_options' => [
                 [
-                    'label' => trans('admin::app.customers.customers.view.datagrid.orders.processing'),
-                    'value' => Order::STATUS_PROCESSING,
+                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.assigned_to_agent'),
+                    'value' => Order::STATUS_ASSIGNED_TO_AGENT,
                 ],
                 [
-                    'label' => trans('admin::app.customers.customers.view.datagrid.orders.completed'),
-                    'value' => Order::STATUS_COMPLETED,
+                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.accepted_by_agent'),
+                    'value' => Order::STATUS_ACCEPTED_BY_AGENT,
                 ],
                 [
-                    'label' => trans('admin::app.customers.customers.view.datagrid.orders.canceled'),
-                    'value' => Order::STATUS_CANCELED,
+                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.rejected_by_agent'),
+                    'value' => Order::STATUS_REJECTED_BY_AGENT,
                 ],
                 [
-                    'label' => trans('admin::app.customers.customers.view.datagrid.orders.closed'),
-                    'value' => Order::STATUS_CLOSED,
-                ],
-                [
-                    'label' => trans('admin::app.customers.customers.view.datagrid.orders.pending'),
-                    'value' => Order::STATUS_PENDING,
-                ],
-                [
-                    'label' => trans('admin::app.customers.customers.view.datagrid.orders.pending-payment'),
-                    'value' => Order::STATUS_PENDING_PAYMENT,
-                ],
-                [
-                    'label' => trans('admin::app.customers.customers.view.datagrid.orders.fraud'),
-                    'value' => Order::STATUS_FRAUD,
+                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.out_for_delivery'),
+                    'value' => Order::STATUS_OUT_FOR_DELIVERY,
                 ],
             ],
             'sortable'   => true,
             'closure'    => function ($row) {
-                switch ($row->status) {
-                    case Order::STATUS_PROCESSING:
-                        return '<p class="label-processing">'.trans('admin::app.customers.customers.view.datagrid.orders.processing').'</p>';
+                switch ($row->delivery_status) {
+                    case Order::STATUS_ASSIGNED_TO_AGENT:
+                        return '<p class="label-assigned_to_agent">'.trans('deliveryagent::app.deliveryagents.orders.status.assigned_to_agent').'</p>';
 
-                    case Order::STATUS_COMPLETED:
-                        return '<p class="label-active">'.trans('admin::app.customers.customers.view.datagrid.orders.completed').'</p>';
+                    case Order::STATUS_ACCEPTED_BY_AGENT:
+                        return '<p class="label-accepted_by_agent">'.trans('deliveryagent::app.deliveryagents.orders.status.accepted_by_agent').'</p>';
 
-                    case Order::STATUS_CANCELED:
-                        return '<p class="label-canceled">'.trans('admin::app.customers.customers.view.datagrid.orders.canceled').'</p>';
+                    case Order::STATUS_REJECTED_BY_AGENT:
+                        return '<p class="label-rejected_by_agent">'.trans('deliveryagent::app.deliveryagents.orders.status.rejected_by_agent').'</p>';
 
-                    case Order::STATUS_CLOSED:
-                        return '<p class="label-closed">'.trans('admin::app.customers.customers.view.datagrid.orders.closed').'</p>';
-
-                    case Order::STATUS_PENDING:
-                        return '<p class="label-pending">'.trans('admin::app.customers.customers.view.datagrid.orders.pending').'</p>';
-
-                    case Order::STATUS_PENDING_PAYMENT:
-                        return '<p class="label-pending">'.trans('admin::app.customers.customers.view.datagrid.orders.pending-payment').'</p>';
-
-                    case Order::STATUS_FRAUD:
-                        return '<p class="label-canceled">'.trans('admin::app.customers.customers.view.datagrid.orders.fraud').'</p>';
+                    case Order::STATUS_OUT_FOR_DELIVERY:
+                        return '<p class="label-out_for_delivery">'.trans('deliveryagent::app.deliveryagents.orders.status.out_for_delivery').'</p>';
                 }
             },
         ]);

@@ -23,6 +23,9 @@ class DeliveryAgent extends Authenticatable implements DeliveryAgentContract
         'api_token',
         'token',
         'status',
+        'password',
+        'api_token',
+        'remember_token',
     ];
 
     protected $hidden = [

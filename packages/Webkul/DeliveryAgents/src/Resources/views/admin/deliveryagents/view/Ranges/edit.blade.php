@@ -235,6 +235,10 @@
 
                         .catch((error) => {
                             this.isLoading = false;
+                            this.$emitter.emit('add-flash', {
+                                type: 'error',
+                                message: error?.response?.data?.message
+                            });
 
                             if (error.response?.status === 422) {
                                 setErrors(error.response.data.errors);
