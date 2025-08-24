@@ -554,6 +554,7 @@
     .label-accepted_by_agent,
     .label-rejected_by_agent,
     .label-out_for_delivery,
+    .label-delivered,
     .label-active {
         @apply text-[12px] text-white font-semibold py-px px-1.5 max-w-max rounded-[35px];
     }
@@ -570,6 +571,7 @@
 
     .label-completed,
     .label-active ,
+    .label-delivered,
     .label-accepted_by_agent{
         @apply bg-green-600;
     }

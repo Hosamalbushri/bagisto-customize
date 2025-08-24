@@ -89,7 +89,6 @@
             data() {
             },
             mounted() {
-                // الاستماع لطلب التعيين من أي مكان
                 this.$emitter.on('request-assign-delivery', ({ orderId, agentId }) => {
                     this.assignDelivery(orderId, agentId);
                 });
@@ -116,7 +115,7 @@
                                 .catch((error) => {
                                     this.$emitter.emit('add-flash', {
                                         type: 'error',
-                                        message: error?.response?.data?.message || 'حصل خطأ أثناء التعيين'
+                                        message: error?.response?.data?.message
                                     });
                                 });
                         },

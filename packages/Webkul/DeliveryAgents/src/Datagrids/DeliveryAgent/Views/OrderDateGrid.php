@@ -19,6 +19,7 @@ class OrderDateGrid extends DataGrid
         $tablePrefix = DB::getTablePrefix();
 
         $queryBuilder = DB::table('orders')
+            ->leftJoin('delivery_agent_orders', 'orders.id', '=', 'delivery_agent_orders.order_id')
             ->leftJoin('addresses as order_address_billing', function ($leftJoin) {
                 $leftJoin->on('order_address_billing.order_id', '=', 'orders.id')
                     ->where('order_address_billing.address_type', OrderAddress::ADDRESS_TYPE_BILLING);
@@ -31,12 +32,13 @@ class OrderDateGrid extends DataGrid
                 'orders.base_grand_total',
                 'orders.created_at',
                 'channel_name',
-                'delivery_status',
+                'delivery_agent_orders.status as status',
+                'delivery_agent_orders.status as deliveryStatus',
                 'order_address_billing.email as customer_email',
                 DB::raw('CONCAT('.$tablePrefix.'order_address_billing.first_name, " ", '.$tablePrefix.'order_address_billing.last_name) as full_name'),
                 DB::raw('CONCAT('.$tablePrefix.'order_address_billing.address, ", ", '.$tablePrefix.'order_address_billing.city,", ", '.$tablePrefix.'order_address_billing.state, ", ", '.$tablePrefix.'order_address_billing.country) as location')
             )
-            ->where('orders.delivery_agent_id', request()->route('id'));
+            ->where('delivery_agent_orders.delivery_agent_id', request()->route('id'));
 
         $this->addFilter('full_name', DB::raw('CONCAT('.$tablePrefix.'orders.customer_first_name, " ", '.$tablePrefix.'orders.customer_last_name)'));
         $this->addFilter('created_at', 'orders.created_at');
@@ -61,7 +63,7 @@ class OrderDateGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'              => 'delivery_status',
+            'index'              => 'status',
             'label'              => trans('admin::app.customers.customers.view.datagrid.orders.status'),
             'type'               => 'string',
             'searchable'         => true,
@@ -87,7 +89,7 @@ class OrderDateGrid extends DataGrid
             ],
             'sortable'   => true,
             'closure'    => function ($row) {
-                switch ($row->delivery_status) {
+                switch ($row->status) {
                     case Order::STATUS_ASSIGNED_TO_AGENT:
                         return '<p class="label-assigned_to_agent">'.trans('deliveryagent::app.deliveryagents.orders.status.assigned_to_agent').'</p>';
 
@@ -99,6 +101,9 @@ class OrderDateGrid extends DataGrid
 
                     case Order::STATUS_OUT_FOR_DELIVERY:
                         return '<p class="label-out_for_delivery">'.trans('deliveryagent::app.deliveryagents.orders.status.out_for_delivery').'</p>';
+
+                    case Order::STATUS_DELIVERED:
+                        return '<p class="label-delivered">'.trans('deliveryagent::app.deliveryagents.orders.status.delivered').'</p>';
                 }
             },
         ]);
@@ -121,17 +126,10 @@ class OrderDateGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'              => 'channel_name',
+            'index'              => 'deliveryStatus',
             'label'              => trans('admin::app.customers.customers.view.datagrid.orders.channel-name'),
             'type'               => 'string',
-            'searchable'         => false,
-            'filterable'         => true,
-            'filterable_type'    => 'dropdown',
-            'filterable_options' => core()->getAllChannels()
-                ->map(fn ($channel) => ['label' => $channel->name, 'value' => $channel->id])
-                ->values()
-                ->toArray(),
-            'sortable'           => true,
+
         ]);
 
         $this->addColumn([

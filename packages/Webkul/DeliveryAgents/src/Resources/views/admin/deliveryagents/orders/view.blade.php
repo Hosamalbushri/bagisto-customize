@@ -8,25 +8,26 @@
         <div class="flex items-center justify-between gap-4 max-sm:flex-wrap">
             {!! view_render_event('bagisto.admin.sales.order.title.before', ['order' => $order]) !!}
 
-            <div class="flex items-center gap-2.5">
-                <p class="text-xl font-bold leading-6 text-gray-800 dark:text-white">
-                    @lang('admin::app.sales.orders.view.title', ['order_id' => $order->increment_id])
-                </p>
-                <!-- Order Status -->
-                @if($order->delivery_status)
-                    <span class="label-{{ $order->delivery_status }} text-sm mx-1.5">
-                    @lang("admin::app.sales.orders.view.$order->delivery_status")
-                </span>
-                @endif
-            </div>
+{{--            <div class="flex items-center gap-2.5">--}}
+{{--                <p class="text-xl font-bold leading-6 text-gray-800 dark:text-white">--}}
+{{--                    @lang('admin::app.sales.orders.view.title', ['order_id' => $order->increment_id])--}}
+{{--                </p>--}}
+{{--                <!-- Order Status -->--}}
+{{--                @if($order->deliveryAssignments->first()->status ?? '')--}}
+{{--                    <span class="label-{{ $order->deliveryAssignments->first()->status ?? '' }} text-sm mx-1.5">--}}
+{{--                      @lang('admin::app.sales.orders.view.' . $order->deliveryAssignments->first()->status)--}}
+{{--                    </span>--}}
+{{--                @endif--}}
+{{--            </div>--}}
 
             {!! view_render_event('bagisto.admin.sales.order.title.after', ['order' => $order]) !!}
 
             <!-- Back Button -->
             <a
-                href="{{ route('admin.deliveryagents.view',$order->delivery_agent_id) }}"
+                href="{{ route('admin.deliveryagents.view',$order->deliveryAssignments->first()->delivery_agent_id ?? '') }}"
                 class="transparent-button hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
             >
+{{--                {{$order->deliveryAssignments}}--}}
                 @lang('admin::app.account.edit.back-btn')
             </a>
         </div>
