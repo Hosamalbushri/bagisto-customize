@@ -65,7 +65,7 @@
 
             @if (
                 $order->canShip()
-                && bouncer()->hasPermission('sales.shipments.create') && $order->canAssigndDelivery()
+                && bouncer()->hasPermission('sales.shipments.create') && $order->canDelivery()
             )
                 @include('admin::sales.shipments.create')
             @endif
@@ -135,7 +135,6 @@
                     <div class="grid">
                         @foreach ($order->items as $item)
                             {!! view_render_event('bagisto.admin.sales.order.list.before', ['order' => $order]) !!}
-
                             <div class="flex justify-between gap-2.5 border-b border-slate-300 px-4 py-6 dark:border-gray-800">
                                 <div class="flex gap-2.5">
                                     @if($item?->product?->base_image_url)
@@ -199,6 +198,8 @@
                                                 {{ $item->qty_invoiced ? trans('admin::app.sales.orders.view.item-invoice', ['qty_invoiced' => $item->qty_invoiced]) : '' }}
 
                                                 {{ $item->qty_shipped ? trans('admin::app.sales.orders.view.item-shipped', ['qty_shipped' => $item->qty_shipped]) : '' }}
+
+                                                {{ $order->is_delivered  ? trans('deliveryagent::app.orders.view.item-delivered') : '' }}
 
                                                 {{ $item->qty_refunded ? trans('admin::app.sales.orders.view.item-refunded', ['qty_refunded' => $item->qty_refunded]) : '' }}
 
