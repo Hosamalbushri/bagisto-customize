@@ -195,6 +195,9 @@
                                                 @if($item->qty_shipped)
                                                     @lang('shop::app.customers.account.orders.view.information.item-shipped', ['qty_shipped' => $item->qty_shipped])
                                                 @endif
+                                                @if($order->is_delivered)
+                                                      @lang('deliveryagent::app.orders.view.item-delivered')
+                                                @endif
 
                                                 @if($item->qty_refunded)
                                                     @lang('shop::app.customers.account.orders.view.information.item-refunded', ['qty_refunded' => $item->qty_refunded])
@@ -499,6 +502,7 @@
                             </x-slot>
 
                             <x-slot:content class="grid gap-2.5 !bg-gray-100 !p-0">
+
                                 @foreach ($order->items as $item)
                                     <div class="rounded-md rounded-t-none border border-t-0 bg-white px-4 py-2">
                                         <p class="pb-2 text-sm font-medium">
@@ -550,11 +554,13 @@
                                                         </p>
                                                     @endif
 
+
                                                     @if($item->qty_refunded)
                                                         <span>
                                                             @lang('shop::app.customers.account.orders.view.information.item-refunded', ['qty_refunded' => $item->qty_refunded])
                                                         </span>
                                                     @endif
+
 
                                                     @if($item->qty_canceled)
                                                         <p>

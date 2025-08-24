@@ -36,7 +36,7 @@ class AreasController extends Controller
 
         ]);
         $data = array_merge([
-            'state_code' => strtoupper($validated['state_code']),
+            'state_code'   => strtoupper($validated['state_code']),
             'country_code' => strtoupper($validated['country_code']),
 
         ], request()->only([
@@ -55,17 +55,20 @@ class AreasController extends Controller
         ]);
 
     }
+
     public function edit($id): JsonResponse
     {
         $area = $this->areaRepository->findOrFail($id);
-//        return new JsonResponse([
-//            'area'  => $area,
-//        ]);
+
+        //        return new JsonResponse([
+        //            'area'  => $area,
+        //        ]);
         return response()->json([
             'area' => $area,
         ]);
     }
-    public function  update(Request $request): JsonResponse
+
+    public function update(Request $request): JsonResponse
     {
         $id = request()->id;
 
@@ -76,7 +79,7 @@ class AreasController extends Controller
             'area_name',
         ]));
 
-        $state = $this->areaRepository->update($data,$id);
+        $state = $this->areaRepository->update($data, $id);
 
         return new JsonResponse([
             'data'    => $state,
@@ -84,6 +87,7 @@ class AreasController extends Controller
         ]);
 
     }
+
     public function delete(int $id): JsonResponse
     {
         try {

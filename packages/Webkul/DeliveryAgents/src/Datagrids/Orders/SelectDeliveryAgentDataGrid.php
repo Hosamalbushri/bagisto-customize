@@ -32,7 +32,6 @@ class SelectDeliveryAgentDataGrid extends DataGrid
         if ($areaId) {
             $queryBuilder->where('delivery_agent_ranges.state_area_id', $areaId);
         }
-
         return $queryBuilder;
     }
 

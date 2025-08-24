@@ -1,6 +1,7 @@
 {{--{{$order->getStateIdFromCode($order->shipping_address->state)}}--}}
 {{--{{$order->shipping_address->state_area_id}}--}}
 <!-- Shipment Information-->
+
 <x-admin::accordion>
     <x-slot:header>
         <p class="p-2.5 text-base font-semibold text-gray-600 dark:text-gray-300">

@@ -373,6 +373,7 @@ return [
                 'customer-notified'              => ':date | <b>تم إخطار العميل</b>',
                 'discount'                       => 'خصم - :discount',
                 'download-pdf'                   => 'تحميل PDF',
+                'delivered'                      => 'تم التوصيل',
                 'fraud'                          => 'احتيال',
                 'grand-total'                    => 'المجموع الكلي - :grand_total',
                 'invoice-id'                     => 'الفاتورة #:invoice',

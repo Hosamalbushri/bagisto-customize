@@ -38,7 +38,7 @@ class RangesController extends Controller
             return response()->json([
                 'message' => trans('deliveryagent::app.range.create.create-failed'),
                 'status'  => 'error',
-            ],422);
+            ], 422);
         }
 
         $deliveryAgent->ranges()->create([

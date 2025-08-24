@@ -36,17 +36,41 @@ html.dark [class*=" acma-icon-"]{
     color: #d1d5db;
 }
 
-.acma-icon-truck1:before {
-    content: "\e900";
+.acma-icon-user-check:before {
+    content: "\e90e";
 }
-.acma-icon-truck:before {
-    content: "\e9b0";
+.acma-icon-reply:before {
+    content: "\e911";
+}
+.acma-icon-user:before {
+    content: "\e90c";
+}
+.acma-icon-send:before {
+    content: "\e90f";
+}
+.acma-icon-how_to_reg:before {
+    content: "\e90d";
+}
+.acma-icon-check_circle:before {
+    content: "\e910";
+    color: #16a34a;
+}
+.acma-icon-envelope:before {
+    content: "\e913";
+}
+.acma-icon-check-alt:before {
+    content: "\e912";
+}
+.acma-icon-send1:before {
+    content: "\e915";
 }
 .acma-icon-trash:before {
     content: "\e901";
 }
 .acma-icon-cancel:before {
     content: "\e902";
+    color: #dc2626;
+
 }
 .acma-icon-cancel1:before {
     content: "\e903";
@@ -63,26 +87,27 @@ html.dark [class*=" acma-icon-"]{
 .acma-icon-cancel2:before {
     content: "\e907";
 }
+.acma-icon-paperplane:before {
+    content: "\e914";
+}
 .acma-icon-cross1:before {
     content: "\e909";
 }
 .acma-icon-plus3:before {
     content: "\e90a";
-    color: #5675e0
-
 }
 .acma-icon-pencil:before {
     content: "\e90b";
 }
 .acma-icon-bin:before {
     content: "\e9ac";
-    color: red;
-
 }
 .acma-icon-bin2:before {
     content: "\e9ad";
 }
-
+.acma-icon-truck:before {
+    content: "\e9b0";
+}
 .acma-icon-sphere:before {
     content: "\e9c9";
 }
@@ -101,14 +126,11 @@ html.dark [class*=" acma-icon-"]{
 .acma-icon-safari:before {
     content: "\eadd";
 }
+.acma-icon-truck1:before {
+    content: "\e900";
+}
 .acma-icon-world:before {
     content: "\e908";
-}
-.acma-icon-user:before {
-    content: "\e90c";
-}
-.acma-icon-how_to_reg:before {
-    content: "\e90d";
 }
 
 .active .acma-icon-truck1:before,

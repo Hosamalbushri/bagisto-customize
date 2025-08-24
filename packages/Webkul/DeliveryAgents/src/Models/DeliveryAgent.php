@@ -73,6 +73,6 @@ class DeliveryAgent extends Authenticatable implements DeliveryAgentContract
 
     public function orders(): HasMany
     {
-        return $this->hasMany(Order::class, 'delivery_agent_id');
+        return $this->hasMany(DeliveryAgentOrder::class, 'delivery_agent_id');
     }
 }

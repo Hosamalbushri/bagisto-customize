@@ -20,7 +20,7 @@ class DeliveryAgentDataGrid extends DataGrid
         $tablePrefix = DB::getTablePrefix();
         $queryBuilder = DB::table('delivery_agents')
             ->leftJoin('delivery_agent_ranges', 'delivery_agents.id', '=', 'delivery_agent_ranges.delivery_agent_id')
-            ->leftJoin('orders', 'delivery_agents.id', '=', 'orders.delivery_agent_id')
+            ->leftJoin('delivery_agent_orders', 'delivery_agents.id', '=', 'delivery_agent_orders.delivery_agent_id')
 
             ->addSelect(
                 'delivery_agents.id as delivery_agents_id',
@@ -32,7 +32,7 @@ class DeliveryAgentDataGrid extends DataGrid
 //                'delivery_agent_ranges.country'
             )
             ->addSelect(DB::raw('COUNT(DISTINCT '.$tablePrefix.'delivery_agent_ranges.id) as range_count'))
-            ->addSelect(DB::raw('COUNT(DISTINCT '.$tablePrefix.'orders.id) as order_count'))
+            ->addSelect(DB::raw('COUNT(DISTINCT '.$tablePrefix.'delivery_agent_orders.id) as order_count'))
             ->addSelect(DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name) as full_name'))
             ->groupBy('delivery_agents_id');
 

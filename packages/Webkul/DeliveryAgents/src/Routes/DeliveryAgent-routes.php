@@ -36,7 +36,6 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/delivery'], f
      */
     Route::controller(OrdersController::class)->prefix('agents/orders')->group(function () {
         Route::post('/assign-to-delivery-agent/{order}/{agent}', 'assignToAgent')->name('admin.orders.assignDeliveryAgent');
-        Route::get('view/{id}', 'view')->name('admin.delivery.orders.view');
         Route::post('edit/{id}', 'changeStatus')->name('admin.orders.changeStatus');
 
 

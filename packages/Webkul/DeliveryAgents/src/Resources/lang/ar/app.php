@@ -58,7 +58,6 @@ return [
                 'rejected-order-confirmation'=> 'هل أنت متأكد أنك تريد رفض هذا الطلب؟',
             ],
             'status'=> [
-
                 'assigned_to_agent'   => 'طلب جديد',
                 'accepted_by_agent'   => ' طلب مقبول',
                 'rejected_by_agent'   => 'طلب مرفوض ',
@@ -390,8 +389,13 @@ return [
         ],
         'create'=> [
             'create-success'    => 'تم تعيين المندوب بنجاح',
-            'create-error'      => 'المندوب غير مفعل أو لا يمتلك نطاقات.',
+            'create-error'      => 'عذرا المندوب غير مفعل.',
             'order-has-delivery'=> 'تم تعيين مندوب مسبقًا لهذا الطلب',
+        ],
+        'update'=> [
+            'update-failed' => 'عذا لايمكنك التعديل في حالة الطلب',
+            'update-success'=> 'تم تحديث حالة الطلب بنجاح',
+            'updated-error' => 'حدث خطا عند التعديل',
         ],
     ],
     'orders'=> [
@@ -400,6 +404,7 @@ return [
             'no-delivery-agent-found'        => 'لم يتم تعيين مندوب لهذا الطلب',
             'view'                           => 'عرض',
             'contact'                        => 'اتصال',
+            'item-delivered'                 => 'تم التوصيل',
 
         ],
         'acl' => [
