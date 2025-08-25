@@ -132,6 +132,34 @@ html.dark [class*=" acma-icon-"]{
 .acma-icon-world:before {
     content: "\e908";
 }
+.acma-icon-box2:before {
+    content: "\e91e";
+}
+.acma-icon-inbox-check:before {
+    content: "\e91d";
+    color: #16a34a;
+
+}
+.acma-icon-box1:before {
+    content: "\e91c";
+}
+.acma-icon-input-checked-outline:before {
+    content: "\e919";
+}
+.acma-icon-box:before {
+    content: "\e91b";
+}
+.acma-icon-fact_check:before {
+    content: "\e918";
+    color: #16a34a;
+
+}
+.acma-icon-library_add_check:before {
+    content: "\e917";
+}
+.acma-icon-folder:before {
+    content: "\e91a";
+}
 
 .active .acma-icon-truck1:before,
 .acma-icon-truck1.active:before {

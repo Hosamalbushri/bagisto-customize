@@ -42,6 +42,7 @@ class OrderDateGrid extends DataGrid
 
         $this->addFilter('full_name', DB::raw('CONCAT('.$tablePrefix.'orders.customer_first_name, " ", '.$tablePrefix.'orders.customer_last_name)'));
         $this->addFilter('created_at', 'orders.created_at');
+        $this->addFilter('status', 'delivery_agent_orders.status');
 
         return $queryBuilder;
     }
@@ -86,6 +87,14 @@ class OrderDateGrid extends DataGrid
                     'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.out_for_delivery'),
                     'value' => Order::STATUS_OUT_FOR_DELIVERY,
                 ],
+                [
+                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.delivered'),
+                    'value' => Order::STATUS_DELIVERED,
+                ],
+                [
+                    'label' => trans('admin::app.sales.orders.index.datagrid.canceled'),
+                    'value' => Order::STATUS_CANCELED,
+                ],
             ],
             'sortable'   => true,
             'closure'    => function ($row) {
@@ -94,7 +103,7 @@ class OrderDateGrid extends DataGrid
                         return '<p class="label-assigned_to_agent">'.trans('deliveryagent::app.deliveryagents.orders.status.assigned_to_agent').'</p>';
 
                     case Order::STATUS_ACCEPTED_BY_AGENT:
-                        return '<p class="label-accepted_by_agent">'.trans('deliveryagent::app.deliveryagents.orders.status.accepted_by_agent').'</p>';
+                        return '<p class="label-closed">'.trans('deliveryagent::app.deliveryagents.orders.status.accepted_by_agent').'</p>';
 
                     case Order::STATUS_REJECTED_BY_AGENT:
                         return '<p class="label-rejected_by_agent">'.trans('deliveryagent::app.deliveryagents.orders.status.rejected_by_agent').'</p>';
@@ -104,6 +113,9 @@ class OrderDateGrid extends DataGrid
 
                     case Order::STATUS_DELIVERED:
                         return '<p class="label-delivered">'.trans('deliveryagent::app.deliveryagents.orders.status.delivered').'</p>';
+
+                    case Order::STATUS_CANCELED:
+                        return '<p class="label-canceled">'.trans('admin::app.sales.orders.index.datagrid.canceled').'</p>';
                 }
             },
         ]);
