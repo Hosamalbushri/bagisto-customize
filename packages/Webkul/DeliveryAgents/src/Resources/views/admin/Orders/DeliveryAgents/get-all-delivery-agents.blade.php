@@ -130,37 +130,14 @@
                                     @if (bouncer()->hasPermission('delivery.deliveryAgent.order.assign-delivery-agent'))
                                         <button
                                             type="button"
-                                            class="acma-icon-plus1 rtl:acma-icon-checkmark cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+                                            class="acma-icon-fact_check  cursor-pointer p-1.5 text-xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
                                             @click="$emitter.emit('request-assign-delivery', { orderId: {{ $order->id }}, agentId: record.delivery_agents_id })"
-                                        >
-                                        </button>
-{{--                                        <form--}}
-{{--                                            method="post"--}}
-{{--                                            :action="`{{ route('admin.orders.assignDeliveryAgent', [':order', ':agent']) }}`--}}
-{{--                                                        .replace(':order', '{{$order->id}}')--}}
-{{--                                                        .replace(':agent', record.delivery_agents_id)"--}}
-{{--                                            ref="assignDeliveryForm"--}}
-{{--                                        >--}}
-{{--                                            @csrf--}}
-{{--                                            <input type="hidden" name="delivery_agent_id"--}}
-{{--                                                   :value="record.delivery_agents_id"/>--}}
-{{--                                            <input type="hidden" name="order_id" value="{{$order->id}}"/>--}}
-{{--                                        </form>--}}
-
-{{--                                        <div--}}
-{{--                                            class="acma-icon-plus1 rtl:acma-icon-checkmark cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"--}}
-{{--                                            @click="$emitter.emit('open-confirm-modal', {--}}
-{{--                                            message: '@lang('deliveryagent::app.select-order.index.assign-delivery-agent-confirmation')',--}}
-{{--                                            agree: () => {--}}
-{{--                                            this.$refs['assignDeliveryForm'].submit()--}}
-{{--                                             }})"--}}
-{{--                                        >--}}
-{{--                                        </div>--}}
+                                        ></button>
                                     @endif
 
                                     <a
                                         :href="`{{ route('admin.deliveryagents.view', '') }}/${record.delivery_agents_id}`"
-                                        class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+                                        class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-3xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
                                     >
                                     </a>
                                 </div>

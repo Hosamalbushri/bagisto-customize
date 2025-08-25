@@ -52,10 +52,11 @@ return [
 
         'orders'=> [
             'view'=> [
-                'accepted-order'             => 'قبول الطلب',
-                'accepted-order-confirmation'=> 'هل أنت متأكد أنك تريد قبول هذا الطلب؟',
-                'rejected-order'             => 'رفض الطلب',
-                'rejected-order-confirmation'=> 'هل أنت متأكد أنك تريد رفض هذا الطلب؟',
+                'accepted-order-confirmation'        => 'هل أنت متأكد أنك تريد قبول هذا الطلب؟',
+                'rejected-order-confirmation'        => 'هل أنت متأكد أنك تريد رفض هذا الطلب؟',
+                'out-for-delivery-order-confirmation'=> 'هل أنت متأكد من تغيير حالة الطلب إلى "جاري التوصيل"؟ بعد التأكيد، لايمكنك  تعديل حالة الطلب.',
+                'delivered-order-confirmation'       => 'هل أنت متأكد من تغيير حالة الطلب إلى "تم التوصيل"؟ بعد التأكيد، سيتم إغلاق الطلب ولن يمكن تعديله.',
+
             ],
             'status'=> [
                 'assigned_to_agent'   => 'طلب جديد',

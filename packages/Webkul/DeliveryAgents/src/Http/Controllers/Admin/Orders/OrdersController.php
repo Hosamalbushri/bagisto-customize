@@ -119,7 +119,7 @@ class OrdersController extends Controller
                         } elseif ($order->hasOpenInvoice()) {
                             $this->orderRepository->updateOrderStatus($order, Order::STATUS_PENDING_PAYMENT);
                         } else {
-                            $this->orderRepository->updateOrderStatus($order, Order::STATUS_PROCESSING);
+                            $order->update(['status' => Order::STATUS_PROCESSING]);
                         }
                         break;
 

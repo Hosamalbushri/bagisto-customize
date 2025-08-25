@@ -256,9 +256,7 @@
                         .then((response) => {
                             this.$refs.DeliveryAgentCreateModal.close();
                             this.$emit('delivery-agent-created', response.data.data);
-
                             this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });
-
                             resetForm();
                             this.isLoading = false;
 
