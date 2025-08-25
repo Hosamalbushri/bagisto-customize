@@ -155,16 +155,16 @@
                                     </template>
                                  <template v-if="showOutForDeliveryButton(record)">
                                      <button
-                                         class="acma-icon-send1 text-xl   p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
-                                         @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'out_for_delivery',messageConfirm: rejectMessageConfirm
+                                         class="acma-icon-truck text-xl   p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+                                         @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'out_for_delivery',messageConfirm: outForDeliveryMessageConfirm
                                     })"
                                      >
                                      </button>
                                  </template>
                                     <template v-if="showDeliveredButton(record)">
                                         <button
-                                            class="icon-repeat text-xl   p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
-                                            @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'delivered',messageConfirm: rejectMessageConfirm
+                                            class="acma-icon-inbox-check text-xl   p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+                                            @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'delivered',messageConfirm: deliveredMessageConfirm
                                     })"
                                         >
                                         </button>
@@ -207,18 +207,21 @@
                     deliveryAgentId :@json($deliveryAgent->id),
                     acceptMessageConfirm:@json(__('deliveryagent::app.deliveryagents.orders.view.accepted-order-confirmation')),
                     rejectMessageConfirm:@json(__('deliveryagent::app.deliveryagents.orders.view.rejected-order-confirmation')),
+                    outForDeliveryMessageConfirm:@json(__('deliveryagent::app.deliveryagents.orders.view.out-for-delivery-order-confirmation')),
+                    deliveredMessageConfirm:@json(__('deliveryagent::app.deliveryagents.orders.view.delivered-order-confirmation')),
+
                 };
             },
             mounted() {
                 this.$emitter.on('update-order-status', ({orderId,orderStatus,messageConfirm}) => {
-                    this.rejectOrder(orderId,orderStatus,messageConfirm);
+                    this.changeOrderStatus(orderId,orderStatus,messageConfirm);
                 });
             },
             beforeUnmount() {
                 this.$emitter.off('update-order-status');
             },
             methods: {
-                rejectOrder(orderId,orderStatus,messageConfirm) {
+                changeOrderStatus(orderId,orderStatus,messageConfirm) {
                     this.$emitter.emit('open-confirm-modal', {
                         message:messageConfirm ,
                         agree: () => {
@@ -244,22 +247,18 @@
                     });
                 },
                 canShowActions(record) {
-                    // لا تظهر الأزرار لو تم الرفض أو تم التوصيل
                     const hideStatuses = ['rejected_by_agent', 'delivered'];
                     return !hideStatuses.includes(record.deliveryStatus);
                 },
                 showAcceptButton(record) {
-                    // يظهر فقط إذا الطلب جديد أو معين للمندوب
                     const allowedStatuses = ['assigned_to_agent'];
                     return allowedStatuses.includes(record.deliveryStatus);
                 },
                 showRejectButton(record) {
-                    // يظهر فقط إذا الطلب جديد أو معين للمندوب
                     const allowedStatuses = ['assigned_to_agent','accepted_by_agent'];
                     return allowedStatuses.includes(record.deliveryStatus);
                 },
                 showOutForDeliveryButton(record) {
-                    // يظهر بعد قبول الطلب
                     return record.deliveryStatus === 'accepted_by_agent';
                 },
                 showDeliveredButton(record) {

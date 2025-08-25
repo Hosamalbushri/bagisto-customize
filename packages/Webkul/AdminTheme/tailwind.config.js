@@ -44,6 +44,14 @@ module.exports = {
     safelist: [
         {
             pattern: /icon-/,
-        }
+
+        },
+        'bg-emerald-500',
+        'bg-green-600',
+        'bg-cyan-600',
+        'bg-yellow-500',
+        'bg-indigo-600',
+        'bg-rose-600',
+        'bg-slate-400',
     ]
 };

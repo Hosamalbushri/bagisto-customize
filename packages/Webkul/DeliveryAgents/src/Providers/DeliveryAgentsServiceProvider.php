@@ -28,6 +28,8 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
             $viewRenderEventManager->addTemplate('deliveryagents::admin.Orders.view');
         });
         Event::listen('sales.shipment.save.before', UpdateInOrderFields::class);
+        Event::listen('sales.order.cancel.before', UpdateInOrderFields::class);
+
 
         $this->app->concord->registerModel(
             \Webkul\Sales\Contracts\Order::class,
