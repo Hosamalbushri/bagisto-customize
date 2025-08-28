@@ -158,13 +158,7 @@
                             $inactiveLabel = __('admin::app.customers.customers.index.datagrid.inactive');
                         @endphp
                       <div class="flex gap-1.5">
-                      <span
-                      :class="{
-                      'label-canceled': record.status ==0,
-                      'label-active': record.status == 1,
-                              }"
-                       v-text="Number(record.status) ? '{{ $activeLabel }}' : '{{ $inactiveLabel }}'">
-                      </span>
+                          <p v-html="record.status"></p>
                       </div>
 
                         <p class="text-gray-600 dark:text-gray-300">

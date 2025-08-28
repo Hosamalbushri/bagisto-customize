@@ -48,7 +48,7 @@
                                         v-model="country"
                                         :label="trans('deliveryagent::app.range.create.country')"
                                     >
-                                        <option value="" disabled selected hidden>
+                                        <option value="">
                                             @lang('deliveryagent::app.range.create.select_country')
                                         </option>
 
@@ -77,7 +77,7 @@
                                         :placeholder="trans('deliveryagent::app.range.create.state')"
                                         ::disabled="!haveStates()"
                                     >
-                                        <option value="" disabled selected hidden>
+                                        <option value="">
                                             @lang('deliveryagent::app.range.create.select_state')
                                         </option>
                                         <option

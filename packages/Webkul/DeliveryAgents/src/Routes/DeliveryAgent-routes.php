@@ -26,7 +26,7 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/delivery'], f
      */
     Route::controller(RangesController::class)->prefix('range')->group(function () {
         Route::post('create', 'store')->name('admin.range.store');
-        Route::post('update/{id}', 'update')->name('admin.range.update');
+        Route::put('update/{id}', 'update')->name('admin.range.update');
         Route::post('delete/{id}', 'delete')->name('admin.range.delete');
 
     });

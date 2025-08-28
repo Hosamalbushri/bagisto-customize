@@ -33,7 +33,7 @@
 
     <!-- Datagrid -->
     <x-admin::datagrid
-        :src="route('admin.catalog.products.index')"
+        :src="route('admin.catalog.custom.products.index')"
         :isMultiRow="true"
     >
         <!-- Datagrid Header -->
@@ -232,9 +232,8 @@
                     <div class="flex items-center justify-between gap-x-4">
                         <div class="flex flex-col gap-1.5">
 
-                            <p :class="[record.status ? 'label-active': 'label-info']">
-                                @{{ record.status ? "@lang('admin::app.catalog.products.index.datagrid.active')" : "@lang('admin::app.catalog.products.index.datagrid.disable')" }}
-                            </p>
+                            <p v-html="record.status"></p>
+
 
                             <p class="text-gray-600 dark:text-gray-300">
                                 @{{ record.category_name ?? 'N/A' }}

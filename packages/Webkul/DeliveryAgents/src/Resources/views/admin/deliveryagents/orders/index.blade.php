@@ -129,6 +129,8 @@
                                     </p>
 
                                     <p class="text-gray-600 dark:text-gray-300">
+                                        @{{getCountryName(record.country_code)}} ,
+                                        @{{getStateName(record.country_code,record.state_code)}} ,
                                         @{{ record.location }}
                                     </p>
                                 </div>
@@ -204,6 +206,8 @@
             template: '#v-orders-DataGrid-template',
             data() {
                 return{
+                    countries: window.countries || {},
+                    countryStates: window.countryStates||{},
                     deliveryAgentId :@json($deliveryAgent->id),
                     acceptMessageConfirm:@json(__('deliveryagent::app.deliveryagents.orders.view.accepted-order-confirmation')),
                     rejectMessageConfirm:@json(__('deliveryagent::app.deliveryagents.orders.view.rejected-order-confirmation')),
@@ -263,6 +267,15 @@
                 },
                 showDeliveredButton(record) {
                     return record.deliveryStatus === 'out_for_delivery';
+                },
+                getCountryName(code) {
+                    return this.countries[code] || code;
+                },
+
+                getStateName(countryCode, stateCode) {
+                    const states = this.countryStates[countryCode] || [];
+                    const state = states.find(s => s.code === stateCode);
+                    return state ? state.default_name : stateCode;
                 },
             },
 

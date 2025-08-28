@@ -42,7 +42,8 @@
             <x-admin::drawer
                 ref="drawerRef"
                 position="right"
-                width="65%"
+                width="55%"
+                class="dark:bg-gray-900 bg-white"
 
             >
                 <x-slot:header>
@@ -56,24 +57,23 @@
                 </x-slot:header>
 
                 <x-slot:content>
-                    <x-admin::tabs position="right">
+                    <x-admin::tabs position="right" class="mt-4">
                         <x-admin::tabs.item
-                            title="{{ __('deliveryagent::app.select-order.index.tabs.in-the-same-area', ['city' => $order->shipping_address->city]) }}"                            :is-selected="true"
-                            class="container"
+                            title="{{ __('deliveryagent::app.select-order.index.tabs.in-the-same-area', ['city' => $order->shipping_address->city]) }}"
+                            :is-selected="true"
+                            class="p-4 bg-gray-50 dark:bg-gray-900 rounded-md transition-all"
                         >
-                            <div>
+                            <div class="space-y-3">
                                 @include('deliveryagents::admin.Orders.DeliveryAgents.get-delivery-agents-by-area')
                             </div>
                         </x-admin::tabs.item>
 
                         <x-admin::tabs.item
-                            class="container"
                             title="{{ __('deliveryagent::app.select-order.index.tabs.all') }}"
+                            class="p-4 bg-gray-50 dark:bg-gray-900 rounded-md transition-all"
                         >
-                            <div>
-                                <div>
-                                    @include('deliveryagents::admin.Orders.DeliveryAgents.get-all-delivery-agents')
-                                </div>
+                            <div class="space-y-3">
+                                @include('deliveryagents::admin.Orders.DeliveryAgents.get-all-delivery-agents')
                             </div>
                         </x-admin::tabs.item>
                     </x-admin::tabs>

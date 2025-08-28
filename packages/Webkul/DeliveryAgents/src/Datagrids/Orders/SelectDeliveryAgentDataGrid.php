@@ -32,6 +32,7 @@ class SelectDeliveryAgentDataGrid extends DataGrid
         if ($areaId) {
             $queryBuilder->where('delivery_agent_ranges.state_area_id', $areaId);
         }
+
         return $queryBuilder;
     }
 
@@ -55,7 +56,6 @@ class SelectDeliveryAgentDataGrid extends DataGrid
             'filterable' => true,
             'sortable'   => true,
         ]);
-
 
         $this->addColumn([
             'index'      => 'email',
@@ -87,7 +87,15 @@ class SelectDeliveryAgentDataGrid extends DataGrid
                     'value' => 0,
                 ],
             ],
-            'sortable' => true,
+            'sortable'   => true,
+            'closure'    => function ($row) {
+                switch ($row->status) {
+                    case '1':
+                        return '<p class="label-active">'.trans('deliveryagent::app.deliveryagents.datagrid.active').'</p>';
+                    case '0':
+                        return '<p class="label-canceled">'.trans('deliveryagent::app.deliveryagents.datagrid.inactive').'</p>';
+                }
+            },
 
         ]);
     }
@@ -106,6 +114,7 @@ class SelectDeliveryAgentDataGrid extends DataGrid
         ]);
 
     }
+
     public function prepareMassActions()
     {
         if (bouncer()->hasPermission('delivery.deliveryAgent.delete')) {
@@ -134,5 +143,4 @@ class SelectDeliveryAgentDataGrid extends DataGrid
             ]);
         }
     }
-
 }

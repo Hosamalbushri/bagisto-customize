@@ -68,7 +68,7 @@ class DeliveryAgent extends Authenticatable implements DeliveryAgentContract
 
     public function ranges(): HasMany
     {
-        return $this->hasMany(Range::class, 'delivery_agent_id', 'id');
+        return $this->hasMany(Range::class, 'delivery_agent_id', 'id')->with('state_area');
     }
 
     public function orders(): HasMany
