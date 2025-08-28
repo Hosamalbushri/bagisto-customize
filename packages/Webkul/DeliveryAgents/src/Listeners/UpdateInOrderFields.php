@@ -1,71 +1,62 @@
 <?php
 
 namespace Webkul\DeliveryAgents\Listeners;
-
 use Webkul\DeliveryAgents\Models\Order;
-use Webkul\Sales\Repositories\OrderItemRepository;
-use Webkul\Sales\Repositories\OrderRepository;
 
 class UpdateInOrderFields
 {
-    public function __construct(
-        protected OrderRepository $orderRepository,
-        protected OrderItemRepository $orderItemRepository,
-
-    ) {}
-
-    public function handle($event)
+    /**
+     * Handle before cancel order event.
+     */
+    public function beforeCancelOrder(Order $order): void
     {
-        // إذا الحدث أرسل ككائن Order
-        if ($event instanceof Order) {
-            $this->handleOrderObject($event);
+        if (! $order->delivery_agent_id) {
+            return;
         }
-        // إذا الحدث أرسل كمصفوفة بيانات (مثل Order Items)
-        elseif (is_array($event) && isset($event['items'])) {
-            $this->handleOrderArray($event);
-        }
+
+        $this->updateOrderAndAssignments($order, Order::STATUS_CANCELED);
     }
 
     /**
-     * التعامل مع كائن Order
+     * Handle after save shipment event.
      */
-    protected function handleOrderObject(Order $order): void
+    public function afterSaveShipment($event): void
     {
-        if (empty($order->delivery_agent_id)) {
+        $order = $event->order ?? null;
+
+        if (! $order || ! $order->delivery_agent_id) {
             return;
         }
 
         $order->update([
-            'delivery_status' => Order::STATUS_CANCELED,
+            'delivery_status'   => null,
+            'delivery_agent_id' => null,
+        ]);
+    }
+
+    /**
+     * Handle after save refund event.
+     */
+
+    public function afterSaveRefund($event): void
+    {
+        $order = $event->order ?? null;
+
+        if (! $order || ! $order->delivery_agent_id) {
+            return;
+        }
+
+        $this->updateOrderAndAssignments($order, Order::STATUS_CLOSED);
+    }
+
+    protected function updateOrderAndAssignments(Order $order, string $status): void
+    {
+        $order->update([
+            'delivery_status' => $status,
         ]);
 
         $order->deliveryAssignments()
             ->where('delivery_agent_id', $order->delivery_agent_id)
-            ->update(['status' => Order::STATUS_CANCELED]);
-    }
-
-    /**
-     * التعامل مع مصفوفة Order Items
-     */
-    protected function handleOrderArray(array $data): void
-    {
-        foreach ($data['items'] as $orderItemId => $itemData) {
-            // إيجاد الـ Order من الـ Order Item
-            $orderItem = $this->orderItemRepository->find($orderItemId);
-            if (! $orderItem) {
-                continue;
-            }
-
-            $order = $orderItem->order;
-            if (! $order || empty($order->delivery_agent_id)) {
-                continue;
-            }
-
-            // إعادة تعيين الحقول
-            $order->update([
-                'delivery_status'   => null,
-                'delivery_agent_id' => null,
-            ]);
-        }
+            ->update(['status' => $status]);
     }
 }

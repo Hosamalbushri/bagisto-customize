@@ -18,7 +18,7 @@
                 <x-admin::shimmer.datagrid.table.head/>
             </template>
             <template v-else>
-                <div class="row grid grid-cols-[2fr_1fr_1fr] grid-rows-1 items-center border-b px-4 py-2.5 dark:border-gray-800">
+                <div class="row grid grid-cols-[2fr_1fr_1fr] grid-rows-1 items-center border-b border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-600 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
                     <div class="flex select-none items-center gap-2.5"
                          v-for="(columnGroup, index) in [['full_name', 'email'], ['status', 'phone']]"
                             >
@@ -112,14 +112,7 @@
                             </div>
                             <div class="flex flex-col gap-1.5">
                                 <div class="flex gap-1.5">
-                                <span
-                                :class="{
-                                'label-canceled': record.status == '',
-                                'label-active': record.status == 1,
-                                }"
-                                >
-                                @{{ record.status ? '@lang('deliveryagent::app.deliveryagents.datagrid.active')' : '@lang('admin::app.customers.customers.index.datagrid.inactive')' }}
-                                </span>
+                                    <p v-html="record.status"></p>
                                 </div>
                                 <p class="text-gray-600 dark:text-gray-300">
                                     @{{ record.phone ?? 'N/A' }}

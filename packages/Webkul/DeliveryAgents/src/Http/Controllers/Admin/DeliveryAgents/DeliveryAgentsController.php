@@ -97,7 +97,7 @@ class DeliveryAgentsController extends Controller
     public function view(Request $request, $id)
     {
         $deliveryAgent = $this->deliveryAgentRepository->with([
-            'ranges.stateArea'=> function ($q) {
+            'ranges'=> function ($q) {
                 $q->limit(10); // أو paginate بدلها
             },
             'orders'=> function ($q) {

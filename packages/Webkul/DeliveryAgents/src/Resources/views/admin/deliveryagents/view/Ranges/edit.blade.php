@@ -26,7 +26,9 @@
                 v-slot="{ meta, errors, handleSubmit, reset, setErrors }"
                 as="div"
             >
-                <form @submit="handleSubmit($event,update)" >
+                <form @submit="handleSubmit($event,update)"
+                      ref="updateRange"
+                >
                     <x-admin::modal  ref="RangeEditModal">
                         <x-slot:header>
                             @lang('deliveryagent::app.range.edit.title')
@@ -41,17 +43,17 @@
                                         type="select"
                                         name="country"
                                         rules="required"
-                                        v-model="countryId"
+                                        v-model="country"
                                         :label="trans('deliveryagent::app.range.edit.country')"
                                     >
-                                        <option value="" disabled selected hidden>
+                                        <option value="">
                                             @lang('deliveryagent::app.range.edit.select_country')
                                         </option>
 
                                         @foreach (core()->countries() as $country)
                                             <option
-                                                {{ $country->id === config('app.default_country') ? 'selected' : '' }}
-                                                value="{{ $country->id }}"
+                                                {{ $country->code === config('app.default_country') ? 'selected' : '' }}
+                                                value="{{ $country->code }}"
                                             >
                                                 {{ $country->name }}
                                             </option>
@@ -74,12 +76,12 @@
                                             rules="required"
                                             :label="trans('deliveryagent::app.range.edit.state')"
                                             :placeholder="trans('deliveryagent::app.range.edit.state')"
-                                            v-model="editingRange.state_area.country_state_id"
+                                            v-model="state"
                                             ::disabled="!haveStates()"
                                         >
                                             <option
-                                                v-for='(state, index) in countryStates[countryId]'
-                                                :value="state.id"
+                                                v-for='(state, index) in countryStates[country]'
+                                                :value="state.code"
                                             >
                                                 @{{ state.default_name }}
                                             </option>
@@ -100,17 +102,17 @@
                                         id="state_area_id"
                                         name="state_area_id"
                                         rules="required"
-                                        v-model="editingRange.state_area_id"
+                                        v-model="area"
                                         :label="trans('deliveryagent::app.range.edit.area-name')"
                                         :placeholder="trans('deliveryagent::app.range.edit.area-name')"
                                         ::disabled="!haveAreas()"
                                     >
-                                        <option value="" disabled selected hidden>
+                                        <option value="">
                                             @lang('deliveryagent::app.range.edit.select_state_area')
                                         </option>
 
                                         <option
-                                            v-for="(area, index) in stateAreas[editingRange.state_area.country_state_id]"
+                                            v-for="(area, index) in stateAreas[state]"
                                             :value="area.id"
                                         >
                                             @{{ area.area_name }}
@@ -119,7 +121,7 @@
                                 </x-admin::form.control-group>
 
 
-                                <template v-if="editingRange.state_area.country_code && !haveStates()">
+                                <template v-if="country && !haveStates()">
                                     <div class="mt-4 p-3 rounded bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 text-sm">
                                         @lang('deliveryagent::app.range.edit.no_states_for_country')
                                     </div>
@@ -139,7 +141,7 @@
                                         @endif
                                     </div>
                                 </template>
-                                <template v-if="editingRange.state_area.country_state_id && !haveAreas()">
+                                <template v-if="state && !haveAreas()">
                                     <div class="mt-4 p-3 rounded bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 text-sm">
                                         @lang('deliveryagent::app.range.edit.no_areas_for_state')
                                     </div>
@@ -159,6 +161,11 @@
                                         @endif
                                     </div>
                                 </template>
+                                <x-admin::form.control-group.control
+                                    type="hidden"
+                                    name="delivery_agent_id"
+                                    v-model="range.delivery_agent_id"
+                                />
                                 </x-slot>
 
 
@@ -186,50 +193,29 @@
             data() {
                 return {
                     allCountries: @json(core()->countries()),
-                    countryStates: @json(myHelper()->groupedStatesByCountries()),
-                    stateAreas: @json(myHelper()->groupedAreasByStates()),
-                    editingRange: null,
-                    countryId: null,
+                    countryStates:window.countryStates||{},
+                    stateAreas: @json(myHelper()->groupedAreasByStatesCode()),
+                    country:this.range.state_area.country_code,
+                    state:this.range.state_area.state_code,
+                    area:this.range.state_area_id,
                     isLoading: false,
                 };
             },
-            mounted() {
-                this.resetEditingRange();
-                this.setCountryIdFromCode();
-            },
-            openModal() {
-                this.resetEditingRange();
-                this.$refs.RangeEditModal.toggle();
-            },
-
-
-
             methods: {
-                setCountryIdFromCode() {
-                    const country = this.allCountries.find(c => c.code === this.editingRange.state_area.country_code);
-                    this.countryId = country ? country.id : null;
-                },
-
-                resetEditingRange() {
-                    // إنشاء نسخة مؤقتة قابلة للتعديل بدون التأثير على الأصل
-                    this.editingRange = JSON.parse(JSON.stringify(this.range));
-                },
-                getCountryId(code) {
-                    return this.country[code] || code;
-                },
                 update(params, { resetForm, setErrors }) {
                     this.isLoading = true;
 
-                    this.$axios.post(`{{ route('admin.range.update', ':id') }}`.replace(':id', this.editingRange.id),
-                        params
+                    let formData = new FormData(this.$refs.updateRange);
+
+                    formData.append('_method', 'put');
+                    this.$axios.post(`{{ route('admin.range.update', ':id') }}`.replace(':id', this.range.id),
+                        formData
                     )
                         .then((response) => {
-                            this.$refs.RangeEditModal.close();
                             this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });
                             this.$emit('range-updated', response.data.data);
                             this.isLoading = false;
-                            resetForm();
-
+                            this.$refs.RangeEditModal.toggle();
 
                         })
 
@@ -252,10 +238,10 @@
                     * It ensures that the final result is a boolean value,
                     * true if the array has a length greater than 0, and otherwise false.
                     */
-                    return !!this.countryStates[this.countryId]?.length;
+                    return !!this.countryStates[this.country]?.length;
                 },
                 haveAreas() {
-                    return !!this.stateAreas[this.editingRange.state_area.country_state_id]?.length;
+                    return !!this.stateAreas[this.state]?.length;
                 },
 
                 goToCountryView() {

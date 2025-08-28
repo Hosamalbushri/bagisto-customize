@@ -16,68 +16,52 @@ class RangesController extends Controller
 
     public function __construct(
         protected DeliveryAgentRepository $deliveryAgentRepository,
-        protected RangeRepository $rangeRepository,
-
     ) {}
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'delivery_agent_id'    => 'required|integer|exists:delivery_agents,id',
-            'state_area_id'        => 'required|integer|exists:state_areas,id',
-
+        $validated = $request->validate([
+            'delivery_agent_id' => 'required|integer|exists:delivery_agents,id',
+            'state_area_id'     => 'required|integer|exists:state_areas,id',
         ]);
 
-        $deliveryAgent = $this->deliveryAgentRepository->findOrFail($request->delivery_agent_id);
+        $range = $this->deliveryAgentRepository->addRange($validated);
 
-        $existingRecord = $deliveryAgent->ranges()
-            ->where('state_area_id', $request->state_area_id)
-            ->first();
-
-        if ($existingRecord) {
+        if (! $range) {
             return response()->json([
                 'message' => trans('deliveryagent::app.range.create.create-failed'),
                 'status'  => 'error',
             ], 422);
         }
 
-        $deliveryAgent->ranges()->create([
-            'state_area_id'       => $request->state_area_id,
-        ]);
-        $range = $deliveryAgent->ranges()->first();
-
         return response()->json([
             'message' => trans('deliveryagent::app.range.create.create-success'),
-            'data'    => $range,
+            'status'  => 'success',
+            'data'    => $range->load('state_area'),
         ]);
 
     }
 
-    public function update(int $id)
+    public function update(int $id, Request $request)
     {
-        $this->validate(request(), [
-            'state_area_id'        => 'required|integer|exists:state_areas,id',
+        $validated = $request->validate([
+            'delivery_agent_id' => 'required|integer|exists:delivery_agents,id',
+            'state_area_id'     => 'required|integer|exists:state_areas,id',
         ]);
-        $data = request()->only([
-            'state_area_id',
-        ]);
-        $range = $this->rangeRepository->findOrFail($id);
-        $duplicate = $this->rangeRepository->where('delivery_agent_id', $range->delivery_agent_id)
-            ->where('state_area_id', $data['state_area_id'])
-            ->where('id', '!=', $id)
-            ->first();
 
-        if ($duplicate) {
+        $range = $this->deliveryAgentRepository->updateRange($id, $validated);
+
+        if (! $range) {
             return response()->json([
                 'message' => trans('deliveryagent::app.range.edit.edit-failed'),
                 'status'  => 'error',
             ], 422);
         }
 
-        $range->update($data);
-
         return response()->json([
             'message' => trans('deliveryagent::app.range.edit.edit-success'),
+            'status'  => 'success',
+            'data'    => $range->load('state_area'),
         ]);
 
     }
@@ -86,12 +70,20 @@ class RangesController extends Controller
     {
         Event::dispatch('deliveryAgent.range.delete.before', $id);
 
-        $this->rangeRepository->delete($id);
+        $deleted = $this->deliveryAgentRepository->removeRange($id);
 
         Event::dispatch('deliveryAgent.range.delete.after', $id);
 
+        if (! $deleted) {
+            return new JsonResponse([
+                'message' => trans('deliveryagent::app.range.view.range-delete-failed'),
+                'status'  => 'error',
+            ], 422);
+        }
+
         return new JsonResponse([
             'message' => trans('deliveryagent::app.range.view.range-delete-success'),
+            'status'  => 'success',
         ]);
     }
 }

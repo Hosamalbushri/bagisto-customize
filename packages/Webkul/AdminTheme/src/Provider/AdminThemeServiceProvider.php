@@ -20,7 +20,10 @@ class AdminThemeServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../Resources/views' => resource_path('themes/new-admin-theme/views'),
+            __DIR__.'/../Resources/views' => resource_path('themes/new-admin-theme/views'),
         ]);
+        $this->loadRoutesFrom(__DIR__.'/../Routes/catalog-routes.php');
+        $this->loadRoutesFrom(__DIR__.'/../Routes/sales-routes.php');
+
     }
 }

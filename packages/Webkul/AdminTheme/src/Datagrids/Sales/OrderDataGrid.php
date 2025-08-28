@@ -1,13 +1,14 @@
 <?php
 
-namespace Webkul\DeliveryAgents\Datagrids\DeliveryAgent\Views;
+namespace Webkul\AdminTheme\Datagrids\Sales;
 
 use Illuminate\Support\Facades\DB;
 use Webkul\DataGrid\DataGrid;
-use Webkul\DeliveryAgents\Models\Order;
+use Webkul\Sales\Models\Order;
 use Webkul\Sales\Models\OrderAddress;
+use Webkul\Sales\Repositories\OrderRepository;
 
-class OrderDateGrid extends DataGrid
+class OrderDataGrid extends DataGrid
 {
     /**
      * Prepare query builder.
@@ -19,7 +20,11 @@ class OrderDateGrid extends DataGrid
         $tablePrefix = DB::getTablePrefix();
 
         $queryBuilder = DB::table('orders')
-            ->leftJoin('delivery_agent_orders', 'orders.id', '=', 'delivery_agent_orders.order_id')
+            ->distinct()
+            ->leftJoin('addresses as order_address_shipping', function ($leftJoin) {
+                $leftJoin->on('order_address_shipping.order_id', '=', 'orders.id')
+                    ->where('order_address_shipping.address_type', OrderAddress::ADDRESS_TYPE_SHIPPING);
+            })
             ->leftJoin('addresses as order_address_billing', function ($leftJoin) {
                 $leftJoin->on('order_address_billing.order_id', '=', 'orders.id')
                     ->where('order_address_billing.address_type', OrderAddress::ADDRESS_TYPE_BILLING);
@@ -27,24 +32,23 @@ class OrderDateGrid extends DataGrid
             ->leftJoin('order_payment', 'orders.id', '=', 'order_payment.order_id')
             ->select(
                 'orders.id',
-                'orders.increment_id',
                 'order_payment.method',
+                'orders.increment_id',
                 'orders.base_grand_total',
                 'orders.created_at',
                 'channel_name',
+                'channel_id',
+                'status',
                 'order_address_billing.country as country_code',
                 'order_address_billing.state as state_code',
-                'delivery_agent_orders.status as status',
-                'delivery_agent_orders.status as deliveryStatus',
-                'order_address_billing.email as customer_email',
+                'customer_email',
+                'orders.cart_id as items',
                 DB::raw('CONCAT('.$tablePrefix.'order_address_billing.first_name, " ", '.$tablePrefix.'order_address_billing.last_name) as full_name'),
                 DB::raw('CONCAT('.$tablePrefix.'order_address_billing.city, ", ", '.$tablePrefix.'order_address_billing.address) as location')
-            )
-            ->where('delivery_agent_orders.delivery_agent_id', request()->route('id'));
+            );
 
         $this->addFilter('full_name', DB::raw('CONCAT('.$tablePrefix.'orders.customer_first_name, " ", '.$tablePrefix.'orders.customer_last_name)'));
         $this->addFilter('created_at', 'orders.created_at');
-        $this->addFilter('status', 'delivery_agent_orders.status');
 
         return $queryBuilder;
     }
@@ -58,7 +62,7 @@ class OrderDateGrid extends DataGrid
     {
         $this->addColumn([
             'index'      => 'increment_id',
-            'label'      => trans('admin::app.customers.customers.view.datagrid.orders.order-id'),
+            'label'      => trans('admin::app.sales.orders.index.datagrid.order-id'),
             'type'       => 'string',
             'searchable' => true,
             'filterable' => true,
@@ -67,31 +71,19 @@ class OrderDateGrid extends DataGrid
 
         $this->addColumn([
             'index'              => 'status',
-            'label'              => trans('admin::app.customers.customers.view.datagrid.orders.status'),
+            'label'              => trans('admin::app.sales.orders.index.datagrid.status'),
             'type'               => 'string',
             'searchable'         => true,
             'filterable'         => true,
             'filterable_type'    => 'dropdown',
             'filterable_options' => [
                 [
-                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.assigned_to_agent'),
-                    'value' => Order::STATUS_ASSIGNED_TO_AGENT,
+                    'label' => trans('admin::app.sales.orders.index.datagrid.processing'),
+                    'value' => Order::STATUS_PROCESSING,
                 ],
                 [
-                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.accepted_by_agent'),
-                    'value' => Order::STATUS_ACCEPTED_BY_AGENT,
-                ],
-                [
-                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.rejected_by_agent'),
-                    'value' => Order::STATUS_REJECTED_BY_AGENT,
-                ],
-                [
-                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.out_for_delivery'),
-                    'value' => Order::STATUS_OUT_FOR_DELIVERY,
-                ],
-                [
-                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.delivered'),
-                    'value' => Order::STATUS_DELIVERED,
+                    'label' => trans('admin::app.sales.orders.index.datagrid.completed'),
+                    'value' => Order::STATUS_COMPLETED,
                 ],
                 [
                     'label' => trans('admin::app.sales.orders.index.datagrid.canceled'),
@@ -101,38 +93,49 @@ class OrderDateGrid extends DataGrid
                     'label' => trans('admin::app.sales.orders.index.datagrid.closed'),
                     'value' => Order::STATUS_CLOSED,
                 ],
+                [
+                    'label' => trans('admin::app.sales.orders.index.datagrid.pending'),
+                    'value' => Order::STATUS_PENDING,
+                ],
+                [
+                    'label' => trans('admin::app.sales.orders.index.datagrid.pending-payment'),
+                    'value' => Order::STATUS_PENDING_PAYMENT,
+                ],
+                [
+                    'label' => trans('admin::app.sales.orders.index.datagrid.fraud'),
+                    'value' => Order::STATUS_FRAUD,
+                ],
             ],
             'sortable'   => true,
             'closure'    => function ($row) {
                 switch ($row->status) {
-                    case Order::STATUS_ASSIGNED_TO_AGENT:
-                        return '<p class="label-assigned_to_agent">'.trans('deliveryagent::app.deliveryagents.orders.status.assigned_to_agent').'</p>';
+                    case Order::STATUS_PROCESSING:
+                        return '<p class="label-processing">'.trans('admin::app.sales.orders.index.datagrid.processing').'</p>';
 
-                    case Order::STATUS_ACCEPTED_BY_AGENT:
-                        return '<p class="label-closed">'.trans('deliveryagent::app.deliveryagents.orders.status.accepted_by_agent').'</p>';
-
-                    case Order::STATUS_REJECTED_BY_AGENT:
-                        return '<p class="label-rejected_by_agent">'.trans('deliveryagent::app.deliveryagents.orders.status.rejected_by_agent').'</p>';
-
-                    case Order::STATUS_OUT_FOR_DELIVERY:
-                        return '<p class="label-out_for_delivery">'.trans('deliveryagent::app.deliveryagents.orders.status.out_for_delivery').'</p>';
-
-                    case Order::STATUS_DELIVERED:
-                        return '<p class="label-delivered">'.trans('deliveryagent::app.deliveryagents.orders.status.delivered').'</p>';
+                    case Order::STATUS_COMPLETED:
+                        return '<p class="label-active">'.trans('admin::app.sales.orders.index.datagrid.completed').'</p>';
 
                     case Order::STATUS_CANCELED:
                         return '<p class="label-canceled">'.trans('admin::app.sales.orders.index.datagrid.canceled').'</p>';
 
                     case Order::STATUS_CLOSED:
                         return '<p class="label-closed">'.trans('admin::app.sales.orders.index.datagrid.closed').'</p>';
-                }
 
+                    case Order::STATUS_PENDING:
+                        return '<p class="label-pending">'.trans('admin::app.sales.orders.index.datagrid.pending').'</p>';
+
+                    case Order::STATUS_PENDING_PAYMENT:
+                        return '<p class="label-pending">'.trans('admin::app.sales.orders.index.datagrid.pending-payment').'</p>';
+
+                    case Order::STATUS_FRAUD:
+                        return '<p class="label-canceled">'.trans('admin::app.sales.orders.index.datagrid.fraud').'</p>';
+                }
             },
         ]);
 
         $this->addColumn([
             'index'      => 'base_grand_total',
-            'label'      => trans('admin::app.customers.customers.view.datagrid.orders.grand-total'),
+            'label'      => trans('admin::app.sales.orders.index.datagrid.grand-total'),
             'type'       => 'string',
             'filterable' => true,
             'sortable'   => true,
@@ -140,7 +143,7 @@ class OrderDateGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'method',
-            'label'      => trans('admin::app.customers.customers.view.datagrid.orders.pay-via'),
+            'label'      => trans('admin::app.sales.orders.index.datagrid.pay-via'),
             'type'       => 'string',
             'closure'    => function ($row) {
                 return core()->getConfigData('sales.payment_methods.'.$row->method.'.title');
@@ -148,17 +151,23 @@ class OrderDateGrid extends DataGrid
         ]);
 
         $this->addColumn([
-            'index'              => 'deliveryStatus',
-            'label'              => trans('admin::app.customers.customers.view.datagrid.orders.channel-name'),
+            'index'              => 'channel_id',
+            'label'              => trans('admin::app.sales.orders.index.datagrid.channel-name'),
             'type'               => 'string',
-
+            'filterable'         => true,
+            'filterable_type'    => 'dropdown',
+            'filterable_options' => core()->getAllChannels()
+                ->map(fn ($channel) => ['label' => $channel->name, 'value' => $channel->id])
+                ->values()
+                ->toArray(),
         ]);
 
         $this->addColumn([
             'index'      => 'full_name',
-            'label'      => trans('admin::app.customers.customers.view.datagrid.orders.customer-name'),
+            'label'      => trans('admin::app.sales.orders.index.datagrid.customer'),
             'type'       => 'string',
             'searchable' => true,
+            'filterable' => true,
             'sortable'   => true,
         ]);
 
@@ -167,18 +176,18 @@ class OrderDateGrid extends DataGrid
          */
         $this->addColumn([
             'index'      => 'customer_email',
-            'label'      => trans('admin::app.customers.customers.view.datagrid.orders.email'),
+            'label'      => trans('admin::app.sales.orders.index.datagrid.email'),
             'type'       => 'string',
+            'searchable' => true,
             'filterable' => true,
             'sortable'   => true,
         ]);
 
         $this->addColumn([
             'index'      => 'location',
-            'label'      => trans('admin::app.customers.customers.view.datagrid.orders.location'),
+            'label'      => trans('admin::app.sales.orders.index.datagrid.location'),
             'type'       => 'string',
         ]);
-
         $this->addColumn([
             'index'      => 'country_code',
             'label'      => trans('admin::app.customers.customers.view.datagrid.orders.location'),
@@ -189,9 +198,22 @@ class OrderDateGrid extends DataGrid
             'label'      => trans('admin::app.customers.customers.view.datagrid.orders.location'),
             'type'       => 'string',
         ]);
+
+        $this->addColumn([
+            'index'      => 'items',
+            'label'      => trans('admin::app.sales.orders.index.datagrid.items'),
+            'type'       => 'string',
+            'exportable' => false,
+            'closure'    => function ($value) {
+                $order = app(OrderRepository::class)->with('items')->find($value->id);
+
+                return view('admin::sales.orders.items', compact('order'))->render();
+            },
+        ]);
+
         $this->addColumn([
             'index'           => 'created_at',
-            'label'           => trans('admin::app.customers.customers.view.datagrid.orders.date'),
+            'label'           => trans('admin::app.sales.orders.index.datagrid.date'),
             'type'            => 'date',
             'filterable'      => true,
             'filterable_type' => 'date_range',
@@ -209,7 +231,7 @@ class OrderDateGrid extends DataGrid
         if (bouncer()->hasPermission('sales.orders.view')) {
             $this->addAction([
                 'icon'   => 'icon-view',
-                'title'  => trans('admin::app.customers.customers.view.datagrid.orders.view'),
+                'title'  => trans('admin::app.sales.orders.index.datagrid.view'),
                 'method' => 'GET',
                 'url'    => function ($row) {
                     return route('admin.sales.orders.view', $row->id);

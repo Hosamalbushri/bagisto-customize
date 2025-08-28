@@ -14,4 +14,5 @@ class Areas extends Model
         'state_code',
         'country_code',
     ];
+
 }

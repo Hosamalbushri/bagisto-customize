@@ -349,6 +349,7 @@ return [
             'delete-btn'                => 'حذف',
             'range-delete-confirmation' => 'هل أنت متأكد أنك تريد حذف هذا النطاق؟',
             'range-delete-success'      => 'تم حذف النطاق بنجاح',
+            'range-delete-failed'       => 'لم يتم الحذف حاول مرة اخرى لاحقا'
         ],
         'edit'=> [
             'title'                      => 'تعديل النطاق الحالي',
@@ -390,13 +391,13 @@ return [
         ],
         'create'=> [
             'create-success'    => 'تم تعيين المندوب بنجاح',
-            'create-error'      => 'عذرا المندوب غير مفعل.',
+            'create-error'      => ' عذرا المندوب غير مفعل يرجى تفعيل المندوب اولا.',
             'order-has-delivery'=> 'تم تعيين مندوب مسبقًا لهذا الطلب',
         ],
         'update'=> [
             'update-failed' => 'عذا لايمكنك التعديل في حالة الطلب',
             'update-success'=> 'تم تحديث حالة الطلب بنجاح',
-            'updated-error' => 'حدث خطا عند التعديل',
+            'updated-error' => 'حدث خطا عند التعديل تحقق من  حالة المندوب ',
         ],
     ],
     'orders'=> [

@@ -68,11 +68,16 @@ class OrdersController extends Controller
                     ->findOrFail($id);
 
                 $status = $request->get('status');
+                $deliveryAgentId = $request->get('delivery_agent_id');
+                $deliveryAgent = $this->deliveryAgentRepository->find($deliveryAgentId);
+                if (! $deliveryAgent || $deliveryAgent->status !== 1) {
+                    throw new \Exception('deliveryagent::app.select-order.create.create-error');
 
-                // تحقق من المندوب والحالة
+                }
+
                 if (
                     empty($order->delivery_agent_id) ||
-                    $order->delivery_agent_id !== $request->get('delivery_agent_id') ||
+                    $order->delivery_agent_id !== $deliveryAgentId ||
                     ! in_array($status, [
                         Order::STATUS_ACCEPTED_BY_AGENT,
                         Order::STATUS_REJECTED_BY_AGENT,
