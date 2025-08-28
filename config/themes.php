@@ -10,7 +10,7 @@ return [
     |
     */
 
-    'shop-default' => 'new-theme',
+    'shop-default' => 'default',
 
     'shop' => [
 //        'default' => [
@@ -24,7 +24,7 @@ return [
 //                'package_assets_directory' => 'src/Resources/assets',
 //            ],
 //        ],
-        'new-theme' => [
+        'default' => [
             'name'        => 'Default',
             'assets_path' => 'public/themes/shop/new-theme',
             'views_path'  => 'resources/themes/new-theme/views',

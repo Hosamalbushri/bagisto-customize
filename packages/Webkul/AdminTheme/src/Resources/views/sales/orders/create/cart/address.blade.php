@@ -89,10 +89,12 @@
                                         <p class="text-gray-600 dark:text-gray-300">
                                             @{{
                                                 [
-                                                    address.address.join(', '),
+                                                    getCountryName(address.country),
+                                                    getStateName(address.country,address.state),
                                                     address.city,
-                                                    address.state
-                                                ].filter(string => string !== '').join(', ')
+                                                    address.address.join(', '),
+
+                                            ].filter(string => string !== '').join(', ')
                                             }}
                                         </p>
                                     </label>
@@ -204,9 +206,11 @@
                                                 <p class="text-gray-600 dark:text-gray-300">
                                                     @{{
                                                         [
-                                                            address.address.join(', '),
-                                                            address.city,
-                                                            address.state
+                                                           getCountryName(address.country),
+                                                           getStateName(address.country,address.state),
+                                                           address.city,
+                                                           address.address.join(', '),
+
                                                         ].filter(string => string !== '').join(', ')
                                                     }}
                                                 </p>
@@ -342,8 +346,9 @@
 
                         shipping_address_id: null,
                     },
-
                     isLoading: true,
+                    countries:@json(core()->countries()->pluck('name', 'code')),
+                    countryStates:@json(core()->groupedStatesByCountries()),
 
                     isStoring: false,
                 }
@@ -594,6 +599,14 @@
                     } else {
                         this.$emit('processing', 'payment');
                     }
+                },
+                getCountryName(code) {
+                    return this.countries[code] || code;
+                },
+                getStateName(countryCode, stateCode) {
+                    const states = this.countryStates[countryCode] || [];
+                    const state = states.find(s => s.code === stateCode);
+                    return state ? state.default_name : stateCode;
                 },
             }
         });

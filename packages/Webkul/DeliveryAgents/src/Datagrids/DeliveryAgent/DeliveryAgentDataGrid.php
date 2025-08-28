@@ -28,8 +28,6 @@ class DeliveryAgentDataGrid extends DataGrid
                 'delivery_agents.phone',
                 'delivery_agents.gender',
                 'delivery_agents.status',
-//                'delivery_agent_ranges.state',
-//                'delivery_agent_ranges.country'
             )
             ->addSelect(DB::raw('COUNT(DISTINCT '.$tablePrefix.'delivery_agent_ranges.id) as range_count'))
             ->addSelect(DB::raw('COUNT(DISTINCT '.$tablePrefix.'delivery_agent_orders.id) as order_count'))
@@ -41,7 +39,6 @@ class DeliveryAgentDataGrid extends DataGrid
         $this->addFilter('full_name', DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name)'));
         $this->addFilter('phone', 'delivery_agents.phone');
         $this->addFilter('status', 'delivery_agents.status');
-        $this->addFilter('state', 'delivery_agent_ranges.state');
 
         return $queryBuilder;
 
@@ -106,7 +103,15 @@ class DeliveryAgentDataGrid extends DataGrid
                     'value' => 0,
                 ],
             ],
-            'sortable' => true,
+            'sortable'   => true,
+            'closure'    => function ($row) {
+                switch ($row->status) {
+                    case '1':
+                        return '<p class="label-active">'.trans('deliveryagent::app.deliveryagents.datagrid.active').'</p>';
+                    case '0':
+                        return '<p class="label-canceled">'.trans('deliveryagent::app.deliveryagents.datagrid.inactive').'</p>';
+                }
+            },
 
         ]);
 

@@ -484,7 +484,7 @@
     }
 
     .active-tab {
-        @apply border-violet-600 border-b-2 text-violet-600 transition;
+        @apply border-violet-600 border-b-2 ;
     }
     .active-checkbox {
         @apply text-violet-600;

@@ -1,7 +1,6 @@
 <x-admin::layouts>
 
     <v-delivery-agente-view>
-        <!-- Shimmer Effect -->
     </v-delivery-agente-view>
     @pushOnce('scripts')
 
@@ -168,11 +167,12 @@
                                                 v-for="(range, index) in deliveryagent.ranges"
                                             >
                                                 <p class="text-sm mt-3 text-gray-600 dark:text-gray-300 font-medium">
-                                                    @{{ getCountryName(range.state_area.country_code) }} <span
+                                                    @{{ getCountryName(range.state_area.country_code) }}
+                                                    <span
                                                         class="mx-1 text-gray-400">/</span>
                                                     @{{ getStateName(range.state_area.country_code,
-                                                    range.state_area.state_code) }} <span
-                                                        class="mx-1 text-gray-400">/</span>
+                                                    range.state_area.state_code) }}
+                                                    <span class="mx-1 text-gray-400">/</span>
                                                     @{{ range.state_area.area_name }}
                                                 </p>
 
@@ -239,7 +239,7 @@
                     return {
                         deliveryagent: @json($deliveryAgent),
                         countries: window.countries || {},
-                        countryStates: @json(core()->groupedStatesByCountries()),
+                        countryStates:window.countryStates||{},
                         isUpdating: {},
                     };
                 },
@@ -250,36 +250,16 @@
                             ...data.deliveryagent,
                         };
                     },
-                    async rangeCreated(range) {
-                        try {
-                            const response = await this.$axios.get(`/admin/delivery/agents/view/${this.deliveryagent.id}`);
-                            this.deliveryagent = response.data.data;
-                        } catch (error) {
-                            console.error(error);
-                            this.$set(this.deliveryagent, 'ranges', [
-                                ...this.deliveryagent.ranges,
-                                {
-                                    ...range,
-                                }
-                            ]);
-                        }
+                     rangeCreated(range) {
+                         this.deliveryagent.ranges.push({
+                             ...range,
+                         });
                     },
-                    getCountryName(code) {
-                        return this.countries[code] || code;
-                    },
+                    rangeUpdated(updatedRange) {
+                        const index = this.deliveryagent.ranges.findIndex(r => r.id === updatedRange.id);
 
-                    getStateName(countryCode, stateCode) {
-                        const states = this.countryStates[countryCode] || [];
-                        const state = states.find(s => s.code === stateCode);
-                        return state ? state.default_name : stateCode;
-                    },
-
-                    async rangeUpdated(updatedRange) {
-                        try {
-                            const response = await this.$axios.get(`/admin/delivery/agents/view/${this.deliveryagent.id}`);
-                            this.deliveryagent = response.data.data;
-                        } catch (error) {
-                            console.error(error);
+                        if (index !== -1) {
+                            Object.assign(this.deliveryagent.ranges[index], updatedRange);
                         }
                     },
                     deleteRange(id) {
@@ -299,6 +279,15 @@
                                     });
                             },
                         });
+                    },
+                    getCountryName(code) {
+                        return this.countries[code] || code;
+                    },
+
+                    getStateName(countryCode, stateCode) {
+                        const states = this.countryStates[countryCode] || [];
+                        const state = states.find(s => s.code === stateCode);
+                        return state ? state.default_name : stateCode;
                     },
 
 

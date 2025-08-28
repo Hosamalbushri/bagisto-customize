@@ -19,7 +19,11 @@
         <span class="after:content-[',']">{{ $address->city }}</span>
         <span class="after:content-[',']">{{ $address->address }}</span>
         @if ($address->postcode) ({{ $address->postcode }})@endif
+
+    </p>
+    <p class="!leading-6 text-gray-600 dark:text-gray-300 flex flex-wrap gap-x-1">
         <span>{{ __('admin::app.sales.orders.view.contact') }}: {{ $address->phone }}</span>
     </p>
+
 
 </div>
