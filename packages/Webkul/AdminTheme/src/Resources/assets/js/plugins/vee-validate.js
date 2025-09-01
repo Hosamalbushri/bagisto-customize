@@ -59,6 +59,9 @@ export default {
             if (! /^\+?\d+$/.test(value)) {
                 return false;
             }
+            if (! /^\d{9}$/.test(value)) {
+                return false;
+            }
 
             return true;
         });
