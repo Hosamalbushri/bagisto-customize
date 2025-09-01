@@ -15,23 +15,27 @@
         type="text/x-template"
         id="v-quantity-changer-template"
     >
-        <div>
-            <span 
-                class="cursor-pointer text-2xl dark:text-gray-300"
+        <div class="inline-flex items-center space-x-2 bg-white dark:bg-gray-800 shadow-sm p-1 rounded-lg">
+            <span
+                class="acma-icon-minus1 text-xl font-bold text-gray-700 dark:text-gray-300 transition-colors px-2"
                 @click="decrease"
             >
-                -
+
             </span>
 
-            <p class="w-2.5 select-none text-center dark:text-gray-300">
-                @{{ quantity }}
-            </p>
-            
-            <span 
-                class="cursor-pointer text-2xl dark:text-gray-300"
+            <input
+                type="text"
+                min="1"
+                class="w-12 text-center text-lg font-medium text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800  border-gray-300 dark:border-gray-600 focus:outline-none"
+                v-model="quantity"
+                @change="validateQuantity"
+            />
+
+            <span
+                class="acma-icon-plus2 text-xl font-bold text-gray-700 dark:text-gray-300 transition-colors px-2"
                 @click="increase"
             >
-                +
+
             </span>
 
             <v-field
@@ -62,15 +66,27 @@
 
             methods: {
                 increase() {
-                    this.$emit('change', ++this.quantity);
+                    this.quantity = Number(this.quantity) + 1; // زيادة العدد
+                    this.emitChange(); // إرسال القيمة الجديدة
                 },
 
                 decrease() {
                     if (this.quantity > 1) {
-                        this.quantity -= 1;
-                        
-                        this.$emit('change', this.quantity);
+                        this.quantity = Number(this.quantity) - 1; // إنقاص العدد
+                        this.emitChange();
                     }
+                },
+
+                emitChange() {
+                    this.$emit('change', this.quantity);
+                },
+
+                validateQuantity() {
+                    const number = Number(this.quantity);
+                    if (isNaN(number) || number < 1) {
+                        this.quantity = 1;
+                    }
+                    this.emitChange();
                 },
             }
         });

@@ -80,6 +80,8 @@ html.dark [class*=" acma-icon-"]{
 }
 .acma-icon-plus2:before {
     content: "\e905";
+    color: #16a34a;
+
 }
 .acma-icon-checkmark:before {
     content: "\e906";
@@ -116,6 +118,8 @@ html.dark [class*=" acma-icon-"]{
 }
 .acma-icon-plus:before {
     content: "\ea0a";
+    color: #16a34a;
+
 }
 .acma-icon-cancel-circle:before {
     content: "\ea0d";
@@ -159,6 +163,29 @@ html.dark [class*=" acma-icon-"]{
 }
 .acma-icon-folder:before {
     content: "\e91a";
+}
+.acma-icon-plus:before {
+    content: "\ea0a";
+}
+.acma-icon-minus:before {
+    content: "\e923";
+}
+.acma-icon-minus1:before {
+    content: "\e924";
+}
+.acma-icon-minus-outline:before {
+    content: "\e920";
+}
+.acma-icon-minus-solid:before {
+    content: "\e921";
+}
+.acma-icon-minus:before {
+    content: "\e923";
+}
+.acma-icon-minus1:before {
+    content: "\e924";
+    color: #dc2626;
+
 }
 
 .active .acma-icon-truck1:before,

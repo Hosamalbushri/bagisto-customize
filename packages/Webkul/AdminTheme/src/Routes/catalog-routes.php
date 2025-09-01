@@ -7,7 +7,7 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/catalog'], fu
     /**
      * Products routes.
      */
-    Route::controller(ProductController::class)->prefix('products')->group(function () {
+    Route::controller(ProductController::class)->prefix('product')->group(function () {
         Route::get('', 'index')->name('admin.catalog.custom.products.index');
     });
 

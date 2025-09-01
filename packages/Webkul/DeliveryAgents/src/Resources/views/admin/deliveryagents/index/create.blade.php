@@ -1,15 +1,7 @@
 <v-create-delivery-agent-form
-    ref="CreateDeliveryAgentComponent"
     @delivery-agent-created="$refs.deliveryAgentDatagrid.get()"
 ></v-create-delivery-agent-form>
-@if (bouncer()->hasPermission('delivery.deliveryAgent.create'))
-<button
-    class="primary-button"
-    @click="$refs.CreateDeliveryAgentComponent.openModal()"
->
-    @lang('deliveryagent::app.deliveryagents.create.create')
-</button>
-@endif
+
 
 @pushOnce('scripts')
 
@@ -17,6 +9,14 @@
     type="text/x-template"
     id="v-delivery-agent-form-template"
 >
+        @if (bouncer()->hasPermission('delivery.deliveryAgent.create'))
+            <button
+                class="primary-button"
+                @click="$refs.DeliveryAgentCreateModal.open()"
+            >
+                @lang('deliveryagent::app.deliveryagents.create.create')
+            </button>
+        @endif
     <div id="delivery-agent-form">
         <x-admin::form
         v-slot="{ meta, errors, handleSubmit, reset, setErrors }"
@@ -80,7 +80,7 @@
                     id="email"
                     rules="required|email"
                     :label="trans('deliveryagent::app.deliveryagents.create.email')"
-{{--                    placeholder= "email@example.com"--}}
+                     placeholder="email@example.com"
                 />
                 <x-admin::form.control-group.error control-name="email" />
             </x-admin::form.control-group>
@@ -103,7 +103,6 @@
                 <x-admin::form.control-group.error control-name="password" />
             </x-admin::form.control-group>
 
-            <!-- تأكيد كلمة المرور -->
             <x-admin::form.control-group class="mb-2.5 w-full">
                 <x-admin::form.control-group.label class="required">
                     @lang('deliveryagent::app.deliveryagents.create.confirm-password')
@@ -113,7 +112,7 @@
                     type="password"
                     name="password_confirmation"
                     id="password_confirmation"
-                    rules="required"
+                    rules="confirmed:@password"
                     :label="trans('deliveryagent::app.deliveryagents.create.confirm-password')"
                     :placeholder="trans('deliveryagent::app.deliveryagents.create.confirm-password')"
                 />
@@ -133,7 +132,7 @@
             type="text"
             name="phone"
             id="phone"
-            rules="required"
+            rules="required|phone"
             :label="trans('deliveryagent::app.deliveryagents.create.phone')"
             :placeholder="trans('deliveryagent::app.deliveryagents.create.phone')"
             />
@@ -191,28 +190,6 @@
                     </x-admin::form.control-group.control>
                     <x-admin::form.control-group.error control-name="gender" />
                 </x-admin::form.control-group>
-
-
-
-{{--                <!-- الحالة -->--}}
-{{--                <x-admin::form.control-group class="mb-2.5 w-full">--}}
-{{--                    <x-admin::form.control-group.label class="required">--}}
-{{--                        @lang('deliveryagent::app.deliveryagents.create.status')--}}
-{{--                    </x-admin::form.control-group.label>--}}
-{{--                    <x-admin::form.control-group.control--}}
-{{--                        type="select"--}}
-{{--                        name="status"--}}
-{{--                        id="status"--}}
-{{--                        rules="required"--}}
-{{--                        :label="trans('deliveryagent::app.deliveryagents.create.status')"--}}
-{{--                    >--}}
-{{--                        <option value="">@lang('deliveryagent::app.deliveryagents.create.select-status')</option>--}}
-{{--                        <option value="1">@lang('deliveryagent::app.deliveryagents.create.active')</option>--}}
-{{--                        <option value="0">@lang('deliveryagent::app.deliveryagents.create.inactive')</option>--}}
-{{--                    </x-admin::form.control-group.control>--}}
-{{--                    <x-admin::form.control-group.error control-name="status" />--}}
-{{--                </x-admin::form.control-group>--}}
-
             </div>
 
 
