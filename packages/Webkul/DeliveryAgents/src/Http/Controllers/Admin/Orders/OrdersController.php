@@ -39,7 +39,7 @@ class OrdersController extends Controller
         $order = $this->orderRepository->findOrFail($orderId);
         $deliveryAgent = $this->deliveryAgentRepository->find($deliveryAgentId);
 
-        if (! $deliveryAgent || $deliveryAgent->status !== 1) {
+        if (! $deliveryAgent || (int) $deliveryAgent->status !== 1) {
             return $this->errorResponse('deliveryagent::app.select-order.create.create-error');
         }
 
@@ -70,14 +70,13 @@ class OrdersController extends Controller
                 $status = $request->get('status');
                 $deliveryAgentId = $request->get('delivery_agent_id');
                 $deliveryAgent = $this->deliveryAgentRepository->find($deliveryAgentId);
-                if (! $deliveryAgent || $deliveryAgent->status !== 1) {
+                if (! $deliveryAgent || (int) $deliveryAgent->status !== 1) {
                     throw new \Exception('deliveryagent::app.select-order.create.create-error');
-
                 }
 
                 if (
                     empty($order->delivery_agent_id) ||
-                    $order->delivery_agent_id !== $deliveryAgentId ||
+                    (int) $order->delivery_agent_id !== $deliveryAgentId ||
                     ! in_array($status, [
                         Order::STATUS_ACCEPTED_BY_AGENT,
                         Order::STATUS_REJECTED_BY_AGENT,
@@ -88,10 +87,8 @@ class OrdersController extends Controller
                     throw new \Exception('deliveryagent::app.select-order.update.updated-error');
                 }
 
-                // تحديث حالة الطلب
                 $order->update(['delivery_status' => $status]);
 
-                // تحديث التعيين حسب الحالة
                 switch ($status) {
                     case Order::STATUS_ACCEPTED_BY_AGENT:
                         $this->updateAssignmentStatus($order, Order::STATUS_ACCEPTED_BY_AGENT, [

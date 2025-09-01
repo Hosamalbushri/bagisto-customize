@@ -385,7 +385,7 @@ return [
             'select-delivery-agent'         => 'تعيين المندوب للطلب رقــم #',
             'tabs'                          => [
                 'in-the-same-area'=> 'المتواجدون في :city',
-                'all'             => 'الكل',
+                'all'             => 'كل المناديب',
             ],
             'assign-delivery-agent-confirmation'=> ' هل انت متاكد انك تريد تعيين هذا المندوب لهذا الطلب ',
         ],

@@ -1,19 +1,11 @@
 <v-edit-delivery-agent-form
     :deliveryAgent="deliveryagent"
-    ref="ShowDeliveryAgentEditComponent"
     @update-delivery-agent="updateDeliveyAgent"
 >
     <div class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"></div>
 </v-edit-delivery-agent-form>
 
-@if (bouncer()->hasPermission('delivery.deliveryAgent.edit'))
-    <div
-        class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"
-        @click="$refs.ShowDeliveryAgentEditComponent.openModal()"
-    >
-        @lang('deliveryagent::app.deliveryagents.view.edit-btn')
-    </div>
-@endif
+
 
 
 @pushOnce('scripts')
@@ -22,6 +14,14 @@
         type="text/x-template"
         id="v-delivery-agent-template"
     >
+        @if (bouncer()->hasPermission('delivery.deliveryAgent.edit'))
+            <div
+                class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"
+                @click="$refs.DeliveryAgentEditModal.open()"
+            >
+                @lang('deliveryagent::app.deliveryagents.view.edit-btn')
+            </div>
+        @endif
 
         <div id="delivery-agent-form">
             <x-admin::form
@@ -125,6 +125,7 @@
                                     <x-admin::form.control-group.control
                                         type="password"
                                         name="password_confirmation"
+                                        rules="confirmed:@password"
                                         id="password_confirmation"
                                         :label="trans('deliveryagent::app.deliveryagents.create.confirm-password')"
                                         :placeholder="trans('deliveryagent::app.deliveryagents.create.confirm-password')"
@@ -239,17 +240,16 @@
                                         </x-admin::form.control-group.label>
 
                                         <x-admin::form.control-group.control
-                                            type="hidden"
-                                            name="status"
-                                            value="0"
-                                        />
-
-                                        <x-admin::form.control-group.control
                                             type="switch"
                                             name="status"
                                             :value="1"
                                             :label="trans('deliveryagent::app.deliveryagents.create.status')"
-                                            ::checked="deliveryAgent.status"
+                                            ::checked="deliveryStatus"
+                                        />
+                                        <x-admin::form.control-group.control
+                                            type="hidden"
+                                            name="status"
+                                            :value="0"
                                         />
                                     </x-admin::form.control-group>
                                 </div>
@@ -284,6 +284,7 @@
             data() {
                 return {
                     isLoading: false,
+                    deliveryStatus:this.deliveryAgent.status
                 };
             },
 

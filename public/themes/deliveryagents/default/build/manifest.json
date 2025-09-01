@@ -1,11 +1,11 @@
 {
   "src/Resources/assets/css/app.css": {
-    "file": "assets/app-766c0909.css",
+    "file": "assets/app-7d0c9ff8.css",
     "isEntry": true,
     "src": "src/Resources/assets/css/app.css"
   },
   "src/Resources/assets/fonts/acme-icons.woff": {
-    "file": "assets/acme-icons-d63a3ab5.woff",
+    "file": "assets/acme-icons-17d7d467.woff",
     "src": "src/Resources/assets/fonts/acme-icons.woff"
   },
   "src/Resources/assets/images/icon-temp-active.svg": {
