@@ -66,7 +66,7 @@ class AreaDataGrid extends DataGrid
      */
     public function prepareActions()
     {
-        if (bouncer()->hasPermission('delivery.countries.states.areas.edit')) {
+        if (bouncer()->hasPermission('delivery.countries.states.area.edit')) {
             $this->addAction([
                 'index'  => 'edit',
                 'icon'   => 'icon-edit',
@@ -79,7 +79,7 @@ class AreaDataGrid extends DataGrid
             ]);
 
         }
-        if (bouncer()->hasPermission('delivery.countries.states.areas.delete')) {
+        if (bouncer()->hasPermission('delivery.countries.states.area.delete')) {
 
             $this->addAction([
                 'index'  => 'delete',

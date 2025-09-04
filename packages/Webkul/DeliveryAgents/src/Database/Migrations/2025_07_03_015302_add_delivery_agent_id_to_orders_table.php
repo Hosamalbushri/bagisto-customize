@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->unsignedInteger('delivery_agent_id')->nullable();
+            $table->boolean('is_delivered')->default(0);
             $table->foreign('delivery_agent_id')
                 ->references('id')
                 ->on('delivery_agents')

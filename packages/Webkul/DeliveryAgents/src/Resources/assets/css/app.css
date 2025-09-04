@@ -155,7 +155,11 @@ html.dark [class*=" acma-icon-"]{
 }
 .acma-icon-fact_check:before {
     content: "\e918";
-    color: #16a34a;
+
+}
+.acma-icon-check_box:before {
+    content: "\e916";
+
 
 }
 .acma-icon-library_add_check:before {

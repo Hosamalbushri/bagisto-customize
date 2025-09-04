@@ -216,8 +216,10 @@
                                     class="text-gray-600 dark:text-gray-300"
                                     v-else
                                 >
-                                    <span class="text-red-600">
-                                        @lang('admin::app.catalog.products.index.datagrid.out-of-stock')
+                                    <span class="text-green-600">
+{{--                                        @lang('admin::app.catalog.products.index.datagrid.out-of-stock')--}}
+                                        @{{ "@lang('admin::app.catalog.products.index.datagrid.qty-value')".replace(':qty', record.quantity) }}
+
                                     </span>
                                 </p>
                             </div>

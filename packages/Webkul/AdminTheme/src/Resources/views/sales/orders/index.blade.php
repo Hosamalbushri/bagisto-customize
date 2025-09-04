@@ -29,7 +29,7 @@
 
     <v-customer-search ref="selectCustomerComponent"></v-customer-search>
 
-    <x-admin::datagrid :src="route('admin.sales.orders.index')" :isMultiRow="true">
+    <x-admin::datagrid :src="route('admin.sales.custom.orders.index')" :isMultiRow="true">
         <template #header="{
             isLoading,
             available,
@@ -144,6 +144,8 @@
                             </p>
 
                             <p class="text-gray-600 dark:text-gray-300">
+                                @{{ record.country_code }},
+                                @{{ record.state_code }},
                                 @{{ record.location }}
                             </p>
                         </div>

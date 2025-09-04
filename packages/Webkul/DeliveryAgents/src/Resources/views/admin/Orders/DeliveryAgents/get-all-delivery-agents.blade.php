@@ -3,7 +3,7 @@
         src="{{ route('admin.deliveryagents.index') }}"
     >
         @php
-            $hasPermission = bouncer()->hasPermission('delivery.deliveryAgent.edit') || bouncer()->hasPermission('delivery.deliveryAgent.delete');
+            $hasPermission = bouncer()->hasPermission('delivery.deliveryAgent.edit') || bouncer()->hasPermission('delivery.deliveryAgent.delete') || bouncer()->hasPermission('delivery.deliveryAgent.order.assign-delivery-agent');
         @endphp
         <template #header="{
         isLoading,
@@ -120,12 +120,13 @@
                             </div>
                             <div class="flex w-full flex-col gap-1.5">
                                 <div class="flex w-full justify-end gap-1">
-                                    @if (bouncer()->hasPermission('delivery.deliveryAgent.order.assign-delivery-agent'))
+                                    @if (bouncer()->hasPermission($hasPermission))
                                         <button
                                             type="button"
                                             class="acma-icon-fact_check  cursor-pointer p-1.5 text-xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
                                             @click="$emitter.emit('request-assign-delivery', { orderId: {{ $order->id }}, agentId: record.delivery_agents_id })"
                                         ></button>
+
                                     @endif
 
                                     <a

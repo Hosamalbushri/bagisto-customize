@@ -7,7 +7,7 @@
     </div>
 
     <x-admin::datagrid
-        :src="route('admin.customers.customers.view', [
+        :src="route('admin.customers.custom.customers.view', [
             'id'   => $customer->id,
             'type' => 'reviews'
         ])"
@@ -72,7 +72,7 @@
             </template>
 
             <template v-else>
-                <div 
+                <div
                     v-if="available.meta.total"
                     class="grid gap-y-4 border-b p-4 transition-all hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-950"
                     v-for="record in available.records"
@@ -80,7 +80,7 @@
                     <div class="flex justify-start [&amp;>*]:flex-1">
                         <div class="flex flex-col gap-1.5">
                             <!-- Review Name -->
-                            <p  
+                            <p
                                 class="text-base font-semibold leading-none text-gray-800 dark:text-white"
                                 v-text="record.name"
                             >
@@ -138,7 +138,7 @@
                         </div>
 
                         <!-- Review associated with product -->
-                        <a 
+                        <a
                             :href="`{{ route('admin.catalog.products.edit', '') }}/${record.product_id}`"
                             target="_blank"
                             class="icon-sort-right rtl:icon-sort-left cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
@@ -147,7 +147,7 @@
                     </div>
                 </div>
 
-                <div    
+                <div
                     v-else
                     class="table-responsive grid w-full"
                 >

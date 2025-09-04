@@ -4,7 +4,7 @@ namespace Webkul\AdminTheme\Datagrids\Sales;
 
 use Illuminate\Support\Facades\DB;
 use Webkul\DataGrid\DataGrid;
-use Webkul\Sales\Models\Order;
+use Webkul\DeliveryAgents\Models\Order;
 use Webkul\Sales\Models\OrderAddress;
 use Webkul\Sales\Repositories\OrderRepository;
 
@@ -129,6 +129,17 @@ class OrderDataGrid extends DataGrid
 
                     case Order::STATUS_FRAUD:
                         return '<p class="label-canceled">'.trans('admin::app.sales.orders.index.datagrid.fraud').'</p>';
+                    case Order::STATUS_ASSIGNED_TO_AGENT:
+                        return '<p class="label-assigned_to_agent">'.trans('deliveryagent::app.orders.status.assigned_to_agent').'</p>';
+
+                    case Order::STATUS_ACCEPTED_BY_AGENT:
+                        return '<p class="label-closed">'.trans('deliveryagent::app.orders.status.accepted_by_agent').'</p>';
+
+                    case Order::STATUS_REJECTED_BY_AGENT:
+                        return '<p class="label-rejected_by_agent">'.trans('deliveryagent::app.orders.status.rejected_by_agent').'</p>';
+
+                    case Order::STATUS_OUT_FOR_DELIVERY:
+                        return '<p class="label-out_for_delivery">'.trans('deliveryagent::app.orders.status.out_for_delivery').'</p>';
                 }
             },
         ]);
@@ -192,11 +203,17 @@ class OrderDataGrid extends DataGrid
             'index'      => 'country_code',
             'label'      => trans('admin::app.customers.customers.view.datagrid.orders.location'),
             'type'       => 'string',
+            'closure'    => function ($row) {
+                return core()->country_name($row->country_code);
+            },
         ]);
         $this->addColumn([
             'index'      => 'state_code',
             'label'      => trans('admin::app.customers.customers.view.datagrid.orders.location'),
             'type'       => 'string',
+            'closure'    => function ($row) {
+                return myHelper()->state_name($row->state_code);
+            },
         ]);
 
         $this->addColumn([
@@ -218,6 +235,9 @@ class OrderDataGrid extends DataGrid
             'filterable'      => true,
             'filterable_type' => 'date_range',
             'sortable'        => true,
+            'closure'         => function ($row) {
+                return myHelper()->formatDate($row->created_at);
+            },
         ]);
     }
 

@@ -1,5 +1,4 @@
 <x-admin::layouts>
-
     <v-country-view>
 
     </v-country-view>
@@ -10,8 +9,11 @@
             id="v-country-template"
         >
             <x-slot:title>
-                @lang('deliveryagent::app.country.view.title')
-                </x-slot>
+                @php
+                    $label = trans('deliveryagent::app.country.view.title');
+                @endphp
+                {{ isset($country) && !empty($country->name) ? ($label . ': ' . $country->name) : $label }}
+            </x-slot:title>
                 <div class="grid">
                     <div class="flex items-center justify-between gap-4 max-sm:flex-wrap">
                         <div class="flex items-center gap-2.5">
@@ -50,9 +52,12 @@
                 <!-- Content -->
                 <div class="mt-3.5 flex gap-2.5 max-xl:flex-wrap">
                     <!-- Left Component -->
-                    <div class="flex flex-1 flex-col gap-2 max-xl:flex-auto">
-                        @include('deliveryagents::admin.Countries.view.States.index')
 
+                    <div class="flex flex-1 flex-col gap-2 max-xl:flex-auto">
+                        @if (bouncer()->hasPermission('delivery.countries.states'))
+                            @include('deliveryagents::admin.Countries.view.States.index')
+
+                        @endif
                     </div>
                     <!-- Right Component -->
                     <div class="flex w-[360px] max-w-full flex-col gap-2 max-sm:w-full">

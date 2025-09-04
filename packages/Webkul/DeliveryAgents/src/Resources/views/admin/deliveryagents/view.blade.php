@@ -16,8 +16,11 @@
             id="v-delivery-agent-view-template"
         >
             <x-slot:title>
-                @lang('deliveryagent::app.deliveryagents.view.title')
-                </x-slot>
+                @php
+                    $label = trans('deliveryagent::app.deliveryagents.view.title');
+                @endphp
+                {{ isset($deliveryAgent) && !empty($deliveryAgent->name) ? ($label . ': ' . $deliveryAgent->name) : $label }}
+            </x-slot:title>
 
                 <div class="grid">
                     <div class="flex items-center justify-between gap-4 max-sm:flex-wrap">

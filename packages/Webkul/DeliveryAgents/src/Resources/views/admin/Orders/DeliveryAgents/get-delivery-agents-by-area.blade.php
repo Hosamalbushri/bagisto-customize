@@ -4,7 +4,7 @@
     <x-admin::datagrid
         src="{{ route('admin.deliveryagents.order.select-delivery-agent') }}?area_id={{ $order->shipping_address->state_area_id }}">
         @php
-            $hasPermission = bouncer()->hasPermission('delivery.deliveryAgent.edit') || bouncer()->hasPermission('delivery.deliveryAgent.delete');
+            $hasPermission = bouncer()->hasPermission('delivery.deliveryAgent.edit') || bouncer()->hasPermission('delivery.deliveryAgent.delete') || bouncer()->hasPermission('delivery.deliveryAgent.order.assign-delivery-agent');
         @endphp
         <template #header="{
                                      isLoading,
@@ -125,7 +125,7 @@
                     </div>
                     <div class="flex w-full flex-col gap-1.5">
                         <div class="flex w-full justify-end gap-1">
-                            @if (bouncer()->hasPermission('delivery.deliveryAgent.order.assign-delivery-agent'))
+                            @if (bouncer()->hasPermission($hasPermission))
                                 <button
                                     type="button"
                                     class="acma-icon-fact_check  cursor-pointer p-1.5 text-xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"

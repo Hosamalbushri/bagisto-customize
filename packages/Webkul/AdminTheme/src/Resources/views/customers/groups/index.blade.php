@@ -142,6 +142,8 @@
                                         rules="required"
                                         :label="trans('admin::app.customers.groups.index.create.code')"
                                         :placeholder="trans('admin::app.customers.groups.index.create.code')"
+                                        ::readonly="selectedGroups"
+
                                     />
 
                                     <x-admin::form.control-group.error control-name="code" />

@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Webkul\DeliveryAgents\Repositories\StateRepository;
 
@@ -43,5 +44,21 @@ class Helper
         }
 
         return $collection;
+    }
+    public function formatDate($date = null, $format = 'd-m-Y h:i:s A')
+    {
+        $channel = core()->getCurrentChannel();
+
+        if (is_null($date)) {
+            $date = Carbon::now();
+        }
+
+        if (is_string($date)) {
+            $date = Carbon::parse($date);
+        }
+
+        $date->setTimezone($channel->timezone);
+
+        return $date->translatedFormat($format);
     }
 }

@@ -28,6 +28,7 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
         });
         Event::listen('sales.shipment.save.after', 'Webkul\DeliveryAgents\Listeners\UpdateInOrderFields@afterSaveShipment');
         Event::listen('sales.order.cancel.before', 'Webkul\DeliveryAgents\Listeners\UpdateInOrderFields@beforeCancelOrder');
+//        Event::listen('sales.invoice.save.after', 'Webkul\DeliveryAgents\Listeners\UpdateInOrderFields@afterSaveInvoice');
         Event::listen('sales.refund.save.after', 'Webkul\DeliveryAgents\Listeners\UpdateInOrderFields@afterSaveRefund');
         $this->app->concord->registerModel(
             \Webkul\Sales\Contracts\Order::class,
