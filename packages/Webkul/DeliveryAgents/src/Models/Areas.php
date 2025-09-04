@@ -15,4 +15,8 @@ class Areas extends Model
         'country_code',
     ];
 
+    public function ranges()
+    {
+        return $this->hasMany(Range::class, 'state_area_id');
+    }
 }

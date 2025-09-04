@@ -6,6 +6,7 @@
         type="text/x-template"
         id="v-orders-DataGrid-template"
     >
+
         <div class="box-shadow rounded bg-white p-4 dark:bg-gray-900">
             <div class="flex justify-between">
                 <!-- Total Order Count -->
@@ -129,55 +130,68 @@
                                     </p>
 
                                     <p class="text-gray-600 dark:text-gray-300">
-                                        @{{getCountryName(record.country_code)}} ,
-                                        @{{getStateName(record.country_code,record.state_code)}} ,
+                                        @{{record.country_code}} ,
+                                        @{{record.state_code}} ,
                                         @{{ record.location }}
                                     </p>
                                 </div>
                             </div>
-
                             <div class="flex items-center justify-end gap-x-2">
                                 <template v-if="canShowActions(record)">
-
+                                @if(bouncer()->hasPermission('delivery.deliveryAgent.order.accept'))
                                 <template v-if="showAcceptButton(record)">
 
                                     <button
-                                    class="acma-icon-check_circle text-xl  cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+                                    class="acma-icon-check_circle text-lg cursor-pointer p-1.5  hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
                                     @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'accepted_by_agent',messageConfirm:acceptMessageConfirm})"
                                 >
+                                        <span class="text-sm  text-gray-800 dark:text-white">
+                                            @lang('deliveryagent::app.deliveryagents.orders.actions.accept_btn')
+                                        </span>
                                 </button>
                                 </template>
-                                    <template v-if="showRejectButton(record)">
-                                        <button
-                                            class="acma-icon-cancel text-xl   p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
-                                            @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'rejected_by_agent',messageConfirm: rejectMessageConfirm
-                                    })"
-                                        >
-                                        </button>
-                                    </template>
-                                 <template v-if="showOutForDeliveryButton(record)">
-                                     <button
-                                         class="acma-icon-truck text-xl   p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
-                                         @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'out_for_delivery',messageConfirm: outForDeliveryMessageConfirm
-                                    })"
-                                     >
-                                     </button>
-                                 </template>
-                                    <template v-if="showDeliveredButton(record)">
-                                        <button
-                                            class="acma-icon-inbox-check text-xl   p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
-                                            @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'delivered',messageConfirm: deliveredMessageConfirm
-                                    })"
-                                        >
-                                        </button>
-                                    </template>
+                                    @endif
+                                    @if(bouncer()->hasPermission('delivery.deliveryAgent.order.reject'))
+                                        <template v-if="showRejectButton(record)">
+                                            <button
+                                                class="acma-icon-cancel text-lg   p-1.5  hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+                                                @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'rejected_by_agent',messageConfirm: rejectMessageConfirm })"
+                                            >
+                                        <span class="text-sm  text-gray-800 dark:text-white">
+                                            @lang('deliveryagent::app.deliveryagents.orders.actions.reject_btn')
+                                        </span>
+                                            </button>
+                                        </template>
+                                    @endif
 
+                                  @if(bouncer()->hasPermission('delivery.deliveryAgent.order.out_for_delivery'))
+                                        <template v-if="showOutForDeliveryButton(record)">
+                                            <button
+                                                class="acma-icon-truck text-lg   p-1.5  hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+                                                @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'out_for_delivery',messageConfirm: outForDeliveryMessageConfirm})"
+                                            >
+                                          <span class="text-sm text-gray-800 dark:text-white">
+                                            @lang('deliveryagent::app.deliveryagents.orders.actions.out_for_delivery_btn')
+                                        </span>
+                                            </button>
+                                        </template>
+                                  @endif
+                              @if(bouncer()->hasPermission('delivery.deliveryAgent.order.delivered'))
+                                        <template v-if="showDeliveredButton(record)">
+                                            <button
+                                                class="acma-icon-inbox-check text-lg   p-1.5  hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+                                                @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'delivered',messageConfirm: deliveredMessageConfirm})"
+                                            >
+                                             <span class="text-sm text-gray-800 dark:text-white">
+                                            @lang('deliveryagent::app.deliveryagents.orders.actions.delivered_btn')
+                                        </span>
+                                            </button>
+                                        </template>
+                              @endif
                                 </template>
                                 <a :href="`{{ route('admin.sales.orders.view', '') }}/${record.id}`">
-                                    <span class="icon-sort-right text-2xl rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"></span>
+                                    <span class="icon-sort-right  rtl:icon-sort-left cursor-pointer p-1.5 text-xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"></span>
                                 </a>
-
-
                             </div>
                         </div>
 
@@ -206,8 +220,6 @@
             template: '#v-orders-DataGrid-template',
             data() {
                 return{
-                    countries: window.countries || {},
-                    countryStates: window.countryStates||{},
                     deliveryAgentId :@json($deliveryAgent->id),
                     acceptMessageConfirm:@json(__('deliveryagent::app.deliveryagents.orders.view.accepted-order-confirmation')),
                     rejectMessageConfirm:@json(__('deliveryagent::app.deliveryagents.orders.view.rejected-order-confirmation')),
@@ -268,15 +280,7 @@
                 showDeliveredButton(record) {
                     return record.deliveryStatus === 'out_for_delivery';
                 },
-                getCountryName(code) {
-                    return this.countries[code] || code;
-                },
 
-                getStateName(countryCode, stateCode) {
-                    const states = this.countryStates[countryCode] || [];
-                    const state = states.find(s => s.code === stateCode);
-                    return state ? state.default_name : stateCode;
-                },
             },
 
 

@@ -168,6 +168,11 @@
                                 message: '@lang('admin::app.notifications.order-status-messages.processing')',
                                 status: 'processing'
                             },
+                            assigned_to_agent : {
+                                icon: 'icon-sort-right bg-green-100 text-green-600 dark:!text-green-600',
+                                message: '@lang('deliveryagent::app.notifications.order-status-messages.assigned_to_agent')',
+                                status: 'assigned_to_agent'
+                            },
 
                             canceled : {
                                 icon: 'icon-cancel-1 bg-red-100 text-red-600 dark:!text-red-600',

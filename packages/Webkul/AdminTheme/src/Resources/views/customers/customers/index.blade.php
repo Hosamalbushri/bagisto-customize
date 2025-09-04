@@ -40,7 +40,7 @@
     {!! view_render_event('bagisto.admin.customers.customers.list.before') !!}
 
     <x-admin::datagrid
-        :src="route('admin.customers.customers.index')"
+        :src="route('admin.customers.custom.customers.index')"
         ref="customerDatagrid"
         :isMultiRow="true"
     >
@@ -176,45 +176,9 @@
                     <div class="flex flex-col gap-1.5">
 
                             <div class="flex gap-1.5">
-                      <span
-                          :class="{
-                      'label-canceled': record.status ==0,
-                      'label-active': record.status == 1,
-
-                              }"
-                          >
-                          @{{Number(record.status)  ? '@lang('admin::app.customers.customers.index.datagrid.active')' : '@lang('admin::app.customers.customers.index.datagrid.inactive')' }}
-
-                      </span>
-                      <span
-                      :class="{
-                      'label-pending': record.is_suspended == 1,
-                               }"
-                      >
-                          @{{ Number(record.is_suspended) ?  '@lang('admin::app.customers.customers.index.datagrid.suspended')' : '' }}
-
-                      </span>
+                                <p v-html="record.status"></p>
+                                <p v-html="record.is_suspended"></p>
                             </div>
-
-{{--                        <div class="flex gap-1.5">--}}
-{{--                            <span--}}
-{{--                                :class="{--}}
-{{--                                    'label-canceled': record.status == '',--}}
-{{--                                    'label-active': record.status === 1,--}}
-{{--                                }"--}}
-{{--                            >--}}
-{{--                                @{{ record.status ? '@lang('admin::app.customers.customers.index.datagrid.active')' : '@lang('admin::app.customers.customers.index.datagrid.inactive')' }}--}}
-{{--                            </span>--}}
-
-{{--                            <span--}}
-{{--                                :class="{--}}
-{{--                                    'label-canceled': record.is_suspended === 1,--}}
-{{--                                }"--}}
-{{--                            >--}}
-{{--                                @{{ record.is_suspended ?  '@lang('admin::app.customers.customers.index.datagrid.suspended')' : '' }}--}}
-{{--                            </span>--}}
-{{--                        </div>--}}
-
                         <p class="text-gray-600 dark:text-gray-300">
                             @{{ record.gender ?? 'N/A' }}
                         </p>

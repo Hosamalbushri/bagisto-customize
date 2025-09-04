@@ -17,11 +17,6 @@
                 <span class="label-{{ $order->status }} text-sm mx-1.5">
                     @lang("admin::app.sales.orders.view.$order->status")
                 </span>
-                @if(!$order->notVisible())
-                    <span class="label-{{ $order->delivery_status }} text-sm mx-1.5">
-                    @lang("admin::app.sales.orders.view.$order->delivery_status")
-                </span>
-                @endif
             </div>
 
             {!! view_render_event('bagisto.admin.sales.order.title.after', ['order' => $order]) !!}
@@ -662,7 +657,7 @@
 
                                 <!-- Order Date -->
                                 <p class="text-gray-600 dark:text-gray-300">
-                                    {{core()->formatDate($order->created_at) }}
+                                    {{myHelper()->formatDate($order->created_at) }}
                                 </p>
 
                                 {!! view_render_event('bagisto.admin.sales.order.created_at.after', ['order' => $order]) !!}

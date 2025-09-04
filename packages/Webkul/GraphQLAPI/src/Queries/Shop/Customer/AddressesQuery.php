@@ -15,9 +15,9 @@ class AddressesQuery extends BaseFilter
     {
         $customer = bagisto_graphql()->authorize();
 
-        $params = Arr::except($input, ['first_name', 'last_name', 'company_name', 'address', 'city']);
+        $params = Arr::except($input, ['first_name', 'last_name', 'company_name', 'address', 'city','areaId']);
 
-        $likeParams = Arr::only($input, ['first_name', 'last_name', 'company_name', 'address', 'city']);
+        $likeParams = Arr::only($input, ['first_name', 'last_name', 'company_name', 'address', 'city','areaId']);
 
         $params['customer_id'] = $customer->id;
 

@@ -183,19 +183,28 @@ class OrderDateGrid extends DataGrid
             'index'      => 'country_code',
             'label'      => trans('admin::app.customers.customers.view.datagrid.orders.location'),
             'type'       => 'string',
+            'closure'    => function ($row) {
+                return core()->country_name($row->country_code);
+            },
         ]);
         $this->addColumn([
             'index'      => 'state_code',
             'label'      => trans('admin::app.customers.customers.view.datagrid.orders.location'),
             'type'       => 'string',
+            'closure'    => function ($row) {
+                return myHelper()->state_name($row->state_code);
+            },
         ]);
         $this->addColumn([
             'index'           => 'created_at',
-            'label'           => trans('admin::app.customers.customers.view.datagrid.orders.date'),
+            'label'           => trans('admin::app.sales.orders.index.datagrid.date'),
             'type'            => 'date',
             'filterable'      => true,
             'filterable_type' => 'date_range',
             'sortable'        => true,
+            'closure'         => function ($row) {
+                return myHelper()->formatDate($row->created_at);
+            },
         ]);
     }
 

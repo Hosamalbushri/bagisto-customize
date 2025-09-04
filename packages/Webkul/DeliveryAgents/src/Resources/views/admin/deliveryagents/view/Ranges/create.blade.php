@@ -33,8 +33,10 @@
 
 
                         <x-slot:header>
+                            <span class="text-base text-gray-800 dark:text-white">
                             @lang('deliveryagent::app.range.create.title')
-                            </x-slot>
+                            </span>
+                            </x-slot:header>
 
                             <x-slot:content>
                                 <x-admin::form.control-group class="w-full">
@@ -169,7 +171,7 @@
                                     name="delivery_agent_id"
                                     v-model="deliveryAgent.id"
                                 />
-                                </x-slot>
+                                </x-slot:content>
 
                                 <x-slot:footer>
                                     <x-admin::button
@@ -179,7 +181,7 @@
                                         ::loading="isLoading"
                                         ::disabled="isLoading"
                                     />
-                                    </x-slot>
+                                    </x-slot:footer>
                     </x-admin::modal>
                 </form>
             </x-admin::form>

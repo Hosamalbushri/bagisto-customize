@@ -21,7 +21,7 @@ return [
 
     // country menu
     [
-        'key'   => 'delivery.country',
+        'key'   => 'delivery.countries',
         'name'  => 'deliveryagent::app.country.menu.title',
         'route' => 'admin.country.index',
         'sort'  => 2,

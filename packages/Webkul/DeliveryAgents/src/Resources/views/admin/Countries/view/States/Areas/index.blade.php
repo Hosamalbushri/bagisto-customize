@@ -62,18 +62,14 @@
                     <div
                         v-for="record in available.records"
                         class="row grid items-center gap-2.5 border-b px-4 py-4 text-gray-600 transition-all hover:bg-gray-50 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-950"
-                        :style="`grid-template-columns: repeat(4, minmax(0, 1fr))`"
+                        :style="`grid-template-columns: repeat(${gridsCount}, minmax(0, 1fr))`"
                     >
                         <p>@{{ record.state_areas_id }}</p>
-
                         <p>@{{ record.area_name }}</p>
                         <p>@{{ record.delivery_agents_count }}</p>
-
-
-
                             <!-- Actions -->
                         <div class="flex justify-end">
-                            @if ($hasPermission)
+                            <template v-if="hasPermission">
                                 <a @click="editModal(record.actions.find(action => action.index === 'edit')?.url)">
                                     <span
                                         :class="record.actions.find(action => action.index === 'edit')?.icon"
@@ -81,17 +77,16 @@
                                     >
                                     </span>
                                 </a>
-                            @endif
-
-                            @if ($hasPermission)
-                                    <a @click="performAction(record.actions.find(action => action.index === 'delete'))">
+                                <a @click="performAction(record.actions.find(action => action.index === 'delete'))">
                                     <span
                                         :class="record.actions.find(action => action.index === 'delete')?.icon"
                                         class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"
                                     >
                                     </span>
-                                    </a>
-                            @endif
+                                </a>
+
+                            </template>
+
                         </div>
 
                     </div>
@@ -130,7 +125,7 @@
                             >
                                 @lang('deliveryagent::app.country.state.area.create.title')
                             </p>
-                            </x-slot>
+                        </x-slot:header>
                             <x-slot:content>
 
 
@@ -146,7 +141,6 @@
                                     v-model="state.id"
                                 />
 
-                                <!-- حقل country_code المخفي -->
                                 <x-admin::form.control-group.control
                                     type="hidden"
                                     name="state_code"
@@ -201,9 +195,23 @@
                     isUpdating: false,
                     data: {
                         area: {},
-                        gridsCount: 3 // عدد الأعمدة
                     },
                     isLoading: false,
+                }
+            },
+            computed: {
+                gridsCount() {
+                    let count = 3;
+
+                    if (this.hasPermission) {
+                        count++;
+                    }
+
+                    return count;
+                },
+
+                hasPermission() {
+                    return @json($hasPermission);
                 }
             },
             methods: {
