@@ -1,6 +1,7 @@
 <?php
 
 namespace Webkul\DeliveryAgents\Listeners;
+
 use Webkul\DeliveryAgents\Models\Order;
 
 class UpdateInOrderFields
@@ -29,7 +30,6 @@ class UpdateInOrderFields
         }
 
         $order->update([
-            'delivery_status'   => null,
             'delivery_agent_id' => null,
         ]);
     }
@@ -37,7 +37,6 @@ class UpdateInOrderFields
     /**
      * Handle after save refund event.
      */
-
     public function afterSaveRefund($event): void
     {
         $order = $event->order ?? null;
@@ -51,12 +50,10 @@ class UpdateInOrderFields
 
     protected function updateOrderAndAssignments(Order $order, string $status): void
     {
-        $order->update([
-            'delivery_status' => $status,
-        ]);
 
         $order->deliveryAssignments()
             ->where('delivery_agent_id', $order->delivery_agent_id)
             ->update(['status' => $status]);
     }
+
 }

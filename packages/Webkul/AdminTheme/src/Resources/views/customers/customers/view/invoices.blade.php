@@ -4,7 +4,7 @@
     </p>
 
     <x-admin::datagrid
-        :src="route('admin.customers.customers.view', [
+        :src="route('admin.customers.custom.customers.view', [
             'id'   => $customer->id,
             'type' => 'invoices'
         ])"

@@ -56,7 +56,6 @@ return [
                 'rejected-order-confirmation'        => 'هل أنت متأكد أنك تريد رفض هذا الطلب؟',
                 'out-for-delivery-order-confirmation'=> 'هل أنت متأكد من تغيير حالة الطلب إلى "جاري التوصيل"؟ بعد التأكيد، لايمكنك  تعديل حالة الطلب.',
                 'delivered-order-confirmation'       => 'هل أنت متأكد من تغيير حالة الطلب إلى "تم التوصيل"؟ بعد التأكيد، سيتم إغلاق الطلب ولن يمكن تعديله.',
-
             ],
             'status'=> [
                 'assigned_to_agent'   => 'طلب جديد',
@@ -64,6 +63,18 @@ return [
                 'rejected_by_agent'   => 'طلب مرفوض ',
                 'out_for_delivery'    => 'جاري التوصيل',
                 'delivered'           => 'تم التوصيل',
+            ],
+            'actions'=> [
+                'accept_btn'          => 'قبول',
+                'reject_btn'          => 'رفض',
+                'out_for_delivery_btn'=> 'توصيل',
+                'delivered_btn'       => 'تسليم',
+            ],
+            'acl'=> [
+                'accept'          => 'قبول الطلب',
+                'reject'          => ' رفض الطلب',
+                'out_for_delivery'=> 'توصيل الطلب',
+                'delivered'       => 'تسليم الطلب',
             ],
         ],
 
@@ -306,6 +317,13 @@ return [
                     'no-resource'   => 'فشلت عملية الحذف',
 
                 ],
+                'acl'=> [
+                    'areas'         => 'المدن او الاحياء',
+                    'view'          => 'عرض ',
+                    'create'        => 'إضافة ',
+                    'edit'          => 'تحرير ',
+                    'delete'        => 'حذف ',
+                ],
             ],
         ],
     ],
@@ -349,7 +367,7 @@ return [
             'delete-btn'                => 'حذف',
             'range-delete-confirmation' => 'هل أنت متأكد أنك تريد حذف هذا النطاق؟',
             'range-delete-success'      => 'تم حذف النطاق بنجاح',
-            'range-delete-failed'       => 'لم يتم الحذف حاول مرة اخرى لاحقا'
+            'range-delete-failed'       => 'لم يتم الحذف حاول مرة اخرى لاحقا',
         ],
         'edit'=> [
             'title'                      => 'تعديل النطاق الحالي',
@@ -424,7 +442,17 @@ return [
             'canceled'            => 'ملغي',
             'closed'              => 'مغلق',
             'fraud'               => 'احتيال',
+            'assigned_to_agent'   => 'تم نعيين المندوب',
+            'accepted_by_agent'   => ' تم قبول الطلب',
+            'rejected_by_agent'   => 'تم رفض الطلب ',
+            'out_for_delivery'    => 'قيد التوصيل',
+            'delivered'           => 'تم التوصيل',
+        ],
+    ],
+    'notifications'=> [
+        'order-status-messages'=> [
 
+            'assigned_to_agent'=> 'تم تعيين المندوب',
         ],
     ],
 

@@ -40,6 +40,7 @@ input AddressInput {
     country: String!
     state: String!
     city: String!
+    areaId: String @rename(attribute: "state_area_id")  # الحقل الجديد
     postcode: String!
     phone: String!
     defaultAddress: Boolean @rename(attribute: "default_address")

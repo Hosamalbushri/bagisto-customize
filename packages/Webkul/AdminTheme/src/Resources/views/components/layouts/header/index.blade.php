@@ -662,12 +662,17 @@
                         totalUnRead: 0,
 
                         orderTypeMessages: {
-                        {{ \Webkul\Sales\Models\Order::STATUS_PENDING }}: "@lang('admin::app.notifications.order-status-messages.pending')",
-                        {{ \Webkul\Sales\Models\Order::STATUS_CANCELED }}: "@lang('admin::app.notifications.order-status-messages.canceled')",
-                        {{ \Webkul\Sales\Models\Order::STATUS_CLOSED }}: "@lang('admin::app.notifications.order-status-messages.closed')",
-                        {{ \Webkul\Sales\Models\Order::STATUS_COMPLETED }}: "@lang('admin::app.notifications.order-status-messages.completed')",
-                        {{ \Webkul\Sales\Models\Order::STATUS_PROCESSING }}: "@lang('admin::app.notifications.order-status-messages.processing')",
-                        {{ \Webkul\Sales\Models\Order::STATUS_PENDING_PAYMENT }}: "@lang('admin::app.notifications.order-status-messages.pending-payment')",
+                        {{ \Webkul\DeliveryAgents\Models\Order::STATUS_PENDING }}: "@lang('admin::app.notifications.order-status-messages.pending')",
+                        {{ \Webkul\DeliveryAgents\Models\Order::STATUS_CANCELED }}: "@lang('admin::app.notifications.order-status-messages.canceled')",
+                        {{ \Webkul\DeliveryAgents\Models\Order::STATUS_CLOSED }}: "@lang('admin::app.notifications.order-status-messages.closed')",
+                        {{ \Webkul\DeliveryAgents\Models\Order::STATUS_COMPLETED }}: "@lang('admin::app.notifications.order-status-messages.completed')",
+                        {{ \Webkul\DeliveryAgents\Models\Order::STATUS_PROCESSING }}: "@lang('admin::app.notifications.order-status-messages.processing')",
+                        {{ \Webkul\DeliveryAgents\Models\Order::STATUS_PENDING_PAYMENT }}: "@lang('adminTheme::app.notifications.order-status-messages.pending-payment')",
+                        {{ \Webkul\DeliveryAgents\Models\Order::STATUS_ASSIGNED_TO_AGENT }}: "@lang('adminTheme::app.notifications.order-status-messages.assigned_to_agent')",
+                        {{ \Webkul\DeliveryAgents\Models\Order::STATUS_ACCEPTED_BY_AGENT }}: "@lang('adminTheme::app.notifications.order-status-messages.accepted_by_agent')",
+                        {{ \Webkul\DeliveryAgents\Models\Order::STATUS_REJECTED_BY_AGENT }}: "@lang('adminTheme::app.notifications.order-status-messages.rejected_by_agent')",
+                        {{ \Webkul\DeliveryAgents\Models\Order::STATUS_OUT_FOR_DELIVERY }}: "@lang('adminTheme::app.notifications.order-status-messages.out_for_delivery')",
+
                         }
                     }
                 },
@@ -680,6 +685,11 @@
                             completed: 'icon-done rounded-full bg-blue-100 text-2xl text-blue-600 dark:!text-blue-600',
                             canceled: 'icon-cancel-1 rounded-full bg-red-100 text-2xl text-red-600 dark:!text-red-600',
                             processing: 'icon-sort-right rounded-full bg-green-100 text-2xl text-green-600 dark:!text-green-600',
+                            assigned_to_agent: 'icon-sort-right rounded-full bg-green-100 text-2xl text-green-600 dark:!text-green-600',
+                            accepted_by_agent: 'icon-done rounded-full bg-blue-100 text-2xl text-blue-600 dark:!text-blue-600',
+                            rejected_by_agent: 'icon-cancel-1 rounded-full bg-red-100 text-2xl text-red-600 dark:!text-red-600',
+                            out_for_delivery: 'acma-icon-truck rounded-full bg-green-100 text-2xl text-green-600 dark:!text-green-600',
+
                         };
                     },
                 },

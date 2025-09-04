@@ -8,9 +8,7 @@
     <x-admin::datagrid
         src="{{ route('admin.states.index', ['country_id' => $country->id]) }}"
         ref="StatesDatagrid"
-
     >
-
     </x-admin::datagrid>
 
     </div>

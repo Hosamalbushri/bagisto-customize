@@ -6,6 +6,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Webkul\DeliveryAgents\Datagrids\Orders\Admin\AdminOrderDataGrid;
 use Webkul\DeliveryAgents\Models\Order;
 use Webkul\DeliveryAgents\Repositories\DeliveryAgentRepository;
@@ -36,27 +37,61 @@ class OrdersController extends Controller
         $orderId = $request->get('order_id');
         $deliveryAgentId = $request->get('delivery_agent_id');
 
-        $order = $this->orderRepository->findOrFail($orderId);
-        $deliveryAgent = $this->deliveryAgentRepository->find($deliveryAgentId);
+        DB::beginTransaction();
 
-        if (! $deliveryAgent || (int) $deliveryAgent->status !== 1) {
-            return $this->errorResponse('deliveryagent::app.select-order.create.create-error');
+        try {
+            $order = $this->orderRepository->findOrFail($orderId);
+            $deliveryAgent = $this->deliveryAgentRepository->find($deliveryAgentId);
+
+            if (! $deliveryAgent || (int) $deliveryAgent->status !== 1) {
+                DB::rollBack();
+
+                return $this->errorResponse('deliveryagent::app.select-order.create.create-error');
+            }
+
+            $order->update([
+                'delivery_agent_id' => $deliveryAgentId,
+            ]);
+
+            $order->deliveryAssignments()->updateOrCreate(
+                ['delivery_agent_id' => $deliveryAgentId],
+                [
+                    'status'      => Order::STATUS_ASSIGNED_TO_AGENT,
+                    'assigned_at' => now(),
+                ]
+            );
+
+            if ($order->invoices->isEmpty() && $order->canInvoice()) {
+                $this->invoiceRepository->create(
+                    [
+                        'order_id' => $order->id,
+                        'invoice'  => [
+                            'items' => $order->items->mapWithKeys(fn ($item) => [
+                                $item->id => $item->qty_to_invoice,
+                            ])->toArray(),
+                        ],
+                    ],
+                );
+            }
+
+            $newStatus = $this->determineOrderStatus($order);
+            $this->orderRepository->updateOrderStatus($order, $newStatus);
+
+            DB::commit();
+
+            return $this->successResponse('deliveryagent::app.select-order.create.create-success');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('Failed to assign order to delivery agent', [
+                'order_id' => $orderId,
+                'agent_id' => $deliveryAgentId,
+                'error'    => $e->getMessage(),
+            ]);
+
+            return $this->errorResponse('deliveryagent::app.select-order.create.transaction-failed');
         }
-
-        $order->update([
-            'delivery_agent_id' => $deliveryAgentId,
-            'delivery_status'   => Order::STATUS_ASSIGNED_TO_AGENT,
-        ]);
-
-        $order->deliveryAssignments()->updateOrCreate(
-            ['delivery_agent_id' => $deliveryAgentId],
-            [
-                'status'      => Order::STATUS_ASSIGNED_TO_AGENT,
-                'assigned_at' => now(),
-            ]
-        );
-
-        return $this->successResponse('deliveryagent::app.select-order.create.create-success');
     }
 
     public function changeStatus($id, Request $request)
@@ -87,7 +122,7 @@ class OrdersController extends Controller
                     throw new \Exception('deliveryagent::app.select-order.update.updated-error');
                 }
 
-                $order->update(['delivery_status' => $status]);
+                $this->orderRepository->updateOrderStatus($order, $status);
 
                 switch ($status) {
                     case Order::STATUS_ACCEPTED_BY_AGENT:
@@ -105,30 +140,13 @@ class OrdersController extends Controller
 
                     case Order::STATUS_OUT_FOR_DELIVERY:
                         $this->updateAssignmentStatus($order, Order::STATUS_OUT_FOR_DELIVERY);
-
-                        if (! $order->invoices->count() && $order->canInvoice()) {
-                            $this->invoiceRepository->create([
-                                'order_id' => $order->id,
-                                'invoice'  => [
-                                    'items' => $order->items->mapWithKeys(fn ($item) => [
-                                        $item->id => $item->qty_to_invoice,
-                                    ])->toArray(),
-                                ],
-                            ]);
-                        }
-                        if (isset($orderState)) {
-                            $this->orderRepository->updateOrderStatus($order, $orderState);
-                        } elseif ($order->hasOpenInvoice()) {
-                            $this->orderRepository->updateOrderStatus($order, Order::STATUS_PENDING_PAYMENT);
-                        } else {
-                            $order->update(['status' => Order::STATUS_PROCESSING]);
-                        }
                         break;
 
                     case Order::STATUS_DELIVERED:
                         $this->updateAssignmentStatus($order, Order::STATUS_DELIVERED, [
                             'completed_at' => now(),
                         ]);
+                        $order->update(['is_delivered' => true]);
                         $this->orderRepository->updateOrderStatus($order, Order::STATUS_COMPLETED);
                         break;
                 }
@@ -144,7 +162,18 @@ class OrdersController extends Controller
             );
         }
     }
+    protected function determineOrderStatus(Order $order): string
+    {
+        if (isset($order->state)) {
+            return $order->state;
+        }
 
+        if ($order->hasOpenInvoice()) {
+            return Order::STATUS_PENDING_PAYMENT;
+        }
+
+        return Order::STATUS_ASSIGNED_TO_AGENT;
+    }
     private function updateAssignmentStatus(Order $order, string $status, array $extra = []): void
     {
         $order->deliveryAssignments()

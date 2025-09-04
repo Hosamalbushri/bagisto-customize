@@ -1,4 +1,5 @@
-<v-selected-delivery-form
+@if ($order->canDelivery() && bouncer()->hasPermission('delivery.deliveryAgent.order'))
+    <v-selected-delivery-form
 >
     <div
         class="transparent-button px-1 py-1.5 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
@@ -11,7 +12,7 @@
         @endif
     </div>
 </v-selected-delivery-form>
-
+@endif
 
 
 @pushOnce('scripts')
@@ -87,6 +88,7 @@
         app.component('v-selected-delivery-form', {
             template: '#v-selected-delivery-form-template',
             data() {
+
             },
             mounted() {
                 this.$emitter.on('request-assign-delivery', ({ orderId, agentId }) => {
@@ -97,6 +99,7 @@
             beforeUnmount() {
                 this.$emitter.off('request-assign-delivery');
             },
+
             methods: {
                 assignDelivery(orderId, agentId) {
                     this.$emitter.emit('open-confirm-modal', {
@@ -121,6 +124,7 @@
                         },
                     });
                 },
+
             },
             });
     </script>

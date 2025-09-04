@@ -74,21 +74,6 @@ class DeliveryAgentDataGrid extends DataGrid
     public function prepareColumns()
     {
         $this->addColumn([
-            'index'              => 'state',
-            'label'              => trans('deliveryagent::app.deliveryagents.datagrid.state'),
-            'type'               => 'string',
-            'filterable'         => true,
-            'filterable_type'    => 'dropdown',
-            'filterable_options' => State::query()
-                ->orderBy('default_name')
-                ->get()
-                ->map(fn ($state) => [
-                    'label' => $state->default_name,
-                    'value' => $state->code,
-                ])
-                ->toArray(),
-        ]);
-        $this->addColumn([
             'index'              => 'status',
             'label'              => trans('deliveryagent::app.deliveryagents.datagrid.status'),
             'type'               => 'boolean',

@@ -5,10 +5,10 @@ namespace Webkul\DeliveryAgents\Models;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Storage;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Webkul\DeliveryAgents\Contracts\DeliveryAgent as DeliveryAgentContract;
-use Webkul\Sales\Models\OrderProxy;
 
-class DeliveryAgent extends Authenticatable implements DeliveryAgentContract
+class DeliveryAgent extends Authenticatable implements DeliveryAgentContract, JWTSubject
 {
     protected $table = 'delivery_agents';
 
@@ -74,5 +74,23 @@ class DeliveryAgent extends Authenticatable implements DeliveryAgentContract
     public function orders(): HasMany
     {
         return $this->hasMany(DeliveryAgentOrder::class, 'delivery_agent_id');
+    }
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     */
+    public function getJWTCustomClaims(): array
+    {
+        return [];
     }
 }

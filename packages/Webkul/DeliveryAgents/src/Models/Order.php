@@ -80,6 +80,11 @@ class Order extends BaseModel
         self::STATUS_DELIVERED            => 'deliveryagent::app.orders.status.delivered',
     ];
 
+
+    protected $casts = [
+        'is_delivered' => 'boolean',
+    ];
+
     public function getStatusLabelAttribute(): string
     {
         $key = $this->statusLabelKeys[$this->status] ?? null;
@@ -105,12 +110,7 @@ class Order extends BaseModel
                 && ! in_array($item->order->status, [
                     self::STATUS_CLOSED,
                     self::STATUS_FRAUD,
-                ]) && ! in_array($item->order->delivery_status, [
-                    self::STATUS_ASSIGNED_TO_AGENT,
-                    self::STATUS_ACCEPTED_BY_AGENT,
-                    self::STATUS_OUT_FOR_DELIVERY,
-                    self::STATUS_DELIVERED,
-                ])
+                ]) && empty($this->delivery_agent_id)
             ) {
                 return true;
             }
@@ -118,32 +118,35 @@ class Order extends BaseModel
 
         return false;
     }
-
-    public function notVisible(): bool
-    {
-        if (empty($this->delivery_status)) {
-            return true;
-        }
-        if (! $this->canShip()) {
-            return true;
-        }
-
-        if (in_array($this->status, [
-            self::STATUS_CLOSED,
-            self::STATUS_FRAUD,
-            self::STATUS_COMPLETED,
-            self::STATUS_CANCELED,
-
-        ])) {
-            return true;
-        }
-
-        return false;
-    }
+    //
+    //    public function notVisible(): bool
+    //    {
+    //        if (empty($this->status)) {
+    //            return true;
+    //        }
+    //        if (! $this->canShip()) {
+    //            return true;
+    //        }
+    //        if (! $this->canDelivery()) {
+    //            return true;
+    //        }
+    //
+    //        if (in_array($this->status, [
+    //            self::STATUS_CLOSED,
+    //            self::STATUS_FRAUD,
+    //            self::STATUS_COMPLETED,
+    //            self::STATUS_CANCELED,
+    //
+    //        ])) {
+    //            return true;
+    //        }
+    //
+    //        return false;
+    //    }
 
     public function isRejected(): bool
     {
-        if ($this->delivery_status == self::STATUS_REJECTED_BY_AGENT) {
+        if ($this->status == self::STATUS_REJECTED_BY_AGENT) {
             return true;
         }
 
@@ -152,6 +155,6 @@ class Order extends BaseModel
 
     public function getIsDeliveredAttribute(): bool
     {
-        return $this->delivery_status == self::STATUS_DELIVERED;
+        return (bool) $this->attributes['is_delivered'];
     }
 }

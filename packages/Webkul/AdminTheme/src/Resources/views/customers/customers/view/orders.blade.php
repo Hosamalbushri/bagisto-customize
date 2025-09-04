@@ -12,7 +12,7 @@
     </div>
 
     <x-admin::datagrid
-        :src="route('admin.customers.customers.view', [
+        :src="route('admin.customers.custom.customers.view', [
             'id'   => $customer->id,
             'type' => 'orders'
         ])"
@@ -131,6 +131,8 @@
                             </p>
 
                             <p class="text-gray-600 dark:text-gray-300">
+                                @{{record.country_code}} ,
+                                @{{record.state_code}} ,
                                 @{{ record.location }}
                             </p>
                         </div>

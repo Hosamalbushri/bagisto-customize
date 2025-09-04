@@ -74,6 +74,7 @@ class ProductDataGrid extends DataGrid
         $this->addFilter('type', 'product_flat.type');
         $this->addFilter('status', 'product_flat.status');
         $this->addFilter('attribute_family', 'af.id');
+        $this->addFilter('category_id', 'pc.category_id');
 
         return $queryBuilder;
     }
@@ -127,6 +128,20 @@ class ProductDataGrid extends DataGrid
             'filterable'         => true,
             'filterable_type'    => 'dropdown',
             'filterable_options' => $this->attributeFamilyRepository->all(['name as label', 'id as value'])->toArray(),
+        ]);
+        $this->addColumn([
+            'index'              => 'category_id',
+            'label'              => trans('admin::app.catalog.products.index.datagrid.category'),
+            'type'               => 'string',
+            'filterable'         => true,
+            'filterable_type'    => 'dropdown',
+            'filterable_options' => DB::table('category_translations')
+                ->where('locale', app()->getLocale())
+                ->pluck('name as label', 'category_id as value')
+                ->map(fn ($label, $value) => ['label' => $label, 'value' => $value])
+                ->values()
+                ->toArray(),
+            'closure' => fn ($row) => $row->category_name,
         ]);
 
         $this->addColumn([
@@ -189,7 +204,9 @@ class ProductDataGrid extends DataGrid
             'index'      => 'category_name',
             'label'      => trans('admin::app.catalog.products.index.datagrid.category'),
             'type'       => 'string',
+
         ]);
+
 
         $this->addColumn([
             'index'              => 'type',

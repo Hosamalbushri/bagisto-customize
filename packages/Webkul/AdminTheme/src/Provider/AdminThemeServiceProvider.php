@@ -2,6 +2,7 @@
 
 namespace Webkul\AdminTheme\Provider;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AdminThemeServiceProvider extends ServiceProvider
@@ -24,6 +25,9 @@ class AdminThemeServiceProvider extends ServiceProvider
         ]);
         $this->loadRoutesFrom(__DIR__.'/../Routes/catalog-routes.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/sales-routes.php');
+        $this->loadRoutesFrom(__DIR__.'/../Routes/customers-routes.php');
+        $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'adminTheme');
 
+        Event::listen('area.before.delete', 'Webkul\AdminTheme\Listeners\PreventDeleteIfHasChildren@beforeDeleteArea');
     }
 }

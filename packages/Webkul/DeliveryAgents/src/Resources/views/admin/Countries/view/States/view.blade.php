@@ -10,8 +10,12 @@
             id="v-state-template"
         >
             <x-slot:title>
-                @lang('deliveryagent::app.country.state.view.title')
-                </x-slot>
+                @php
+                    $label = trans('deliveryagent::app.country.state.view.title');
+                @endphp
+
+                {{ isset($state) && !empty($state->default_name) ? ($label . ': ' . $state->default_name) : $label }}
+            </x-slot:title>
                 <div class="grid">
                     <div class="flex items-center justify-between gap-4 max-sm:flex-wrap">
                         <div class="flex items-center gap-2.5">
@@ -48,9 +52,9 @@
                 <div class="mt-3.5 flex gap-2.5 max-xl:flex-wrap">
                     <!-- Left Component -->
                     <div class="flex flex-1 flex-col gap-2 max-xl:flex-auto">
-{{--                        @include('deliveryagents::admin.Countries.States.index')--}}
-                        @include('deliveryagents::admin.Countries.view.States.Areas.index')
-
+                        @if (bouncer()->hasPermission('delivery.countries.states.area'))
+                            @include('deliveryagents::admin.Countries.view.States.Areas.index')
+                        @endif
 
                     </div>
                     <!-- Right Component -->
