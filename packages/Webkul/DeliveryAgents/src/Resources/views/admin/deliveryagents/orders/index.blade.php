@@ -11,7 +11,7 @@
             <div class="flex justify-between">
                 <!-- Total Order Count -->
                 <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
-                    @lang('deliveryagent::app.deliveryagents.view.datagrid.orders.count', ['count' => count($deliveryAgent->orders)])
+                    @lang('deliveryAgent::app.deliveryAgent.view.datagrid.orders.count', ['count' => count($deliveryAgent->orders)])
                 </p>
 
             </div>
@@ -146,7 +146,7 @@
                                     @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'accepted_by_agent',messageConfirm:acceptMessageConfirm})"
                                 >
                                         <span class="text-sm  text-gray-800 dark:text-white">
-                                            @lang('deliveryagent::app.deliveryagents.orders.actions.accept_btn')
+                                            @lang('deliveryAgent::app.deliveryAgent.orders.actions.accept_btn')
                                         </span>
                                 </button>
                                 </template>
@@ -158,7 +158,7 @@
                                                 @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'rejected_by_agent',messageConfirm: rejectMessageConfirm })"
                                             >
                                         <span class="text-sm  text-gray-800 dark:text-white">
-                                            @lang('deliveryagent::app.deliveryagents.orders.actions.reject_btn')
+                                            @lang('deliveryAgent::app.deliveryAgent.orders.actions.reject_btn')
                                         </span>
                                             </button>
                                         </template>
@@ -171,7 +171,7 @@
                                                 @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'out_for_delivery',messageConfirm: outForDeliveryMessageConfirm})"
                                             >
                                           <span class="text-sm text-gray-800 dark:text-white">
-                                            @lang('deliveryagent::app.deliveryagents.orders.actions.out_for_delivery_btn')
+                                            @lang('deliveryAgent::app.deliveryAgent.orders.actions.out_for_delivery_btn')
                                         </span>
                                             </button>
                                         </template>
@@ -183,7 +183,7 @@
                                                 @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'delivered',messageConfirm: deliveredMessageConfirm})"
                                             >
                                              <span class="text-sm text-gray-800 dark:text-white">
-                                            @lang('deliveryagent::app.deliveryagents.orders.actions.delivered_btn')
+                                            @lang('deliveryAgent::app.deliveryAgent.orders.actions.delivered_btn')
                                         </span>
                                             </button>
                                         </template>
@@ -205,7 +205,7 @@
 
                                 <div class="flex flex-col items-center">
                                     <p class="text-base font-semibold text-gray-400">
-                                        @lang('deliveryagent::app.deliveryagents.view.datagrid.orders.empty-order')
+                                        @lang('deliveryAgent::app.deliveryAgent.view.datagrid.orders.empty-order')
                                     </p>
                                 </div>
                             </div>
@@ -221,10 +221,10 @@
             data() {
                 return{
                     deliveryAgentId :@json($deliveryAgent->id),
-                    acceptMessageConfirm:@json(__('deliveryagent::app.deliveryagents.orders.view.accepted-order-confirmation')),
-                    rejectMessageConfirm:@json(__('deliveryagent::app.deliveryagents.orders.view.rejected-order-confirmation')),
-                    outForDeliveryMessageConfirm:@json(__('deliveryagent::app.deliveryagents.orders.view.out-for-delivery-order-confirmation')),
-                    deliveredMessageConfirm:@json(__('deliveryagent::app.deliveryagents.orders.view.delivered-order-confirmation')),
+                    acceptMessageConfirm:@json(__('deliveryAgent::app.deliveryAgent.orders.view.accepted-order-confirmation')),
+                    rejectMessageConfirm:@json(__('deliveryAgent::app.deliveryAgent.orders.view.rejected-order-confirmation')),
+                    outForDeliveryMessageConfirm:@json(__('deliveryAgent::app.deliveryAgent.orders.view.out-for-delivery-order-confirmation')),
+                    deliveredMessageConfirm:@json(__('deliveryAgent::app.deliveryAgent.orders.view.delivered-order-confirmation')),
 
                 };
             },

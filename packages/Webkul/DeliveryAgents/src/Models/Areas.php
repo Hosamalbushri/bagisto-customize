@@ -19,4 +19,8 @@ class Areas extends Model
     {
         return $this->hasMany(Range::class, 'state_area_id');
     }
+    public function addresses()
+    {
+        return $this->hasMany(Address::class, 'state_area_id');
+    }
 }

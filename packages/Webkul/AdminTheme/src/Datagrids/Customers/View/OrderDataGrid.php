@@ -99,6 +99,19 @@ class OrderDataGrid extends DataGrid
                     'label' => trans('admin::app.customers.customers.view.datagrid.orders.fraud'),
                     'value' => Order::STATUS_FRAUD,
                 ],
+                [
+                    'label' => trans('adminTheme::app.customers.customers.view.datagrid.orders.assigned_to_agent'),
+                    'value' => Order::STATUS_ASSIGNED_TO_AGENT,
+                ],[
+                    'label' => trans('adminTheme::app.customers.customers.view.datagrid.orders.accepted_by_agent'),
+                    'value' => Order::STATUS_ACCEPTED_BY_AGENT,
+                ],[
+                    'label' => trans('adminTheme::app.customers.customers.view.datagrid.orders.rejected_by_agent'),
+                    'value' => Order::STATUS_REJECTED_BY_AGENT,
+                ],[
+                    'label' => trans('adminTheme::app.customers.customers.view.datagrid.orders.out_for_delivery'),
+                    'value' => Order::STATUS_OUT_FOR_DELIVERY,
+                ],
             ],
             'sortable'   => true,
             'closure'    => function ($row) {

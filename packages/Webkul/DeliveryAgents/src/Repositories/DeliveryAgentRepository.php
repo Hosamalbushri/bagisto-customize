@@ -42,7 +42,7 @@ class DeliveryAgentRepository extends Repository
 
             foreach ($data[$type] as $imageId => $image) {
                 $file = $type.'.'.$imageId;
-                $dir = 'deliveryagent/'.$deliveryagent->id;
+                $dir = 'deliveryAgent/'.$deliveryagent->id;
 
                 if ($request->hasFile($file)) {
                     if ($deliveryagent->{$type}) {

@@ -59,7 +59,7 @@ class StatesController extends Controller
 
         return new JsonResponse([
             'data'    => $state,
-            'message' => trans('deliveryagent::app.country.state.create.create-success'),
+            'message' => trans('deliveryAgent::app.country.state.create.create-success'),
         ]);
 
     }
@@ -73,7 +73,7 @@ class StatesController extends Controller
             ]);
         }
 
-        return view('deliveryagents::admin.Countries.view.States.view', compact('state'));
+        return view('DeliveryAgents::admin.Countries.view.States.view', compact('state'));
 
     }
 
@@ -89,7 +89,7 @@ class StatesController extends Controller
         $state = $this->stateRepository->update($data, $id);
 
         return new JsonResponse([
-            'message' => trans('deliveryagent::app.country.state.edit.edit-success'),
+            'message' => trans('deliveryAgent::app.country.state.edit.edit-success'),
             'data'    => [
                 'state'=> $state->fresh(),
             ],
@@ -101,13 +101,10 @@ class StatesController extends Controller
     public function delete(int $id): JsonResponse
     {
         try {
-            Event::dispatch('state.before.delete', $id);
             $this->stateRepository->delete($id);
-            Event::dispatch('state.after.delete', $id);
-
             return new JsonResponse(['message' => trans('deliveryagent::app.country.state.datagrid.delete-success')]);
         } catch (\Exception $e) {
-            return new JsonResponse(['message' => trans('deliveryagent::app.country.state.datagrid.no-resource')], 400);
+            return new JsonResponse(['message' => $e->getMessage()], 400);
         }
     }
 

@@ -16,7 +16,7 @@
         >
             <span class="acma-icon-plus3"></span>
 
-            @lang('deliveryagent::app.country.view.states.create-btn')
+            @lang('deliveryAgent::app.country.view.states.create-btn')
         </button>
         <div id="state-form">
             <x-admin::form
@@ -27,27 +27,27 @@
                 <form @submit="handleSubmit($event, create)" >
                     <x-admin::modal ref="modal" ref="StateCreateModal">
                         <x-slot:header>
-                            @lang('deliveryagent::app.country.state.create.title')
-                            </x-slot>
+                            @lang('deliveryAgent::app.country.state.create.title')
+                        </x-slot:header>
                             <x-slot:content>
                                 <x-admin::form.control-group  class="mb-2.5 w-full">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('deliveryagent::app.country.state.create.name')
+                                        @lang('deliveryAgent::app.country.state.create.name')
                                     </x-admin::form.control-group.label>
                                     <x-admin::form.control-group.control
                                         type="text"
                                         name="default_name"
                                         id="default_name"
                                         rules="required"
-                                        :label="trans('deliveryagent::app.country.state.create.name')"
-                                        :placeholder="trans('deliveryagent::app.country.state.create.name')"
+                                        :label="trans('deliveryAgent::app.country.state.create.name')"
+                                        :placeholder="trans('deliveryAgent::app.country.state.create.name')"
                                     />
                                     <x-admin::form.control-group.error control-name="default_name" />
                                 </x-admin::form.control-group>
 
                                 <x-admin::form.control-group class="mb-2.5 w-full">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('deliveryagent::app.country.state.create.code')
+                                        @lang('deliveryAgent::app.country.state.create.code')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
@@ -55,8 +55,8 @@
                                         id="code"
                                         name="code"
                                         rules="required"
-                                        :label="trans('deliveryagent::app.country.state.create.code')"
-                                        :placeholder="trans('deliveryagent::app.country.state.create.code')"
+                                        :label="trans('deliveryAgent::app.country.state.create.code')"
+                                        :placeholder="trans('deliveryAgent::app.country.state.create.code')"
                                     />
                                     <x-admin::form.control-group.error control-name="code" />
                                 </x-admin::form.control-group>
@@ -72,20 +72,17 @@
                                     name="country_code"
                                     v-model="country.code"
                                 />
-
-
-
-                                </x-slot>
+                            </x-slot:content>
 
                                 <x-slot:footer>
                                     <x-admin::button
                                         button-type="submit"
                                         class="primary-button"
-                                        :title="trans('deliveryagent::app.country.state.create.create-btn')"
+                                        :title="trans('deliveryAgent::app.country.state.create.create-btn')"
                                         ::loading="isLoading"
                                         ::disabled="isLoading"
                                     />
-                                    </x-slot>
+                                </x-slot:footer>
                     </x-admin::modal>
                 </form>
             </x-admin::form>

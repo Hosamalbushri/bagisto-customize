@@ -42,17 +42,17 @@ class DeliveryAgentsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return JsonResponse|\Illuminate\View\View|\Symfony\Component\HttpFoundation\BinaryFileResponse
      *
      * @throws InvalidDataGridException
      */
     public function index()
     {
         if (request()->ajax()) {
-            return app(DeliveryAgentDataGrid::class)->process();
+            return datagrid(DeliveryAgentDataGrid::class)->process();
         }
 
-        return view('deliveryagents::admin.deliveryagents.index.index');
+        return view('DeliveryAgents::admin.DeliveryAgents.index');
     }
 
     /**
@@ -90,7 +90,7 @@ class DeliveryAgentsController extends Controller
 
         return new JsonResponse([
             'data'    => $deliveryAgent,
-            'message' => trans('deliveryagent::app.deliveryagents.create.create-success'),
+            'message' => trans('deliveryAgent::app.deliveryAgent.create.create-success'),
         ]);
     }
 
@@ -117,7 +117,7 @@ class DeliveryAgentsController extends Controller
 
         }
 
-        return view('deliveryagents::admin.deliveryagents.view', compact('deliveryAgent'));
+        return view('DeliveryAgents::admin.DeliveryAgents.view', compact('deliveryAgent'));
     }
 
     /**
@@ -154,7 +154,7 @@ class DeliveryAgentsController extends Controller
         $deliveryAgent = $this->deliveryAgentRepository->update($data, $id);
 
         return new JsonResponse([
-            'message' => trans('deliveryagent::app.deliveryagents.edit.edit-success'),
+            'message' => trans('deliveryAgent::app.deliveryAgent.edit.edit-success'),
             'data'    => [
                 'deliveryagent'=> $deliveryAgent->fresh(),
             ],
@@ -172,12 +172,12 @@ class DeliveryAgentsController extends Controller
         $deliveryAgent = $this->deliveryAgentRepository->find($id);
 
         if (! $deliveryAgent) {
-            return response()->json(['message' => trans('deliveryagent::app.deliveryagents.delete.unsuccessful_deletion_message')], 404);
+            return response()->json(['message' => trans('deliveryAgent::app.deliveryAgent.delete.unsuccessful_deletion_message')], 404);
         }
 
         $this->deliveryAgentRepository->delete($id);
 
-        return response()->json(['message' => trans('deliveryagent::app.deliveryagents.delete.successful_deletion_message')]);
+        return response()->json(['message' => trans('deliveryAgent::app.deliveryAgent.delete.successful_deletion_message')]);
 
     }
 
@@ -207,7 +207,7 @@ class DeliveryAgentsController extends Controller
             }
 
             return new JsonResponse([
-                'message' => trans('deliveryagent::app.deliveryagents.datagrid.delete-success'),
+                'message' => trans('deliveryAgent::app.deliveryAgent.datagrid.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResponse([
@@ -232,7 +232,7 @@ class DeliveryAgentsController extends Controller
         }
 
         return new JsonResponse([
-            'message' => trans('deliveryagent::app.deliveryagents.datagrid.update-success'),
+            'message' => trans('deliveryAgent::app.deliveryAgent.datagrid.update-success'),
         ]);
 
     }

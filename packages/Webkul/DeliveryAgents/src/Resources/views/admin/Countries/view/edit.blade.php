@@ -11,7 +11,7 @@
         class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"
         @click="$refs.ShowCountryEditComponent.openModal()"
     >
-        @lang('deliveryagent::app.country.edit.edit-btn')
+        @lang('deliveryAgent::app.country.edit.edit-btn')
     </div>
 @endif
 
@@ -33,14 +33,14 @@
                 >
                     <x-admin::modal ref="modal" ref="CountryEditModal">
                         <x-slot:header>
-                            @lang('deliveryagent::app.country.edit.title')
+                            @lang('deliveryAgent::app.country.edit.title')
                             </x-slot>
 
                             <x-slot:content>
 
                                 <x-admin::form.control-group  class="mb-2.5 w-full">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('deliveryagent::app.country.edit.name')
+                                        @lang('deliveryAgent::app.country.edit.name')
                                     </x-admin::form.control-group.label>
                                     <x-admin::form.control-group.control
                                         type="text"
@@ -48,15 +48,15 @@
                                         id="name"
                                         ::value="country.name"
                                         rules="required"
-                                        :label="trans('deliveryagent::app.country.edit.name')"
-                                        :placeholder="trans('deliveryagent::app.country.edit.name')"
+                                        :label="trans('deliveryAgent::app.country.edit.name')"
+                                        :placeholder="trans('deliveryAgent::app.country.edit.name')"
                                     />
                                     <x-admin::form.control-group.error control-name="name" />
                                 </x-admin::form.control-group>
 
                                 <x-admin::form.control-group class="mb-2.5 w-full">
                                     <x-admin::form.control-group.label >
-                                        @lang('deliveryagent::app.country.edit.code')
+                                        @lang('deliveryAgent::app.country.edit.code')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
@@ -65,8 +65,8 @@
                                         name="code"
                                         ::value="country.code"
                                         disabled
-                                        :label="trans('deliveryagent::app.country.edit.code')"
-                                        :placeholder="trans('deliveryagent::app.country.edit.code')"
+                                        :label="trans('deliveryAgent::app.country.edit.code')"
+                                        :placeholder="trans('deliveryAgent::app.country.edit.code')"
                                     />
                                     <x-admin::form.control-group.error control-name="code" />
                                 </x-admin::form.control-group>
@@ -79,7 +79,7 @@
                                     <x-admin::button
                                         button-type="submit"
                                         class="primary-button"
-                                        :title="trans('deliveryagent::app.country.edit.edit-btn')"
+                                        :title="trans('deliveryAgent::app.country.edit.edit-btn')"
                                         ::loading="isLoading"
                                         ::disabled="isLoading"
                                     />
