@@ -11,12 +11,12 @@
             <div class="flex justify-between">
                 <!-- Total Order Count -->
                 <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
-                    @lang('deliveryAgent::app.deliveryAgent.view.datagrid.orders.count', ['count' => count($deliveryAgent->orders)])
+                    @lang('deliveryAgent::app.deliveryAgent.view.dataGrid.orders.count', ['count' => count($deliveryAgent->orders)])
                 </p>
 
             </div>
             <x-admin::datagrid
-                :src="route('admin.deliveryagents.view', [
+                :src="route('admin.deliveryAgents.view', [
             'id'   => $deliveryAgent->id,
             'type' => 'orders'
         ])"

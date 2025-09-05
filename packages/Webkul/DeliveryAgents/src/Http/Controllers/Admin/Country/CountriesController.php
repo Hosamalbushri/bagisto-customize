@@ -8,7 +8,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Http\Requests\MassDestroyRequest;
 use Webkul\DataGrid\Exceptions\InvalidDataGridException;
 use Webkul\DeliveryAgents\Datagrids\Country\CountryDataGrid;
@@ -77,6 +76,7 @@ class CountriesController extends Controller
     {
         $country = $this->counrtyRepository->findOrFail($id);
         $country->load('states');
+
         return view('DeliveryAgents::admin.Countries.view', compact('country'));
 
     }
@@ -95,8 +95,8 @@ class CountriesController extends Controller
             'name',
 
         ]);
-        $country = $this->counrtyRepository->update($data, $id);
-
+        $country = $this->counrtyRepository->findOrFail($id);
+        $country->update($data);
         return new JsonResponse([
             'message' => trans('deliveryAgent::app.country.edit.edit-success'),
             'data'    => [
@@ -107,14 +107,13 @@ class CountriesController extends Controller
 
     }
 
-    /**
-     * To delete the previously create CMS page.
-     */
+
     public function delete(int $id): JsonResponse
     {
         try {
             $this->counrtyRepository->delete($id);
-            return new JsonResponse(['message' => trans('deliveryAgent::app.country.datagrid.delete-success')]);
+
+            return new JsonResponse(['message' => trans('deliveryAgent::app.country.dataGrid.delete-success')]);
         } catch (\Exception $e) {
             return new JsonResponse(['message' => $e->getMessage()], 400);
         }
@@ -130,7 +129,7 @@ class CountriesController extends Controller
         }
 
         return new JsonResponse([
-            'message' => trans('deliveryAgent::app.country.datagrid.mass-delete-success'),
+            'message' => trans('deliveryAgent::app.country.dataGrid.mass-delete-success'),
         ]);
 
     }

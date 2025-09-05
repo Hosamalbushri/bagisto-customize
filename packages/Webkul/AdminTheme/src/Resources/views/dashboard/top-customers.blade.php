@@ -46,7 +46,7 @@
 
                             <div class="flex flex-col">
                                 <p class="font-semibold text-gray-800 dark:text-white">
-                                    @{{ customer.formatted_total }}
+                                    @{{ $admin.formatPrice(customer.total) }}
                                 </p>
 
                                 <p class="text-gray-600 dark:text-gray-300" v-if="customer.orders">

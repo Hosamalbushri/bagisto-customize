@@ -229,7 +229,7 @@
                 create(params, { resetForm, setErrors }) {
                     this.isLoading = true;
 
-                    this.$axios.post("{{ route('admin.deliveryagents.store') }}", params)
+                    this.$axios.post("{{ route('admin.deliveryAgents.store') }}", params)
                         .then((response) => {
                             this.$refs.DeliveryAgentCreateModal.close();
                             this.$emit('delivery-agent-created', response.data.data);

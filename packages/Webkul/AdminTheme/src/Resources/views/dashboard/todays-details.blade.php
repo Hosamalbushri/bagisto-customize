@@ -29,7 +29,7 @@
                         <!-- Sales Stats -->
                         <div class="grid place-content-start gap-1">
                             <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
-                                @{{ report.statistics.total_sales.formatted_total }}
+                                @{{ $admin.formatPrice(report.statistics.total_sales.current) }}
                             </p>
 
                             <p class="text-xs font-semibold text-gray-600 dark:text-gray-300">
@@ -125,7 +125,7 @@
                 </div>
 
                 <!-- Today Orders Details -->
-                <div 
+                <div
                     v-for="order in report.statistics.orders"
                     class="border-b bg-white p-4 transition-all hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-900 dark:hover:bg-gray-950"
                 >
@@ -137,11 +137,11 @@
                                 <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
                                     @{{ "@lang('admin::app.dashboard.index.order-id', ['id' => ':replace'])".replace(':replace', order.increment_id) }}
                                 </p>
-    
+
                                 <p class="text-gray-600 dark:text-gray-300">
                                     @{{ order.created_at}}
                                 </p>
-    
+
                                 <!-- Order Status -->
                                 <p :class="'label-' + order.status">
                                     @{{ order.status_label }}
@@ -152,14 +152,14 @@
                         <div class="flex min-w-[180px] flex-1 gap-2.5">
                             <div class="flex flex-col gap-1.5">
                                 <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
-                                    @{{ order.formatted_base_grand_total }}
+                                    @{{ $admin.formatPrice(order.base_grand_total) }}
                                 </p>
-        
+
                                 <!-- Payment Mode -->
                                 <p class="text-gray-600 dark:text-gray-300">
                                     @{{ order.payment_method }}
                                 </p>
-        
+
                                 <!-- Channel Name -->
                                 <p class="text-gray-600 dark:text-gray-300">
                                     @{{ order.channel_name }}
@@ -173,18 +173,18 @@
                                 <p class="text-base text-gray-800 dark:text-white">
                                     @{{ order.customer_name }}
                                 </p>
-        
+
                                 <p class="max-w-[180px] break-words text-gray-600 dark:text-gray-300">
                                     @{{ order.customer_email }}
                                 </p>
-        
+
                                 <!-- Order Address -->
                                 <p class="text-gray-600 dark:text-gray-300">
                                     @{{ order.billing_address }}
                                 </p>
                             </div>
                         </div>
- 
+
                         <div class="flex min-w-[180px] flex-1 items-center justify-between gap-2.5">
                             <div class="flex flex-col gap-1.5">
                                 <!-- Ordered Product Images -->
