@@ -196,7 +196,7 @@
 
                             <!-- Order Date -->
                             <p class="text-gray-600 dark:text-gray-300">
-                                {{ myHelper()->formatDate($order->created_at) }}
+                                {{ core()->formatDate($order->created_at,'d-m-Y h:i:s A') }}
                             </p>
 
                             <!-- Order Status -->
