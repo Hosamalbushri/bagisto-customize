@@ -25,7 +25,7 @@
 
                         <!-- Total Order Revenue -->
                         <p class="text-lg font-bold leading-none text-gray-800 dark:text-white">
-                            @{{ report.statistics.total_sales.formatted_total }}
+                            @{{ $admin.formatPrice(report.statistics.total_sales.current) }}
                         </p>
                     </div>
 

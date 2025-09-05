@@ -31,12 +31,12 @@ class CountryRepository extends Repository
         $country = $this->find($id);
 
         if (! $country) {
-            throw new Exception('الدولة غير موجودة');
+            throw new Exception(trans('deliveryAgent::app.country.dataGrid.no-found'));
         }
 
         // نفترض أن العلاقة معرفة في الموديل Country باسم states
         if ($country->states()->exists()) {
-            throw new Exception('لا يمكن حذف الدولة لأنها تحتوي على ولايات.');
+            throw new Exception(trans('deliveryAgent::app.country.dataGrid.delete_warning_has_children'));
         }
 
 

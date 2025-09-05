@@ -8,7 +8,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Validation\ValidationException;
 use Webkul\Admin\Http\Requests\MassDestroyRequest;
 use Webkul\DeliveryAgents\Datagrids\Country\StateDataGrid;
@@ -86,7 +85,8 @@ class StatesController extends Controller
             'default_name',
 
         ]);
-        $state = $this->stateRepository->update($data, $id);
+        $state = $this->stateRepository->findOrFail($id);
+        $state->update($data);
 
         return new JsonResponse([
             'message' => trans('deliveryAgent::app.country.state.edit.edit-success'),
@@ -102,7 +102,8 @@ class StatesController extends Controller
     {
         try {
             $this->stateRepository->delete($id);
-            return new JsonResponse(['message' => trans('deliveryagent::app.country.state.datagrid.delete-success')]);
+
+            return new JsonResponse(['message' => trans('deliveryAgent::app.country.state.dataGrid.delete-success')]);
         } catch (\Exception $e) {
             return new JsonResponse(['message' => $e->getMessage()], 400);
         }
@@ -113,15 +114,11 @@ class StatesController extends Controller
         $indices = $massDestroyRequest->input('indices');
 
         foreach ($indices as $index) {
-
-            Event::dispatch('state.before.delete', $index);
             $this->stateRepository->delete($index);
-            Event::dispatch('state.after.delete', $index);
-
         }
 
         return new JsonResponse([
-            'message' => trans('deliveryagent::app.country.state.datagrid.mass-delete-success'),
+            'message' => trans('deliveryAgent::app.country.state.dataGrid.mass-delete-success'),
         ]);
 
     }

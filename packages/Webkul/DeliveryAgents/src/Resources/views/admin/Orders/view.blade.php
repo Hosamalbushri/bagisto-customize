@@ -25,7 +25,7 @@
             <div class="grid gap-y-2.5">
                 <div class="flex gap-2.5">
                     <a
-                        href="{{ route('admin.deliveryagents.view', $delivery_agent->id) }}"
+                        href="{{ route('admin.deliveryAgents.view', $delivery_agent->id) }}"
                         class="text-sm text-blue-600 transition-all hover:underline"
                     >
                         @lang('deliveryAgent::app.orders.view.view')

@@ -24,11 +24,12 @@ class StateRepository extends Repository
         $state = $this->find($id);
 
         if (! $state) {
-            throw new Exception('الولاية غير موجودة');
+            throw new Exception(trans('deliveryAgent::app.country.state.dataGrid.no-found'));
+
         }
 
         if ($state->areas()->exists()) {
-            throw new Exception('لا يمكن حذف الولاية لأنها تحتوي على ارتباطات.');
+            throw new Exception(trans('deliveryAgent::app.country.state.dataGrid.delete_warning_has_children'));
         }
 
         return parent::delete($id);

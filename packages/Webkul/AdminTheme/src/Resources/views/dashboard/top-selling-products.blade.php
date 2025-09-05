@@ -49,7 +49,7 @@
                             class="relative h-[65px] max-h-[65px] w-full max-w-[65px] overflow-hidden rounded border border-dashed border-gray-300 dark:border-gray-800 dark:mix-blend-exclusion dark:invert"
                         >
                             <img src="{{ bagisto_asset('images/product-placeholders/front.svg')}}">
-                            
+
                             <p class="absolute bottom-1.5 w-full text-center text-[6px] font-semibold text-gray-400">
                                 @lang('admin::app.dashboard.index.product-image')
                             </p>
@@ -65,11 +65,11 @@
 
                             <div class="flex justify-between">
                                 <p class="font-semibold text-gray-600 dark:text-gray-300">
-                                    @{{ item.formatted_price }}
+                                    @{{ $admin.formatPrice(item.price) }}
                                 </p>
 
                                 <p class="text-base font-semibold text-gray-800 dark:text-white">
-                                    @{{ item.formatted_revenue }}
+                                    @{{ $admin.formatPrice(item.revenue) }}
                                 </p>
                             </div>
                         </div>

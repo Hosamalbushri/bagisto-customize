@@ -6,7 +6,7 @@ return [
     [
         'key'    => 'delivery',
         'name'   => 'deliveryAgent::app.deliveryAgent.acl.title',
-        'route'  => 'admin.deliveryagents.index',
+        'route'  => 'admin.deliveryAgents.index',
         'sort'   => 4,
         'icon'   => 'icon-list',
     ],
@@ -14,25 +14,25 @@ return [
     [
         'key'    => 'delivery.deliveryAgent',
         'name'   => 'deliveryAgent::app.deliveryAgent.acl.delivery-agents',
-        'route'  => 'admin.deliveryagents.index',
+        'route'  => 'admin.deliveryAgents.index',
         'sort'   => 1,
     ],
     [
         'key'    => 'delivery.deliveryAgent.create',
         'name'   => 'deliveryAgent::app.deliveryAgent.acl.create',
-        'route'  => 'admin.deliveryagents.store',
+        'route'  => 'admin.deliveryAgents.store',
         'sort'   => 1,
     ],
     [
         'key'    => 'delivery.deliveryAgent.edit',
         'name'   => 'deliveryAgent::app.deliveryAgent.acl.edit',
-        'route'  => 'admin.deliveryagents.update',
+        'route'  => 'admin.deliveryAgents.update',
         'sort'   => 2,
     ],
     [
         'key'    => 'delivery.deliveryAgent.delete',
         'name'   => 'deliveryAgent::app.deliveryAgent.acl.delete',
-        'route'  => 'admin.deliveryagents.delete',
+        'route'  => 'admin.deliveryAgents.delete',
         'sort'   => 3,
     ],
 
@@ -66,7 +66,7 @@ return [
     [
         'key'    => 'delivery.deliveryAgent.order',
         'name'   => 'deliveryAgent::app.orders.acl.title',
-        'route'  => 'admin.deliveryagents.order.select-delivery-agent',
+        'route'  => 'admin.deliveryAgents.order.select-delivery-agent',
         'sort'   => 5,
     ],
     [

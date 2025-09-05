@@ -194,7 +194,7 @@
 
                                                 {{ $item->qty_shipped ? trans('admin::app.sales.orders.view.item-shipped', ['qty_shipped' => $item->qty_shipped]) : '' }}
 
-                                                {{ $order->is_delivered  ? trans('deliveryagent::app.orders.view.item-delivered') : '' }}
+                                                {{ $order->is_delivered  ? trans('deliveryAgent::app.orders.view.item-delivered',['qty_delivered' => $item->qty_invoiced]) : '' }}
 
                                                 {{ $item->qty_refunded ? trans('admin::app.sales.orders.view.item-refunded', ['qty_refunded' => $item->qty_refunded]) : '' }}
 

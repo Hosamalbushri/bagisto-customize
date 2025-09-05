@@ -69,7 +69,7 @@
 
                         <!-- back button -->
                         <a
-                            href="{{ route('admin.deliveryagents.index') }}"
+                            href="{{ route('admin.deliveryAgents.index') }}"
                             class="transparent-button hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800">
                             @lang('deliveryAgent::app.deliveryAgent.view.back-btn')
                         </a>
@@ -160,7 +160,7 @@
                                         @endif
 
                                     </div>
-                                    </x-slot>
+                                </x-slot:header>
 
                                     <x-slot:content>
 
@@ -224,7 +224,7 @@
                                                 </div>
                                             </div>
                                         </template>
-                                        </x-slot>
+                                    </x-slot:content>
                             </x-admin::accordion>
                         </template>
                     </div>
