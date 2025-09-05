@@ -19,6 +19,15 @@ return [
                 ],
             ],
         ],
+        'invoices' => [
+            'view' => [
+                'Pending'             => 'معلقة',
+                'Pending Payment',
+                'Paid'   => 'مدفوعة',
+                'Overdue'=> 'متأخرة',
+                'Refunded',
+            ],
+        ],
     ],
 
     'customers' => [

@@ -16,7 +16,7 @@
                 @lang('admin::app.sales.invoices.view.title', ['invoice_id' => $invoice->increment_id ?? $invoice->id])
 
                 <span class="{{ $invoice->status_label_class }} mx-1.5 text-sm">
-                    {{ $invoice->status_label }}
+                    @lang('adminTheme::app.sales.invoices.view.' . $invoice->status_label)
                 </span>
             </p>
 
@@ -461,7 +461,7 @@
 
                             <!-- Invoice Status -->
                             <p class="text-gray-600 dark:text-gray-300">
-                                {{ $invoice->status_label }}
+                                @lang('adminTheme::app.sales.invoices.view.' . $invoice->status_label)
                             </p>
 
                             <!-- Order Channel -->
