@@ -40,7 +40,7 @@ class SelectDeliveryAgentDataGrid extends DataGrid
     {
         $this->addColumn([
             'index'      => 'delivery_agents_id',
-            'label'      => trans('deliveryagent::app.deliveryagents.datagrid.id'),
+            'label'      => trans('deliveryAgent::app.deliveryAgent.datagrid.id'),
             'type'       => 'string',
             'searchable' => false,
             'sortable'   => true,
@@ -50,7 +50,7 @@ class SelectDeliveryAgentDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'full_name',
-            'label'      => trans('deliveryagent::app.deliveryagents.datagrid.name'),
+            'label'      => trans('deliveryAgent::app.deliveryAgent.datagrid.name'),
             'type'       => 'string',
             'searchable' => true,
             'filterable' => true,
@@ -59,7 +59,7 @@ class SelectDeliveryAgentDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'email',
-            'label'      => trans('deliveryagent::app.deliveryagents.datagrid.email'),
+            'label'      => trans('deliveryAgent::app.deliveryAgent.datagrid.email'),
             'type'       => 'string',
             'searchable' => true,
             'filterable' => true,
@@ -68,22 +68,22 @@ class SelectDeliveryAgentDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'phone',
-            'label'      => trans('deliveryagent::app.deliveryagents.datagrid.phone'),
+            'label'      => trans('deliveryAgent::app.deliveryAgent.datagrid.phone'),
             'type'       => 'string',
             'filterable' => true,
         ]);
         $this->addColumn([
             'index'              => 'status',
-            'label'              => trans('deliveryagent::app.deliveryagents.datagrid.status'),
+            'label'              => trans('deliveryAgent::app.deliveryAgent.datagrid.status'),
             'type'               => 'boolean',
             'filterable'         => true,
             'filterable_options' => [
                 [
-                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.active'),
+                    'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.active'),
                     'value' => 1,
                 ],
                 [
-                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.inactive'),
+                    'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.inactive'),
                     'value' => 0,
                 ],
             ],
@@ -91,9 +91,9 @@ class SelectDeliveryAgentDataGrid extends DataGrid
             'closure'    => function ($row) {
                 switch ($row->status) {
                     case '1':
-                        return '<p class="label-active">'.trans('deliveryagent::app.deliveryagents.datagrid.active').'</p>';
+                        return '<p class="label-active">'.trans('deliveryAgent::app.deliveryAgent.datagrid.active').'</p>';
                     case '0':
-                        return '<p class="label-canceled">'.trans('deliveryagent::app.deliveryagents.datagrid.inactive').'</p>';
+                        return '<p class="label-canceled">'.trans('deliveryAgent::app.deliveryAgent.datagrid.inactive').'</p>';
                 }
             },
 
@@ -105,7 +105,7 @@ class SelectDeliveryAgentDataGrid extends DataGrid
 
         $this->addAction([
             'icon'   => 'icon-sort-left',
-            'title'  => trans('deliveryagent::app.deliveryagents.datagrid.actions.view'),
+            'title'  => trans('deliveryAgent::app.deliveryAgent.datagrid.actions.view'),
             'method' => 'GET',
             'target' => 'blank',
             'url'    => function ($row) {
@@ -119,7 +119,7 @@ class SelectDeliveryAgentDataGrid extends DataGrid
     {
         if (bouncer()->hasPermission('delivery.deliveryAgent.delete')) {
             $this->addMassAction([
-                'title'  => trans('deliveryagent::app.deliveryagents.datagrid.delete'),
+                'title'  => trans('deliveryAgent::app.deliveryAgent.datagrid.delete'),
                 'method' => 'POST',
                 'url'    => route('admin.deliveryagents.mass_delete'),
             ]);
@@ -127,16 +127,16 @@ class SelectDeliveryAgentDataGrid extends DataGrid
 
         if (bouncer()->hasPermission('delivery.deliveryAgent.edit')) {
             $this->addMassAction([
-                'title'   => trans('deliveryagent::app.deliveryagents.datagrid.update-status'),
+                'title'   => trans('deliveryAgent::app.deliveryAgent.datagrid.update-status'),
                 'method'  => 'POST',
                 'url'     => route('admin.deliveryagents.mass_update'),
                 'options' => [
                     [
-                        'label' => trans('deliveryagent::app.deliveryagents.datagrid.active'),
+                        'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.active'),
                         'value' => 1,
                     ],
                     [
-                        'label' => trans('deliveryagent::app.deliveryagents.datagrid.inactive'),
+                        'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.inactive'),
                         'value' => 0,
                     ],
                 ],

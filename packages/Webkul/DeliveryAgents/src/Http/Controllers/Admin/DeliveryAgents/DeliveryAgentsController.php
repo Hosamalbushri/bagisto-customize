@@ -52,7 +52,7 @@ class DeliveryAgentsController extends Controller
             return datagrid(DeliveryAgentDataGrid::class)->process();
         }
 
-        return view('DeliveryAgents::admin.DeliveryAgents.index.index');
+        return view('DeliveryAgents::admin.DeliveryAgents.index');
     }
 
     /**
