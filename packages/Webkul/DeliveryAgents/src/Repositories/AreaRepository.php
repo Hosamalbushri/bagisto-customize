@@ -24,11 +24,11 @@ class AreaRepository extends Repository
         $state = $this->find($id);
 
         if (! $state) {
-            throw new Exception('الحي غير موجودة');
+            throw new Exception(trans('deliveryAgent::app.country.state.area.dataGrid.no-found'));
         }
 
         if ($state->ranges()->exists() || $state->addresses()->exists()) {
-            throw new Exception('لا يمكن حذف الحي  لأنه يحتوي على ارتباطات.');
+            throw new Exception(trans('deliveryAgent::app.country.state.area.dataGrid.delete_warning_has_children'));
         }
 
         return parent::delete($id);

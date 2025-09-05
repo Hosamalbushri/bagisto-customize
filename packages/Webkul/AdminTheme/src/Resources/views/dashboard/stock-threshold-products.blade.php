@@ -64,7 +64,7 @@
                             <div class="flex flex-col gap-1.5">
                                 <!-- Product Price -->
                                 <p class="text-base font-semibold text-gray-800 dark:text-white">
-                                    @{{ product.formatted_price }}
+                                    @{{ $admin.formatPrice(product.price) }}
                                 </p>
 
                                 <!-- Total Product Stock -->
@@ -89,12 +89,12 @@
             >
                 <div class="grid justify-center justify-items-center gap-3.5 px-2.5 py-10">
                     <img src="{{ bagisto_asset('images/icon-add-product.svg') }}" class="h-20 w-20 dark:mix-blend-exclusion dark:invert">
-                    
+
                     <div class="flex flex-col items-center">
                         <p class="text-base font-semibold text-gray-400">
                             @lang('admin::app.dashboard.index.empty-threshold')
                         </p>
-    
+
                         <p class="text-gray-400">
                             @lang('admin::app.dashboard.index.empty-threshold-description')
                         </p>

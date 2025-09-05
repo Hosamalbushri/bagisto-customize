@@ -41,7 +41,7 @@ return [
             'active'        => 'مفعل',
             'inactive'      => 'غير مفعل',
             'edit-btn'      => 'تحرير',
-            'datagrid'      => [
+            'dataGrid'      => [
                 'orders'        => [
                     'count'      => 'الطلبيات (:count)',
                     'empty-order'=> 'لا توجد طلبيات',
@@ -129,7 +129,7 @@ return [
             'inactive'          => 'متوقف مؤقتًا',
         ],
 
-        'datagrid' => [
+        'dataGrid' => [
             'id'                => 'المعرف',
             'id-value'          => 'المعرف - :id',
             'name'              => 'اسم المندوب',
@@ -194,7 +194,7 @@ return [
             'delete'        => 'حذف ',
         ],
 
-        'datagrid' => [
+        'dataGrid' => [
             'id'            => 'المعرف',
             'name'          => 'اسم البلدة',
             'code'          => 'رمز البلدة',
@@ -203,10 +203,10 @@ return [
                 'view'  => 'عرض',
                 'delete'=> 'حذف',
             ],
-            'delete-success'           => 'تم الحذف  بنجاح',
-            'no-resource'              => 'لم يتم الحذف بنجاح',
-            'mass-delete-success'      => 'تم الحذف  بنجاح',
-            'delete_warning_has_states'=> 'لا يمكن حذف هذه البلدة لأنها تحتوي على نطاقات مرتبطة.',
+            'delete-success'             => 'تم الحذف  بنجاح',
+            'no-found'                   => 'فشل الحذف ',
+            'mass-delete-success'        => 'تم حذف البلدان المحددة  بنجاح',
+            'delete_warning_has_children'=> 'لا يمكن حذف البلدة لأنها تحتوي على ابناء.',
         ],
 
         'index' => [
@@ -276,7 +276,7 @@ return [
                 'edit-success'  => 'تم تحديث بيانات المنطقة بنجاح.',
             ],
 
-            'datagrid' => [
+            'dataGrid' => [
                 'id'                => 'الـمعرف',
                 'name'              => 'اسم المنطقة',
                 'code'              => 'رمز المنطقة',
@@ -284,9 +284,11 @@ return [
                     'view'  => 'عرض',
                     'delete'=> 'حذف',
                 ],
-                'delete-success'           => 'تم الحذف المنطقة بنجاح',
-                'no-resource'              => 'لم يتم المنطقة الحذف بنجاح',
-                'mass-delete-success'      => 'تم الحذف  بنجاح',
+                'delete-success'             => 'تم الحذف المنطقة بنجاح',
+                'no-found'                   => 'لم يتم المنطقة الحذف بنجاح',
+                'mass-delete-success'        => 'تم حذف المناطق المحددة  بنجاح',
+                'delete_warning_has_children'=> 'لا يمكن حذف المنطقة لأنها تحتوي على ابناء.',
+
             ],
             'area'=> [
                 'create'=> [
@@ -305,16 +307,17 @@ return [
                 'update'=> [
 
                 ],
-                'datagrid'=> [
-                    'id'             => 'المعرف',
-                    'name'           => 'اسم المدينة او الحــي',
-                    'deleivery_count'=> 'عدد المناديب',
-                    'actions'        => [
+                'dataGrid'=> [
+                    'id'                   => 'المعرف',
+                    'name'                 => 'اسم المدينة او الحــي',
+                    'delivery-count'       => 'عدد المناديب',
+                    'actions'              => [
                         'edit'  => 'تعديل',
                         'delete'=> 'حذف',
                     ],
-                    'delete-success'=> 'تم الحذف بنجاح',
-                    'no-resource'   => 'فشلت عملية الحذف',
+                    'delete-success'             => 'تم الحذف بنجاح',
+                    'no-found'                   => 'فشلت عملية الحذف',
+                    'delete_warning_has_children'=> 'لا يمكن حذف المدينة لأنها تحتوي على ابناء.',
 
                 ],
                 'acl'=> [
@@ -425,7 +428,7 @@ return [
             'no-delivery-agent-found'        => 'لم يتم تعيين مندوب لهذا الطلب',
             'view'                           => 'عرض',
             'contact'                        => 'اتصال',
-            'item-delivered'                 => 'تم التوصيل',
+            'item-delivered'                 => 'تم التوصيل (:qty_delivered)',
 
         ],
         'acl' => [

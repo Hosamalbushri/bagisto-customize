@@ -1,6 +1,6 @@
 <div class="box-shadow rounded bg-white p-4 dark:bg-gray-900">
     <x-admin::datagrid
-        src="{{ route('admin.deliveryagents.index') }}"
+        src="{{ route('admin.deliveryAgents.index') }}"
     >
         @php
             $hasPermission = bouncer()->hasPermission('delivery.deliveryAgent.edit') || bouncer()->hasPermission('delivery.deliveryAgent.delete') || bouncer()->hasPermission('delivery.deliveryAgent.order.assign-delivery-agent');
@@ -133,7 +133,7 @@
                                     @endif
 
                                     <a
-                                        :href="`{{ route('admin.deliveryagents.view', '') }}/${record.delivery_agents_id}`"
+                                        :href="`{{ route('admin.deliveryAgents.view', '') }}/${record.delivery_agents_id}`"
                                         class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-3xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
                                     >
                                     </a>

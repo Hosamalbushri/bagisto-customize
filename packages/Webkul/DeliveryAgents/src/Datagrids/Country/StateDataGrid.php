@@ -31,7 +31,7 @@ class StateDataGrid extends DataGrid
     {
         $this->addColumn([
             'index'      => 'country_states_id',
-            'label'      => trans('deliveryAgent::app.country.state.datagrid.id'),
+            'label'      => trans('deliveryAgent::app.country.state.dataGrid.id'),
             'type'       => 'integer',
             'searchable' => false,
             'sortable'   => true,
@@ -41,7 +41,7 @@ class StateDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'default_name',
-            'label'      => trans('deliveryAgent::app.country.state.datagrid.name'),
+            'label'      => trans('deliveryAgent::app.country.state.dataGrid.name'),
             'type'       => 'string',
             'searchable' => true,
             'sortable'   => true,
@@ -51,7 +51,7 @@ class StateDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'code',
-            'label'      => trans('deliveryAgent::app.country.state.datagrid.code'),
+            'label'      => trans('deliveryAgent::app.country.state.dataGrid.code'),
             'type'       => 'string',
             'searchable' => true,
             'sortable'   => true,
@@ -65,7 +65,7 @@ class StateDataGrid extends DataGrid
 
         $this->addAction([
             'icon'   => 'icon-sort-left',
-            'title'  => trans('deliveryAgent::app.country.state.datagrid.actions.view'),
+            'title'  => trans('deliveryAgent::app.country.state.dataGrid.actions.view'),
             'method' => 'GET',
             'url'    => function ($row) {
                 return route('admin.states.edit', $row->country_states_id);
@@ -76,7 +76,7 @@ class StateDataGrid extends DataGrid
 
             $this->addAction([
                 'icon'   => 'icon-delete',
-                'title'  => trans('deliveryAgent::app.country.state.datagrid.actions.delete'),
+                'title'  => trans('deliveryAgent::app.country.state.dataGrid.actions.delete'),
                 'method' => 'DELETE',
                 'url'    => function ($row) {
                     return route('admin.states.delete', $row->country_states_id);
@@ -90,7 +90,7 @@ class StateDataGrid extends DataGrid
     {
         if (bouncer()->hasPermission('delivery.countries.states.delete')) {
             $this->addMassAction([
-                'title'  => trans('deliveryAgent::app.country.state.datagrid.actions.delete'),
+                'title'  => trans('deliveryAgent::app.country.state.dataGrid.actions.delete'),
                 'method' => 'POST',
                 'url'    => route('admin.states.mass_delete'),
             ]);

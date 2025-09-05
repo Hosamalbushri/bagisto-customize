@@ -10,15 +10,15 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/delivery'], f
      * delivery routes.
      */
     Route::controller(DeliveryAgentsController::class)->prefix('agents')->group(function () {
-        Route::get('', 'index')->name('admin.deliveryagents.index');
-        Route::get('create', 'create')->name('admin.deliveryagents.create');
-        Route::post('', 'store')->name('admin.deliveryagents.store');
-        Route::get('select-delivery-agent', 'selectedDeliveryAgents')->name('admin.deliveryagents.order.select-delivery-agent');
-        Route::get('view/{id}', 'view')->name('admin.deliveryagents.view');
-        Route::put('edit/{id}', 'update')->name('admin.deliveryagents.update');
-        Route::delete('edit/{id}', 'destroy')->name('admin.deliveryagents.delete');
-        Route::post('mass-delete', 'massDestroy')->name('admin.deliveryagents.mass_delete');
-        Route::post('mass-update', 'massUpdate')->name('admin.deliveryagents.mass_update');
+        Route::get('', 'index')->name('admin.deliveryAgents.index');
+        Route::get('create', 'create')->name('admin.deliveryAgents.create');
+        Route::post('', 'store')->name('admin.deliveryAgents.store');
+        Route::get('select-delivery-agent', 'selectedDeliveryAgents')->name('admin.deliveryAgents.order.select-delivery-agent');
+        Route::get('view/{id}', 'view')->name('admin.deliveryAgents.view');
+        Route::put('edit/{id}', 'update')->name('admin.deliveryAgents.update');
+        Route::delete('edit/{id}', 'destroy')->name('admin.deliveryAgents.delete');
+        Route::post('mass-delete', 'massDestroy')->name('admin.deliveryAgents.mass_delete');
+        Route::post('mass-update', 'massUpdate')->name('admin.deliveryAgents.mass_update');
 
     });
     /**

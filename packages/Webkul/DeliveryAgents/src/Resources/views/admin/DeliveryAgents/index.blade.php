@@ -12,7 +12,7 @@
             <div class="flex items-center gap-x-2.5">
                 <!-- Export -->
                 <x-admin::datagrid.export
-                    src="{{ route('admin.deliveryagents.index') }}"
+                    src="{{ route('admin.deliveryAgents.index') }}"
                     ref="DeliveryAgentDataGrid"
                 />
 
@@ -24,7 +24,7 @@
     </div>
 
     <x-admin::datagrid
-        src="{{ route('admin.deliveryagents.index') }}"
+        src="{{ route('admin.deliveryAgents.index') }}"
         ref="deliveryAgentDatagrid"
         :isMultiRow="true"
     >
@@ -187,7 +187,7 @@
                         <div class="flex items-center">
                             <a
                                 class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-2xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
-                                :href=`{{ route('admin.deliveryagents.view', '') }}/${record.delivery_agents_id}`
+                                :href=`{{ route('admin.deliveryAgents.view', '') }}/${record.delivery_agents_id}`
                             >
                             </a>
                         </div>

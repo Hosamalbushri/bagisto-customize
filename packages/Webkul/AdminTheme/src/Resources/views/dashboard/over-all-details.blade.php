@@ -30,7 +30,7 @@
                         <!-- Sales Stats -->
                         <div class="grid place-content-start gap-1">
                             <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
-                                @{{ report.statistics.total_sales.formatted_total }}
+                                @{{ $admin.formatPrice(report.statistics.total_sales.current) }}
                             </p>
 
                             <p class="text-xs font-semibold text-gray-600 dark:text-gray-300">
@@ -138,7 +138,7 @@
                         <!-- Sales Stats -->
                         <div class="grid place-content-start gap-1">
                             <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
-                                @{{ report.statistics.avg_sales.formatted_total }}
+                                @{{ $admin.formatPrice(report.statistics.avg_sales.current) }}
                             </p>
 
                             <p class="text-xs font-semibold text-gray-600 dark:text-gray-300">
@@ -174,7 +174,7 @@
 
                         <div class="grid place-content-start gap-1">
                             <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
-                                @{{ report.statistics.total_unpaid_invoices.formatted_total }}
+                                @{{ $admin.formatPrice(report.statistics.total_unpaid_invoices.total) }}
                             </p>
 
                             <p class="text-xs font-semibold text-gray-600 dark:text-gray-300">
