@@ -1,11 +1,11 @@
 <x-admin::layouts>
     <x-slot:title>
-        @lang('deliveryagent::app.deliveryagents.index.title')
+        @lang('deliveryAgent::app.deliveryAgent.index.title')
     </x-slot>
 
     <div class="flex items-center justify-between mb-4">
         <p class="text-xl font-bold text-gray-800 dark:text-white">
-            @lang('deliveryagent::app.deliveryagents.index.title')
+            @lang('deliveryAgent::app.deliveryAgent.index.title')
         </p>
 
         @if (bouncer()->hasPermission('delivery.deliveryAgent.create'))
@@ -17,7 +17,7 @@
                 />
 
                 <!-- Create Button + Modal -->
-                @include('deliveryagents::admin.deliveryagents.index.create')
+                @include('DeliveryAgents::admin.DeliveryAgents.index.create')
 
             </div>
         @endif
@@ -154,8 +154,8 @@
                     </div>
                     <div class="flex flex-col gap-1.5">
                         @php
-                            $activeLabel = __('deliveryagent::app.deliveryagents.datagrid.active');
-                            $inactiveLabel = __('admin::app.customers.customers.index.datagrid.inactive');
+                            $activeLabel = __('deliveryAgent::app.deliveryAgent.datagrid.active');
+                            $inactiveLabel = __('deliveryAgent::app.deliveryAgent.datagrid.inactive');
                         @endphp
                       <div class="flex gap-1.5">
                           <p v-html="record.status"></p>
@@ -166,17 +166,17 @@
                         </p>
 
                         <p class="text-gray-600 dark:text-gray-300">
-                            @{{ "@lang('deliveryagent::app.deliveryagents.datagrid.id-value')".replace(':id', record.delivery_agents_id) }}
+                            @{{ "@lang('deliveryAgent::app.deliveryAgent.datagrid.id-value')".replace(':id', record.delivery_agents_id) }}
                         </p>
 
                     </div>
                     <div class="flex items-center justify-between gap-x-4">
                         <div class="flex flex-col gap-1.5">
                             <p class="text-gray-600 dark:text-gray-300">
-                                @{{ "@lang('deliveryagent::app.deliveryagents.datagrid.range')".replace(':range', record.range_count) }}
+                                @{{ "@lang('deliveryAgent::app.deliveryAgent.datagrid.range')".replace(':range', record.range_count) }}
                             </p>
                             <p class="text-gray-600 dark:text-gray-300">
-                                @{{ "@lang('deliveryagent::app.deliveryagents.datagrid.order')".replace(':order', record.order_count) }}
+                                @{{ "@lang('deliveryAgent::app.deliveryAgent.datagrid.order')".replace(':order', record.order_count) }}
                             </p>
 
                             <p class="text-base font-semibold text-gray-800 dark:text-white">

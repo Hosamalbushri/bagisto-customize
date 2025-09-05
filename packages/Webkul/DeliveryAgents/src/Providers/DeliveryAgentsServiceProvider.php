@@ -16,15 +16,14 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
     {
 
         Event::listen('bagisto.admin.layout.head.after', function ($view) {
-            $view->addTemplate('deliveryagents::admin.layouts.style');
+            $view->addTemplate('DeliveryAgents::admin.layouts.style');
         });
         Event::listen('bagisto.admin.sales.order.page_action.before', function ($viewRenderEventManager) {
-
-            $viewRenderEventManager->addTemplate('deliveryagents::admin.Orders.index');
+            $viewRenderEventManager->addTemplate('DeliveryAgents::admin.Orders.index');
         });
         Event::listen('bagisto.admin.sales.order.Invoice.after', function ($viewRenderEventManager) {
 
-            $viewRenderEventManager->addTemplate('deliveryagents::admin.Orders.view');
+            $viewRenderEventManager->addTemplate('DeliveryAgents::admin.Orders.view');
         });
         Event::listen('sales.shipment.save.after', 'Webkul\DeliveryAgents\Listeners\UpdateInOrderFields@afterSaveShipment');
         Event::listen('sales.order.cancel.before', 'Webkul\DeliveryAgents\Listeners\UpdateInOrderFields@beforeCancelOrder');
@@ -42,9 +41,9 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../Routes/Order-routes.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/Country-routes.php');
 
-        $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'deliveryagent');
+        $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'deliveryAgent');
 
-        $this->loadViewsFrom(__DIR__.'/../Resources/views', 'deliveryagents');
+        $this->loadViewsFrom(__DIR__.'/../Resources/views', 'DeliveryAgents');
 
         $this->mergeConfigFrom(
             dirname(__DIR__).'/Config/system.php', 'core'

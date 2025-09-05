@@ -19,7 +19,7 @@
                 class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"
                 @click="$refs.DeliveryAgentEditModal.open()"
             >
-                @lang('deliveryagent::app.deliveryagents.view.edit-btn')
+                @lang('deliveryAgent::app.deliveryAgent.view.edit-btn')
             </div>
         @endif
 
@@ -37,7 +37,7 @@
 
                         <x-slot:header>
                             <p class="text-lg font-bold text-gray-800 dark:text-white">
-                                @lang('deliveryagent::app.deliveryagents.edit.title')
+                                @lang('deliveryAgent::app.deliveryAgent.edit.title')
                             </p>
                             </x-slot>
 
@@ -48,7 +48,7 @@
                                     <!-- First Name -->
                                     <x-admin::form.control-group  class="mb-2.5 w-full">
                                         <x-admin::form.control-group.label class="required">
-                                            @lang('deliveryagent::app.deliveryagents.edit.first-name')
+                                            @lang('deliveryAgent::app.deliveryAgent.edit.first-name')
                                         </x-admin::form.control-group.label>
                                         <x-admin::form.control-group.control
                                             type="text"
@@ -56,8 +56,8 @@
                                             id="first_name"
                                             ::value="deliveryAgent.first_name"
                                             rules="required"
-                                            :label="trans('deliveryagent::app.deliveryagents.edit.first-name')"
-                                            :placeholder="trans('deliveryagent::app.deliveryagents.edit.first-name')"
+                                            :label="trans('deliveryAgent::app.deliveryAgent.edit.first-name')"
+                                            :placeholder="trans('deliveryAgent::app.deliveryAgent.edit.first-name')"
                                         />
                                         <x-admin::form.control-group.error control-name="first_name" />
                                     </x-admin::form.control-group>
@@ -65,7 +65,7 @@
                                     <!-- Last Name -->
                                     <x-admin::form.control-group class="mb-2.5 w-full">
                                         <x-admin::form.control-group.label class="required">
-                                            @lang('deliveryagent::app.deliveryagents.edit.last-name')
+                                            @lang('deliveryAgent::app.deliveryAgent.edit.last-name')
                                         </x-admin::form.control-group.label>
 
                                         <x-admin::form.control-group.control
@@ -74,8 +74,8 @@
                                             name="last_name"
                                             ::value="deliveryAgent.last_name"
                                             rules="required"
-                                            :label="trans('deliveryagent::app.deliveryagents.edit.last-name')"
-                                            :placeholder="trans('deliveryagent::app.deliveryagents.edit.last-name')"
+                                            :label="trans('deliveryAgent::app.deliveryAgent.edit.last-name')"
+                                            :placeholder="trans('deliveryAgent::app.deliveryAgent.edit.last-name')"
                                         />
 
                                         <x-admin::form.control-group.error control-name="last_name" />
@@ -85,7 +85,7 @@
                                 <!-- Email -->
                                 <x-admin::form.control-group>
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('deliveryagent::app.deliveryagents.edit.email')
+                                        @lang('deliveryAgent::app.deliveryAgent.edit.email')
                                     </x-admin::form.control-group.label>
                                     <x-admin::form.control-group.control
                                         type="email"
@@ -93,7 +93,7 @@
                                         ::value="deliveryAgent.email"
                                         id="email"
                                         rules="required|email"
-                                        :label="trans('deliveryagent::app.deliveryagents.edit.email')"
+                                        :label="trans('deliveryAgent::app.deliveryAgent.edit.email')"
 {{--                                        placeholder= "email@example.com"--}}
                                     />
                                     <x-admin::form.control-group.error control-name="email" />
@@ -103,14 +103,14 @@
                                 <!-- كلمة المرور -->
                                 <x-admin::form.control-group class="mb-2.5 w-full">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('deliveryagent::app.deliveryagents.edit.password')
+                                        @lang('deliveryAgent::app.deliveryAgent.edit.password')
                                     </x-admin::form.control-group.label>
                                     <x-admin::form.control-group.control
                                         type="password"
                                         name="password"
                                         id="password"
-                                        :label="trans('deliveryagent::app.deliveryagents.edit.password')"
-                                        :placeholder="trans('deliveryagent::app.deliveryagents.edit.password')"
+                                        :label="trans('deliveryAgent::app.deliveryAgent.edit.password')"
+                                        :placeholder="trans('deliveryAgent::app.deliveryAgent.edit.password')"
                                     />
                                     <x-admin::form.control-group.error control-name="password" />
                                 </x-admin::form.control-group>
@@ -119,7 +119,7 @@
                                 <!-- تأكيد كلمة المرور -->
                                 <x-admin::form.control-group class="mb-2.5 w-full">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('deliveryagent::app.deliveryagents.create.confirm-password')
+                                        @lang('deliveryAgent::app.deliveryAgent.create.confirm-password')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
@@ -127,8 +127,8 @@
                                         name="password_confirmation"
                                         rules="confirmed:@password"
                                         id="password_confirmation"
-                                        :label="trans('deliveryagent::app.deliveryagents.create.confirm-password')"
-                                        :placeholder="trans('deliveryagent::app.deliveryagents.create.confirm-password')"
+                                        :label="trans('deliveryAgent::app.deliveryAgent.create.confirm-password')"
+                                        :placeholder="trans('deliveryAgent::app.deliveryAgent.create.confirm-password')"
                                     />
                                     <x-admin::form.control-group.error control-name="password_confirmation" />
                                 </x-admin::form.control-group>
@@ -139,7 +139,7 @@
                                     <!-- Contact Number -->
                                     <x-admin::form.control-group class="mb-2.5 w-full">
                                         <x-admin::form.control-group.label class="required">
-                                            @lang('deliveryagent::app.deliveryagents.edit.phone')
+                                            @lang('deliveryAgent::app.deliveryAgent.edit.phone')
                                         </x-admin::form.control-group.label>
                                         <x-admin::form.control-group.control
                                             type="text"
@@ -147,8 +147,8 @@
                                             ::value="deliveryAgent.phone"
                                             id="phone"
                                             rules="required|phone"
-                                            :label="trans('deliveryagent::app.deliveryagents.edit.phone')"
-                                            :placeholder="trans('deliveryagent::app.deliveryagents.edit.phone')"
+                                            :label="trans('deliveryAgent::app.deliveryAgent.edit.phone')"
+                                            :placeholder="trans('deliveryAgent::app.deliveryAgent.edit.phone')"
                                         />
                                         <x-admin::form.control-group.error control-name="phone" />
                                     </x-admin::form.control-group>
@@ -156,7 +156,7 @@
 
                                     <x-admin::form.control-group class="mb-2.5 w-full">
                                         <x-admin::form.control-group.label>
-                                            @lang('deliveryagent::app.deliveryagents.edit.date-of-birth')
+                                            @lang('deliveryAgent::app.deliveryAgent.edit.date-of-birth')
                                         </x-admin::form.control-group.label>
 
                                         <x-admin::form.control-group.control
@@ -164,8 +164,8 @@
                                             id="dob"
                                             name="date_of_birth"
                                             v-model="deliveryAgent.date_of_birth"
-                                            :label="trans('deliveryagent::app.deliveryagents.edit.date-of-birth')"
-                                            :placeholder="trans('deliveryagent::app.deliveryagents.edit.date-of-birth')"
+                                            :label="trans('deliveryAgent::app.deliveryAgent.edit.date-of-birth')"
+                                            :placeholder="trans('deliveryAgent::app.deliveryAgent.edit.date-of-birth')"
                                         />
 
                                         <x-admin::form.control-group.error control-name="date_of_birth" />
@@ -177,7 +177,7 @@
                                     <!-- Gender -->
                                     <x-admin::form.control-group class="mb-2.5 w-full">
                                         <x-admin::form.control-group.label class="required">
-                                            @lang('deliveryagent::app.deliveryagents.edit.gender')
+                                            @lang('deliveryAgent::app.deliveryAgent.edit.gender')
                                         </x-admin::form.control-group.label>
 
                                         <x-admin::form.control-group.control
@@ -186,22 +186,22 @@
                                             name="gender"
                                             ::value="deliveryAgent.gender"
                                             rules="required"
-                                            :label="trans('deliveryagent::app.deliveryagents.edit.gender')"
+                                            :label="trans('deliveryAgent::app.deliveryAgent.edit.gender')"
                                         >
                                             <option value="">
-                                                @lang('deliveryagent::app.deliveryagents.edit.select-gender')
+                                                @lang('deliveryAgent::app.deliveryAgent.edit.select-gender')
                                             </option>
 
                                             <option value="Male">
-                                                @lang('deliveryagent::app.deliveryagents.edit.male')
+                                                @lang('deliveryAgent::app.deliveryAgent.edit.male')
                                             </option>
 
                                             <option value="Female">
-                                                @lang('deliveryagent::app.deliveryagents.edit.female')
+                                                @lang('deliveryAgent::app.deliveryAgent.edit.female')
                                             </option>
 
                                             <option value="Other">
-                                                @lang('deliveryagent::app.deliveryagents.edit.other')
+                                                @lang('deliveryAgent::app.deliveryAgent.edit.other')
                                             </option>
                                         </x-admin::form.control-group.control>
                                         <x-admin::form.control-group.error control-name="gender" />
@@ -236,14 +236,14 @@
                                 <div class="flex gap-60 max-sm:flex-wrap">
                                     <x-admin::form.control-group class="!mb-0">
                                         <x-admin::form.control-group.label>
-                                            @lang('deliveryagent::app.deliveryagents.create.status')
+                                            @lang('deliveryAgent::app.deliveryAgent.create.status')
                                         </x-admin::form.control-group.label>
 
                                         <x-admin::form.control-group.control
                                             type="switch"
                                             name="status"
                                             :value="1"
-                                            :label="trans('deliveryagent::app.deliveryagents.create.status')"
+                                            :label="trans('deliveryAgent::app.deliveryAgent.create.status')"
                                             ::checked="deliveryStatus"
                                         />
                                         <x-admin::form.control-group.control
@@ -261,7 +261,7 @@
                                     <x-admin::button
                                         button-type="submit"
                                         class="primary-button"
-                                        :title="trans('deliveryagent::app.deliveryagents.edit.save-btn')"
+                                        :title="trans('deliveryAgent::app.deliveryAgent.edit.save-btn')"
                                         ::loading="isLoading"
                                         ::disabled="isLoading"
                                     />

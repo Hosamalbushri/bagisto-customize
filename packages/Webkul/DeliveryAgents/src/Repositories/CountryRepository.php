@@ -2,7 +2,7 @@
 
 namespace Webkul\DeliveryAgents\Repositories;
 use Webkul\Core\Eloquent\Repository;
-
+use Exception;
 class CountryRepository extends Repository
 {
     /**
@@ -18,6 +18,31 @@ class CountryRepository extends Repository
         return '\Webkul\DeliveryAgents\Models\Country';
     }
 
+    /**
+     * Delete a country after checking if it has states.
+     *
+     * @param  int  $id
+     * @return bool
+     *
+     * @throws \Exception
+     */
+    public function delete($id): bool
+    {
+        $country = $this->find($id);
+
+        if (! $country) {
+            throw new Exception('الدولة غير موجودة');
+        }
+
+        // نفترض أن العلاقة معرفة في الموديل Country باسم states
+        if ($country->states()->exists()) {
+            throw new Exception('لا يمكن حذف الدولة لأنها تحتوي على ولايات.');
+        }
+
+
+
+        return parent::delete($id);
+    }
 
 
 

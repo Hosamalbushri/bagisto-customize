@@ -40,11 +40,11 @@ class DeliveryAgentOrder extends Model
     }
 
     protected $statusLabelKeys = [
-        self::STATUS_ASSIGNED_TO_AGENT    => 'deliveryagent::app.orders.status.assigned_to_agent',
-        self::STATUS_ACCEPTED_BY_AGENT    => 'deliveryagent::app.orders.status.accepted_by_agent',
-        self::STATUS_REJECTED_BY_AGENT    => 'deliveryagent::app.orders.status.rejected_by_agent',
-        self::STATUS_OUT_FOR_DELIVERY     => 'deliveryagent::app.orders.status.out_for_delivery',
-        self::STATUS_DELIVERED            => 'deliveryagent::app.orders.status.delivered',
+        self::STATUS_ASSIGNED_TO_AGENT    => 'deliveryAgent::app.orders.status.assigned_to_agent',
+        self::STATUS_ACCEPTED_BY_AGENT    => 'deliveryAgent::app.orders.status.accepted_by_agent',
+        self::STATUS_REJECTED_BY_AGENT    => 'deliveryAgent::app.orders.status.rejected_by_agent',
+        self::STATUS_OUT_FOR_DELIVERY     => 'deliveryAgent::app.orders.status.out_for_delivery',
+        self::STATUS_DELIVERED            => 'deliveryAgent::app.orders.status.delivered',
     ];
 
     public function getStatusLabelAttribute(): string

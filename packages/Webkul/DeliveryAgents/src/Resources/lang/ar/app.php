@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'deliveryagents' => [
+    'deliveryAgent' => [
 
         'menu' => [
             'title'             => 'خدمات التوصيل',
@@ -401,6 +401,7 @@ return [
             'select-delivery-agent-btn'     => 'تعيين مندوب التوصيل',
             'reselect-delivery-agent-btn'   => 'اعادة تعيين مندوب للطلب',
             'select-delivery-agent'         => 'تعيين المندوب للطلب رقــم #',
+            'assign-btn'                    => 'تعيين',
             'tabs'                          => [
                 'in-the-same-area'=> 'المتواجدون في :city',
                 'all'             => 'كل المناديب',

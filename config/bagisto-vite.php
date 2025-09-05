@@ -27,8 +27,8 @@ return [
             'package_assets_directory' => 'src/Resources/assets',
         ],
         'deliveryAgents' => [
-            'hot_file'                 => 'deliveryagents-default-vite.hot',
-            'build_directory'          => 'themes/deliveryagents/default/build',
+            'hot_file'                 => 'deliveryAgents-default-vite.hot',
+            'build_directory'          => 'themes/deliveryAgents/default/build',
             'package_assets_directory' => 'src/Resources/assets',
         ],
     ],

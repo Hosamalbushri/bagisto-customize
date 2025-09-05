@@ -6,9 +6,9 @@
     >
         <span class="acma-icon-how_to_reg text-2xl"></span>
         @if($order->isRejected())
-            @lang('deliveryagent::app.select-order.index.reselect-delivery-agent-btn')
+            @lang('deliveryAgent::app.select-order.index.reselect-delivery-agent-btn')
         @else
-            @lang('deliveryagent::app.select-order.index.select-delivery-agent-btn')
+            @lang('deliveryAgent::app.select-order.index.select-delivery-agent-btn')
         @endif
     </div>
 </v-selected-delivery-form>
@@ -32,9 +32,9 @@
       >
       </span>
             @if($order->isRejected())
-                @lang('deliveryagent::app.select-order.index.reselect-delivery-agent-btn')
+                @lang('deliveryAgent::app.select-order.index.reselect-delivery-agent-btn')
             @else
-                @lang('deliveryagent::app.select-order.index.select-delivery-agent-btn')
+                @lang('deliveryAgent::app.select-order.index.select-delivery-agent-btn')
             @endif
         </div>
 
@@ -51,7 +51,7 @@
                     <div class="grid h-8 gap-3">
                         <div class="flex items-center justify-between">
                             <p class="text-xl font-medium dark:text-white">
-                                @lang('deliveryagent::app.select-order.index.select-delivery-agent'){{ $order->id }}
+                                @lang('deliveryAgent::app.select-order.index.select-delivery-agent'){{ $order->id }}
                             </p>
                         </div>
                     </div>
@@ -60,21 +60,21 @@
                 <x-slot:content>
                     <x-admin::tabs position="right" class="mt-4">
                         <x-admin::tabs.item
-                            title="{{ __('deliveryagent::app.select-order.index.tabs.in-the-same-area', ['city' => $order->shipping_address->city]) }}"
+                            title="{{ __('deliveryAgent::app.select-order.index.tabs.in-the-same-area', ['city' => $order->shipping_address->city]) }}"
                             :is-selected="true"
                             class="p-4 bg-gray-50 dark:bg-gray-900 rounded-md transition-all"
                         >
                             <div class="space-y-3">
-                                @include('deliveryagents::admin.Orders.DeliveryAgents.get-delivery-agents-by-area')
+                                @include('DeliveryAgents::admin.Orders.DeliveryAgents.get-delivery-agents-by-area')
                             </div>
                         </x-admin::tabs.item>
 
                         <x-admin::tabs.item
-                            title="{{ __('deliveryagent::app.select-order.index.tabs.all') }}"
+                            title="{{ __('deliveryAgent::app.select-order.index.tabs.all') }}"
                             class="p-4 bg-gray-50 dark:bg-gray-900 rounded-md transition-all"
                         >
                             <div class="space-y-3">
-                                @include('deliveryagents::admin.Orders.DeliveryAgents.get-all-delivery-agents')
+                                @include('DeliveryAgents::admin.Orders.DeliveryAgents.get-all-delivery-agents')
                             </div>
                         </x-admin::tabs.item>
                     </x-admin::tabs>
@@ -103,7 +103,7 @@
             methods: {
                 assignDelivery(orderId, agentId) {
                     this.$emitter.emit('open-confirm-modal', {
-                        message: "@lang('deliveryagent::app.select-order.index.assign-delivery-agent-confirmation')",
+                        message: "@lang('deliveryAgent::app.select-order.index.assign-delivery-agent-confirmation')",
                         agree: () => {
                             this.$axios.post(
                                 `{{ route('admin.orders.assignDeliveryAgent', [':order', ':agent']) }}`

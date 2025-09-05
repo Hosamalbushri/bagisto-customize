@@ -45,7 +45,7 @@ class CountriesController extends Controller
             return app(CountryDataGrid::class)->process();
         }
 
-        return view('deliveryagents::admin.Countries.index.index');
+        return view('DeliveryAgents::admin.Countries.index.index');
     }
 
     /**
@@ -68,7 +68,7 @@ class CountriesController extends Controller
 
         return new JsonResponse([
             'data'    => $country,
-            'message' => trans('deliveryagent::app.country.create.create-success'),
+            'message' => trans('deliveryAgent::app.country.create.create-success'),
         ]);
 
     }
@@ -77,7 +77,7 @@ class CountriesController extends Controller
     {
         $country = $this->counrtyRepository->findOrFail($id);
         $country->load('states');
-        return view('deliveryagents::admin.Countries.view', compact('country'));
+        return view('DeliveryAgents::admin.Countries.view', compact('country'));
 
     }
 
@@ -98,7 +98,7 @@ class CountriesController extends Controller
         $country = $this->counrtyRepository->update($data, $id);
 
         return new JsonResponse([
-            'message' => trans('deliveryagent::app.country.edit.edit-success'),
+            'message' => trans('deliveryAgent::app.country.edit.edit-success'),
             'data'    => [
                 'country'=> $country->fresh(),
             ],
@@ -113,13 +113,10 @@ class CountriesController extends Controller
     public function delete(int $id): JsonResponse
     {
         try {
-            Event::dispatch('country.before.delete', $id);
             $this->counrtyRepository->delete($id);
-            Event::dispatch('country.after.delete', $id);
-
-            return new JsonResponse(['message' => trans('deliveryagent::app.country.datagrid.delete-success')]);
+            return new JsonResponse(['message' => trans('deliveryAgent::app.country.datagrid.delete-success')]);
         } catch (\Exception $e) {
-            return new JsonResponse(['message' => trans('deliveryagent::app.country.datagrid.no-resource')], 400);
+            return new JsonResponse(['message' => $e->getMessage()], 400);
         }
     }
 
@@ -129,14 +126,11 @@ class CountriesController extends Controller
 
         foreach ($indices as $index) {
 
-            Event::dispatch('country.before.delete', $index);
             $this->counrtyRepository->delete($index);
-            Event::dispatch('country.after.delete', $index);
-
         }
 
         return new JsonResponse([
-            'message' => trans('deliveryagent::app.country.datagrid.mass-delete-success'),
+            'message' => trans('deliveryAgent::app.country.datagrid.mass-delete-success'),
         ]);
 
     }
