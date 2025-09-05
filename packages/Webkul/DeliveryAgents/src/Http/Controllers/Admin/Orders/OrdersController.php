@@ -46,7 +46,7 @@ class OrdersController extends Controller
             if (! $deliveryAgent || (int) $deliveryAgent->status !== 1) {
                 DB::rollBack();
 
-                return $this->errorResponse('deliveryagent::app.select-order.create.create-error');
+                return $this->errorResponse('deliveryAgent::app.select-order.create.create-error');
             }
 
             $order->update([
@@ -79,7 +79,7 @@ class OrdersController extends Controller
 
             DB::commit();
 
-            return $this->successResponse('deliveryagent::app.select-order.create.create-success');
+            return $this->successResponse('deliveryAgent::app.select-order.create.create-success');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -90,7 +90,7 @@ class OrdersController extends Controller
                 'error'    => $e->getMessage(),
             ]);
 
-            return $this->errorResponse('deliveryagent::app.select-order.create.transaction-failed');
+            return $this->errorResponse('deliveryAgent::app.select-order.create.transaction-failed');
         }
     }
 
@@ -106,7 +106,7 @@ class OrdersController extends Controller
                 $deliveryAgentId = $request->get('delivery_agent_id');
                 $deliveryAgent = $this->deliveryAgentRepository->find($deliveryAgentId);
                 if (! $deliveryAgent || (int) $deliveryAgent->status !== 1) {
-                    throw new \Exception('deliveryagent::app.select-order.create.create-error');
+                    throw new \Exception('deliveryAgent::app.select-order.create.create-error');
                 }
 
                 if (
@@ -119,7 +119,7 @@ class OrdersController extends Controller
                         Order::STATUS_DELIVERED,
                     ])
                 ) {
-                    throw new \Exception('deliveryagent::app.select-order.update.updated-error');
+                    throw new \Exception('deliveryAgent::app.select-order.update.updated-error');
                 }
 
                 $this->orderRepository->updateOrderStatus($order, $status);
@@ -151,13 +151,13 @@ class OrdersController extends Controller
                         break;
                 }
 
-                return $this->successResponse('deliveryagent::app.select-order.update.update-success');
+                return $this->successResponse('deliveryAgent::app.select-order.update.update-success');
             });
         } catch (\Throwable $e) {
             DB::rollBack();
 
             return $this->errorResponse(
-                $e->getMessage() ?: 'deliveryagent::app.select-order.update.update-failed',
+                $e->getMessage() ?: 'deliveryAgent::app.select-order.update.update-failed',
                 500
             );
         }

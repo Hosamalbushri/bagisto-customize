@@ -11,7 +11,7 @@
         class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"
         @click="$refs.ShowDeliveryRangeCreateComponent.openModal()"
     >
-        @lang('deliveryagent::app.range.create.index-create-btn')
+        @lang('deliveryAgent::app.range.create.index-create-btn')
     </div>
 @endif
 
@@ -34,24 +34,24 @@
 
                         <x-slot:header>
                             <span class="text-base text-gray-800 dark:text-white">
-                            @lang('deliveryagent::app.range.create.title')
+                            @lang('deliveryAgent::app.range.create.title')
                             </span>
                             </x-slot:header>
 
                             <x-slot:content>
                                 <x-admin::form.control-group class="w-full">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('deliveryagent::app.range.create.country')
+                                        @lang('deliveryAgent::app.range.create.country')
                                     </x-admin::form.control-group.label>
                                     <x-admin::form.control-group.control
                                         type="select"
                                         name="country"
                                         rules="required"
                                         v-model="country"
-                                        :label="trans('deliveryagent::app.range.create.country')"
+                                        :label="trans('deliveryAgent::app.range.create.country')"
                                     >
                                         <option value="">
-                                            @lang('deliveryagent::app.range.create.select_country')
+                                            @lang('deliveryAgent::app.range.create.select_country')
                                         </option>
 
                                         @foreach (core()->countries() as $country)
@@ -66,7 +66,7 @@
                                 <!-- State Name -->
                                 <x-admin::form.control-group class="w-full">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('deliveryagent::app.range.create.state')
+                                        @lang('deliveryAgent::app.range.create.state')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
@@ -75,12 +75,12 @@
                                         name="state"
                                         rules="required"
                                         v-model="state"
-                                        :label="trans('deliveryagent::app.range.create.state')"
-                                        :placeholder="trans('deliveryagent::app.range.create.state')"
+                                        :label="trans('deliveryAgent::app.range.create.state')"
+                                        :placeholder="trans('deliveryAgent::app.range.create.state')"
                                         ::disabled="!haveStates()"
                                     >
                                         <option value="">
-                                            @lang('deliveryagent::app.range.create.select_state')
+                                            @lang('deliveryAgent::app.range.create.select_state')
                                         </option>
                                         <option
                                             v-for='(state, index) in countryStates[country]'
@@ -97,7 +97,7 @@
                                 <!-- Area -->
                                 <x-admin::form.control-group class="w-full">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('deliveryagent::app.range.create.area-name')
+                                        @lang('deliveryAgent::app.range.create.area-name')
                                     </x-admin::form.control-group.label>
 
                                     <x-admin::form.control-group.control
@@ -106,12 +106,12 @@
                                         name="state_area_id"
                                         rules="required"
                                         v-model="area"
-                                        :label="trans('deliveryagent::app.range.create.area-name')"
-                                        :placeholder="trans('deliveryagent::app.range.create.area-name')"
+                                        :label="trans('deliveryAgent::app.range.create.area-name')"
+                                        :placeholder="trans('deliveryAgent::app.range.create.area-name')"
                                         ::disabled="!haveAreas()"
                                     >
                                         <option value="" disabled selected hidden>
-                                            @lang('deliveryagent::app.range.create.select_state_area')
+                                            @lang('deliveryAgent::app.range.create.select_state_area')
                                         </option>
 
                                         <option
@@ -123,7 +123,7 @@
                                     </x-admin::form.control-group.control>
                                     <template v-if="country && !haveStates()">
                                         <div class="mt-4 p-3 rounded bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 text-sm">
-                                            @lang('deliveryagent::app.range.create.no_states_for_country')
+                                            @lang('deliveryAgent::app.range.create.no_states_for_country')
                                         </div>
                                         <div class="mt-3">
                                             @if (bouncer()->hasPermission('delivery.countries.country.create'))
@@ -134,7 +134,7 @@
                                                     @click="goToCountryView"
                                                 >
                                             <span class="text-blue-600">
-                                                @lang('deliveryagent::app.range.create.add_state')
+                                                @lang('deliveryAgent::app.range.create.add_state')
                                             </span>
 
                                                 </button>
@@ -143,7 +143,7 @@
                                     </template>
                                     <template v-if="state && !haveAreas()">
                                         <div class="mt-4 p-3 rounded bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 text-sm">
-                                            @lang('deliveryagent::app.range.create.no_areas_for_state')
+                                            @lang('deliveryAgent::app.range.create.no_areas_for_state')
                                         </div>
                                         <div class="mt-3">
                                             @if (bouncer()->hasPermission('delivery.countries.states.areas.create'))
@@ -154,7 +154,7 @@
                                                     @click="goToStateView"
                                                 >
                                             <span class="text-blue-600">
-                                                @lang('deliveryagent::app.range.create.add_area')
+                                                @lang('deliveryAgent::app.range.create.add_area')
                                             </span>
 
                                                 </button>
@@ -177,7 +177,7 @@
                                     <x-admin::button
                                         button-type="submit"
                                         class="primary-button"
-                                        :title="trans('deliveryagent::app.range.create.create-btn')"
+                                        :title="trans('deliveryAgent::app.range.create.create-btn')"
                                         ::loading="isLoading"
                                         ::disabled="isLoading"
                                     />

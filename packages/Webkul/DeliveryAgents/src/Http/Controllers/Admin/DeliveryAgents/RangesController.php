@@ -29,13 +29,13 @@ class RangesController extends Controller
 
         if (! $range) {
             return response()->json([
-                'message' => trans('deliveryagent::app.range.create.create-failed'),
+                'message' => trans('deliveryAgent::app.range.create.create-failed'),
                 'status'  => 'error',
             ], 422);
         }
 
         return response()->json([
-            'message' => trans('deliveryagent::app.range.create.create-success'),
+            'message' => trans('deliveryAgent::app.range.create.create-success'),
             'status'  => 'success',
             'data'    => $range->load('state_area'),
         ]);
@@ -53,13 +53,13 @@ class RangesController extends Controller
 
         if (! $range) {
             return response()->json([
-                'message' => trans('deliveryagent::app.range.edit.edit-failed'),
+                'message' => trans('deliveryAgent::app.range.edit.edit-failed'),
                 'status'  => 'error',
             ], 422);
         }
 
         return response()->json([
-            'message' => trans('deliveryagent::app.range.edit.edit-success'),
+            'message' => trans('deliveryAgent::app.range.edit.edit-success'),
             'status'  => 'success',
             'data'    => $range->load('state_area'),
         ]);
@@ -76,13 +76,13 @@ class RangesController extends Controller
 
         if (! $deleted) {
             return new JsonResponse([
-                'message' => trans('deliveryagent::app.range.view.range-delete-failed'),
+                'message' => trans('deliveryAgent::app.range.view.range-delete-failed'),
                 'status'  => 'error',
             ], 422);
         }
 
         return new JsonResponse([
-            'message' => trans('deliveryagent::app.range.view.range-delete-success'),
+            'message' => trans('deliveryAgent::app.range.view.range-delete-success'),
             'status'  => 'success',
         ]);
     }

@@ -15,22 +15,22 @@
 
 
                         <x-slot:header>
-                            @lang('deliveryagent::app.country.create.title')
+                            @lang('deliveryAgent::app.country.create.title')
                             </x-slot>
 
                             <x-slot:content>
 
                                     <x-admin::form.control-group  class="mb-2.5 w-full">
                                         <x-admin::form.control-group.label class="required">
-                                            @lang('deliveryagent::app.country.create.name')
+                                            @lang('deliveryAgent::app.country.create.name')
                                         </x-admin::form.control-group.label>
                                         <x-admin::form.control-group.control
                                             type="text"
                                             name="name"
                                             id="name"
                                             rules="required"
-                                            :label="trans('deliveryagent::app.country.create.name')"
-                                            :placeholder="trans('deliveryagent::app.country.create.name')"
+                                            :label="trans('deliveryAgent::app.country.create.name')"
+                                            :placeholder="trans('deliveryAgent::app.country.create.name')"
                                         />
                                         <x-admin::form.control-group.error control-name="name" />
                                     </x-admin::form.control-group>
@@ -38,7 +38,7 @@
                                     <!-- Last Name -->
                                     <x-admin::form.control-group class="mb-2.5 w-full">
                                         <x-admin::form.control-group.label class="required">
-                                            @lang('deliveryagent::app.country.create.code')
+                                            @lang('deliveryAgent::app.country.create.code')
                                         </x-admin::form.control-group.label>
 
                                         <x-admin::form.control-group.control
@@ -46,25 +46,22 @@
                                             id="code"
                                             name="code"
                                             rules="required"
-                                            :label="trans('deliveryagent::app.country.create.code')"
-                                            :placeholder="trans('deliveryagent::app.country.create.code')"
+                                            :label="trans('deliveryAgent::app.country.create.code')"
+                                            :placeholder="trans('deliveryAgent::app.country.create.code')"
                                         />
                                         <x-admin::form.control-group.error control-name="code" />
                                     </x-admin::form.control-group>
-
-
-
-                                </x-slot>
+                            </x-slot:content>
 
                                 <x-slot:footer>
                                     <x-admin::button
                                         button-type="submit"
                                         class="primary-button"
-                                        :title="trans('deliveryagent::app.country.create.create-btn')"
+                                        :title="trans('deliveryAgent::app.country.create.create-btn')"
                                         ::loading="isLoading"
                                         ::disabled="isLoading"
                                     />
-                                    </x-slot>
+                                </x-slot:footer>
                     </x-admin::modal>
                 </form>
             </x-admin::form>

@@ -66,18 +66,18 @@ class Order extends BaseModel
     const STATUS_DELIVERED = 'delivered';
 
     protected $statusLabelKeys = [
-        self::STATUS_PENDING              => 'deliveryagent::app.orders.status.pending',
-        self::STATUS_PENDING_PAYMENT      => 'deliveryagent::app.orders.status.pending_payment',
-        self::STATUS_PROCESSING           => 'deliveryagent::app.orders.status.processing',
-        self::STATUS_COMPLETED            => 'deliveryagent::app.orders.status.completed',
-        self::STATUS_CANCELED             => 'deliveryagent::app.orders.status.canceled',
-        self::STATUS_CLOSED               => 'deliveryagent::app.orders.status.closed',
-        self::STATUS_FRAUD                => 'deliveryagent::app.orders.status.fraud',
-        self::STATUS_ASSIGNED_TO_AGENT    => 'deliveryagent::app.orders.status.assigned_to_agent',
-        self::STATUS_ACCEPTED_BY_AGENT    => 'deliveryagent::app.orders.status.accepted_by_agent',
-        self::STATUS_REJECTED_BY_AGENT    => 'deliveryagent::app.orders.status.rejected_by_agent',
-        self::STATUS_OUT_FOR_DELIVERY     => 'deliveryagent::app.orders.status.out_for_delivery',
-        self::STATUS_DELIVERED            => 'deliveryagent::app.orders.status.delivered',
+        self::STATUS_PENDING              => 'deliveryAgent::app.orders.status.pending',
+        self::STATUS_PENDING_PAYMENT      => 'deliveryAgent::app.orders.status.pending_payment',
+        self::STATUS_PROCESSING           => 'deliveryAgent::app.orders.status.processing',
+        self::STATUS_COMPLETED            => 'deliveryAgent::app.orders.status.completed',
+        self::STATUS_CANCELED             => 'deliveryAgent::app.orders.status.canceled',
+        self::STATUS_CLOSED               => 'deliveryAgent::app.orders.status.closed',
+        self::STATUS_FRAUD                => 'deliveryAgent::app.orders.status.fraud',
+        self::STATUS_ASSIGNED_TO_AGENT    => 'deliveryAgent::app.orders.status.assigned_to_agent',
+        self::STATUS_ACCEPTED_BY_AGENT    => 'deliveryAgent::app.orders.status.accepted_by_agent',
+        self::STATUS_REJECTED_BY_AGENT    => 'deliveryAgent::app.orders.status.rejected_by_agent',
+        self::STATUS_OUT_FOR_DELIVERY     => 'deliveryAgent::app.orders.status.out_for_delivery',
+        self::STATUS_DELIVERED            => 'deliveryAgent::app.orders.status.delivered',
     ];
 
 

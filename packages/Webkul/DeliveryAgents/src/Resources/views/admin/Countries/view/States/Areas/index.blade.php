@@ -9,7 +9,7 @@
                     type="button"
                     class="primary-button"
                 >
-                    @lang('deliveryagent::app.country.state.view.create-area-btn')
+                    @lang('deliveryAgent::app.country.state.view.create-area-btn')
                 </button>
             @endif
         </div>
@@ -35,7 +35,7 @@
                         >
                             <span class="acma-icon-plus3"></span>
 
-                            @lang('deliveryagent::app.country.state.area.create.title')
+                            @lang('deliveryAgent::app.country.state.area.create.title')
                         </button>
                     @endif
                 </div>
@@ -116,14 +116,14 @@
                                 class="text-lg font-bold text-gray-800 dark:text-white"
                                 v-if="isUpdating"
                             >
-                                @lang('deliveryagent::app.country.state.area.edit.title')
+                                @lang('deliveryAgent::app.country.state.area.edit.title')
                             </p>
 
                             <p
                                 class="text-lg font-bold text-gray-800 dark:text-white"
                                 v-else
                             >
-                                @lang('deliveryagent::app.country.state.area.create.title')
+                                @lang('deliveryAgent::app.country.state.area.create.title')
                             </p>
                         </x-slot:header>
                             <x-slot:content>
@@ -153,7 +153,7 @@
                                 />
                                 <x-admin::form.control-group  class="mb-2.5 w-full">
                                     <x-admin::form.control-group.label class="required">
-                                        @lang('deliveryagent::app.country.state.area.edit.name')
+                                        @lang('deliveryAgent::app.country.state.area.edit.name')
                                     </x-admin::form.control-group.label>
                                     <x-admin::form.control-group.control
                                         type="text"
@@ -161,8 +161,8 @@
                                         id="area_name"
                                         v-model="data.area.area_name"
                                         rules="required"
-                                        :label="trans('deliveryagent::app.country.state.area.edit.name')"
-                                        :placeholder="trans('deliveryagent::app.country.state.area.edit.name')"
+                                        :label="trans('deliveryAgent::app.country.state.area.edit.name')"
+                                        :placeholder="trans('deliveryAgent::app.country.state.area.edit.name')"
                                     />
                                     <x-admin::form.control-group.error control-name="area_name" />
                                 </x-admin::form.control-group>
@@ -172,7 +172,7 @@
                                 <x-admin::button
                                     button-type="submit"
                                     class="primary-button"
-                                    :title="trans('deliveryagent::app.country.state.area.create.save-btn')"
+                                    :title="trans('deliveryAgent::app.country.state.area.create.save-btn')"
                                     ::loading="isLoading"
                                     ::disabled="isLoading"
                                 />

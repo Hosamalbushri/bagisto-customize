@@ -17,7 +17,7 @@
         >
             <x-slot:title>
                 @php
-                    $label = trans('deliveryagent::app.deliveryagents.view.title');
+                    $label = trans('deliveryAgent::app.deliveryAgent.view.title');
                 @endphp
                 {{ isset($deliveryAgent) && !empty($deliveryAgent->name) ? ($label . ': ' . $deliveryAgent->name) : $label }}
             </x-slot:title>
@@ -37,7 +37,7 @@
                                 <h1
                                     v-if="deliveryagent"
                                     class="text-xl font-bold leading-6 text-gray-800 dark:text-white"
-                                    v-text="`@lang('deliveryagent::app.deliveryagents.view.title') : ${deliveryagent.first_name} ${deliveryagent.last_name}`"
+                                    v-text="`@lang('deliveryAgent::app.deliveryAgent.view.title') : ${deliveryagent.first_name} ${deliveryagent.last_name}`"
                                 ></h1>
 
                                 <!-- status -->
@@ -54,14 +54,14 @@
                                 <span
                                     v-if="deliveryagent && deliveryagent.status==1"
                                     class="mx-1.5 text-sm label-active"
-                                    v-text="`@lang('deliveryagent::app.deliveryagents.view.active')`"
+                                    v-text="`@lang('deliveryAgent::app.deliveryAgent.view.active')`"
                                 >
 
                                 </span>
                                 <span
                                     v-else-if="deliveryagent && deliveryagent.status == 0"
                                     class="mx-1.5 text-sm label-canceled"
-                                    v-text="`@lang('deliveryagent::app.deliveryagents.view.inactive')`"
+                                    v-text="`@lang('deliveryAgent::app.deliveryAgent.view.inactive')`"
                                 >
                                 </span>
                             </template>
@@ -71,7 +71,7 @@
                         <a
                             href="{{ route('admin.deliveryagents.index') }}"
                             class="transparent-button hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800">
-                            @lang('deliveryagent::app.deliveryagents.view.back-btn')
+                            @lang('deliveryAgent::app.deliveryAgent.view.back-btn')
                         </a>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                 <div class="mt-3.5 flex gap-2.5 max-xl:flex-wrap">
                     <!-- Left Component -->
                     <div class="flex flex-1 flex-col gap-2 max-xl:flex-auto">
-                        @include('deliveryagents::admin.deliveryagents.orders.index')
+                        @include('DeliveryAgents::admin.DeliveryAgents.orders.index')
 
                     </div>
                     <!-- Right Component -->
@@ -96,11 +96,11 @@
                                 <x-slot:header>
                                     <div class="flex w-full">
                                         <p class="w-full p-2.5 text-base font-semibold text-gray-800 dark:text-white">
-                                            @lang('deliveryagent::app.deliveryagents.view.delivery-agent')
+                                            @lang('deliveryAgent::app.deliveryAgent.view.delivery-agent')
                                         </p>
 
                                         <!--Delivery Agents Edit Component -->
-                                        @include('deliveryagents::admin.deliveryagents.view.edit')
+                                        @include('DeliveryAgents::admin.DeliveryAgents.view.edit')
 
 
                                     </div>
@@ -115,22 +115,22 @@
                                         </p>
 
                                         <p class="text-gray-600 dark:text-gray-300">
-                                            @{{ "@lang('deliveryagent::app.deliveryagents.view.email')
+                                            @{{ "@lang('deliveryAgent::app.deliveryAgent.view.email')
                                             ".replace(':email', deliveryagent.email ?? 'N/A') }}
                                         </p>
 
                                         <p class="text-gray-600 dark:text-gray-300">
-                                            @{{ "@lang('deliveryagent::app.deliveryagents.view.phone')
+                                            @{{ "@lang('deliveryAgent::app.deliveryAgent.view.phone')
                                             ".replace(':phone', deliveryagent.phone ?? 'N/A') }}
                                         </p>
 
                                         <p class="text-gray-600 dark:text-gray-300">
-                                            @{{ "@lang('deliveryagent::app.deliveryagents.view.gender')
+                                            @{{ "@lang('deliveryAgent::app.deliveryAgent.view.gender')
                                             ".replace(':gender', deliveryagent.gender ?? 'N/A') }}
                                         </p>
 
                                         <p class="text-gray-600 dark:text-gray-300">
-                                            @{{ "@lang('deliveryagent::app.deliveryagents.view.date-of-birth')
+                                            @{{ "@lang('deliveryAgent::app.deliveryAgent.view.date-of-birth')
                                             ".replace(':dob', deliveryagent.date_of_birth ?? 'N/A') }}
                                         </p>
 
@@ -150,13 +150,13 @@
                                 <x-slot:header>
                                     <div class="flex w-full">
                                         <p class="w-full p-2.5 text-base font-semibold text-gray-800 dark:text-white">
-                                            @{{ "@lang('deliveryagent::app.range.view.count')
+                                            @{{ "@lang('deliveryAgent::app.range.view.count')
                                             ".replace(':count',deliveryagent.ranges.length) }}
                                         </p>
 
                                         <!-- Ranges Create component -->
                                         @if (bouncer()->hasPermission('delivery.deliveryAgent.range.create'))
-                                            @include('deliveryagents::admin.deliveryagents.view.Ranges.create')
+                                            @include('DeliveryAgents::admin.DeliveryAgents.view.Ranges.create')
                                         @endif
 
                                     </div>
@@ -180,7 +180,7 @@
                                                 </p>
 
                                                 <div class=" flex items-center gap-2.5">
-                                                    @include('deliveryagents::admin.deliveryagents.view.Ranges.edit')
+                                                    @include('DeliveryAgents::admin.DeliveryAgents.view.Ranges.edit')
 
                                                     @if (bouncer()->hasPermission('delivery.deliveryAgent.range.delete'))
                                                         <button
@@ -188,7 +188,7 @@
                                                             @click="deleteRange(range.id)"
                                                         >
 
-                                                            @lang('deliveryagent::app.range.view.delete-btn')
+                                                            @lang('deliveryAgent::app.range.view.delete-btn')
 
                                                         </button>
                                                     @endif
@@ -213,12 +213,12 @@
 
                                                 <div class="flex flex-col gap-1.5">
                                                     <p class="text-base font-semibold text-gray-400">
-                                                        @lang('deliveryagent::app.range.view.empty-title')
+                                                        @lang('deliveryAgent::app.range.view.empty-title')
 
                                                     </p>
 
                                                     <p class="text-gray-400">
-                                                        @lang('deliveryagent::app.range.view.empty-description')
+                                                        @lang('deliveryAgent::app.range.view.empty-description')
 
                                                     </p>
                                                 </div>
@@ -267,7 +267,7 @@
                     },
                     deleteRange(id) {
                         this.$emitter.emit('open-confirm-modal', {
-                            message: '@lang('deliveryagent::app.range.view.range-delete-confirmation')',
+                            message: '@lang('deliveryAgent::app.range.view.range-delete-confirmation')',
 
                             agree: () => {
                                 this.$axios.post(`{{ route('admin.range.delete', '') }}/${id}`)

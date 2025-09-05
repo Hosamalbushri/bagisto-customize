@@ -10,7 +10,7 @@
         >
             <x-slot:title>
                 @php
-                    $label = trans('deliveryagent::app.country.view.title');
+                    $label = trans('deliveryAgent::app.country.view.title');
                 @endphp
                 {{ isset($country) && !empty($country->name) ? ($label . ': ' . $country->name) : $label }}
             </x-slot:title>
@@ -30,8 +30,8 @@
                                 <h1
                                     v-if="country"
                                     class="text-xl font-bold leading-6 text-gray-800 dark:text-white"
-                                    @lang('deliveryagent::deliveryagent::app.country.view.title')
-                                    v-text="`@lang('deliveryagent::app.country.view.title'):  ${country.name}`"></h1>
+                                    @lang('deliveryAgent::deliveryagent::app.country.view.title')
+                                    v-text="`@lang('deliveryAgent::app.country.view.title'):  ${country.name}`"></h1>
                             </template>
                         </div>
 
@@ -40,7 +40,7 @@
                             href="{{ route('admin.country.index') }}"
                             class="transparent-button hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
                         >
-                            @lang('deliveryagent::app.country.view.back-btn')
+                            @lang('deliveryAgent::app.country.view.back-btn')
                         </a>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
 
                     <div class="flex flex-1 flex-col gap-2 max-xl:flex-auto">
                         @if (bouncer()->hasPermission('delivery.countries.states'))
-                            @include('deliveryagents::admin.Countries.view.States.index')
+                            @include('DeliveryAgents::admin.Countries.view.States.index')
 
                         @endif
                     </div>
@@ -70,11 +70,11 @@
                                 <x-slot:header>
                                     <div class="flex w-full">
                                         <p class="w-full p-2.5 text-base font-semibold text-gray-800 dark:text-white">
-                                            @lang('deliveryagent::app.country.view.country')
+                                            @lang('deliveryAgent::app.country.view.country')
                                         </p>
 
                                         <!--Countries Edit Component -->
-                                        @include('deliveryagents::admin.Countries.view.edit')
+                                        @include('DeliveryAgents::admin.Countries.view.edit')
                                     </div>
                                 </x-slot:header>
 
@@ -83,7 +83,7 @@
                                         <div class="grid gap-y-2.5">
                                             <x-admin::form.control-group>
                                                 <x-admin::form.control-group.label>
-                                                    @lang('deliveryagent::app.country.view.name')
+                                                    @lang('deliveryAgent::app.country.view.name')
                                                 </x-admin::form.control-group.label>
 
                                                 <x-admin::form.control-group.control
@@ -97,7 +97,7 @@
 
                                             <x-admin::form.control-group>
                                                 <x-admin::form.control-group.label>
-                                                    @lang('deliveryagent::app.country.view.code')
+                                                    @lang('deliveryAgent::app.country.view.code')
                                                 </x-admin::form.control-group.label>
 
                                                 <x-admin::form.control-group.control

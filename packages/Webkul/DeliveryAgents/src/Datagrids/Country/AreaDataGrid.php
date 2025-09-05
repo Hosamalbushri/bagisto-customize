@@ -32,7 +32,7 @@ class AreaDataGrid extends DataGrid
     {
         $this->addColumn([
             'index'      => 'state_areas_id',
-            'label'      => trans('deliveryagent::app.country.state.area.datagrid.id'),
+            'label'      => trans('deliveryAgent::app.country.state.area.datagrid.id'),
             'type'       => 'integer',
             'searchable' => true,
             'sortable'   => true,
@@ -41,7 +41,7 @@ class AreaDataGrid extends DataGrid
         ]);
         $this->addColumn([
             'index'      => 'area_name',
-            'label'      => trans('deliveryagent::app.country.state.area.datagrid.name'),
+            'label'      => trans('deliveryAgent::app.country.state.area.datagrid.name'),
             'type'       => 'string',
             'searchable' => true,
             'sortable'   => true,
@@ -50,7 +50,7 @@ class AreaDataGrid extends DataGrid
         ]);
         $this->addColumn([
             'index'      => 'delivery_agents_count',
-            'label'      => trans('deliveryagent::app.country.state.area.datagrid.deleivery_count'),
+            'label'      => trans('deliveryAgent::app.country.state.area.datagrid.deleivery_count'),
             'type'       => 'string',
             'searchable' => true,
             'sortable'   => true,
@@ -70,7 +70,7 @@ class AreaDataGrid extends DataGrid
             $this->addAction([
                 'index'  => 'edit',
                 'icon'   => 'icon-edit',
-                'title'  => trans('deliveryagent::app.country.state.area.datagrid.actions.edit'),
+                'title'  => trans('deliveryAgent::app.country.state.area.datagrid.actions.edit'),
                 'method' => 'GET',
                 'url'    => function ($row) {
                     return route('admin.area.edit', $row->state_areas_id);
@@ -84,7 +84,7 @@ class AreaDataGrid extends DataGrid
             $this->addAction([
                 'index'  => 'delete',
                 'icon'   => 'icon-delete',
-                'title'  => trans('deliveryagent::app.country.state.area.datagrid.actions.delete'),
+                'title'  => trans('deliveryAgent::app.country.state.area.datagrid.actions.delete'),
                 'method' => 'DELETE',
                 'url'    => function ($row) {
                     return route('admin.area.delete', $row->state_areas_id);

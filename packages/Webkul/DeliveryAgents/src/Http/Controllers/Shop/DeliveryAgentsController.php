@@ -17,6 +17,6 @@ class DeliveryAgentsController extends Controller
      */
     public function index()
     {
-        return view('deliveryagents::shop.index');
+        return view('DeliveryAgents::shop.index');
     }
 }

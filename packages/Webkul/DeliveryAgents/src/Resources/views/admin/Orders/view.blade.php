@@ -5,7 +5,7 @@
 <x-admin::accordion>
     <x-slot:header>
         <p class="p-2.5 text-base font-semibold text-gray-600 dark:text-gray-300">
-            @lang('deliveryagent::app.orders.view.delivery')
+            @lang('deliveryAgent::app.orders.view.delivery')
         </p>
     </x-slot>
 
@@ -18,7 +18,7 @@
                         {{ $delivery_agent->name }}
                     </p>
                     <p class="text-gray-600 dark:text-gray-300">
-                        <span>{{ __('deliveryagent::app.orders.view.contact') }}: {{ $delivery_agent->phone }}</span>
+                        <span>{{ __('deliveryAgent::app.orders.view.contact') }}: {{ $delivery_agent->phone }}</span>
                     </p>
                 </div>
             </div>
@@ -28,13 +28,13 @@
                         href="{{ route('admin.deliveryagents.view', $delivery_agent->id) }}"
                         class="text-sm text-blue-600 transition-all hover:underline"
                     >
-                        @lang('deliveryagent::app.orders.view.view')
+                        @lang('deliveryAgent::app.orders.view.view')
                     </a>
                 </div>
             </div>
         @empty
             <p class="text-gray-600 dark:text-gray-300">
-                @lang('deliveryagent::app.orders.view.no-delivery-agent-found')
+                @lang('deliveryAgent::app.orders.view.no-delivery-agent-found')
             </p>
         @endforelse
     </x-slot>

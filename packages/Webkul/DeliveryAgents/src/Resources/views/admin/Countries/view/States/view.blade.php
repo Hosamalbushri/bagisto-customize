@@ -11,7 +11,7 @@
         >
             <x-slot:title>
                 @php
-                    $label = trans('deliveryagent::app.country.state.view.title');
+                    $label = trans('deliveryAgent::app.country.state.view.title');
                 @endphp
 
                 {{ isset($state) && !empty($state->default_name) ? ($label . ': ' . $state->default_name) : $label }}
@@ -32,8 +32,8 @@
                                 <h1
                                     v-if="state"
                                     class="text-xl font-bold leading-6 text-gray-800 dark:text-white"
-                                    @lang('deliveryagent::deliveryagent::app.country.view.title')
-                                    v-text="`@lang('deliveryagent::app.country.state.view.title'):  ${state.default_name}`"                                ></h1>
+                                    @lang('deliveryAgent::deliveryagent::app.country.view.title')
+                                    v-text="`@lang('deliveryAgent::app.country.state.view.title'):  ${state.default_name}`"                                ></h1>
                             </template>
                         </div>
 
@@ -42,7 +42,7 @@
                             href="{{ route('admin.country.edit',$state->country_id) }}"
                             class="transparent-button hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
                         >
-                            @lang('deliveryagent::app.country.state.view.back-btn')
+                            @lang('deliveryAgent::app.country.state.view.back-btn')
                         </a>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                     <!-- Left Component -->
                     <div class="flex flex-1 flex-col gap-2 max-xl:flex-auto">
                         @if (bouncer()->hasPermission('delivery.countries.states.area'))
-                            @include('deliveryagents::admin.Countries.view.States.Areas.index')
+                            @include('DeliveryAgents::admin.Countries.view.States.Areas.index')
                         @endif
 
                     </div>
@@ -68,11 +68,11 @@
                                 <x-slot:header>
                                     <div class="flex w-full">
                                         <p class="w-full p-2.5 text-base font-semibold text-gray-800 dark:text-white">
-                                            @lang('deliveryagent::app.country.state.view.state')
+                                            @lang('deliveryAgent::app.country.state.view.state')
                                         </p>
 
                                         <!--State Edit Component -->
-                                        @include('deliveryagents::admin.Countries.view.States.edit')
+                                        @include('DeliveryAgents::admin.Countries.view.States.edit')
                                     </div>
                                 </x-slot:header>
 
@@ -81,7 +81,7 @@
                                         <div class="grid gap-y-2.5">
                                             <x-admin::form.control-group>
                                                 <x-admin::form.control-group.label>
-                                                    @lang('deliveryagent::app.country.state.view.name')
+                                                    @lang('deliveryAgent::app.country.state.view.name')
                                                 </x-admin::form.control-group.label>
 
                                                 <x-admin::form.control-group.control
@@ -95,7 +95,7 @@
 
                                             <x-admin::form.control-group>
                                                 <x-admin::form.control-group.label>
-                                                    @lang('deliveryagent::app.country.state.view.code')
+                                                    @lang('deliveryAgent::app.country.state.view.code')
                                                 </x-admin::form.control-group.label>
 
                                                 <x-admin::form.control-group.control

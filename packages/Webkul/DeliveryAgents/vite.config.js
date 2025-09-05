@@ -24,9 +24,9 @@ export default  (({ mode }) => {
             vue(),
 
             laravel({
-                hotFile: "../../../public/deliveryagents-default-vite.hot",
+                hotFile: "../../../public/deliveryAgents-default-vite.hot",
                 publicDirectory: "../../../public",
-                buildDirectory: "themes/deliveryagents/default/build",
+                buildDirectory: "themes/deliveryAgents/default/build",
                 input: [
                     "src/Resources/assets/css/app.css",
                     "src/Resources/assets/js/app.js",

@@ -74,23 +74,23 @@ class OrderDateGrid extends DataGrid
             'filterable_type'    => 'dropdown',
             'filterable_options' => [
                 [
-                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.assigned_to_agent'),
+                    'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.orders.status.assigned_to_agent'),
                     'value' => Order::STATUS_ASSIGNED_TO_AGENT,
                 ],
                 [
-                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.accepted_by_agent'),
+                    'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.orders.status.accepted_by_agent'),
                     'value' => Order::STATUS_ACCEPTED_BY_AGENT,
                 ],
                 [
-                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.rejected_by_agent'),
+                    'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.orders.status.rejected_by_agent'),
                     'value' => Order::STATUS_REJECTED_BY_AGENT,
                 ],
                 [
-                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.out_for_delivery'),
+                    'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.orders.status.out_for_delivery'),
                     'value' => Order::STATUS_OUT_FOR_DELIVERY,
                 ],
                 [
-                    'label' => trans('deliveryagent::app.deliveryagents.datagrid.orders.status.delivered'),
+                    'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.orders.status.delivered'),
                     'value' => Order::STATUS_DELIVERED,
                 ],
                 [
@@ -106,19 +106,19 @@ class OrderDateGrid extends DataGrid
             'closure'    => function ($row) {
                 switch ($row->status) {
                     case Order::STATUS_ASSIGNED_TO_AGENT:
-                        return '<p class="label-assigned_to_agent">'.trans('deliveryagent::app.deliveryagents.orders.status.assigned_to_agent').'</p>';
+                        return '<p class="label-assigned_to_agent">'.trans('deliveryAgent::app.deliveryAgent.orders.status.assigned_to_agent').'</p>';
 
                     case Order::STATUS_ACCEPTED_BY_AGENT:
-                        return '<p class="label-closed">'.trans('deliveryagent::app.deliveryagents.orders.status.accepted_by_agent').'</p>';
+                        return '<p class="label-closed">'.trans('deliveryAgent::app.deliveryAgent.orders.status.accepted_by_agent').'</p>';
 
                     case Order::STATUS_REJECTED_BY_AGENT:
-                        return '<p class="label-rejected_by_agent">'.trans('deliveryagent::app.deliveryagents.orders.status.rejected_by_agent').'</p>';
+                        return '<p class="label-rejected_by_agent">'.trans('deliveryAgent::app.deliveryAgent.orders.status.rejected_by_agent').'</p>';
 
                     case Order::STATUS_OUT_FOR_DELIVERY:
-                        return '<p class="label-out_for_delivery">'.trans('deliveryagent::app.deliveryagents.orders.status.out_for_delivery').'</p>';
+                        return '<p class="label-out_for_delivery">'.trans('deliveryAgent::app.deliveryAgent.orders.status.out_for_delivery').'</p>';
 
                     case Order::STATUS_DELIVERED:
-                        return '<p class="label-delivered">'.trans('deliveryagent::app.deliveryagents.orders.status.delivered').'</p>';
+                        return '<p class="label-delivered">'.trans('deliveryAgent::app.deliveryAgent.orders.status.delivered').'</p>';
 
                     case Order::STATUS_CANCELED:
                         return '<p class="label-canceled">'.trans('admin::app.sales.orders.index.datagrid.canceled').'</p>';

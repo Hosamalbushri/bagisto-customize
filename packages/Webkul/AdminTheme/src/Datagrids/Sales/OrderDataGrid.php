@@ -104,6 +104,18 @@ class OrderDataGrid extends DataGrid
                 [
                     'label' => trans('admin::app.sales.orders.index.datagrid.fraud'),
                     'value' => Order::STATUS_FRAUD,
+                ], [
+                    'label' => trans('adminTheme::app.sales.orders.index.datagrid.assigned_to_agent'),
+                    'value' => Order::STATUS_ASSIGNED_TO_AGENT,
+                ], [
+                    'label' => trans('adminTheme::app.sales.orders.index.datagrid.accepted_by_agent'),
+                    'value' => Order::STATUS_ACCEPTED_BY_AGENT,
+                ], [
+                    'label' => trans('adminTheme::app.sales.orders.index.datagrid.rejected_by_agent'),
+                    'value' => Order::STATUS_REJECTED_BY_AGENT,
+                ], [
+                    'label' => trans('adminTheme::app.sales.orders.index.datagrid.out_for_delivery'),
+                    'value' => Order::STATUS_OUT_FOR_DELIVERY,
                 ],
             ],
             'sortable'   => true,
@@ -129,17 +141,18 @@ class OrderDataGrid extends DataGrid
 
                     case Order::STATUS_FRAUD:
                         return '<p class="label-canceled">'.trans('admin::app.sales.orders.index.datagrid.fraud').'</p>';
+
                     case Order::STATUS_ASSIGNED_TO_AGENT:
-                        return '<p class="label-assigned_to_agent">'.trans('deliveryagent::app.orders.status.assigned_to_agent').'</p>';
+                        return '<p class="label-assigned_to_agent">'.trans('adminTheme::app.sales.orders.index.datagrid.assigned_to_agent').'</p>';
 
                     case Order::STATUS_ACCEPTED_BY_AGENT:
-                        return '<p class="label-closed">'.trans('deliveryagent::app.orders.status.accepted_by_agent').'</p>';
+                        return '<p class="label-closed">'.trans('adminTheme::app.sales.orders.index.datagrid.accepted_by_agent').'</p>';
 
                     case Order::STATUS_REJECTED_BY_AGENT:
-                        return '<p class="label-rejected_by_agent">'.trans('deliveryagent::app.orders.status.rejected_by_agent').'</p>';
+                        return '<p class="label-rejected_by_agent">'.trans('adminTheme::app.sales.orders.index.datagrid.rejected_by_agent').'</p>';
 
                     case Order::STATUS_OUT_FOR_DELIVERY:
-                        return '<p class="label-out_for_delivery">'.trans('deliveryagent::app.orders.status.out_for_delivery').'</p>';
+                        return '<p class="label-out_for_delivery">'.trans('adminTheme::app.sales.orders.index.datagrid.out_for_delivery').'</p>';
                 }
             },
         ]);
