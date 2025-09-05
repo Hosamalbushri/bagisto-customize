@@ -154,8 +154,8 @@
                     </div>
                     <div class="flex flex-col gap-1.5">
                         @php
-                            $activeLabel = __('deliveryAgent::app.deliveryAgent.datagrid.active');
-                            $inactiveLabel = __('deliveryAgent::app.deliveryAgent.datagrid.inactive');
+                            $activeLabel = __('deliveryAgent::app.deliveryAgent.dataGrid.active');
+                            $inactiveLabel = __('deliveryAgent::app.deliveryAgent.dataGrid.inactive');
                         @endphp
                       <div class="flex gap-1.5">
                           <p v-html="record.status"></p>
@@ -166,17 +166,17 @@
                         </p>
 
                         <p class="text-gray-600 dark:text-gray-300">
-                            @{{ "@lang('deliveryAgent::app.deliveryAgent.datagrid.id-value')".replace(':id', record.delivery_agents_id) }}
+                            @{{ "@lang('deliveryAgent::app.deliveryAgent.dataGrid.id-value')".replace(':id', record.delivery_agents_id) }}
                         </p>
 
                     </div>
                     <div class="flex items-center justify-between gap-x-4">
                         <div class="flex flex-col gap-1.5">
                             <p class="text-gray-600 dark:text-gray-300">
-                                @{{ "@lang('deliveryAgent::app.deliveryAgent.datagrid.range')".replace(':range', record.range_count) }}
+                                @{{ "@lang('deliveryAgent::app.deliveryAgent.dataGrid.range')".replace(':range', record.range_count) }}
                             </p>
                             <p class="text-gray-600 dark:text-gray-300">
-                                @{{ "@lang('deliveryAgent::app.deliveryAgent.datagrid.order')".replace(':order', record.order_count) }}
+                                @{{ "@lang('deliveryAgent::app.deliveryAgent.dataGrid.order')".replace(':order', record.order_count) }}
                             </p>
 
                             <p class="text-base font-semibold text-gray-800 dark:text-white">
