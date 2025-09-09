@@ -156,7 +156,7 @@ class DeliveryAgentsController extends Controller
         return new JsonResponse([
             'message' => trans('deliveryAgent::app.deliveryAgent.edit.edit-success'),
             'data'    => [
-                'deliveryagent'=> $deliveryAgent->fresh(),
+                'deliveryAgent'=> $deliveryAgent->fresh(),
             ],
 
         ]);

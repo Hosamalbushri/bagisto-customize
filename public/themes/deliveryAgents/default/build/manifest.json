@@ -12,6 +12,10 @@
     "file": "assets/icon-temp-active-0382a171.svg",
     "src": "src/Resources/assets/images/icon-temp-active.svg"
   },
+  "src/Resources/assets/images/settings/truck.svg": {
+    "file": "assets/truck-5abbb27f.svg",
+    "src": "src/Resources/assets/images/settings/truck.svg"
+  },
   "src/Resources/assets/images/temp-icon.svg": {
     "file": "assets/temp-icon-bf32aadd.svg",
     "src": "src/Resources/assets/images/temp-icon.svg"

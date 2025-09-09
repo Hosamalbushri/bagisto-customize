@@ -68,6 +68,28 @@ export default {
                         return formattedCurrency;
                 }
             },
+            formatDate: (date) => {
+                if (!date) return '';
+
+                const d = new Date(date);
+                const pad = (n) => n.toString().padStart(2, '0');
+
+                // اليوم-الشهر-السنة
+                const day = pad(d.getDate());
+                const month = pad(d.getMonth() + 1);
+                const year = d.getFullYear();
+
+                // الساعة 12 ساعة + صباحًا / مساءً
+                let hours = d.getHours();
+                const ampm = hours >= 12 ? 'م' : 'ص';  // بالعربية
+                hours = hours % 12;
+                hours = hours ? hours : 12; // إذا 0 تصبح 12
+
+                const minutes = pad(d.getMinutes());
+                const seconds = pad(d.getSeconds());
+
+                return `${day}-${month}-${year} ${pad(hours)}:${minutes}:${seconds} ${ampm}`;
+            }
         };
     },
 };

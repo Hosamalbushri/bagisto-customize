@@ -359,8 +359,7 @@
 
             data() {
                 return {
-                    country: "",
-
+                    country: @json(core()->getConfigData('delivery.settings.store.default_country')),
                     state: "",
                     area: '',
                     city: '',
@@ -410,7 +409,6 @@
                     const list = this.stateAreas?.[this.state];
                     return Array.isArray(list) && list.length > 0;
                 },
-
             },
             watch: {
                 country() {
