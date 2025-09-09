@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Event;
 use Webkul\DeliveryAgents\Repositories\DeliveryAgentRepository;
-use Webkul\DeliveryAgents\Repositories\RangeRepository;
 
 class RangesController extends Controller
 {
@@ -18,31 +17,47 @@ class RangesController extends Controller
         protected DeliveryAgentRepository $deliveryAgentRepository,
     ) {}
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'delivery_agent_id' => 'required|integer|exists:delivery_agents,id',
-            'state_area_id'     => 'required|integer|exists:state_areas,id',
+            'delivery_agent_id'    => 'required|integer|exists:delivery_agents,id',
+            'state_area_id'        => 'required|integer|exists:state_areas,id',
         ]);
 
-        $range = $this->deliveryAgentRepository->addRange($validated);
-
-        if (! $range) {
-            return response()->json([
+        $deliveryAgent = $this->deliveryAgentRepository->find($validated['delivery_agent_id']);
+        if (! $deliveryAgent) {
+            return new JsonResponse([
                 'message' => trans('deliveryAgent::app.range.create.create-failed'),
                 'status'  => 'error',
             ], 422);
         }
 
-        return response()->json([
+        $allowMultiple = $request->boolean('allow_multiple_ranges');
+
+        if (! $allowMultiple && $deliveryAgent->ranges()->exists()) {
+            return new JsonResponse([
+                'message' => trans('deliveryAgent::app.range.create.multiple-not-allowed'),
+                'status'  => 'error',
+            ], 422);
+        }
+
+        $range = $this->deliveryAgentRepository->addRange($validated);
+
+        if (! $range) {
+            return new JsonResponse([
+                'message' => trans('deliveryAgent::app.range.create.create-failed'),
+                'status'  => 'error',
+            ], 422);
+        }
+
+        return new JsonResponse([
             'message' => trans('deliveryAgent::app.range.create.create-success'),
             'status'  => 'success',
             'data'    => $range->load('state_area'),
         ]);
-
     }
 
-    public function update(int $id, Request $request)
+    public function update(int $id, Request $request): JsonResponse
     {
         $validated = $request->validate([
             'delivery_agent_id' => 'required|integer|exists:delivery_agents,id',
@@ -52,21 +67,20 @@ class RangesController extends Controller
         $range = $this->deliveryAgentRepository->updateRange($id, $validated);
 
         if (! $range) {
-            return response()->json([
+            return new JsonResponse([
                 'message' => trans('deliveryAgent::app.range.edit.edit-failed'),
                 'status'  => 'error',
             ], 422);
         }
 
-        return response()->json([
+        return new JsonResponse([
             'message' => trans('deliveryAgent::app.range.edit.edit-success'),
             'status'  => 'success',
             'data'    => $range->load('state_area'),
         ]);
-
     }
 
-    public function delete(int $id)
+    public function delete(int $id): JsonResponse
     {
         Event::dispatch('deliveryAgent.range.delete.before', $id);
 

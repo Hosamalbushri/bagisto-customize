@@ -24,7 +24,8 @@
 
         <div
             class="transparent-button px-1 py-1.5 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800"
-            @click="$refs.drawerRef.open()"
+            :class="{ 'opacity-50 cursor-not-allowed pointer-events-none': isSubmitting }"
+            @click="!isSubmitting && $refs.drawerRef.open()"
         >
       <span class="acma-icon-how_to_reg text-2xl"
             role="button"
@@ -88,7 +89,6 @@
         app.component('v-selected-delivery-form', {
             template: '#v-selected-delivery-form-template',
             data() {
-
             },
             mounted() {
                 this.$emitter.on('request-assign-delivery', ({ orderId, agentId }) => {
@@ -106,8 +106,7 @@
                         message: "@lang('deliveryAgent::app.select-order.index.assign-delivery-agent-confirmation')",
                         agree: () => {
                             this.$axios.post(
-                                `{{ route('admin.orders.assignDeliveryAgent', [':order', ':agent']) }}`
-                                    .replace(':order', orderId)
+                                `{{ route('admin.orders.assignDeliveryAgent', [':order', ':agent']) }}`.replace(':order', orderId)
                                     .replace(':agent', agentId),
                                 { delivery_agent_id: agentId, order_id: orderId }
                             )
@@ -120,7 +119,8 @@
                                         type: 'error',
                                         message: error?.response?.data?.message
                                     });
-                                });
+                                })
+
                         },
                     });
                 },

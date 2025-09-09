@@ -124,11 +124,11 @@
                                         <button
                                             type="button"
                                             class="acma-icon-fact_check  cursor-pointer p-1.5 text-lg hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
-                                            @click="$emitter.emit('request-assign-delivery', { orderId: {{ $order->id }}, agentId: record.delivery_agents_id })"
+                                            @click=" $emitter.emit('request-assign-delivery', { orderId: {{ $order->id }}, agentId: record.delivery_agents_id })"
                                         >
-                                        <span class="text-sm text-gray-800 dark:text-white">
-                                            @lang('deliveryAgent::app.select-order.index.assign-btn')
-                                        </span>
+                                            <span  class="text-sm text-gray-800 dark:text-white">
+                                                @lang('deliveryAgent::app.select-order.index.assign-btn')
+                                            </span>
                                         </button>
                                     @endif
 

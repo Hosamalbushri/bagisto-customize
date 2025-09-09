@@ -73,12 +73,10 @@ class OrdersController extends Controller
                     ],
                 );
             }
-
             $newStatus = $this->determineOrderStatus($order);
             $this->orderRepository->updateOrderStatus($order, $newStatus);
 
             DB::commit();
-
             return $this->successResponse('deliveryAgent::app.select-order.create.create-success');
 
         } catch (\Exception $e) {

@@ -7,6 +7,7 @@
         <script>
             window.countries = @json(core()->countries()->pluck('name', 'code'));
             window.countryStates = @json(core()->groupedStatesByCountries());
+            window.allowMultipleRanges = @json(core()->getConfigData('delivery.settings.ranges.allow_multiple_ranges'));
             window.stateAreas =@json(myHelper()->groupedAreasByStatesCode());
 
         </script>
@@ -26,40 +27,30 @@
                     <div class="flex items-center justify-between gap-4 max-sm:flex-wrap">
                         <div class="flex items-center gap-2.5">
                             <!-- shimmer loading while data is loading -->
-                            <template v-if="!deliveryagent" class="flex gap-5">
-                                <p class="shimmer w-32 p-2.5"></p>
-                                <p class="shimmer w-14 p-2.5"></p>
+                            <template v-if="!deliveryAgent">
+                                <div class="flex gap-5">
+                                    <p class="shimmer w-32 p-2.5"></p>
+                                    <p class="shimmer w-14 p-2.5"></p>
+                                </div>
                             </template>
 
                             <!-- when data is loaded -->
                             <template v-else>
                                 <!-- name -->
                                 <h1
-                                    v-if="deliveryagent"
+                                    v-if="deliveryAgent"
                                     class="text-xl font-bold leading-6 text-gray-800 dark:text-white"
-                                    v-text="`@lang('deliveryAgent::app.deliveryAgent.view.title') : ${deliveryagent.first_name} ${deliveryagent.last_name}`"
+                                    v-text="`@lang('deliveryAgent::app.deliveryAgent.view.title') : ${deliveryAgent.first_name} ${deliveryAgent.last_name}`"
                                 ></h1>
-
-                                <!-- status -->
-                                {{--                                <span--}}
-                                {{--                                    v-if="deliveryagent.status"--}}
-                                {{--                                    class="label-active mx-1.5 text-sm">--}}
-                                {{--                                     @lang('deliveryagent::app.deliveryagents.view.active')--}}
-                                {{--                                </span>--}}
-                                {{--                                <span--}}
-                                {{--                                    v-else--}}
-                                {{--                                    class="label-canceled mx-1.5 text-sm">--}}
-                                {{--                                      @lang('deliveryagent::app.deliveryagents.view.inactive')--}}
-                                {{--                                </span>--}}
                                 <span
-                                    v-if="deliveryagent && deliveryagent.status==1"
+                                    v-if="deliveryAgent && deliveryAgent.status==1"
                                     class="mx-1.5 text-sm label-active"
                                     v-text="`@lang('deliveryAgent::app.deliveryAgent.view.active')`"
                                 >
 
                                 </span>
                                 <span
-                                    v-else-if="deliveryagent && deliveryagent.status == 0"
+                                    v-else-if="deliveryAgent && deliveryAgent.status == 0"
                                     class="mx-1.5 text-sm label-canceled"
                                     v-text="`@lang('deliveryAgent::app.deliveryAgent.view.inactive')`"
                                 >
@@ -88,7 +79,7 @@
                     </div>
                     <!-- Right Component -->
                     <div class="flex w-[360px] max-w-full flex-col gap-2 max-sm:w-full">
-                        <template v-if="! deliveryagent">
+                        <template v-if="! deliveryAgent">
                             <x-admin::shimmer.accordion class="h-[271px] w-[360px]"/>
                         </template>
                         <template v-else>
@@ -110,28 +101,28 @@
                                     <div class="grid gap-y-2.5">
                                         <p
                                             class="break-all font-semibold text-gray-800 dark:text-white"
-                                            v-text="`${deliveryagent.first_name} ${deliveryagent.last_name}`"
+                                            v-text="`${deliveryAgent.first_name} ${deliveryAgent.last_name}`"
                                         >
                                         </p>
 
                                         <p class="text-gray-600 dark:text-gray-300">
                                             @{{ "@lang('deliveryAgent::app.deliveryAgent.view.email')
-                                            ".replace(':email', deliveryagent.email ?? 'N/A') }}
+                                            ".replace(':email', deliveryAgent.email ?? 'N/A') }}
                                         </p>
 
                                         <p class="text-gray-600 dark:text-gray-300">
                                             @{{ "@lang('deliveryAgent::app.deliveryAgent.view.phone')
-                                            ".replace(':phone', deliveryagent.phone ?? 'N/A') }}
+                                            ".replace(':phone', deliveryAgent.phone ?? 'N/A') }}
                                         </p>
 
                                         <p class="text-gray-600 dark:text-gray-300">
                                             @{{ "@lang('deliveryAgent::app.deliveryAgent.view.gender')
-                                            ".replace(':gender', deliveryagent.gender ?? 'N/A') }}
+                                            ".replace(':gender', deliveryAgent.gender ?? 'N/A') }}
                                         </p>
 
                                         <p class="text-gray-600 dark:text-gray-300">
                                             @{{ "@lang('deliveryAgent::app.deliveryAgent.view.date-of-birth')
-                                            ".replace(':dob', deliveryagent.date_of_birth ?? 'N/A') }}
+                                            ".replace(':dob', deliveryAgent.date_of_birth ?? 'N/A') }}
                                         </p>
 
                                     </div>
@@ -139,7 +130,7 @@
                             </x-admin::accordion>
                         </template>
 
-                        <template v-if="! deliveryagent">
+                        <template v-if="! deliveryAgent">
                             <x-admin::shimmer.accordion class="h-[271px] w-[360px]"/>
                         </template>
 
@@ -151,12 +142,26 @@
                                     <div class="flex w-full">
                                         <p class="w-full p-2.5 text-base font-semibold text-gray-800 dark:text-white">
                                             @{{ "@lang('deliveryAgent::app.range.view.count')
-                                            ".replace(':count',deliveryagent.ranges.length) }}
+                                            ".replace(':count',deliveryAgent.ranges.length) }}
                                         </p>
 
                                         <!-- Ranges Create component -->
                                         @if (bouncer()->hasPermission('delivery.deliveryAgent.range.create'))
                                             @include('DeliveryAgents::admin.DeliveryAgents.view.Ranges.create')
+                                            <v-create-delivery-range-form
+                                                :deliveryAgent="deliveryAgent"
+                                                ref="RangeCreateModal"
+                                                @range-created="rangeCreated"
+                                            >
+                                                <div class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"></div>
+                                            </v-create-delivery-range-form>
+                                            <div
+                                                v-if="canAddRange()"
+                                                class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"
+                                                @click="$refs.RangeCreateModal.openModal()"
+                                            >
+                                                @lang('deliveryAgent::app.range.create.index-create-btn')
+                                            </div>
                                         @endif
 
                                     </div>
@@ -164,10 +169,10 @@
 
                                     <x-slot:content>
 
-                                        <template v-if="deliveryagent.ranges.length">
+                                        <template v-if="deliveryAgent.ranges.length">
                                             <div
                                                 class="grid gap-y-2.5"
-                                                v-for="(range, index) in deliveryagent.ranges"
+                                                v-for="(range, index) in deliveryAgent.ranges"
                                             >
                                                 <p class="text-sm mt-3 text-gray-600 dark:text-gray-300 font-medium">
                                                     @{{ getCountryName(range.state_area.country_code) }}
@@ -195,7 +200,7 @@
                                                 </div>
 
                                                 <span
-                                                    v-if="index != deliveryagent?.ranges.length - 1"
+                                                    v-if="index != deliveryAgent?.ranges.length - 1"
                                                     class="mb-4 mt-4 block w-full border-b dark:border-gray-800"
                                                 ></span>
 
@@ -240,49 +245,81 @@
                 template: '#v-delivery-agent-view-template',
                 data() {
                     return {
-                        deliveryagent: @json($deliveryAgent),
+                        deliveryAgent:  @json($deliveryAgent ?? ['ranges' => []]),
+                        allowMultipleRanges: window.allowMultipleRanges,
                         countries: window.countries || {},
-                        countryStates:window.countryStates||{},
+                        countryStates: window.countryStates || {},
                         isUpdating: {},
                     };
                 },
+                computed: {
+                    allowMultipleRangesBool() {
+                        const v = this.allowMultipleRanges;
+                        if (v === true || v === 1 || v === '1' || v === 'true' || v === 'on') return true;
+                        return false;
+                    },
+                },
+
                 methods: {
                     updateDeliveyAgent(data) {
-                        this.deliveryagent = {
-                            ...this.deliveryagent,
-                            ...data.deliveryagent,
+                        this.deliveryAgent = {
+                            ...this.deliveryAgent,
+                            ...data.deliveryAgent,
                         };
                     },
-                     rangeCreated(range) {
-                         this.deliveryagent.ranges.push({
-                             ...range,
-                         });
+
+                    // عندما يتم إنشاء نطاق من الـ child
+                    rangeCreated(range) {
+                        if (! this.deliveryAgent) {
+                            this.deliveryAgent = { ranges: [] };
+                        }
+
+                        if (! Array.isArray(this.deliveryAgent.ranges)) {
+                            this.deliveryAgent.ranges = [];
+                        }
+
+                        this.deliveryAgent.ranges.push({
+                            ...range,
+                        });
+
                     },
+
+
+                    canAddRange() {
+                        const allow = this.allowMultipleRangesBool;
+                        const rangesLength = (this.deliveryAgent && Array.isArray(this.deliveryAgent.ranges))
+                            ? this.deliveryAgent.ranges.length
+                            : 0;
+
+                        return allow || (rangesLength === 0);
+                    },
+
                     rangeUpdated(updatedRange) {
-                        const index = this.deliveryagent.ranges.findIndex(r => r.id === updatedRange.id);
+                        const index = this.deliveryAgent.ranges.findIndex(r => r.id === updatedRange.id);
 
                         if (index !== -1) {
-                            Object.assign(this.deliveryagent.ranges[index], updatedRange);
+                            Object.assign(this.deliveryAgent.ranges[index], updatedRange);
                         }
                     },
+
                     deleteRange(id) {
                         this.$emitter.emit('open-confirm-modal', {
-                            message: '@lang('deliveryAgent::app.range.view.range-delete-confirmation')',
+                            message: {!! json_encode(trans('deliveryAgent::app.range.view.range-delete-confirmation')) !!},
 
                             agree: () => {
-                                this.$axios.post(`{{ route('admin.range.delete', '') }}/${id}`)
-                                    .then((response) => {
+                                this.$axios.post(`{{ route('admin.range.delete', ['id' => '___ID___']) }}`.replace('___ID___', id))                                    .then((response) => {
                                         this.$emitter.emit('add-flash', {
                                             type: 'success',
                                             message: response.data.message
                                         });
-                                        this.deliveryagent.ranges = this.deliveryagent.ranges.filter(range => range.id !== id);
+                                        this.deliveryAgent.ranges = this.deliveryAgent.ranges.filter(range => range.id !== id);
                                     })
                                     .catch((error) => {
                                     });
                             },
                         });
                     },
+
                     getCountryName(code) {
                         return this.countries[code] || code;
                     },
@@ -292,14 +329,9 @@
                         const state = states.find(s => s.code === stateCode);
                         return state ? state.default_name : stateCode;
                     },
-
-
                 },
-
-
             })
         </script>
 
-    @endpushonce
-
+    @endpushOnce
 </x-admin::layouts>
