@@ -139,7 +139,8 @@
                                 </p>
 
                                 <p class="text-gray-600 dark:text-gray-300">
-                                    @{{ order.created_at}}
+                                    @{{$admin.formatDate(order.created_at)}}
+
                                 </p>
 
                                 <!-- Order Status -->

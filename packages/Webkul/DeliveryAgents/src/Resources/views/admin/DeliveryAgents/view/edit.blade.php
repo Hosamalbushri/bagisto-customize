@@ -1,5 +1,5 @@
 <v-edit-delivery-agent-form
-    :deliveryAgent="deliveryagent"
+    :delivery-agent="deliveryAgent"
     @update-delivery-agent="updateDeliveyAgent"
 >
     <div class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"></div>
@@ -240,16 +240,16 @@
                                         </x-admin::form.control-group.label>
 
                                         <x-admin::form.control-group.control
+                                            type="hidden"
+                                            name="status"
+                                            :value="0"
+                                        />
+                                        <x-admin::form.control-group.control
                                             type="switch"
                                             name="status"
                                             :value="1"
                                             :label="trans('deliveryAgent::app.deliveryAgent.create.status')"
-                                            ::checked="deliveryStatus"
-                                        />
-                                        <x-admin::form.control-group.control
-                                            type="hidden"
-                                            name="status"
-                                            :value="0"
+                                            ::checked="deliveryStatusChecked"
                                         />
                                     </x-admin::form.control-group>
                                 </div>
@@ -284,8 +284,14 @@
             data() {
                 return {
                     isLoading: false,
-                    deliveryStatus:this.deliveryAgent.status
                 };
+            },
+
+            computed: {
+                deliveryStatusChecked() {
+                    const v = this.deliveryAgent?.status;
+                    return v === 1 || v === '1' || v === true || v === 'true' || v === 'on';
+                },
             },
 
             methods: {

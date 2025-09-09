@@ -170,8 +170,23 @@
                             },
                             assigned_to_agent : {
                                 icon: 'icon-sort-right bg-green-100 text-green-600 dark:!text-green-600',
-                                message: '@lang('deliveryagent::app.notifications.order-status-messages.assigned_to_agent')',
+                                message: '@lang('adminTheme::app.notifications.order-status-messages.assigned_to_agent')',
                                 status: 'assigned_to_agent'
+                            },
+                            accepted_by_agent : {
+                                icon: 'icon-done bg-blue-100  text-blue-600 dark:!text-blue-600',
+                                message: '@lang('adminTheme::app.notifications.order-status-messages.accepted_by_agent')',
+                                status: 'accepted_by_agent'
+                            },
+                            rejected_by_agent : {
+                                icon: 'icon-cancel-1 bg-red-100  text-red-600 dark:!text-red-600',
+                                message: '@lang('adminTheme::app.notifications.order-status-messages.rejected_by_agent')',
+                                status: 'rejected_by_agent'
+                            },
+                            out_for_delivery : {
+                                icon: 'acma-icon-truck bg-green-100  text-green-600 dark:!text-green-600',
+                                message: '@lang('adminTheme::app.notifications.order-status-messages.out_for_delivery')',
+                                status: 'out_for_delivery'
                             },
 
                             canceled : {

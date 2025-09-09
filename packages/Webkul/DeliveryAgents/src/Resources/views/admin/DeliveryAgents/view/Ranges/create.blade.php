@@ -1,19 +1,4 @@
-<v-create-delivery-range-form
-    :deliveryAgent="deliveryagent"
-    ref="ShowDeliveryRangeCreateComponent"
-    @range-created="rangeCreated"
->
-    <div class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"></div>
-</v-create-delivery-range-form>
 
-@if (bouncer()->hasPermission('delivery.deliveryAgent.range.create'))
-    <div
-        class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"
-        @click="$refs.ShowDeliveryRangeCreateComponent.openModal()"
-    >
-        @lang('deliveryAgent::app.range.create.index-create-btn')
-    </div>
-@endif
 
 @pushOnce('scripts')
 
@@ -171,7 +156,12 @@
                                     name="delivery_agent_id"
                                     v-model="deliveryAgent.id"
                                 />
-                                </x-slot:content>
+                                <x-admin::form.control-group.control
+                                    type="hidden"
+                                    name="allow_multiple_ranges"
+                                    v-model="allowMultipleRanges"
+                                />
+                            </x-slot:content>
 
                                 <x-slot:footer>
                                     <x-admin::button
@@ -199,7 +189,8 @@
 
             data() {
                 return {
-                    country: "",
+                    country: @json(core()->getConfigData('delivery.settings.store.default_country')),
+                    allowMultipleRanges: window.allowMultipleRanges,
                     state: "",
                     countryStates: window.countryStates || {},
                     stateAreas: window.stateAreas ||{},
@@ -207,13 +198,10 @@
 
                 };
             },
+            computed: {
 
-            methods: {
-                openModal() {
-                    this.$refs.RangeCreateModal.open();
                 },
-
-
+            methods: {
                 create(params, { resetForm, setErrors }) {
                     this.isLoading = true;
 
@@ -267,9 +255,10 @@
 
                     const url = `{{ route('admin.states.edit', ':id') }}`.replace(':id', stateObj.id);
                     window.location.href = url;
+                },
+                openModal() {
+                    this.$refs.RangeCreateModal.open();
                 }
-
-
             },
 
         });
