@@ -207,7 +207,7 @@ class DeliveryAgentsController extends Controller
             }
 
             return new JsonResponse([
-                'message' => trans('deliveryAgent::app.deliveryAgent.datagrid.delete-success'),
+                'message' => trans('deliveryAgent::app.deliveryAgent.dataGrid.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResponse([
@@ -232,7 +232,7 @@ class DeliveryAgentsController extends Controller
         }
 
         return new JsonResponse([
-            'message' => trans('deliveryAgent::app.deliveryAgent.datagrid.update-success'),
+            'message' => trans('deliveryAgent::app.deliveryAgent.dataGrid.update-success'),
         ]);
 
     }
@@ -240,7 +240,7 @@ class DeliveryAgentsController extends Controller
     public function selectedDeliveryAgents()
     {
         if (request()->ajax()) {
-            return app(SelectDeliveryAgentDataGrid::class)->process();
+            return datagrid(SelectDeliveryAgentDataGrid::class)->process();
         }
         abort(404);
 

@@ -1,7 +1,5 @@
 
-
 @pushOnce('scripts')
-
 
     <script
         type="text/x-template"
@@ -156,11 +154,6 @@
                                     name="delivery_agent_id"
                                     v-model="deliveryAgent.id"
                                 />
-                                <x-admin::form.control-group.control
-                                    type="hidden"
-                                    name="allow_multiple_ranges"
-                                    v-model="allowMultipleRanges"
-                                />
                             </x-slot:content>
 
                                 <x-slot:footer>
@@ -190,7 +183,6 @@
             data() {
                 return {
                     country: @json(core()->getConfigData('delivery.settings.store.default_country')),
-                    allowMultipleRanges: window.allowMultipleRanges,
                     state: "",
                     countryStates: window.countryStates || {},
                     stateAreas: window.stateAreas ||{},
