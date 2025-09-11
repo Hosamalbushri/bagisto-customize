@@ -89,6 +89,13 @@ return [
         'info'   => 'deliveryAgent::app.deliveryAgent.system.settings.orders.info', // "إعدادات التعامل مع طلبات المندوب"
         'sort'   => 4,
         'fields' => [
+            ['name'             => 'allow_agent_acceptance',
+                'title'         => 'deliveryAgent::app.deliveryAgent.system.settings.orders.fields.allow_agent_acceptance',
+                'type'          => 'boolean',
+                'default_value' => true,
+                'channel_based' => false,
+                'locale_based'  => false,
+            ],
 
         ],
     ],

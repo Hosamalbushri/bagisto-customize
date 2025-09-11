@@ -375,7 +375,7 @@
 
                 data() {
                     return {
-                        country: "{{ old('country') }}",
+                        country: @json(core()->getConfigData('delivery.settings.store.default_country')),
                         state: "{{ old('state') }}",
                         area: '',         // select الخاص بالمناطق
                         city: '',

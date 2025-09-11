@@ -33,7 +33,6 @@
                             class="inline-flex w-full max-w-max cursor-pointer items-center justify-between gap-x-2 px-1 py-1.5 text-center font-semibold text-blue-600 transition-all hover:rounded-md hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800"
                             @click="resetForm();$refs.areaUpdateOrCreateModal.open()"
                         >
-                            <span class="acma-icon-plus3"></span>
 
                             @lang('deliveryAgent::app.country.state.area.create.title')
                         </button>
@@ -70,6 +69,13 @@
                             <!-- Actions -->
                         <div class="flex justify-end">
                             <template v-if="hasPermission">
+                                <a @click="performAction(record.actions.find(action => action.index === 'view'))">
+                                    <span
+                                        :class="record.actions.find(action => action.index === 'view')?.icon"
+                                        class="cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 max-sm:place-self-center"
+                                    >
+                                    </span>
+                                </a>
                                 <a @click="editModal(record.actions.find(action => action.index === 'edit')?.url)">
                                     <span
                                         :class="record.actions.find(action => action.index === 'edit')?.icon"

@@ -205,7 +205,7 @@
 
                                 <div class="flex flex-col items-center">
                                     <p class="text-base font-semibold text-gray-400">
-                                        @lang('deliveryAgent::app.deliveryAgent.view.datagrid.orders.empty-order')
+                                        @lang('deliveryAgent::app.deliveryAgent.view.dataGrid.orders.empty-order')
                                     </p>
                                 </div>
                             </div>
