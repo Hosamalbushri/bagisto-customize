@@ -6,7 +6,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Webkul\DeliveryAgents\Datagrids\Country\AreaDataGrid;
+use Webkul\DeliveryAgents\Datagrids\Country\Areas\AreaDataGrid;
+use Webkul\DeliveryAgents\Datagrids\Country\Areas\View\DeliveryAgentDataGrid;
 use Webkul\DeliveryAgents\Repositories\AreaRepository;
 
 class AreasController extends Controller
@@ -55,6 +56,17 @@ class AreasController extends Controller
 
     }
 
+    public function view(int $id)
+    {
+        if (request()->ajax()) {
+            $mode = request()->get('mode', 'in');
+            return datagrid(DeliveryAgentDataGrid::class)->setMode($mode)->process();
+        }
+        $Area = $this->areaRepository->findOrFail($id);
+
+        return view('DeliveryAgents::admin.Countries.view.States.Areas.view', compact('Area'));
+    }
+
     public function edit($id): JsonResponse
     {
         $area = $this->areaRepository->findOrFail($id);
@@ -91,6 +103,7 @@ class AreasController extends Controller
     {
         try {
             $this->areaRepository->delete($id);
+
             return new JsonResponse(['message' => trans('deliveryAgent::app.country.state.area.datagrid.delete-success')]);
         } catch (\Exception $e) {
             return new JsonResponse(['message' => $e->getMessage()], 400);

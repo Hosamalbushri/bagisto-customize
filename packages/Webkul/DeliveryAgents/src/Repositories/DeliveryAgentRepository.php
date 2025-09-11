@@ -114,5 +114,14 @@ class DeliveryAgentRepository extends Repository
     {
         return $this->rangeRepository->delete($rangeId);
     }
+    public function massRemoveRange(int $deliveryAgentId, int $areaId): bool
+    {
+        return $this->rangeRepository
+            ->where([
+                'delivery_agent_id' => $deliveryAgentId,
+                'state_area_id'    => $areaId,
+            ])
+            ->delete();
+    }
 
 }

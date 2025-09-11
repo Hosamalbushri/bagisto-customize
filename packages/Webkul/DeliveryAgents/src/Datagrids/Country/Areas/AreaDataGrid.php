@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\DeliveryAgents\Datagrids\Country;
+namespace Webkul\DeliveryAgents\Datagrids\Country\Areas;
 
 use Illuminate\Support\Facades\DB;
 use Webkul\DataGrid\DataGrid;
@@ -66,6 +66,17 @@ class AreaDataGrid extends DataGrid
      */
     public function prepareActions()
     {
+        $this->addAction([
+            'index'  => 'view',
+            'icon'   => 'icon-view',
+            'title'  => trans('deliveryAgent::app.country.state.area.dataGrid.actions.edit'),
+            'method' => 'GET',
+            'url'    => function ($row) {
+                return route('admin.area.view', $row->state_areas_id);
+
+            },
+        ]);
+
         if (bouncer()->hasPermission('delivery.countries.states.area.edit')) {
             $this->addAction([
                 'index'  => 'edit',

@@ -17,6 +17,7 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/delivery'], f
         Route::get('view/{id}', 'view')->name('admin.deliveryAgents.view');
         Route::put('edit/{id}', 'update')->name('admin.deliveryAgents.update');
         Route::delete('edit/{id}', 'destroy')->name('admin.deliveryAgents.delete');
+        Route::get('search', 'search')->name('admin.deliveryAgents.search');
         Route::post('mass-delete', 'massDestroy')->name('admin.deliveryAgents.mass_delete');
         Route::post('mass-update', 'massUpdate')->name('admin.deliveryAgents.mass_update');
 
@@ -28,6 +29,9 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/delivery'], f
         Route::post('create', 'store')->name('admin.range.store');
         Route::put('update/{id}', 'update')->name('admin.range.update');
         Route::post('delete/{id}', 'delete')->name('admin.range.delete');
+        Route::post('mass-add/{areaId}', 'massAdd')->name('admin.range.mass_add');
+        Route::post('mass-delete/{areaId}', 'massDestroy')->name('admin.range.mass_delete');
+
 
     });
 
@@ -41,6 +45,4 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/delivery'], f
 
     });
 
-
 });
-

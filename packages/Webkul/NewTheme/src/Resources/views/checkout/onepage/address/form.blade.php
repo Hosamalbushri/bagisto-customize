@@ -338,7 +338,7 @@
 
             data() {
                 return {
-                    selectedCountry: this.address.country,
+                    selectedCountry: this.address.country || @json(core()->getConfigData('delivery.settings.store.default_country')),
                     selectedState: this.address.state,
                     selectedArea: this.address.state_area_id,
 

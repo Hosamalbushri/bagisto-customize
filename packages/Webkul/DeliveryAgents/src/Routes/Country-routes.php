@@ -37,6 +37,7 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/country'], fu
     Route::controller(AreasController::class)->prefix('area')->group(function () {
         Route::get('', 'index')->name('admin.area.index');
         Route::post('create', 'store')->name('admin.area.store');
+        Route::get('view/{id}', 'view')->name('admin.area.view');
         Route::get('edit/{id}', 'edit')->name('admin.area.edit');
         Route::put('edit', 'update')->name('admin.area.update');
         Route::delete('edit/{id}', 'delete')->name('admin.area.delete');
