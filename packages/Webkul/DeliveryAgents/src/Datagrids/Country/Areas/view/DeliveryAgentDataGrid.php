@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\DeliveryAgents\Datagrids\Country\Areas\View;
+namespace Webkul\DeliveryAgents\Datagrids\Country\Areas\view;
 
 use Illuminate\Support\Facades\DB;
 use Webkul\DataGrid\DataGrid;

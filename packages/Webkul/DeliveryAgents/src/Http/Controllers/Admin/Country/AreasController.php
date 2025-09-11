@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Webkul\DeliveryAgents\Datagrids\Country\Areas\AreaDataGrid;
-use Webkul\DeliveryAgents\Datagrids\Country\Areas\View\DeliveryAgentDataGrid;
+use Webkul\DeliveryAgents\Datagrids\Country\Areas\view\DeliveryAgentDataGrid;
 use Webkul\DeliveryAgents\Repositories\AreaRepository;
 
 class AreasController extends Controller
