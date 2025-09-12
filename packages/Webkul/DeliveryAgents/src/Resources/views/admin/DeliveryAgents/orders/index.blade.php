@@ -10,17 +10,14 @@
         <div class="box-shadow rounded bg-white p-4 dark:bg-gray-900">
             <div class="flex justify-between">
                 <!-- Total Order Count -->
-                <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
-                    @lang('deliveryAgent::app.deliveryAgent.view.dataGrid.orders.count', ['count' => count($deliveryAgent->orders)])
-                </p>
+{{--                <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">--}}
+{{--                    @lang('deliveryAgent::app.deliveryAgent.view.dataGrid.orders.count', ['count' => count($deliveryAgent->orders)])--}}
+{{--                </p>--}}
 
             </div>
             <x-admin::datagrid
-                :src="route('admin.deliveryAgents.view', [
-            'id'   => $deliveryAgent->id,
-            'type' => 'orders'
-        ])"
-                ref="Datagrid"
+                src="{{ route('admin.deliveryAgents.view',['id'=>$deliveryAgent->id,'type' => 'orders']) }}"
+                ref="dataGrid"
             >
                 <!-- Datagrid Header -->
                 <template #header="{
@@ -251,7 +248,7 @@
                                         type: 'success',
                                         message: response.data.message
                                     });
-                                    this.$refs.Datagrid.get();
+                                    this.$refs.dataGrid.get();
                                 })
                                 .catch((error) => {
                                     this.$emitter.emit('add-flash', {
