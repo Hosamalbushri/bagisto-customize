@@ -27,7 +27,7 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
         });
         Event::listen('sales.shipment.save.after', 'Webkul\DeliveryAgents\Listeners\UpdateInOrderFields@afterSaveShipment');
         Event::listen('sales.order.cancel.before', 'Webkul\DeliveryAgents\Listeners\UpdateInOrderFields@beforeCancelOrder');
-//        Event::listen('sales.invoice.save.after', 'Webkul\DeliveryAgents\Listeners\UpdateInOrderFields@afterSaveInvoice');
+        //        Event::listen('sales.invoice.save.after', 'Webkul\DeliveryAgents\Listeners\UpdateInOrderFields@afterSaveInvoice');
         Event::listen('sales.refund.save.after', 'Webkul\DeliveryAgents\Listeners\UpdateInOrderFields@afterSaveRefund');
         $this->app->concord->registerModel(
             \Webkul\Sales\Contracts\Order::class,
@@ -76,6 +76,16 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             dirname(__DIR__).'/Config/acl.php', 'acl'
         );
+
+        // Merge Delivery Agents auth guard and provider
+        $this->mergeConfigFrom(
+            dirname(__DIR__).'/Config/auth/guards.php', 'auth.guards'
+        );
+
+        $this->mergeConfigFrom(
+            dirname(__DIR__).'/Config/auth/providers.php', 'auth.providers'
+        );
+        // Merge GraphQL
 
     }
 }

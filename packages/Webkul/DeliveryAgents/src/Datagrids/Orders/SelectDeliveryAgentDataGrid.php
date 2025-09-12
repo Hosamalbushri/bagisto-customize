@@ -25,7 +25,6 @@ class SelectDeliveryAgentDataGrid extends DataGrid
             )
             ->addSelect(DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name) as full_name'))
             ->groupBy('delivery_agents_id');
-
         $this->addFilter('full_name', DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name)'));
         $this->addFilter('phone', 'delivery_agents.phone');
         $this->addFilter('status', 'delivery_agents.status');
@@ -127,16 +126,16 @@ class SelectDeliveryAgentDataGrid extends DataGrid
 
         if (bouncer()->hasPermission('delivery.deliveryAgent.edit')) {
             $this->addMassAction([
-                'title'   => trans('deliveryAgent::app.deliveryAgent.datagrid.update-status'),
+                'title'   => trans('deliveryAgent::app.deliveryAgent.dataGrid.update-status'),
                 'method'  => 'POST',
                 'url'     => route('admin.deliveryAgents.mass_update'),
                 'options' => [
                     [
-                        'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.active'),
+                        'label' => trans('deliveryAgent::app.deliveryAgent.dataGrid.active'),
                         'value' => 1,
                     ],
                     [
-                        'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.inactive'),
+                        'label' => trans('deliveryAgent::app.deliveryAgent.dataGrid.inactive'),
                         'value' => 0,
                     ],
                 ],

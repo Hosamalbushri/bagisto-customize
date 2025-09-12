@@ -1,0 +1,14 @@
+# DeliveryAgent Session Related APIs
+extend type Mutation {
+    loginDeliveryAgent(
+        input: DeliveryAgentLoginInput @spread
+        email: String
+        phone: String
+        password: String
+        remember: Boolean
+        deviceToken: String
+        deviceName: String
+    ): DeliveryAgentLoginResponse @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Mutations\\App\\DeliveryAgent\\SessionMutation@login")
+    logoutDeliveryAgent: DeliveryAgentStatusResponse @guard(with: ["delivery-agent-api"]) @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Mutations\\App\\DeliveryAgent\\SessionMutation@logout")
+}
+

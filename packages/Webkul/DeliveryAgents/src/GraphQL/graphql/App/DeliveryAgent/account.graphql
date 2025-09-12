@@ -1,0 +1,37 @@
+# DeliveryAgent Account Related APIs
+extend type Mutation {
+    updateDeliveryAgentAccount(
+        input: DeliveryAgentAccountUpdateInput! @spread
+    ): DeliveryAgentAccountResponse
+        @guard(with: ["delivery-agent-api"])
+        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Mutations\\App\\DeliveryAgent\\AccountMutation@update")
+
+    deleteDeliveryAgentAccount(
+        input: DeliveryAgentDeleteInput! @spread
+    ): DeliveryAgentStatusResponse
+        @guard(with: ["delivery-agent-api"])
+        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Mutations\\App\\DeliveryAgent\\AccountMutation@delete")
+}
+
+input DeliveryAgentAccountUpdateInput {
+    firstName: String! @rename(attribute: "first_name")
+    lastName: String! @rename(attribute: "last_name")
+    gender: String! # Other | Male | Female
+    dateOfBirth: String @rename(attribute: "date_of_birth")
+    email: String!
+    newPassword: String @rename(attribute: "new_password")
+    newPasswordConfirmation: String @rename(attribute: "new_password_confirmation")
+    currentPassword: String @rename(attribute: "current_password")
+    image: Upload
+    phone: String!
+}
+
+input DeliveryAgentDeleteInput {
+    password: String!
+}
+
+type DeliveryAgentAccountResponse {
+    success: Boolean
+    message: String
+    deliveryAgent: DeliveryAgent
+}
