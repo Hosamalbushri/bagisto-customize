@@ -12,15 +12,6 @@ use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
 use Illuminate\Session\Middleware\StartSession;
 use Webkul\Core\Http\Middleware\SecureHeaders;
 use Webkul\Installer\Http\Middleware\CanInstall;
-use Symfony\Component\HttpFoundation\JsonResponse;
-
-// Configure global JSON encoding options to substitute invalid UTF-8 bytes and avoid JSON errors.
-(new JsonResponse)->setEncodingOptions(
-    JsonResponse::DEFAULT_ENCODING_OPTIONS
-    | JSON_INVALID_UTF8_SUBSTITUTE
-    | JSON_UNESCAPED_UNICODE
-    | JSON_UNESCAPED_SLASHES
-);
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
