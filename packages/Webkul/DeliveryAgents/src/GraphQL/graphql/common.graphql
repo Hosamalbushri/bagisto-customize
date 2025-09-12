@@ -1,0 +1,9 @@
+type DeliveryAgentLoginResponse {
+    success: Boolean
+    message: String
+    accessToken: String @rename(attribute: "access_token")
+    tokenType: String @rename(attribute: "token_type")
+    expiresIn: Int @rename(attribute: "expires_in")
+    deliveryAgent: DeliveryAgent
+}
+

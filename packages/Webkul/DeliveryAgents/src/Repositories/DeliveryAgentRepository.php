@@ -4,6 +4,7 @@ namespace Webkul\DeliveryAgents\Repositories;
 
 use Illuminate\Support\Facades\Storage;
 use Webkul\Core\Eloquent\Repository;
+use Webkul\DeliveryAgents\Models\DeliveryAgentOrder;
 
 class DeliveryAgentRepository extends Repository
 {
@@ -114,14 +115,52 @@ class DeliveryAgentRepository extends Repository
     {
         return $this->rangeRepository->delete($rangeId);
     }
+
     public function massRemoveRange(int $deliveryAgentId, int $areaId): bool
     {
         return $this->rangeRepository
             ->where([
                 'delivery_agent_id' => $deliveryAgentId,
-                'state_area_id'    => $areaId,
+                'state_area_id'     => $areaId,
             ])
             ->delete();
     }
 
+    /**
+     * Delete a delivery agent only if they have no incomplete (active) orders.
+     *
+     * Incomplete statuses considered: pending, assigned_to_agent, accepted_by_agent, out_for_delivery, or NULL.
+     * Returns true on successful deletion, false if deletion is not allowed or agent not found.
+     */
+    public function deleteIfNoIncompleteOrders(int $deliveryAgentId): bool
+    {
+        $hasActiveOrIncompleteOrders = DeliveryAgentOrder::query()
+            ->where('delivery_agent_id', $deliveryAgentId)
+            ->where(function ($q) {
+                $q->whereNull('status')
+                    ->orWhereIn('status', [
+                        DeliveryAgentOrder::STATUS_ASSIGNED_TO_AGENT,
+                        DeliveryAgentOrder::STATUS_ACCEPTED_BY_AGENT,
+                        DeliveryAgentOrder::STATUS_OUT_FOR_DELIVERY,
+                    ]);
+            })
+            ->exists();
+
+        if ($hasActiveOrIncompleteOrders) {
+            return false;
+        }
+
+        $agent = $this->find($deliveryAgentId);
+
+        if (! $agent) {
+            return false;
+        }
+
+        // Clean up stored image if exists
+        if (! empty($agent->image)) {
+            Storage::delete($agent->image);
+        }
+
+        return (bool) $this->delete($deliveryAgentId);
+    }
 }

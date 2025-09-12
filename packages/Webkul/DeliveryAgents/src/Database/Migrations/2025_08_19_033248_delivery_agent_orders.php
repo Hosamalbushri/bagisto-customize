@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedInteger('order_id')->nullable();
             $table->unsignedInteger('delivery_agent_id')->nullable();
             $table->string('status')->nullable();
-            $table->longText('delivery_agent_info')->nullable();
-            $table->timestamp('assigned_at')->nullable()->collation('utf8mb4_bin');
+            $table->longText('delivery_agent_info')->nullable()->collation('utf8mb4_bin');
+            $table->timestamp('assigned_at')->nullable();
             $table->timestamp('accepted_at')->nullable();
             $table->timestamp('rejected_at')->nullable();
             $table->timestamp('completed_at')->nullable();

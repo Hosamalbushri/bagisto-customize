@@ -8,7 +8,6 @@ class DeliveryAgentOrder extends Model
 {
     protected $table = 'delivery_agent_orders';
 
-    public const STATUS_PENDING = 'pending';
     const STATUS_ASSIGNED_TO_AGENT = 'assigned_to_agent';
 
     const STATUS_ACCEPTED_BY_AGENT = 'accepted_by_agent';
@@ -22,6 +21,7 @@ class DeliveryAgentOrder extends Model
     protected $fillable = [
         'order_id',
         'delivery_agent_id',
+        'delivery_agent_info',
         'status',
         'assigned_at',
         'completed_at',

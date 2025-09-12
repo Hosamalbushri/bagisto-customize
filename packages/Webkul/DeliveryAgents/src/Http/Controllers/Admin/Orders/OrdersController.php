@@ -77,6 +77,7 @@ class OrdersController extends Controller
             $this->orderRepository->updateOrderStatus($order, $newStatus);
 
             DB::commit();
+
             return $this->successResponse('deliveryAgent::app.select-order.create.create-success');
 
         } catch (\Exception $e) {
@@ -142,7 +143,12 @@ class OrdersController extends Controller
 
                     case Order::STATUS_DELIVERED:
                         $this->updateAssignmentStatus($order, Order::STATUS_DELIVERED, [
-                            'completed_at' => now(),
+                            'completed_at'        => now(),
+                            'delivery_agent_info' => json_encode([
+                                'id'    => $deliveryAgent->id,
+                                'name'  => $deliveryAgent->name,   // full name (first + last)
+                                'phone' => $deliveryAgent->phone,
+                            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE),
                         ]);
                         $order->update(['is_delivered' => true]);
                         $this->orderRepository->updateOrderStatus($order, Order::STATUS_COMPLETED);
@@ -160,6 +166,7 @@ class OrdersController extends Controller
             );
         }
     }
+
     protected function determineOrderStatus(Order $order): string
     {
         if (isset($order->state)) {
@@ -172,6 +179,7 @@ class OrdersController extends Controller
 
         return Order::STATUS_ASSIGNED_TO_AGENT;
     }
+
     private function updateAssignmentStatus(Order $order, string $status, array $extra = []): void
     {
         $order->deliveryAssignments()
