@@ -8,7 +8,7 @@ extend type Mutation {
 
     deleteDeliveryAgentAccount(
         input: DeliveryAgentDeleteInput! @spread
-    ): DeliveryAgentStatusResponse
+    ): StatusResponse
         @guard(with: ["delivery-agent-api"])
         @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Mutations\\App\\DeliveryAgent\\AccountMutation@delete")
 }

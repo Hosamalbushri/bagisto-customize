@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Hash;
 use Webkul\Admin\Http\Requests\MassDestroyRequest;
 use Webkul\Admin\Http\Requests\MassUpdateRequest;
 use Webkul\Core\Rules\PhoneNumber;
@@ -128,14 +129,15 @@ class DeliveryAgentsController extends Controller
     public function update(int $id)
     {
         $this->validate(request(), [
-            'first_name'     => 'string|required',
-            'last_name'      => 'string|required',
-            'gender'         => 'required',
-            'email'          => 'required|unique:delivery_agents,email,'.$id,
-            'password'       => 'nullable|min:6|confirmed',
-            'date_of_birth'  => 'nullable|date|before:today',
-            'phone'          => ['unique:delivery_agents,phone,'.$id, new PhoneNumber],
-            'status'         => 'required|boolean',
+            'first_name'       => 'string|required',
+            'last_name'        => 'string|required',
+            'gender'           => 'required',
+            'email'            => 'required|unique:delivery_agents,email,'.$id,
+            'password'         => 'nullable|min:6|confirmed',
+            'current_password' => 'required_with:password',
+            'date_of_birth'    => 'nullable|date|before:today',
+            'phone'            => ['unique:delivery_agents,phone,'.$id, new PhoneNumber],
+            'status'           => 'required|boolean',
         ]);
 
         $data = request()->only([
@@ -147,7 +149,20 @@ class DeliveryAgentsController extends Controller
             'phone',
             'status',
         ]);
+
         if (request()->filled('password')) {
+            // Fetch existing agent to verify current password
+            $existingAgent = $this->deliveryAgentRepository->findOrFail($id);
+
+            if (! Hash::check(request('current_password'), $existingAgent->password)) {
+                return new JsonResponse([
+                    'message' => trans('auth.password'), // "The provided password is incorrect."
+                    'errors'  => [
+                        'current_password' => [trans('deliveryAgent::app.deliveryAgent.edit.incorrect_current_password')],
+                    ],
+                ], 422);
+            }
+
             $data['password'] = bcrypt(request('password'));
         }
 
@@ -171,13 +186,45 @@ class DeliveryAgentsController extends Controller
     {
         $deliveryAgent = $this->deliveryAgentRepository->find($id);
 
-        if (! $deliveryAgent) {
-            return response()->json(['message' => trans('deliveryAgent::app.deliveryAgent.delete.unsuccessful_deletion_message')], 404);
+        // Prepare a robust error message (Arabic fallback if translation key is missing).
+        $translationKey = 'deliveryAgent::app.deliveryAgent.delete.unsuccessful_deletion_message';
+        $errorMessage = trans($translationKey);
+        if ($errorMessage === $translationKey) {
+            $errorMessage = 'لا يمكن حذف المندوب لوجود طلبات غير مكتملة.';
         }
 
-        $this->deliveryAgentRepository->delete($id);
+        if (! $deliveryAgent) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => $errorMessage,
+                'errors'  => [
+                    [
+                        'id'      => $id,
+                        'message' => $errorMessage,
+                    ],
+                ],
+            ], 404);
+        }
 
-        return response()->json(['message' => trans('deliveryAgent::app.deliveryAgent.delete.successful_deletion_message')]);
+        $deleted = $this->deliveryAgentRepository->deleteIfNoIncompleteOrders($id);
+
+        if (! $deleted) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => $errorMessage,
+                'errors'  => [
+                    [
+                        'id'      => $id,
+                        'message' => $errorMessage,
+                    ],
+                ],
+            ], 422);
+        }
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => trans('deliveryAgent::app.deliveryAgent.delete.successful_deletion_message'),
+        ]);
 
     }
 
@@ -186,28 +233,48 @@ class DeliveryAgentsController extends Controller
         $deliveryAgents = $this->deliveryAgentRepository->findWhereIn('id', $massDestroyRequest->input('indices'));
 
         try {
-            /**
-             * Ensure that deliveryAgents do not have any active orders before performing deletion.
-             */
-            //            foreach ($deliveryAgents as $deliveryAgent) {
-            //                if ($this->deliveryAgentRepository->haveActiveOrders($deliveryAgent)) {
-            //                    throw new \Exception(trans('admin::app.customers.customers.index.datagrid.order-pending'));
-            //                }
-            //            }
+            $deleted = [];
+            $blocked = [];
+            $errors = [];
 
-            /**
-             * After ensuring that they have no active orders delete the corresponding customer.
-             */
             foreach ($deliveryAgents as $deliveryAgent) {
                 Event::dispatch('deliveryAgent.delete.before', $deliveryAgent);
 
-                $this->deliveryAgentRepository->delete($deliveryAgent->id);
+                if ($this->deliveryAgentRepository->deleteIfNoIncompleteOrders($deliveryAgent->id)) {
+                    Event::dispatch('deliveryAgent.delete.after', $deliveryAgent);
+                    $deleted[] = $deliveryAgent->id;
+                } else {
+                    $blocked[] = $deliveryAgent->id;
+                    $errors[] = [
+                        'id'      => $deliveryAgent->id,
+                        'message' => trans('deliveryAgent::app.deliveryAgent.delete.unsuccessful_deletion_message'),
+                    ];
+                }
+            }
 
-                Event::dispatch('deliveryAgent.delete.after', $deliveryAgent);
+            // Robust error message (Arabic fallback if translation missing)
+            $translationKey = 'deliveryAgent::app.deliveryAgent.dataGrid.unsuccessful_deletion_message';
+            $errorMessage = trans($translationKey);
+            if ($errorMessage === $translationKey) {
+                $errorMessage = 'لا يمكن حذف المندوب لوجود طلبات غير مكتملة.';
+            }
+
+            if (! empty($blocked)) {
+                return new JsonResponse([
+                    'status'  => 'error',
+                    'message' => $errorMessage,
+                    'deleted' => $deleted,
+                    'blocked' => $blocked,
+                    'errors'  => $errors,
+                ], 422);
             }
 
             return new JsonResponse([
+                'status'  => 'success',
                 'message' => trans('deliveryAgent::app.deliveryAgent.dataGrid.delete-success'),
+                'deleted' => $deleted,
+                'blocked' => $blocked,
+                'errors'  => $errors,
             ]);
         } catch (\Exception $exception) {
             return new JsonResponse([

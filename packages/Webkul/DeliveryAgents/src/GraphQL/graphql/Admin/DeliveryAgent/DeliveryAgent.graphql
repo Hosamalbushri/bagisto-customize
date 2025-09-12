@@ -1,3 +1,4 @@
+# noinspection GraphQLMissingType
 type DeliveryAgent {
     id: ID!
     firstName: String! @rename(attribute: "first_name")

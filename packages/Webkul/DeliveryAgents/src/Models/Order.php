@@ -4,6 +4,7 @@ namespace Webkul\DeliveryAgents\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Webkul\Sales\Models\Order as BaseModel;
 
 class Order extends BaseModel
@@ -80,7 +81,6 @@ class Order extends BaseModel
         self::STATUS_DELIVERED            => 'deliveryAgent::app.orders.status.delivered',
     ];
 
-
     protected $casts = [
         'is_delivered' => 'boolean',
     ];
@@ -102,16 +102,30 @@ class Order extends BaseModel
         return $this->hasMany(DeliveryAgentOrder::class);
     }
 
+    public function deliveredDeliveryAssignment(): HasOne
+    {
+        return $this->hasOne(DeliveryAgentOrder::class)
+            ->where('status', DeliveryAgentOrder::STATUS_DELIVERED)
+            ->latestOfMany('completed_at');
+    }
+
     public function canDelivery(): bool
     {
+        // If there is already a delivered assignment, this order cannot be delivered again.
+        $hasDeliveredAssignment = $this->relationLoaded('deliveredDeliveryAssignment')
+            ? (bool) $this->deliveredDeliveryAssignment
+            : $this->deliveredDeliveryAssignment()->exists();
+
+        if ($hasDeliveredAssignment) {
+            return false;
+        }
+
         foreach ($this->items as $item) {
             if (
                 $item->canShip()
                 && ! in_array($item->order->status, [
                     self::STATUS_CLOSED,
                     self::STATUS_FRAUD,
-                    self::STATUS_COMPLETED,
-
                 ]) && empty($this->delivery_agent_id)
             ) {
                 return true;
@@ -120,31 +134,6 @@ class Order extends BaseModel
 
         return false;
     }
-    //
-    //    public function notVisible(): bool
-    //    {
-    //        if (empty($this->status)) {
-    //            return true;
-    //        }
-    //        if (! $this->canShip()) {
-    //            return true;
-    //        }
-    //        if (! $this->canDelivery()) {
-    //            return true;
-    //        }
-    //
-    //        if (in_array($this->status, [
-    //            self::STATUS_CLOSED,
-    //            self::STATUS_FRAUD,
-    //            self::STATUS_COMPLETED,
-    //            self::STATUS_CANCELED,
-    //
-    //        ])) {
-    //            return true;
-    //        }
-    //
-    //        return false;
-    //    }
 
     public function isRejected(): bool
     {
