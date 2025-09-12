@@ -66,10 +66,6 @@
                         </a>
                     </div>
                 </div>
-                <!-- Filters -->
-                <div class="mt-7 flex flex-wrap items-center gap-x-1 gap-y-2">
-
-                </div>
                 <!-- Content -->
                 <div class="mt-3.5 flex gap-2.5 max-xl:flex-wrap">
                     <!-- Left Component -->

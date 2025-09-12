@@ -110,6 +110,8 @@ class Order extends BaseModel
                 && ! in_array($item->order->status, [
                     self::STATUS_CLOSED,
                     self::STATUS_FRAUD,
+                    self::STATUS_COMPLETED,
+
                 ]) && empty($this->delivery_agent_id)
             ) {
                 return true;
