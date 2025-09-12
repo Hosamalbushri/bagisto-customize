@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\DeliveryAgents\GraphQL\Queries\DeliveryAgent;
+namespace Webkul\DeliveryAgents\GraphQL\Queries\App\DeliveryAgent;
 
 use Webkul\DeliveryAgents\Repositories\DeliveryAgentRepository;
 

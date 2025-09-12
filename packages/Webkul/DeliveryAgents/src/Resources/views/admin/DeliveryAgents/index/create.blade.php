@@ -33,131 +33,44 @@
 
         <x-slot:content>
 
-         <div class="flex gap-4 max-sm:flex-wrap">
-             <!-- First Name -->
-            <x-admin::form.control-group  class="mb-2.5 w-full">
-            <x-admin::form.control-group.label class="required">
-            @lang('deliveryAgent::app.deliveryAgent.create.first-name')
-                </x-admin::form.control-group.label>
-            <x-admin::form.control-group.control
-            type="text"
-            name="first_name"
-            id="first_name"
-            rules="required"
-            :label="trans('deliveryagent::app.deliveryAgent.create.first-name')"
-            :placeholder="trans('deliveryAgent::app.deliveryAgent.create.first-name')"
-            />
-            <x-admin::form.control-group.error control-name="first_name" />
-            </x-admin::form.control-group>
-
-            <!-- Last Name -->
-            <x-admin::form.control-group class="mb-2.5 w-full">
-                <x-admin::form.control-group.label class="required">
-                    @lang('deliveryAgent::app.deliveryAgent.create.last-name')
-                </x-admin::form.control-group.label>
-
-                <x-admin::form.control-group.control
-                    type="text"
-                    id="last_name"
-                    name="last_name"
-                    rules="required"
-                    :label="trans('deliveryAgent::app.deliveryAgent.create.last-name')"
-                    :placeholder="trans('deliveryAgent::app.deliveryAgent.create.last-name')"
-                />
-
-                <x-admin::form.control-group.error control-name="last_name" />
-            </x-admin::form.control-group>
-    </div>
-
-            <!-- Email -->
-            <x-admin::form.control-group>
-                <x-admin::form.control-group.label class="required">
-                    @lang('deliveryAgent::app.deliveryAgent.create.email')
-                </x-admin::form.control-group.label>
-                <x-admin::form.control-group.control
-                    type="email"
-                    name="email"
-                    id="email"
-                    rules="required|email"
-                    :label="trans('deliveryAgent::app.deliveryAgent.create.email')"
-                     placeholder="email@example.com"
-                />
-                <x-admin::form.control-group.error control-name="email" />
-            </x-admin::form.control-group>
-
+            <!-- Personal Information Row 1: First Name & Last Name -->
             <div class="flex gap-4 max-sm:flex-wrap">
-            <!-- كلمة المرور -->
-            <x-admin::form.control-group class="mb-2.5 w-full">
-                <x-admin::form.control-group.label class="required">
-                    @lang('deliveryAgent::app.deliveryAgent.create.password')
-                </x-admin::form.control-group.label>
-                <x-admin::form.control-group.control
-                    type="password"
-                    name="password"
-                    id="password"
-                    rules="required|min:6"
-                    :label="trans('deliveryAgent::app.deliveryAgent.create.password')"
-                    :placeholder="trans('deliveryAgent::app.deliveryAgent.create.password')"
-                />
+                <!-- First Name -->
+                <x-admin::form.control-group  class="mb-2.5 w-full">
+                    <x-admin::form.control-group.label class="required">
+                        @lang('deliveryAgent::app.deliveryAgent.create.first-name')
+                    </x-admin::form.control-group.label>
+                    <x-admin::form.control-group.control
+                        type="text"
+                        name="first_name"
+                        id="first_name"
+                        rules="required"
+                        :label="trans('deliveryagent::app.deliveryAgent.create.first-name')"
+                        :placeholder="trans('deliveryAgent::app.deliveryAgent.create.first-name')"
+                    />
+                    <x-admin::form.control-group.error control-name="first_name" />
+                </x-admin::form.control-group>
 
-                <x-admin::form.control-group.error control-name="password" />
-            </x-admin::form.control-group>
+                <!-- Last Name -->
+                <x-admin::form.control-group class="mb-2.5 w-full">
+                    <x-admin::form.control-group.label class="required">
+                        @lang('deliveryAgent::app.deliveryAgent.create.last-name')
+                    </x-admin::form.control-group.label>
 
-            <x-admin::form.control-group class="mb-2.5 w-full">
-                <x-admin::form.control-group.label class="required">
-                    @lang('deliveryAgent::app.deliveryAgent.create.confirm-password')
-                </x-admin::form.control-group.label>
+                    <x-admin::form.control-group.control
+                        type="text"
+                        id="last_name"
+                        name="last_name"
+                        rules="required"
+                        :label="trans('deliveryAgent::app.deliveryAgent.create.last-name')"
+                        :placeholder="trans('deliveryAgent::app.deliveryAgent.create.last-name')"
+                    />
 
-                <x-admin::form.control-group.control
-                    type="password"
-                    name="password_confirmation"
-                    id="password_confirmation"
-                    rules="confirmed:@password"
-                    :label="trans('deliveryAgent::app.deliveryAgent.create.confirm-password')"
-                    :placeholder="trans('deliveryAgent::app.deliveryAgent.create.confirm-password')"
-                />
-                <x-admin::form.control-group.error control-name="password_confirmation" />
-            </x-admin::form.control-group>
-
+                    <x-admin::form.control-group.error control-name="last_name" />
+                </x-admin::form.control-group>
             </div>
 
-            <div class="flex gap-4 max-sm:flex-wrap">
-
-            <!-- Contact Number -->
-            <x-admin::form.control-group class="mb-2.5 w-full">
-            <x-admin::form.control-group.label class="required">
-            @lang('deliveryAgent::app.deliveryAgent.create.phone')
-                </x-admin::form.control-group.label>
-            <x-admin::form.control-group.control
-            type="text"
-            name="phone"
-            id="phone"
-            rules="required|phone"
-            :label="trans('deliveryAgent::app.deliveryAgent.create.phone')"
-            :placeholder="trans('deliveryAgent::app.deliveryAgent.create.phone')"
-            />
-            <x-admin::form.control-group.error control-name="phone" />
-            </x-admin::form.control-group>
-
-
-            <x-admin::form.control-group class="mb-2.5 w-full">
-                <x-admin::form.control-group.label>
-                    @lang('deliveryAgent::app.deliveryAgent.create.date-of-birth')
-                </x-admin::form.control-group.label>
-
-                <x-admin::form.control-group.control
-                    type="date"
-                    id="dob"
-                    name="date_of_birth"
-                    :label="trans('deliveryAgent::app.deliveryAgent.create.date-of-birth')"
-                    :placeholder="trans('deliveryAgent::app.deliveryAgent.create.date-of-birth')"
-                />
-
-                <x-admin::form.control-group.error control-name="date_of_birth" />
-            </x-admin::form.control-group>
-
-            </div>
-
+            <!-- Personal Information Row 2: Gender & Date of Birth -->
             <div class="flex gap-4 max-sm:flex-wrap">
                 <!-- Gender -->
                 <x-admin::form.control-group class="mb-2.5 w-full">
@@ -189,6 +102,94 @@
                         </option>
                     </x-admin::form.control-group.control>
                     <x-admin::form.control-group.error control-name="gender" />
+                </x-admin::form.control-group>
+
+                <!-- Date of Birth -->
+                <x-admin::form.control-group class="mb-2.5 w-full">
+                    <x-admin::form.control-group.label>
+                        @lang('deliveryAgent::app.deliveryAgent.create.date-of-birth')
+                    </x-admin::form.control-group.label>
+
+                    <x-admin::form.control-group.control
+                        type="date"
+                        id="dob"
+                        name="date_of_birth"
+                        :label="trans('deliveryAgent::app.deliveryAgent.create.date-of-birth')"
+                        :placeholder="trans('deliveryAgent::app.deliveryAgent.create.date-of-birth')"
+                    />
+
+                    <x-admin::form.control-group.error control-name="date_of_birth" />
+                </x-admin::form.control-group>
+            </div>
+
+            <!-- Contact Information Row: Email & Phone -->
+            <div class="flex gap-4 max-sm:flex-wrap">
+                <!-- Email -->
+                <x-admin::form.control-group class="mb-2.5 w-full">
+                    <x-admin::form.control-group.label class="required">
+                        @lang('deliveryAgent::app.deliveryAgent.create.email')
+                    </x-admin::form.control-group.label>
+                    <x-admin::form.control-group.control
+                        type="email"
+                        name="email"
+                        id="email"
+                        rules="required|email"
+                        :label="trans('deliveryAgent::app.deliveryAgent.create.email')"
+                        placeholder="email@example.com"
+                    />
+                    <x-admin::form.control-group.error control-name="email" />
+                </x-admin::form.control-group>
+
+                <!-- Phone -->
+                <x-admin::form.control-group class="mb-2.5 w-full">
+                    <x-admin::form.control-group.label class="required">
+                        @lang('deliveryAgent::app.deliveryAgent.create.phone')
+                    </x-admin::form.control-group.label>
+                    <x-admin::form.control-group.control
+                        type="text"
+                        name="phone"
+                        id="phone"
+                        rules="required|phone"
+                        :label="trans('deliveryAgent::app.deliveryAgent.create.phone')"
+                        :placeholder="trans('deliveryAgent::app.deliveryAgent.create.phone')"
+                    />
+                    <x-admin::form.control-group.error control-name="phone" />
+                </x-admin::form.control-group>
+            </div>
+
+            <!-- Password Section Row 1: Password & Confirm Password -->
+            <div class="flex gap-4 max-sm:flex-wrap">
+                <!-- Password -->
+                <x-admin::form.control-group class="mb-2.5 w-full">
+                    <x-admin::form.control-group.label class="required">
+                        @lang('deliveryAgent::app.deliveryAgent.create.password')
+                    </x-admin::form.control-group.label>
+                    <x-admin::form.control-group.control
+                        type="password"
+                        name="password"
+                        id="password"
+                        rules="required|min:6"
+                        :label="trans('deliveryAgent::app.deliveryAgent.create.password')"
+                        :placeholder="trans('deliveryAgent::app.deliveryAgent.create.password')"
+                    />
+                    <x-admin::form.control-group.error control-name="password" />
+                </x-admin::form.control-group>
+
+                <!-- Confirm Password -->
+                <x-admin::form.control-group class="mb-2.5 w-full">
+                    <x-admin::form.control-group.label class="required">
+                        @lang('deliveryAgent::app.deliveryAgent.create.confirm-password')
+                    </x-admin::form.control-group.label>
+
+                    <x-admin::form.control-group.control
+                        type="password"
+                        name="password_confirmation"
+                        id="password_confirmation"
+                        rules="confirmed:@password"
+                        :label="trans('deliveryAgent::app.deliveryAgent.create.confirm-password')"
+                        :placeholder="trans('deliveryAgent::app.deliveryAgent.create.confirm-password')"
+                    />
+                    <x-admin::form.control-group.error control-name="password_confirmation" />
                 </x-admin::form.control-group>
             </div>
 

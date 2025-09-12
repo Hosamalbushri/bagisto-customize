@@ -33,14 +33,14 @@ class SessionMutation extends Controller
             'phone'    => 'nullable|string',
             'password' => 'required|string|min:6',
         ], [
-            'email.email'        => trans('deliveryAgent::validation.login.email.email'),
-            'password.required'  => trans('deliveryAgent::validation.login.password.required'),
-            'password.min'       => trans('deliveryAgent::validation.login.password.min'),
+            'email.email'        => trans('deliveryAgent_graphql::app.auth.login.validation.email.email'),
+            'password.required'  => trans('deliveryAgent_graphql::app.auth.login.validation.password.required'),
+            'password.min'       => trans('deliveryAgent_graphql::app.auth.login.validation.password.min'),
         ]);
 
         $validator->after(function ($v) use ($args) {
             if (empty($args['email']) && empty($args['phone'])) {
-                $v->errors()->add('identifier', trans('deliveryAgent::validation.login.identifier.required'));
+                $v->errors()->add('identifier', trans('deliveryAgent_graphql::app.auth.login.validation.identifier.required'));
             }
         });
 
@@ -59,7 +59,7 @@ class SessionMutation extends Controller
 
         // Attempt auth using delivery-agent-api guard
         if (! $jwtToken = JWTAuth::attempt($credentials, $args['remember'] ?? 0)) {
-            throw new CustomException(trans('deliveryAgent::auth.login.invalid-creds'));
+            throw new CustomException(trans('deliveryAgent_graphql::app.auth.login.invalid-creds'));
         }
 
         try {
@@ -75,7 +75,7 @@ class SessionMutation extends Controller
                     // ignore invalidate failures
                 }
 
-                throw new CustomException(trans('deliveryAgent::auth.login.inactive'));
+                throw new CustomException(trans('deliveryAgent_graphql::app.auth.login.inactive'));
             }
 
             // Dispatch an event hook if you want to listen to it
@@ -83,7 +83,7 @@ class SessionMutation extends Controller
 
             return [
                 'success'        => true,
-                'message'        => trans('deliveryAgent::auth.login.success'),
+                'message'        => trans('deliveryAgent_graphql::app.auth.login.success'),
                 // expose both keys for compatibility
                 'access_token'   => $jwtToken,
                 'token'          => $jwtToken,
@@ -136,7 +136,7 @@ class SessionMutation extends Controller
 
         return [
             'success' => true,
-            'message' => trans('deliveryAgent::auth.logout.success'),
+            'message' => trans('deliveryAgent_graphql::app.auth.logout.success'),
         ];
     }
 }
