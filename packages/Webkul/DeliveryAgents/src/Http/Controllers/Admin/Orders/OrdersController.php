@@ -87,9 +87,10 @@ class OrdersController extends Controller
                 'order_id' => $orderId,
                 'agent_id' => $deliveryAgentId,
                 'error'    => $e->getMessage(),
+                'trace'    => $e->getTraceAsString(),
             ]);
 
-            return $this->errorResponse('deliveryAgent::app.select-order.create.transaction-failed');
+            return $this->errorResponse('deliveryAgent::app.select-order.create.transaction-failed', 500);
         }
     }
 
@@ -159,6 +160,14 @@ class OrdersController extends Controller
             });
         } catch (\Throwable $e) {
             DB::rollBack();
+
+            Log::error('Failed to change order status', [
+                'order_id' => $id,
+                'status' => $request->get('status'),
+                'agent_id' => $request->get('delivery_agent_id'),
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
 
             return $this->errorResponse(
                 $e->getMessage() ?: 'deliveryAgent::app.select-order.update.update-failed',

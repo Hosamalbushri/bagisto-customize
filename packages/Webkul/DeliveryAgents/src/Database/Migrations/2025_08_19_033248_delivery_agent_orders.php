@@ -22,6 +22,12 @@ return new class extends Migration
             $table->timestamp('rejected_at')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
+
+            // Add indexes for better performance
+            $table->index(['delivery_agent_id', 'status']);
+            $table->index(['order_id', 'status']);
+            $table->index('status');
+
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('delivery_agent_id')->references('id')->on('delivery_agents')->onDelete('set null');
         });
