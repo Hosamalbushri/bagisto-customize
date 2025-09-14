@@ -7,3 +7,8 @@ type DeliveryAgentLoginResponse {
     deliveryAgent: DeliveryAgent
 }
 
+type StatusResponse {
+    success: Boolean
+    message: String
+}
+

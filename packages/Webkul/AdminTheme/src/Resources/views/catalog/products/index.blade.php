@@ -218,7 +218,7 @@
                                 >
                                     <span class="text-green-600">
 {{--                                        @lang('admin::app.catalog.products.index.datagrid.out-of-stock')--}}
-                                        @{{ "@lang('admin::app.catalog.products.index.datagrid.qty-value')".replace(':qty', record.quantity) }}
+                                        @{{ "@lang('admin::app.catalog.products.index.datagrid.qty-value')".replace(':qty', 0) }}
 
                                     </span>
                                 </p>

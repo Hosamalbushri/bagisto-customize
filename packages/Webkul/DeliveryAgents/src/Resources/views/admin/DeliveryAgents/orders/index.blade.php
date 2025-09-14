@@ -1,33 +1,33 @@
 <v-orders-DataGrid>
 
 </v-orders-DataGrid>
+
 @pushOnce('scripts')
     <script
         type="text/x-template"
         id="v-orders-DataGrid-template"
     >
-
         <div class="box-shadow rounded bg-white p-4 dark:bg-gray-900">
             <div class="flex justify-between">
                 <!-- Total Order Count -->
-{{--                <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">--}}
-{{--                    @lang('deliveryAgent::app.deliveryAgent.view.dataGrid.orders.count', ['count' => count($deliveryAgent->orders)])--}}
-{{--                </p>--}}
-
+                {{-- <p class="text-base font-semibold leading-none text-gray-800 dark:text-white"> --}}
+                {{--     @lang('deliveryAgent::app.deliveryAgent.view.dataGrid.orders.count', ['count' => count($deliveryAgent->orders)]) --}}
+                {{-- </p> --}}
             </div>
+
             <x-admin::datagrid
-                src="{{ route('admin.deliveryAgents.view',['id'=>$deliveryAgent->id,'type' => 'orders']) }}"
+                src="{{ route('admin.deliveryAgents.view', ['id' => $deliveryAgent->id, 'type' => 'orders']) }}"
                 ref="dataGrid"
             >
                 <!-- Datagrid Header -->
                 <template #header="{
-            isLoading,
-            available,
-            applied,
-            selectAll,
-            sort,
-            performAction
-        }">
+                    isLoading,
+                    available,
+                    applied,
+                    selectAll,
+                    sort,
+                    performAction
+                }">
                     <template v-if="isLoading">
                         <x-admin::shimmer.datagrid.table.head :isMultiRow="true" />
                     </template>
@@ -39,22 +39,22 @@
                                 v-for="(columnGroup, index) in [['increment_id', 'created_at', 'status'], ['base_grand_total', 'method'], ['full_name', 'customer_email', 'location']]"
                             >
                                 <p class="text-gray-600 dark:text-gray-300">
-                            <span class="[&>*]:after:content-['_/_']">
-                                <template v-for="column in columnGroup">
-                                    <span
-                                        class="after:content-['/'] last:after:content-['']"
-                                        :class="{
-                                            'font-medium text-gray-800 dark:text-white': applied.sort.column == column,
-                                            'cursor-pointer hover:text-gray-800 dark:hover:text-white': available.columns.find(columnTemp => columnTemp.index === column)?.sortable,
-                                        }"
-                                        @click="
-                                            available.columns.find(columnTemp => columnTemp.index === column)?.sortable ? sort(available.columns.find(columnTemp => columnTemp.index === column)): {}
-                                        "
-                                    >
-                                        @{{ available.columns.find(columnTemp => columnTemp.index === column)?.label }}
+                                    <span class="[&>*]:after:content-['_/_']">
+                                        <template v-for="column in columnGroup">
+                                            <span
+                                                class="after:content-['/'] last:after:content-['']"
+                                                :class="{
+                                                    'font-medium text-gray-800 dark:text-white': applied.sort.column == column,
+                                                    'cursor-pointer hover:text-gray-800 dark:hover:text-white': available.columns.find(columnTemp => columnTemp.index === column)?.sortable,
+                                                }"
+                                                @click="
+                                                    available.columns.find(columnTemp => columnTemp.index === column)?.sortable ? sort(available.columns.find(columnTemp => columnTemp.index === column)): {}
+                                                "
+                                            >
+                                                @{{ available.columns.find(columnTemp => columnTemp.index === column)?.label }}
+                                            </span>
+                                        </template>
                                     </span>
-                                </template>
-                            </span>
 
                                     <i
                                         class="align-text-bottom text-base text-gray-800 dark:text-white ltr:ml-1.5 rtl:mr-1.5"
@@ -67,14 +67,15 @@
                     </template>
                 </template>
 
+                <!-- Datagrid Body -->
                 <template #body="{
-            isLoading,
-            available,
-            applied,
-            selectAll,
-            sort,
-            performAction
-        }">
+                    isLoading,
+                    available,
+                    applied,
+                    selectAll,
+                    sort,
+                    performAction
+                }">
                     <template v-if="isLoading">
                         <x-admin::shimmer.datagrid.table.body :isMultiRow="true" />
                     </template>
@@ -89,9 +90,7 @@
                             <div class="">
                                 <div class="flex gap-2.5">
                                     <div class="flex flex-col gap-1.5">
-                                        <p
-                                            class="text-base font-semibold text-gray-800 dark:text-white"
-                                        >
+                                        <p class="text-base font-semibold text-gray-800 dark:text-white">
                                             @{{ "@lang('admin::app.sales.orders.index.datagrid.id')".replace(':id', record.increment_id) }}
                                         </p>
 
@@ -103,6 +102,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <!-- Total Amount, Pay Via, Channel -->
                             <div class="">
                                 <div class="flex flex-col gap-1.5">
@@ -115,6 +115,7 @@
                                     </p>
                                 </div>
                             </div>
+
                             <!-- Customer, Email, Location Section -->
                             <div class="">
                                 <div class="flex flex-col gap-1.5">
@@ -127,71 +128,75 @@
                                     </p>
 
                                     <p class="text-gray-600 dark:text-gray-300">
-                                        @{{record.country_code}} ,
-                                        @{{record.state_code}} ,
-                                        @{{ record.location }}
+                                        @{{ record.country_code }}, @{{ record.state_code }}, @{{ record.location }}
                                     </p>
                                 </div>
                             </div>
+
+                            <!-- Actions Section -->
                             <div class="flex items-center justify-end gap-x-2">
                                 <template v-if="canShowActions(record)">
-                                @if(bouncer()->hasPermission('delivery.deliveryAgent.order.accept'))
-                                <template v-if="showAcceptButton(record)">
-
-                                    <button
-                                    class="acma-icon-check_circle text-lg cursor-pointer p-1.5  hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
-                                    @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'accepted_by_agent',messageConfirm:acceptMessageConfirm})"
-                                >
-                                        <span class="text-sm  text-gray-800 dark:text-white">
-                                            @lang('deliveryAgent::app.deliveryAgent.orders.actions.accept_btn')
-                                        </span>
-                                </button>
-                                </template>
+                                    @if(bouncer()->hasPermission('delivery.deliveryAgent.order.accept'))
+                                        <template v-if="showAcceptButton(record)">
+                                            <button
+                                                class="acma-icon-check_circle text-lg cursor-pointer p-1.5 hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+                                                @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'accepted_by_agent',messageConfirm:acceptMessageConfirm})"
+                                            >
+                                                <span class="text-sm text-gray-800 dark:text-white">
+                                                    @lang('deliveryAgent::app.deliveryAgent.orders.actions.accept_btn')
+                                                </span>
+                                            </button>
+                                        </template>
                                     @endif
+
                                     @if(bouncer()->hasPermission('delivery.deliveryAgent.order.reject'))
                                         <template v-if="showRejectButton(record)">
                                             <button
-                                                class="acma-icon-cancel text-lg   p-1.5  hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+                                                class="acma-icon-cancel text-lg p-1.5 hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
                                                 @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'rejected_by_agent',messageConfirm: rejectMessageConfirm })"
                                             >
-                                        <span class="text-sm  text-gray-800 dark:text-white">
-                                            @lang('deliveryAgent::app.deliveryAgent.orders.actions.reject_btn')
-                                        </span>
+                                                <span class="text-sm text-gray-800 dark:text-white">
+                                                    @lang('deliveryAgent::app.deliveryAgent.orders.actions.reject_btn')
+                                                </span>
                                             </button>
                                         </template>
                                     @endif
 
-                                  @if(bouncer()->hasPermission('delivery.deliveryAgent.order.out_for_delivery'))
+                                    @if(bouncer()->hasPermission('delivery.deliveryAgent.order.out_for_delivery'))
                                         <template v-if="showOutForDeliveryButton(record)">
                                             <button
-                                                class="acma-icon-truck text-lg   p-1.5  hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+                                                class="acma-icon-truck text-lg p-1.5 hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
                                                 @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'out_for_delivery',messageConfirm: outForDeliveryMessageConfirm})"
                                             >
-                                          <span class="text-sm text-gray-800 dark:text-white">
-                                            @lang('deliveryAgent::app.deliveryAgent.orders.actions.out_for_delivery_btn')
-                                        </span>
+                                                <span class="text-sm text-gray-800 dark:text-white">
+                                                    @lang('deliveryAgent::app.deliveryAgent.orders.actions.out_for_delivery_btn')
+                                                </span>
                                             </button>
                                         </template>
-                                  @endif
-                              @if(bouncer()->hasPermission('delivery.deliveryAgent.order.delivered'))
+                                    @endif
+
+                                    @if(bouncer()->hasPermission('delivery.deliveryAgent.order.delivered'))
                                         <template v-if="showDeliveredButton(record)">
                                             <button
-                                                class="acma-icon-inbox-check text-lg   p-1.5  hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+                                                class="acma-icon-inbox-check text-lg p-1.5 hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
                                                 @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'delivered',messageConfirm: deliveredMessageConfirm})"
                                             >
-                                             <span class="text-sm text-gray-800 dark:text-white">
-                                            @lang('deliveryAgent::app.deliveryAgent.orders.actions.delivered_btn')
-                                        </span>
+                                                <span class="text-sm text-gray-800 dark:text-white">
+                                                    @lang('deliveryAgent::app.deliveryAgent.orders.actions.delivered_btn')
+                                                </span>
                                             </button>
                                         </template>
-                              @endif
+                                    @endif
                                 </template>
+
+                                <!-- View Order Link -->
                                 <a :href="`{{ route('admin.sales.orders.view', '') }}/${record.id}`">
-                                    <span class="icon-sort-right  rtl:icon-sort-left cursor-pointer p-1.5 text-xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"></span>
+                                    <span class="icon-sort-right rtl:icon-sort-left cursor-pointer p-1.5 text-xl hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"></span>
                                 </a>
                             </div>
                         </div>
 
+                        <!-- Empty State -->
                         <div v-else class="table-responsive grid w-full">
                             <div class="grid justify-center justify-items-center gap-3.5 px-2.5 py-10">
                                 <!-- Placeholder Image -->
@@ -212,76 +217,103 @@
             </x-admin::datagrid>
         </div>
     </script>
+
     <script type="module">
         app.component('v-orders-DataGrid', {
             template: '#v-orders-DataGrid-template',
+            
             data() {
-                return{
-                    deliveryAgentId :@json($deliveryAgent->id),
-                    acceptMessageConfirm:@json(__('deliveryAgent::app.deliveryAgent.orders.view.accepted-order-confirmation')),
-                    rejectMessageConfirm:@json(__('deliveryAgent::app.deliveryAgent.orders.view.rejected-order-confirmation')),
-                    outForDeliveryMessageConfirm:@json(__('deliveryAgent::app.deliveryAgent.orders.view.out-for-delivery-order-confirmation')),
-                    deliveredMessageConfirm:@json(__('deliveryAgent::app.deliveryAgent.orders.view.delivered-order-confirmation')),
-
+                return {
+                    deliveryAgentId: @json($deliveryAgent->id),
+                    acceptMessageConfirm: @json(__('deliveryAgent::app.deliveryAgent.orders.view.accepted-order-confirmation')),
+                    rejectMessageConfirm: @json(__('deliveryAgent::app.deliveryAgent.orders.view.rejected-order-confirmation')),
+                    outForDeliveryMessageConfirm: @json(__('deliveryAgent::app.deliveryAgent.orders.view.out-for-delivery-order-confirmation')),
+                    deliveredMessageConfirm: @json(__('deliveryAgent::app.deliveryAgent.orders.view.delivered-order-confirmation')),
                 };
             },
+
             mounted() {
-                this.$emitter.on('update-order-status', ({orderId,orderStatus,messageConfirm}) => {
-                    this.changeOrderStatus(orderId,orderStatus,messageConfirm);
+                this.$emitter.on('update-order-status', ({orderId, orderStatus, messageConfirm}) => {
+                    this.changeOrderStatus(orderId, orderStatus, messageConfirm);
                 });
             },
+
             beforeUnmount() {
                 this.$emitter.off('update-order-status');
             },
+
             methods: {
-                changeOrderStatus(orderId,orderStatus,messageConfirm) {
+                /**
+                 * Change order status
+                 */
+                changeOrderStatus(orderId, orderStatus, messageConfirm) {
                     this.$emitter.emit('open-confirm-modal', {
-                        message:messageConfirm ,
+                        message: messageConfirm,
                         agree: () => {
                             this.$axios.post(
                                 `{{ route('admin.orders.changeStatus', [':order']) }}`
                                     .replace(':order', orderId),
-                                { status: orderStatus , order_id: orderId ,delivery_agent_id:this.deliveryAgentId }
+                                { 
+                                    status: orderStatus, 
+                                    order_id: orderId, 
+                                    delivery_agent_id: this.deliveryAgentId 
+                                }
                             )
-                                .then((response) => {
-                                    this.$emitter.emit('add-flash', {
-                                        type: 'success',
-                                        message: response.data.message
-                                    });
-                                    this.$refs.dataGrid.get();
-                                })
-                                .catch((error) => {
-                                    this.$emitter.emit('add-flash', {
-                                        type: 'error',
-                                        message: error?.response?.data?.message
-                                    });
+                            .then((response) => {
+                                this.$emitter.emit('add-flash', {
+                                    type: 'success',
+                                    message: response.data.message
                                 });
+                                this.$refs.dataGrid.get();
+                            })
+                            .catch((error) => {
+                                this.$emitter.emit('add-flash', {
+                                    type: 'error',
+                                    message: error?.response?.data?.message
+                                });
+                            });
                         },
                     });
                 },
+
+                /**
+                 * Check if actions can be shown for the record
+                 */
                 canShowActions(record) {
                     const hideStatuses = ['rejected_by_agent', 'delivered'];
                     return !hideStatuses.includes(record.deliveryStatus);
                 },
+
+                /**
+                 * Show accept button based on delivery status
+                 */
                 showAcceptButton(record) {
                     const allowedStatuses = ['assigned_to_agent'];
                     return allowedStatuses.includes(record.deliveryStatus);
                 },
+
+                /**
+                 * Show reject button based on delivery status
+                 */
                 showRejectButton(record) {
-                    const allowedStatuses = ['assigned_to_agent','accepted_by_agent'];
+                    const allowedStatuses = ['assigned_to_agent', 'accepted_by_agent'];
                     return allowedStatuses.includes(record.deliveryStatus);
                 },
+
+                /**
+                 * Show out for delivery button based on delivery status
+                 */
                 showOutForDeliveryButton(record) {
                     return record.deliveryStatus === 'accepted_by_agent';
                 },
+
+                /**
+                 * Show delivered button based on delivery status
+                 */
                 showDeliveredButton(record) {
                     return record.deliveryStatus === 'out_for_delivery';
                 },
-
             },
-
-
         })
     </script>
-@endpushonce
-
+@endpushOnce

@@ -69,14 +69,18 @@ class DeliveryAgentRepository extends Repository
      */
     public function hasRange(int $deliveryAgentId, int $stateAreaId, ?int $excludeId = null): bool
     {
-        $query = $this->rangeRepository->where('delivery_agent_id', $deliveryAgentId)
-            ->where('state_area_id', $stateAreaId);
+        $cacheKey = "delivery_agent_range_{$deliveryAgentId}_{$stateAreaId}_" . ($excludeId ?? 'null');
+        
+        return cache()->remember($cacheKey, 300, function () use ($deliveryAgentId, $stateAreaId, $excludeId) {
+            $query = $this->rangeRepository->where('delivery_agent_id', $deliveryAgentId)
+                ->where('state_area_id', $stateAreaId);
 
-        if ($excludeId) {
-            $query->where('id', '!=', $excludeId);
-        }
+            if ($excludeId) {
+                $query->where('id', '!=', $excludeId);
+            }
 
-        return $query->exists();
+            return $query->exists();
+        });
     }
 
     /**
@@ -88,10 +92,15 @@ class DeliveryAgentRepository extends Repository
             return null;
         }
 
-        return $this->rangeRepository->create([
+        $range = $this->rangeRepository->create([
             'delivery_agent_id' => $data['delivery_agent_id'],
             'state_area_id'     => $data['state_area_id'],
         ]);
+
+        // Clear cache after adding range
+        $this->clearRangeCache($data['delivery_agent_id'], $data['state_area_id']);
+
+        return $range;
     }
 
     /**
@@ -103,9 +112,14 @@ class DeliveryAgentRepository extends Repository
             return null;
         }
 
-        return $this->rangeRepository->update([
+        $range = $this->rangeRepository->update([
             'state_area_id' => $data['state_area_id'],
         ], $rangeId);
+
+        // Clear cache after updating range
+        $this->clearRangeCache($data['delivery_agent_id'], $data['state_area_id']);
+
+        return $range;
     }
 
     /**
@@ -113,17 +127,34 @@ class DeliveryAgentRepository extends Repository
      */
     public function removeRange(int $rangeId): bool
     {
-        return $this->rangeRepository->delete($rangeId);
+        // Get range info before deletion for cache clearing
+        $range = $this->rangeRepository->find($rangeId);
+        
+        $deleted = $this->rangeRepository->delete($rangeId);
+        
+        if ($deleted && $range) {
+            // Clear cache after removing range
+            $this->clearRangeCache($range->delivery_agent_id, $range->state_area_id);
+        }
+        
+        return $deleted;
     }
 
     public function massRemoveRange(int $deliveryAgentId, int $areaId): bool
     {
-        return $this->rangeRepository
+        $deleted = $this->rangeRepository
             ->where([
                 'delivery_agent_id' => $deliveryAgentId,
                 'state_area_id'     => $areaId,
             ])
             ->delete();
+            
+        if ($deleted) {
+            // Clear cache after mass removal
+            $this->clearRangeCache($deliveryAgentId, $areaId);
+        }
+        
+        return $deleted;
     }
 
     /**
@@ -162,5 +193,24 @@ class DeliveryAgentRepository extends Repository
         }
 
         return (bool) $this->delete($deliveryAgentId);
+    }
+
+    /**
+     * Clear range cache for specific agent and area
+     */
+    protected function clearRangeCache(int $deliveryAgentId, int $stateAreaId): void
+    {
+        $cacheKey = "delivery_agent_range_{$deliveryAgentId}_{$stateAreaId}_null";
+        cache()->forget($cacheKey);
+    }
+
+    /**
+     * Clear all range cache for specific agent
+     */
+    protected function clearAllRangeCache(int $deliveryAgentId): void
+    {
+        $pattern = "delivery_agent_range_{$deliveryAgentId}_*";
+        // Note: This is a simplified approach. In production, consider using Redis with pattern matching
+        cache()->flush(); // This clears all cache - use with caution
     }
 }

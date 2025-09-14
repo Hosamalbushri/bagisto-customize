@@ -29,12 +29,12 @@ class DeliveryAgentOrder extends Model
         'accepted_at',
     ];
 
-    public function order()
+    public function order(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
-    public function deliveryAgent()
+    public function deliveryAgent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(DeliveryAgent::class);
     }
