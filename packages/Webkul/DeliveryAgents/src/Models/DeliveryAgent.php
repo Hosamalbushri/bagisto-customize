@@ -24,7 +24,6 @@ class DeliveryAgent extends Authenticatable implements DeliveryAgentContract, JW
         'token',
         'status',
         'password',
-        'api_token',
         'remember_token',
     ];
 

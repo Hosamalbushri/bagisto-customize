@@ -119,7 +119,6 @@ class Order extends BaseModel
         if ($hasDeliveredAssignment) {
             return false;
         }
-
         foreach ($this->items as $item) {
             if (
                 $item->canShip()
@@ -128,8 +127,7 @@ class Order extends BaseModel
                     self::STATUS_FRAUD,
                 ]) && empty($this->delivery_agent_id)
             ) {
-                return true;
-            }
+            return true;}
         }
 
         return false;

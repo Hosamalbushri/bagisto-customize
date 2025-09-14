@@ -30,14 +30,20 @@ class DeliveryAgentsController extends Controller
      */
     public const COUNT = 10;
 
+    /**
+     * Orders constant for AJAX requests.
+     *
+     * @var string
+     */
     const ORDERS = 'orders';
 
     /**
      * Create a new controller instance.
+     *
+     * @param DeliveryAgentRepository $deliveryAgentRepository
      */
     public function __construct(
         protected DeliveryAgentRepository $deliveryAgentRepository,
-
     ) {}
 
     /**
@@ -59,7 +65,8 @@ class DeliveryAgentsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -84,9 +91,11 @@ class DeliveryAgentsController extends Controller
             'date_of_birth',
             'phone',
         ]));
+
         if (empty($data['phone'])) {
             $data['phone'] = null;
         }
+
         $deliveryAgent = $this->deliveryAgentRepository->create($data);
 
         return new JsonResponse([
@@ -95,27 +104,32 @@ class DeliveryAgentsController extends Controller
         ]);
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse|\Illuminate\View\View
+     */
     public function view(Request $request, $id)
     {
+        // تحسين الأداء: استخدام eager loading مع pagination
         $deliveryAgent = $this->deliveryAgentRepository->with([
-            'ranges'=> function ($q) {
-                $q->limit(10); // أو paginate بدلها
-            },
-            'orders'=> function ($q) {
-                $q->limit(10); // أو paginate بدلها
+            'ranges.state_area',
+            'orders' => function ($q) {
+                $q->latest()->limit(10);
             },
         ])->findOrFail($id);
+
         if ($request->ajax()) {
             switch (request()->query('type')) {
                 case self::ORDERS:
                     return datagrid(OrderDateGrid::class)->process();
-
+                default:
+                    return response()->json([
+                        'data' => $deliveryAgent,
+                    ]);
             }
-
-            return response()->json([
-                'data'      => $deliveryAgent,
-            ]);
-
         }
 
         return view('DeliveryAgents::admin.DeliveryAgents.view', compact('deliveryAgent'));
@@ -124,6 +138,7 @@ class DeliveryAgentsController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param int $id
      * @return JsonResponse
      */
     public function update(int $id)
@@ -156,7 +171,7 @@ class DeliveryAgentsController extends Controller
 
             if (! Hash::check(request('current_password'), $existingAgent->password)) {
                 return new JsonResponse([
-                    'message' => trans('auth.password'), // "The provided password is incorrect."
+                    'message' => trans('auth.password'),
                     'errors'  => [
                         'current_password' => [trans('deliveryAgent::app.deliveryAgent.edit.incorrect_current_password')],
                     ],
@@ -171,22 +186,22 @@ class DeliveryAgentsController extends Controller
         return new JsonResponse([
             'message' => trans('deliveryAgent::app.deliveryAgent.edit.edit-success'),
             'data'    => [
-                'deliveryAgent'=> $deliveryAgent->fresh(),
+                'deliveryAgent' => $deliveryAgent->fresh(),
             ],
-
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param int $id
+     * @return JsonResponse
      */
     public function destroy(int $id)
     {
         $deliveryAgent = $this->deliveryAgentRepository->find($id);
 
-        // Prepare a robust error message (Arabic fallback if translation key is missing).
+        // Prepare a robust error message (Arabic fallback if translation key is missing)
         $translationKey = 'deliveryAgent::app.deliveryAgent.delete.unsuccessful_deletion_message';
         $errorMessage = trans($translationKey);
         if ($errorMessage === $translationKey) {
@@ -225,31 +240,55 @@ class DeliveryAgentsController extends Controller
             'status'  => 'success',
             'message' => trans('deliveryAgent::app.deliveryAgent.delete.successful_deletion_message'),
         ]);
-
     }
 
+    /**
+     * Mass destroy multiple delivery agents.
+     *
+     * @param MassDestroyRequest $massDestroyRequest
+     * @return JsonResponse
+     */
     public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResponse
     {
-        $deliveryAgents = $this->deliveryAgentRepository->findWhereIn('id', $massDestroyRequest->input('indices'));
+        $deliveryAgentIds = $massDestroyRequest->input('indices');
+
+        // تحسين الأداء: تحديد حد أقصى للعناصر لتجنب تعليق الجهاز
+        if (count($deliveryAgentIds) > 100) {
+            return new JsonResponse([
+                'status'  => 'error',
+                'message' => 'لا يمكن حذف أكثر من 100 عنصر في المرة الواحدة لتجنب تعليق الجهاز.',
+            ], 422);
+        }
+
+        $deliveryAgents = $this->deliveryAgentRepository->findWhereIn('id', $deliveryAgentIds);
 
         try {
             $deleted = [];
             $blocked = [];
             $errors = [];
 
-            foreach ($deliveryAgents as $deliveryAgent) {
-                Event::dispatch('deliveryAgent.delete.before', $deliveryAgent);
+            // تحسين الأداء: استخدام batch processing لتجنب تعليق الجهاز
+            $batchSize = 10;
+            $batches = array_chunk($deliveryAgents->toArray(), $batchSize);
 
-                if ($this->deliveryAgentRepository->deleteIfNoIncompleteOrders($deliveryAgent->id)) {
-                    Event::dispatch('deliveryAgent.delete.after', $deliveryAgent);
-                    $deleted[] = $deliveryAgent->id;
-                } else {
-                    $blocked[] = $deliveryAgent->id;
-                    $errors[] = [
-                        'id'      => $deliveryAgent->id,
-                        'message' => trans('deliveryAgent::app.deliveryAgent.delete.unsuccessful_deletion_message'),
-                    ];
+            foreach ($batches as $batch) {
+                foreach ($batch as $deliveryAgent) {
+                    Event::dispatch('deliveryAgent.delete.before', $deliveryAgent);
+
+                    if ($this->deliveryAgentRepository->deleteIfNoIncompleteOrders($deliveryAgent['id'])) {
+                        Event::dispatch('deliveryAgent.delete.after', $deliveryAgent);
+                        $deleted[] = $deliveryAgent['id'];
+                    } else {
+                        $blocked[] = $deliveryAgent['id'];
+                        $errors[] = [
+                            'id'      => $deliveryAgent['id'],
+                            'message' => trans('deliveryAgent::app.deliveryAgent.delete.unsuccessful_deletion_message'),
+                        ];
+                    }
                 }
+
+                // إضافة تأخير صغير بين الدفعات لتجنب تعليق الجهاز
+                usleep(100000); // 0.1 ثانية
             }
 
             // Robust error message (Arabic fallback if translation missing)
@@ -281,35 +320,67 @@ class DeliveryAgentsController extends Controller
                 'message' => $exception->getMessage(),
             ], 500);
         }
-
     }
 
+    /**
+     * Mass update multiple delivery agents.
+     *
+     * @param MassUpdateRequest $massUpdateRequest
+     * @return JsonResponse
+     */
     public function massUpdate(MassUpdateRequest $massUpdateRequest): JsonResponse
     {
         $selectedDeliveryAgentIds = $massUpdateRequest->input('indices');
 
-        foreach ($selectedDeliveryAgentIds as $deliveryAgentId) {
-            Event::dispatch('deliveryAgent.update.before', $deliveryAgentId);
-
-            $deliveryAgent = $this->deliveryAgentRepository->update([
-                'status' => $massUpdateRequest->input('value'),
-            ], $deliveryAgentId);
-
-            Event::dispatch('deliveryAgent.update.after', $deliveryAgent);
+        // تحسين الأداء: تحديد حد أقصى للعناصر لتجنب تعليق الجهاز
+        if (count($selectedDeliveryAgentIds) > 100) {
+            return new JsonResponse([
+                'status'  => 'error',
+                'message' => 'لا يمكن تحديث أكثر من 100 عنصر في المرة الواحدة لتجنب تعليق الجهاز.',
+            ], 422);
         }
 
-        return new JsonResponse([
-            'message' => trans('deliveryAgent::app.deliveryAgent.dataGrid.update-success'),
-        ]);
+        try {
+            // تحسين الأداء: استخدام batch processing لتجنب تعليق الجهاز
+            $batchSize = 10;
+            $batches = array_chunk($selectedDeliveryAgentIds, $batchSize);
 
+            foreach ($batches as $batch) {
+                foreach ($batch as $deliveryAgentId) {
+                    Event::dispatch('deliveryAgent.update.before', $deliveryAgentId);
+
+                    $deliveryAgent = $this->deliveryAgentRepository->update([
+                        'status' => $massUpdateRequest->input('value'),
+                    ], $deliveryAgentId);
+
+                    Event::dispatch('deliveryAgent.update.after', $deliveryAgent);
+                }
+
+                // إضافة تأخير صغير بين الدفعات لتجنب تعليق الجهاز
+                usleep(100000); // 0.1 ثانية
+            }
+
+            return new JsonResponse([
+                'message' => trans('deliveryAgent::app.deliveryAgent.dataGrid.update-success'),
+            ]);
+        } catch (\Exception $exception) {
+            return new JsonResponse([
+                'message' => $exception->getMessage(),
+            ], 500);
+        }
     }
 
+    /**
+     * Get selected delivery agents.
+     *
+     * @return JsonResponse
+     */
     public function selectedDeliveryAgents()
     {
         if (request()->ajax()) {
             return datagrid(SelectDeliveryAgentDataGrid::class)->process();
         }
-        abort(404);
 
+        abort(404);
     }
 }

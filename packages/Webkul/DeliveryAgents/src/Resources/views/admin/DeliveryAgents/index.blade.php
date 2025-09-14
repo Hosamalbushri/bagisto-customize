@@ -180,7 +180,7 @@
                             </p>
 
                             <p class="text-base font-semibold text-gray-800 dark:text-white">
-{{--                                @{{ record.range_count }}--}}
+                                <!-- Range count will be displayed above -->
                             </p>
                         </div>
 

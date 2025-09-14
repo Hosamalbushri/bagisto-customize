@@ -26,8 +26,14 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('api_token', 80)->unique()->nullable()->default(null);
             $table->string('token')->nullable();
+            $table->string('device_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            // Add indexes for better performance
+            $table->index('status');
+            $table->index('email');
+            $table->index('phone');
+            $table->index(['status', 'created_at']);
         });
     }
 
