@@ -34,12 +34,12 @@
 
         <!-- For Desktop View -->
         <div class="max-md:hidden">
-            <x-shop::datagrid :src="route('shop.customers.account.orders.index')" />
+            <x-shop::datagrid :src="route('shop.customers.account.order.index')" />
         </div>
 
         <!-- For Mobile View -->
         <div class="md:hidden">
-            <x-shop::datagrid :src="route('shop.customers.account.orders.index')">
+            <x-shop::datagrid :src="route('shop.customers.account.order.index')">
                 <!-- Datagrid Header -->
                 <template #header="{
                     isLoading,

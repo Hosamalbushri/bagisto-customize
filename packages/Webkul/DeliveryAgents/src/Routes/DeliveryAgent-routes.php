@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Webkul\DeliveryAgents\Http\Controllers\Admin\DeliveryAgents\DeliveryAgentsController;
 use Webkul\DeliveryAgents\Http\Controllers\Admin\DeliveryAgents\RangesController;
+use Webkul\DeliveryAgents\Http\Controllers\Admin\DeliveryAgents\ReviewsController;
 use Webkul\DeliveryAgents\Http\Controllers\Admin\Orders\OrdersController;
 
 Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/delivery'], function () {
@@ -41,8 +42,13 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/delivery'], f
     Route::controller(OrdersController::class)->prefix('agents/orders')->group(function () {
         Route::post('/assign-to-delivery-agent/{order}/{agent}', 'assignToAgent')->name('admin.orders.assignDeliveryAgent');
         Route::post('edit/{id}', 'changeStatus')->name('admin.orders.changeStatus');
+    });
 
-
+    /**
+     * delivery Reviews routes.
+     */
+    Route::controller(ReviewsController::class)->prefix('agents/reviews')->group(function () {
+        Route::post('', 'store')->name('admin.review.create');
     });
 
 });

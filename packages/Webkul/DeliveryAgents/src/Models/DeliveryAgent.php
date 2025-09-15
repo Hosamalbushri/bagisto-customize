@@ -74,7 +74,10 @@ class DeliveryAgent extends Authenticatable implements DeliveryAgentContract, JW
     {
         return $this->hasMany(DeliveryAgentOrder::class, 'delivery_agent_id');
     }
-
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(DeliveryAgentReview::class, 'delivery_agent_id');
+    }
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

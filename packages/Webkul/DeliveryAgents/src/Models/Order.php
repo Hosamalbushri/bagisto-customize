@@ -108,6 +108,10 @@ class Order extends BaseModel
             ->where('status', DeliveryAgentOrder::STATUS_DELIVERED)
             ->latestOfMany('completed_at');
     }
+    public function deliveryAgentReview(): HasOne
+    {
+        return $this->hasOne(DeliveryAgentReview::class);
+    }
 
     public function canDelivery(): bool
     {
@@ -127,7 +131,8 @@ class Order extends BaseModel
                     self::STATUS_FRAUD,
                 ]) && empty($this->delivery_agent_id)
             ) {
-            return true;}
+                return true;
+            }
         }
 
         return false;
@@ -145,5 +150,32 @@ class Order extends BaseModel
     public function getIsDeliveredAttribute(): bool
     {
         return (bool) $this->attributes['is_delivered'];
+    }
+
+    public function showDeliveryTab(): bool
+    {
+        if ($this->status == self::STATUS_OUT_FOR_DELIVERY) {
+            return true;
+        }
+        if ($this->status == self::STATUS_COMPLETED) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * التحقق من وجود مراجعة للطلب
+     */
+    public function hasReview(): bool
+    {
+        return $this->deliveryAgentReview()->exists();
+    }
+
+    /**
+     * الحصول على المراجعة إذا كانت موجودة
+     */
+    public function getReview()
+    {
+        return $this->deliveryAgentReview;
     }
 }

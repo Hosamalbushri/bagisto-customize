@@ -26,6 +26,8 @@ class AdminThemeServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../Routes/catalog-routes.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/sales-routes.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/customers-routes.php');
+        $this->loadRoutesFrom(__DIR__.'/../Routes/shop-routes.php');
+
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'adminTheme');
 
         Event::listen('area.before.delete', 'Webkul\AdminTheme\Listeners\PreventDeleteIfHasChildren@beforeDeleteArea');

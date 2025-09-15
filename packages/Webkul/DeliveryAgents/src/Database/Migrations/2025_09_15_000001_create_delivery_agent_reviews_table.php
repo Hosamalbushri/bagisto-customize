@@ -15,19 +15,17 @@ return new class extends Migration
     {
         Schema::create('delivery_agent_reviews', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('order_id');
-            $table->integer('delivery_agent_id');
-            $table->integer('customer_id');
-            $table->integer('rating')->comment('التقييم من 1 إلى 5');
-            $table->text('comment')->nullable()->comment('تعليق العميل');
-            $table->json('rating_details')->nullable()->comment('تفاصيل التقييم (السرعة، الود، الدقة)');
+            $table->unsignedInteger('order_id');
+            $table->unsignedInteger('delivery_agent_id');
+            $table->integer('customer_id')->unsigned()->nullable();
+            $table->integer('rating');
+            $table->text('comment');
             $table->string('status');
-            $table->timestamp('reviewed_at')->nullable()->comment('تاريخ التقييم');
             $table->timestamps();
             // Foreign key constraints
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('delivery_agent_id')->references('id')->on('delivery_agents')->onDelete('cascade');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null');;
             // Indexes for better performance
             $table->index(['delivery_agent_id', 'rating']);
             $table->index(['customer_id', 'created_at']);

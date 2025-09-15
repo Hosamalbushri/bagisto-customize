@@ -54,12 +54,14 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
         Event::listen('bagisto.admin.sales.order.Invoice.after', function ($viewRenderEventManager) {
             $viewRenderEventManager->addTemplate('DeliveryAgents::admin.Orders.view');
         });
-
+        // shop customer events
+        Event::listen('bagisto.shop.customers.account.orders.view.after.Shipping.tab', function ($viewRenderEventManager) {
+            $viewRenderEventManager->addTemplate('DeliveryAgents::shop.Customer.Orders.view');
+        });
         // Sales events
         Event::listen('sales.shipment.save.after', UpdateInOrderFields::class.'@afterSaveShipment');
         Event::listen('sales.order.cancel.before', UpdateInOrderFields::class.'@beforeCancelOrder');
         Event::listen('sales.refund.save.after', UpdateInOrderFields::class.'@afterSaveRefund');
-
         // Commented out invoice event - uncomment if needed
         // Event::listen('sales.invoice.save.after', UpdateInOrderFields::class . '@afterSaveInvoice');
     }
