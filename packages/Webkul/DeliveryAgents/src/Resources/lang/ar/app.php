@@ -528,4 +528,37 @@ return [
         ],
     ],
 
+    // for shop pages
+    'shop'=> [
+        'customer'=> [
+            'account'=> [
+                'orders'=> [
+                    'view'=> [
+                        'delivered'=> [
+                            'delivery'=> 'التوصيل',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'deliveryAgent'=> [
+            'review'=> [
+                'create'=> [
+                    'title'     => 'انشاء تقييم لمندوب التوصيل',
+                    'create'    => 'تقييم المندوب',
+                    'create-btn'=> 'ارسال التقييم',
+                ],
+                'validation'=> [
+                    'already_reviewed'   => 'تم تقييم هذا الطلب مسبقاً',
+                    'order_not_delivered'=> 'لا يمكن تقييم طلب غير مكتمل التوصيل',
+                    'duplicate_review'   => 'لا يمكن إضافة أكثر من مراجعة واحدة لكل طلب',
+                    'review_success'     => 'تم إرسال التقييم بنجاح',
+                    'review_error'       => 'حدث خطأ أثناء إرسال التقييم',
+                    'checking_review'    => 'جاري التحقق من وجود مراجعة مسبقة...',
+                    'review_exists'      => 'تم تقييم هذا الطلب مسبقاً',
+                ],
+            ],
+        ],
+    ],
+
 ];

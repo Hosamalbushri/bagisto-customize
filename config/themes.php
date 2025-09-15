@@ -15,26 +15,26 @@ return [
     'shop' => [
         'default' => [
             'name'        => 'Default',
-            'assets_path' => 'public/themes/shop/default',
-            'views_path'  => 'resources/themes/default/views',
-
-            'vite'        => [
-                'hot_file'                 => 'shop-default-vite.hot',
-                'build_directory'          => 'themes/shop/default/build',
-                'package_assets_directory' => 'src/Resources/assets',
-            ],
-        ],
-        'new-theme' => [
-            'name'        => 'Najaz',
-            'assets_path' => 'public/themes/shop/new-theme',
+            'assets_path' => 'public/themes/shop/new-them',
             'views_path'  => 'resources/themes/new-theme/views',
 
             'vite'        => [
-                'hot_file'                 => 'shop-new-theme-vite.hot',
+                'hot_file'                 => 'shop-default-vite.hot',
                 'build_directory'          => 'themes/shop/new-theme/build',
                 'package_assets_directory' => 'src/Resources/assets',
             ],
         ],
+//        'new-theme' => [
+//            'name'        => 'Najaz',
+//            'assets_path' => 'public/themes/shop/new-theme',
+//            'views_path'  => 'resources/themes/new-theme/views',
+//
+//            'vite'        => [
+//                'hot_file'                 => 'shop-new-theme-vite.hot',
+//                'build_directory'          => 'themes/shop/new-theme/build',
+//                'package_assets_directory' => 'src/Resources/assets',
+//            ],
+//        ],
     ],
 
     /*
