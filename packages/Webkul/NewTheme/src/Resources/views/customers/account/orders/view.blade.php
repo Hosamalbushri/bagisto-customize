@@ -85,7 +85,9 @@
 
         <!-- Order view tabs -->
         <div class="mt-8 max-md:mt-5 max-md:grid max-md:gap-4">
-            <x-shop::tabs>
+            <x-shop::tabs
+                position="{{ in_array(app()->getLocale(), ['ar', 'he', 'fa', 'ur']) ? 'right' : 'left' }}"
+            >
                 <x-shop::tabs.item
                     class="!px-0 max-md:pb-0 max-md:pt-2"
                     :title="trans('shop::app.customers.account.orders.view.information.info')"
@@ -196,7 +198,7 @@
                                                     @lang('shop::app.customers.account.orders.view.information.item-shipped', ['qty_shipped' => $item->qty_shipped])
                                                 @endif
                                                 @if($order->is_delivered)
-                                                      @lang('deliveryagent::app.orders.view.item-delivered')
+                                                      @lang('deliveryAgent::app.orders.view.item-delivered',['qty_delivered' => $item->qty_invoiced])
                                                 @endif
 
                                                 @if($item->qty_refunded)
@@ -553,7 +555,11 @@
                                                             @lang('shop::app.customers.account.orders.view.information.item-shipped', ['qty_shipped' => $item->qty_shipped])
                                                         </p>
                                                     @endif
-
+                                                        @if($order->is_delivered)
+                                                            <p>
+                                                            @lang('deliveryAgent::app.orders.view.item-delivered',['qty_delivered' => $item->qty_invoiced])
+                                                            </p>
+                                                        @endif
 
                                                     @if($item->qty_refunded)
                                                         <span>
@@ -2086,6 +2092,8 @@
                         @endforeach
                     </x-shop::tabs.item>
                 @endif
+                {!! view_render_event('bagisto.shop.customers.account.orders.view.after.Shipping.tab', ['order' => $order]) !!}
+
             </x-shop::tabs>
 
             <!-- Shipping Address and Payment methods for mobile view -->
