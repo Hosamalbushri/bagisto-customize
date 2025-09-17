@@ -3,6 +3,8 @@
 namespace Webkul\DeliveryAgents\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Webkul\Customer\Models\Customer;
+use Webkul\Customer\Models\CustomerAddress;
 
 class DeliveryAgentReview extends Model
 {
@@ -26,6 +28,10 @@ class DeliveryAgentReview extends Model
     public function deliveryAgent()
     {
         return $this->belongsTo(DeliveryAgent::class);
+    }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
     }
 
 }

@@ -74,23 +74,23 @@ class OrderDateGrid extends DataGrid
             'filterable_type'    => 'dropdown',
             'filterable_options' => [
                 [
-                    'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.orders.status.assigned_to_agent'),
+                    'label' => trans('deliveryAgent::app.deliveryAgent.dataGrid.orders.status.assigned_to_agent'),
                     'value' => Order::STATUS_ASSIGNED_TO_AGENT,
                 ],
                 [
-                    'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.orders.status.accepted_by_agent'),
+                    'label' => trans('deliveryAgent::app.deliveryAgent.dataGrid.orders.status.accepted_by_agent'),
                     'value' => Order::STATUS_ACCEPTED_BY_AGENT,
                 ],
                 [
-                    'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.orders.status.rejected_by_agent'),
+                    'label' => trans('deliveryAgent::app.deliveryAgent.dataGrid.orders.status.rejected_by_agent'),
                     'value' => Order::STATUS_REJECTED_BY_AGENT,
                 ],
                 [
-                    'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.orders.status.out_for_delivery'),
+                    'label' => trans('deliveryAgent::app.deliveryAgent.dataGrid.orders.status.out_for_delivery'),
                     'value' => Order::STATUS_OUT_FOR_DELIVERY,
                 ],
                 [
-                    'label' => trans('deliveryAgent::app.deliveryAgent.datagrid.orders.status.delivered'),
+                    'label' => trans('deliveryAgent::app.deliveryAgent.dataGrid.orders.status.delivered'),
                     'value' => Order::STATUS_DELIVERED,
                 ],
                 [

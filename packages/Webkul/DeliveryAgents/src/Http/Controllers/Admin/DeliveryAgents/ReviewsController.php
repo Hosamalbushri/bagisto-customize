@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
+use Webkul\DeliveryAgents\Datagrids\DeliveryAgent\ReviewDataGrid;
 use Webkul\DeliveryAgents\Models\DeliveryAgentReview;
 use Webkul\DeliveryAgents\Repositories\DeliveryAgentReviewRepository;
 use Webkul\Sales\Models\Order as SalesOrder;
@@ -15,6 +16,14 @@ class ReviewsController extends Controller
     public function __construct(
         protected DeliveryAgentReviewRepository $reviewRepository
     ) {}
+
+    public function index()
+    {
+        if (request()->ajax()) {
+            return app(ReviewDataGrid::class)->process();
+        }
+        abort(404);
+    }
 
     /**
      * Store a new delivery agent review.
@@ -114,5 +123,17 @@ class ReviewsController extends Controller
             'message' => $message,
             'errors'  => $errors,
         ], $status);
+    }
+    public function edit(int $id): JsonResponse
+    {
+        $review = $this->reviewRepository->with(['customer', 'deliveryAgent'])->findOrFail($id);
+        $review->date = $review->created_at->format('Y-m-d');
+        return new JsonResponse([
+            'data' => $review,
+        ]);
+    }
+    public function update(Request $request, $id)
+    {
+        $review = $this->reviewRepository->find($id);
     }
 }

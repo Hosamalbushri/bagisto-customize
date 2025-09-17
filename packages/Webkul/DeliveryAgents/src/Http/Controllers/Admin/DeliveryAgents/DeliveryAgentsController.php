@@ -16,6 +16,7 @@ use Webkul\Core\Rules\PhoneNumber;
 use Webkul\DataGrid\Exceptions\InvalidDataGridException;
 use Webkul\DeliveryAgents\Datagrids\DeliveryAgent\DeliveryAgentDataGrid;
 use Webkul\DeliveryAgents\Datagrids\DeliveryAgent\Views\OrderDateGrid;
+use Webkul\DeliveryAgents\Datagrids\DeliveryAgent\Views\ReviewDataGrid;
 use Webkul\DeliveryAgents\Datagrids\Orders\SelectDeliveryAgentDataGrid;
 use Webkul\DeliveryAgents\Repositories\DeliveryAgentRepository;
 
@@ -36,6 +37,7 @@ class DeliveryAgentsController extends Controller
      * @var string
      */
     const ORDERS = 'orders';
+    const REVIEWS = 'reviews';
 
     /**
      * Create a new controller instance.
@@ -125,6 +127,8 @@ class DeliveryAgentsController extends Controller
             switch (request()->query('type')) {
                 case self::ORDERS:
                     return datagrid(OrderDateGrid::class)->process();
+                case self::REVIEWS:
+                    return datagrid(ReviewDataGrid::class)->process();
                 default:
                     return response()->json([
                         'data' => $deliveryAgent,

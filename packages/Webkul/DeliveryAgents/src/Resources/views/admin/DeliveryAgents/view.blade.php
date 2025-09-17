@@ -13,8 +13,8 @@
         </script>
 
         <script
-            type="text/x-template"
-            id="v-delivery-agent-view-template"
+                type="text/x-template"
+                id="v-delivery-agent-view-template"
         >
             <x-slot:title>
                 @php
@@ -23,214 +23,214 @@
                 {{ isset($deliveryAgent) && !empty($deliveryAgent->name) ? ($label . ': ' . $deliveryAgent->name) : $label }}
             </x-slot:title>
 
-                <div class="grid">
-                    <div class="flex items-center justify-between gap-4 max-sm:flex-wrap">
-                        <div class="flex items-center gap-2.5">
-                            <!-- shimmer loading while data is loading -->
-                            <template v-if="!deliveryAgent">
-                                <div class="flex gap-5">
-                                    <p class="shimmer w-32 p-2.5"></p>
-                                    <p class="shimmer w-14 p-2.5"></p>
-                                </div>
-                            </template>
+            <div class="grid">
+                <div class="flex items-center justify-between gap-4 max-sm:flex-wrap">
+                    <div class="flex items-center gap-2.5">
+                        <!-- shimmer loading while data is loading -->
+                        <template v-if="!deliveryAgent">
+                            <div class="flex gap-5">
+                                <p class="shimmer w-32 p-2.5"></p>
+                                <p class="shimmer w-14 p-2.5"></p>
+                            </div>
+                        </template>
 
-                            <!-- when data is loaded -->
-                            <template v-else>
-                                <!-- name -->
-                                <h1
+                        <!-- when data is loaded -->
+                        <template v-else>
+                            <!-- name -->
+                            <h1
                                     v-if="deliveryAgent"
                                     class="text-xl font-bold leading-6 text-gray-800 dark:text-white"
                                     v-text="`@lang('deliveryAgent::app.deliveryAgent.view.title') : ${deliveryAgent.first_name} ${deliveryAgent.last_name}`"
-                                ></h1>
-                                <span
+                            ></h1>
+                            <span
                                     v-if="deliveryAgent && deliveryAgent.status==1"
                                     class="mx-1.5 text-sm label-active"
                                     v-text="`@lang('deliveryAgent::app.deliveryAgent.view.active')`"
-                                >
+                            >
 
                                 </span>
-                                <span
+                            <span
                                     v-else-if="deliveryAgent && deliveryAgent.status == 0"
                                     class="mx-1.5 text-sm label-canceled"
                                     v-text="`@lang('deliveryAgent::app.deliveryAgent.view.inactive')`"
-                                >
+                            >
                                 </span>
-                            </template>
-                        </div>
+                        </template>
+                    </div>
 
-                        <!-- back button -->
-                        <a
+                    <!-- back button -->
+                    <a
                             href="{{ route('admin.deliveryAgents.index') }}"
                             class="transparent-button hover:bg-gray-200 dark:text-white dark:hover:bg-gray-800">
-                            @lang('deliveryAgent::app.deliveryAgent.view.back-btn')
-                        </a>
-                    </div>
+                        @lang('deliveryAgent::app.deliveryAgent.view.back-btn')
+                    </a>
                 </div>
-                <!-- Content -->
-                <div class="mt-3.5 flex gap-2.5 max-xl:flex-wrap">
-                    <!-- Left Component -->
-                    <div class="flex flex-1 flex-col gap-2 max-xl:flex-auto">
-                        @include('DeliveryAgents::admin.DeliveryAgents.orders.index')
+            </div>
+            <!-- Content -->
+            <div class="mt-3.5 flex gap-2.5 max-xl:flex-wrap">
+                <!-- Left Component -->
+                <div class="flex flex-1 flex-col gap-2 max-xl:flex-auto">
+                    @include('DeliveryAgents::admin.DeliveryAgents.view.orders.index')
+                    @include('DeliveryAgents::admin.DeliveryAgents.view.reviews.index')
+                </div>
+                <!-- Right Component -->
+                <div class="flex w-[360px] max-w-full flex-col gap-2 max-sm:w-full">
+                    <template v-if="! deliveryAgent">
+                        <x-admin::shimmer.accordion class="h-[271px] w-[360px]"/>
+                    </template>
+                    <template v-else>
+                        <x-admin::accordion>
+                            <x-slot:header>
+                                <div class="flex w-full">
+                                    <p class="w-full p-2.5 text-base font-semibold text-gray-800 dark:text-white">
+                                        @lang('deliveryAgent::app.deliveryAgent.view.delivery-agent')
+                                    </p>
 
-                    </div>
-                    <!-- Right Component -->
-                    <div class="flex w-[360px] max-w-full flex-col gap-2 max-sm:w-full">
-                        <template v-if="! deliveryAgent">
-                            <x-admin::shimmer.accordion class="h-[271px] w-[360px]"/>
-                        </template>
-                        <template v-else>
-                            <x-admin::accordion>
-                                <x-slot:header>
-                                    <div class="flex w-full">
-                                        <p class="w-full p-2.5 text-base font-semibold text-gray-800 dark:text-white">
-                                            @lang('deliveryAgent::app.deliveryAgent.view.delivery-agent')
-                                        </p>
-
-                                        <!--Delivery Agents Edit Component -->
-                                        @include('DeliveryAgents::admin.DeliveryAgents.view.edit')
+                                    <!--Delivery Agents Edit Component -->
+                                    @include('DeliveryAgents::admin.DeliveryAgents.view.edit')
 
 
-                                    </div>
-                                </x-slot:header>
+                                </div>
+                            </x-slot:header>
 
-                                <x-slot:content>
-                                    <div class="grid gap-y-2.5">
-                                        <p
+                            <x-slot:content>
+                                <div class="grid gap-y-2.5">
+                                    <p
                                             class="break-all font-semibold text-gray-800 dark:text-white"
                                             v-text="`${deliveryAgent.first_name} ${deliveryAgent.last_name}`"
-                                        >
-                                        </p>
+                                    >
+                                    </p>
 
-                                        <p class="text-gray-600 dark:text-gray-300">
-                                            @{{ "@lang('deliveryAgent::app.deliveryAgent.view.email')
-                                            ".replace(':email', deliveryAgent.email ?? 'N/A') }}
-                                        </p>
+                                    <p class="text-gray-600 dark:text-gray-300">
+                                        @{{ "@lang('deliveryAgent::app.deliveryAgent.view.email')
+                                        ".replace(':email', deliveryAgent.email ?? 'N/A') }}
+                                    </p>
 
-                                        <p class="text-gray-600 dark:text-gray-300">
-                                            @{{ "@lang('deliveryAgent::app.deliveryAgent.view.phone')
-                                            ".replace(':phone', deliveryAgent.phone ?? 'N/A') }}
-                                        </p>
+                                    <p class="text-gray-600 dark:text-gray-300">
+                                        @{{ "@lang('deliveryAgent::app.deliveryAgent.view.phone')
+                                        ".replace(':phone', deliveryAgent.phone ?? 'N/A') }}
+                                    </p>
 
-                                        <p class="text-gray-600 dark:text-gray-300">
-                                            @{{ "@lang('deliveryAgent::app.deliveryAgent.view.gender')
-                                            ".replace(':gender', deliveryAgent.gender ?? 'N/A') }}
-                                        </p>
+                                    <p class="text-gray-600 dark:text-gray-300">
+                                        @{{ "@lang('deliveryAgent::app.deliveryAgent.view.gender')
+                                        ".replace(':gender', deliveryAgent.gender ?? 'N/A') }}
+                                    </p>
 
-                                        <p class="text-gray-600 dark:text-gray-300">
-                                            @{{ "@lang('deliveryAgent::app.deliveryAgent.view.date-of-birth')
-                                            ".replace(':dob', deliveryAgent.date_of_birth ?? 'N/A') }}
-                                        </p>
+                                    <p class="text-gray-600 dark:text-gray-300">
+                                        @{{ "@lang('deliveryAgent::app.deliveryAgent.view.date-of-birth')
+                                        ".replace(':dob', deliveryAgent.date_of_birth ?? 'N/A') }}
+                                    </p>
 
-                                    </div>
-                                </x-slot:content>
-                            </x-admin::accordion>
-                        </template>
+                                </div>
+                            </x-slot:content>
+                        </x-admin::accordion>
+                    </template>
 
-                        <template v-if="! deliveryAgent">
-                            <x-admin::shimmer.accordion class="h-[271px] w-[360px]"/>
-                        </template>
+                    <template v-if="! deliveryAgent">
+                        <x-admin::shimmer.accordion class="h-[271px] w-[360px]"/>
+                    </template>
 
 
-                        <template v-else>
-                            <!-- Ranges listing-->
-                            <x-admin::accordion>
-                                <x-slot:header>
-                                    <div class="flex w-full">
-                                        <p class="w-full p-2.5 text-base font-semibold text-gray-800 dark:text-white">
-                                            @{{ "@lang('deliveryAgent::app.range.view.count')
-                                            ".replace(':count',deliveryAgent.ranges.length) }}
-                                        </p>
+                    <template v-else>
+                        <!-- Ranges listing-->
+                        <x-admin::accordion>
+                            <x-slot:header>
+                                <div class="flex w-full">
+                                    <p class="w-full p-2.5 text-base font-semibold text-gray-800 dark:text-white">
+                                        @{{ "@lang('deliveryAgent::app.range.view.count')
+                                        ".replace(':count',deliveryAgent.ranges.length) }}
+                                    </p>
 
-                                        <!-- Ranges Create component -->
-                                        @if (bouncer()->hasPermission('delivery.deliveryAgent.range.create'))
-                                            @include('DeliveryAgents::admin.DeliveryAgents.view.Ranges.create')
-                                            <v-create-delivery-range-form
+                                    <!-- Ranges Create component -->
+                                    @if (bouncer()->hasPermission('delivery.deliveryAgent.range.create'))
+                                        @include('DeliveryAgents::admin.DeliveryAgents.view.Ranges.create')
+                                        <v-create-delivery-range-form
                                                 :deliveryAgent="deliveryAgent"
                                                 ref="RangeCreateModal"
                                                 @range-created="rangeCreated"
-                                            >
-                                                <div class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"></div>
-                                            </v-create-delivery-range-form>
-                                            <div
+                                        >
+                                            <div class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"></div>
+                                        </v-create-delivery-range-form>
+                                        <div
                                                 v-if="canAddRange()"
                                                 class="flex cursor-pointer items-center justify-between gap-1.5 px-2.5 text-blue-600 transition-all hover:underline"
                                                 @click="$refs.RangeCreateModal.openModal()"
-                                            >
-                                                @lang('deliveryAgent::app.range.create.index-create-btn')
-                                            </div>
-                                        @endif
+                                        >
+                                            @lang('deliveryAgent::app.range.create.index-create-btn')
+                                        </div>
+                                    @endif
+
+                                </div>
+                            </x-slot:header>
+
+                            <x-slot:content>
+
+                                <template v-if="deliveryAgent.ranges.length">
+                                    <div
+                                            class="grid gap-y-2.5"
+                                            v-for="(range, index) in deliveryAgent.ranges"
+                                    >
+                                        <p class="text-sm mt-3 text-gray-600 dark:text-gray-300 font-medium">
+                                            @{{ getCountryName(range.state_area.country_code) }}
+                                            <span
+                                                    class="mx-1 text-gray-400">/</span>
+                                            @{{ getStateName(range.state_area.country_code,
+                                            range.state_area.state_code) }}
+                                            <span class="mx-1 text-gray-400">/</span>
+                                            @{{ range.state_area.area_name }}
+                                        </p>
+
+                                        <div class=" flex items-center gap-2.5">
+                                            @include('DeliveryAgents::admin.DeliveryAgents.view.Ranges.edit')
+
+                                            @if (bouncer()->hasPermission('delivery.deliveryAgent.range.delete'))
+                                                <button
+                                                        class="text-red-600 hover:underline transition-all cursor-pointer"
+                                                        @click="deleteRange(range.id)"
+                                                >
+
+                                                    @lang('deliveryAgent::app.range.view.delete-btn')
+
+                                                </button>
+                                            @endif
+                                        </div>
+
+                                        <span
+                                                v-if="index != deliveryAgent?.ranges.length - 1"
+                                                class="mb-4 mt-4 block w-full border-b dark:border-gray-800"
+                                        ></span>
 
                                     </div>
-                                </x-slot:header>
-
-                                    <x-slot:content>
-
-                                        <template v-if="deliveryAgent.ranges.length">
-                                            <div
-                                                class="grid gap-y-2.5"
-                                                v-for="(range, index) in deliveryAgent.ranges"
-                                            >
-                                                <p class="text-sm mt-3 text-gray-600 dark:text-gray-300 font-medium">
-                                                    @{{ getCountryName(range.state_area.country_code) }}
-                                                    <span
-                                                        class="mx-1 text-gray-400">/</span>
-                                                    @{{ getStateName(range.state_area.country_code,
-                                                    range.state_area.state_code) }}
-                                                    <span class="mx-1 text-gray-400">/</span>
-                                                    @{{ range.state_area.area_name }}
-                                                </p>
-
-                                                <div class=" flex items-center gap-2.5">
-                                                    @include('DeliveryAgents::admin.DeliveryAgents.view.Ranges.edit')
-
-                                                    @if (bouncer()->hasPermission('delivery.deliveryAgent.range.delete'))
-                                                        <button
-                                                            class="text-red-600 hover:underline transition-all cursor-pointer"
-                                                            @click="deleteRange(range.id)"
-                                                        >
-
-                                                            @lang('deliveryAgent::app.range.view.delete-btn')
-
-                                                        </button>
-                                                    @endif
-                                                </div>
-
-                                                <span
-                                                    v-if="index != deliveryAgent?.ranges.length - 1"
-                                                    class="mb-4 mt-4 block w-full border-b dark:border-gray-800"
-                                                ></span>
-
-                                            </div>
-                                        </template>
+                                </template>
 
 
-                                        <template v-else>
-                                            <!-- Empty Range Container -->
-                                            <div class="flex items-center gap-5 py-2.5">
-                                                <img
-                                                    src="{{ bagisto_asset('images/settings/address.svg') }}"
-                                                    class="h-20 w-20 dark:mix-blend-exclusion dark:invert"
-                                                />
+                                <template v-else>
+                                    <!-- Empty Range Container -->
+                                    <div class="flex items-center gap-5 py-2.5">
+                                        <img
+                                                src="{{ bagisto_asset('images/settings/address.svg') }}"
+                                                class="h-20 w-20 dark:mix-blend-exclusion dark:invert"
+                                        />
 
-                                                <div class="flex flex-col gap-1.5">
-                                                    <p class="text-base font-semibold text-gray-400">
-                                                        @lang('deliveryAgent::app.range.view.empty-title')
+                                        <div class="flex flex-col gap-1.5">
+                                            <p class="text-base font-semibold text-gray-400">
+                                                @lang('deliveryAgent::app.range.view.empty-title')
 
-                                                    </p>
+                                            </p>
 
-                                                    <p class="text-gray-400">
-                                                        @lang('deliveryAgent::app.range.view.empty-description')
+                                            <p class="text-gray-400">
+                                                @lang('deliveryAgent::app.range.view.empty-description')
 
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </template>
-                                    </x-slot:content>
-                            </x-admin::accordion>
-                        </template>
-                    </div>
-
+                                            </p>
+                                        </div>
+                                    </div>
+                                </template>
+                            </x-slot:content>
+                        </x-admin::accordion>
+                    </template>
                 </div>
+
+            </div>
 
         </script>
 
@@ -266,11 +266,11 @@
 
                     // عندما يتم إنشاء نطاق من الـ child
                     rangeCreated(range) {
-                        if (! this.deliveryAgent) {
-                            this.deliveryAgent = { ranges: [] };
+                        if (!this.deliveryAgent) {
+                            this.deliveryAgent = {ranges: []};
                         }
 
-                        if (! Array.isArray(this.deliveryAgent.ranges)) {
+                        if (!Array.isArray(this.deliveryAgent.ranges)) {
                             this.deliveryAgent.ranges = [];
                         }
 
@@ -303,13 +303,13 @@
                             message: {!! json_encode(trans('deliveryAgent::app.range.view.range-delete-confirmation')) !!},
 
                             agree: () => {
-                                this.$axios.post(`{{ route('admin.range.delete', ['id' => '___ID___']) }}`.replace('___ID___', id))                                    .then((response) => {
-                                        this.$emitter.emit('add-flash', {
-                                            type: 'success',
-                                            message: response.data.message
-                                        });
-                                        this.deliveryAgent.ranges = this.deliveryAgent.ranges.filter(range => range.id !== id);
-                                    })
+                                this.$axios.post(`{{ route('admin.range.delete', ['id' => '___ID___']) }}`.replace('___ID___', id)).then((response) => {
+                                    this.$emitter.emit('add-flash', {
+                                        type: 'success',
+                                        message: response.data.message
+                                    });
+                                    this.deliveryAgent.ranges = this.deliveryAgent.ranges.filter(range => range.id !== id);
+                                })
                                     .catch((error) => {
                                     });
                             },

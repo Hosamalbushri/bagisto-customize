@@ -216,6 +216,48 @@ return [
                     'delivered'           => 'الطلبات المكتملة',
                 ],
             ],
+        ],
+        'review' => [
+            // Review DataGrid translations
+            'id'=>'المعرف',
+            'order_id'          => 'رقم الطلب',
+            'delivery_agent'    => 'مندوب التوصيل',
+            'customer'          => 'العميل',
+            'rating'            => 'التقييم',
+            'comment'           => 'التعليق',
+            'created_at'        => 'تاريخ الإنشاء',
+            'status'            => [
+                'status' =>'الحالة',
+                'pending'       => 'قيد المراجعة',
+                'approved'      => 'مقبول',
+                'disapproved'   => 'مرفوض',
+            ],
+            'actions'           => [
+                'view'          => 'عرض',
+                'edit'          => 'تحرير',
+                'delete'        => 'حذف',
+            ],
+
+            'index' => [
+                'title' => 'تقييمات مندوبي التوصيل',
+                'datagrid' => [
+                    'review-id' => 'رقم التقييم: :review_id',
+                ],
+                'edit' => [
+                    'title' => 'تحرير التقييم',
+                    'save-btn' => 'حفظ',
+                    'agent' => 'مندوب التوصيل',
+                    'customer' => 'العميل',
+                    'order_id' => 'رقم الطلب',
+                    'date' => 'التاريخ',
+                    'status' => 'الحالة',
+                    'rating' => 'التقييم',
+                    'comment' => 'التعليق',
+                    'approved' => 'مقبول',
+                    'disapproved' => 'مرفوض',
+                    'pending' => 'قيد المراجعة',
+                ],
+            ],
 
         ],
 
