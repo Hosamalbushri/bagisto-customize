@@ -48,7 +48,11 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/delivery'], f
      * delivery Reviews routes.
      */
     Route::controller(ReviewsController::class)->prefix('agents/reviews')->group(function () {
+        Route::get('', 'index')->name('admin.reviews.index');
         Route::post('', 'store')->name('admin.review.create');
-    });
+        Route::get('update/{id}', 'edit')->name('admin.review.edit');
+        Route::put('update/{id}', 'update')->name('admin.review.update');
 
+
+    });
 });

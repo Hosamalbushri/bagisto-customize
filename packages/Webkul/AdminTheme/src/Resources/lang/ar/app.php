@@ -51,6 +51,11 @@ return [
                 ],
             ],
         ],
+        'reviews' => [
+            'index' => [
+                'title'=> 'المنتجات',
+            ],
+        ],
     ],
 
     'notifications' => [

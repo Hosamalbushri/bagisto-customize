@@ -46,13 +46,16 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
             $view->addTemplate('DeliveryAgents::admin.layouts.style');
         });
 
-        // Order page events
+        // Order pages events
         Event::listen('bagisto.admin.sales.order.page_action.before', function ($viewRenderEventManager) {
             $viewRenderEventManager->addTemplate('DeliveryAgents::admin.Orders.index');
         });
-
         Event::listen('bagisto.admin.sales.order.Invoice.after', function ($viewRenderEventManager) {
             $viewRenderEventManager->addTemplate('DeliveryAgents::admin.Orders.view');
+        });
+        // Review pages events
+        Event::listen('bagisto.admin.customers.reviews.index.add_tab', function ($viewRenderEventManager) {
+            $viewRenderEventManager->addTemplate('DeliveryAgents::admin.DeliveryAgents.reviews.index');
         });
         // shop customer events
         Event::listen('bagisto.shop.customers.account.orders.view.after.Shipping.tab', function ($viewRenderEventManager) {
