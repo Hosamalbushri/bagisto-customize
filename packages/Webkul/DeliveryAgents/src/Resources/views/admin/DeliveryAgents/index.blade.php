@@ -46,7 +46,7 @@
                 <div class="row grid grid-cols-[2fr_1fr_1fr] grid-rows-1 items-center border-b px-4 py-2.5 dark:border-gray-800">
                     <div
                         class="flex select-none items-center gap-2.5"
-                        v-for="(columnGroup, index) in [['full_name', 'email', 'phone'], ['status', 'gender', 'delivery_agents_id'], ['range_count', 'order_count', 'address_count']]"
+                        v-for="(columnGroup, index) in [['full_name', 'email', 'phone'], ['status', 'gender', 'delivery_agents_id'], ['current_orders_count','range_count', 'average_rating']]"
                     >
                         @if ($hasPermission)
                             <label
@@ -173,14 +173,16 @@
                     <div class="flex items-center justify-between gap-x-4">
                         <div class="flex flex-col gap-1.5">
                             <p class="text-gray-600 dark:text-gray-300">
-                                @{{ "@lang('deliveryAgent::app.deliveryAgent.dataGrid.range')".replace(':range', record.range_count) }}
+                            <p v-html="record.current_orders_count"></p>
                             </p>
                             <p class="text-gray-600 dark:text-gray-300">
-                                @{{ "@lang('deliveryAgent::app.deliveryAgent.dataGrid.order')".replace(':order', record.order_count) }}
+                                @{{ "@lang('deliveryAgent::app.deliveryAgent.dataGrid.range')".replace(':range', record.range_count) }}
                             </p>
-
-                            <p class="text-base font-semibold text-gray-800 dark:text-white">
-                                <!-- Range count will be displayed above -->
+                            <p class="flex">
+                                <x-admin::star-rating
+                                    :is-editable="false"
+                                    ::value="record.average_rating"
+                                />
                             </p>
                         </div>
 

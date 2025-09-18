@@ -5,6 +5,7 @@ namespace Webkul\DeliveryAgents\Http\Controllers\Admin\DeliveryAgents;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Webkul\DeliveryAgents\Datagrids\DeliveryAgent\ReviewDataGrid;
 use Webkul\DeliveryAgents\Models\DeliveryAgentReview;
@@ -124,16 +125,172 @@ class ReviewsController extends Controller
             'errors'  => $errors,
         ], $status);
     }
+
     public function edit(int $id): JsonResponse
     {
-        $review = $this->reviewRepository->with(['customer', 'deliveryAgent'])->findOrFail($id);
-        $review->date = $review->created_at->format('Y-m-d');
+        $review = $this->reviewRepository->findOrFail($id);
+
+        // Build a clean, flattened payload expected by the UI
+        $payload = [
+            'id'                 => $review->id,
+            'rating'             => $review->rating,
+            'comment'            => $review->comment,
+            'status'             => $review->status,
+            'created_at'         => core()->formatDate($review->created_at, 'd-m-Y'),
+            'customer_name'      => trim(($review->customer->first_name ?? '').' '.($review->customer->last_name ?? '')) ?: null,
+            'agent_name'         => trim(($review->deliveryAgent->first_name ?? '').' '.($review->deliveryAgent->last_name ?? '')) ?: null,
+            'order_increment_id' => $review->order->increment_id ?? null,
+        ];
+
         return new JsonResponse([
-            'data' => $review,
+            'data' => $payload,
         ]);
     }
+
     public function update(Request $request, $id)
     {
-        $review = $this->reviewRepository->find($id);
+        // Validate request
+        $validator = Validator::make($request->all(), [
+            'status' => 'required|in:approved,disapproved,pending',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse(
+                message: trans('validation.failed'),
+                errors: $validator->errors()->toArray(),
+            );
+        }
+
+        try {
+            $review = $this->reviewRepository->findOrFail($id);
+
+            // Update the review status
+            $review->update([
+                'status' => $request->status,
+            ]);
+
+            return $this->successResponse(
+                message: trans('deliveryAgent::app.review.index.edit.update_success'),
+                data: $review,
+            );
+        } catch (\Exception $e) {
+            report($e);
+
+            return $this->errorResponse(
+                message: trans('deliveryAgent::app.review.index.edit.update_error'),
+                errors: ['general' => [trans('deliveryAgent::app.review.index.edit.update_error')]],
+                status: 500
+            );
+        }
+    }
+
+    public function delete(int $id): JsonResponse
+    {
+        try {
+            $review = $this->reviewRepository->findOrFail($id);
+
+            // Delete the review
+            $review->delete();
+
+            return $this->successResponse(
+                message: trans('deliveryAgent::app.review.index.delete.delete_success'),
+            );
+        } catch (\Exception $e) {
+            report($e);
+
+            return $this->errorResponse(
+                message: trans('deliveryAgent::app.review.index.delete.delete_error'),
+                errors: ['general' => [trans('deliveryAgent::app.review.index.delete.delete_error')]],
+                status: 500
+            );
+        }
+    }
+
+    /**
+     * Mass delete the delivery agent reviews.
+     */
+    public function massDestroy(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'indices'   => 'required|array',
+            'indices.*' => 'integer|exists:delivery_agent_reviews,id',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse(
+                message: trans('validation.failed'),
+                errors: $validator->errors()->toArray(),
+            );
+        }
+
+        $indices = $request->input('indices');
+
+        try {
+            foreach ($indices as $index) {
+                Event::dispatch('delivery_agent.review.delete.before', $index);
+
+                $this->reviewRepository->delete($index);
+
+                Event::dispatch('delivery_agent.review.delete.after', $index);
+            }
+
+            return $this->successResponse(
+                message: trans('deliveryAgent::app.review.index.datagrid.delete.mass-delete-success'),
+            );
+        } catch (\Exception $e) {
+            report($e);
+
+            return $this->errorResponse(
+                message: trans('deliveryAgent::app.review.index.datagrid.delete.mass-delete-error'),
+                errors: ['general' => [trans('deliveryAgent::app.review.index.datagrid.delete.mass-delete-error')]],
+                status: 500
+            );
+        }
+    }
+
+    /**
+     * Mass update the delivery agent reviews status.
+     */
+    public function massUpdate(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'indices'   => 'required|array',
+            'indices.*' => 'integer|exists:delivery_agent_reviews,id',
+            'value'     => 'required|in:approved,disapproved,pending',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse(
+                message: trans('validation.failed'),
+                errors: $validator->errors()->toArray(),
+            );
+        }
+
+        $indices = $request->input('indices');
+        $status = $request->input('value');
+
+        try {
+            foreach ($indices as $id) {
+                Event::dispatch('delivery_agent.review.update.before', $id);
+
+                $review = $this->reviewRepository->update([
+                    'status' => $status,
+                ], $id);
+
+                Event::dispatch('delivery_agent.review.update.after', $review);
+            }
+
+            return $this->successResponse(
+                message: trans('deliveryAgent::app.review.index.datagrid.update.mass-update-success'),
+            );
+        } catch (\Exception $e) {
+            report($e);
+
+            return $this->errorResponse(
+                message: trans('deliveryAgent::app.review.index.datagrid.update.mass-update-error'),
+                errors: ['general' => [trans('deliveryAgent::app.review.index.datagrid.update.mass-update-error')]],
+                status: 500
+            );
+        }
     }
 }

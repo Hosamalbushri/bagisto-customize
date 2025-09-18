@@ -10,9 +10,9 @@
         <div class="box-shadow rounded bg-white p-4 dark:bg-gray-900">
             <div class="flex justify-between">
                 <!-- Total Order Count -->
-                {{-- <p class="text-base font-semibold leading-none text-gray-800 dark:text-white"> --}}
-                {{--     @lang('deliveryAgent::app.deliveryAgent.view.dataGrid.orders.count', ['count' => count($deliveryAgent->orders)]) --}}
-                {{-- </p> --}}
+                 <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
+                     @lang('deliveryAgent::app.deliveryAgent.view.dataGrid.orders.count')
+                 </p>
             </div>
 
             <x-admin::datagrid
@@ -221,7 +221,7 @@
     <script type="module">
         app.component('v-orders-DataGrid', {
             template: '#v-orders-DataGrid-template',
-            
+
             data() {
                 return {
                     deliveryAgentId: @json($deliveryAgent->id),
@@ -253,10 +253,10 @@
                             this.$axios.post(
                                 `{{ route('admin.orders.changeStatus', [':order']) }}`
                                     .replace(':order', orderId),
-                                { 
-                                    status: orderStatus, 
-                                    order_id: orderId, 
-                                    delivery_agent_id: this.deliveryAgentId 
+                                {
+                                    status: orderStatus,
+                                    order_id: orderId,
+                                    delivery_agent_id: this.deliveryAgentId
                                 }
                             )
                             .then((response) => {

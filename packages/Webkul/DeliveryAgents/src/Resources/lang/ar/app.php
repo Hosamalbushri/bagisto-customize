@@ -92,7 +92,7 @@ return [
             'edit-btn'      => 'تحرير',
             'dataGrid'      => [
                 'orders'        => [
-                    'count'      => 'الطلبيات (:count)',
+                    'count'      => 'الطلبيات',
                     'empty-order'=> 'لا توجد طلبيات',
                 ],
             ],
@@ -192,10 +192,12 @@ return [
             'active'            => 'مفعل',
             'inactive'          => 'متوقف',
             'range-count'       => 'عدد النطاقات',
-            'order_count'       => 'عدد الطلبيات',
+            'order_count'       => 'الطلبيات الحالية ',
             'range'             => ':range نطاق(نطاقات)',
             'order'             => ':order طلب(طلبيات)',
+            'no-order'          => 'لا يوجد طلبيات حالية',
             'country'           => 'الدولة',
+            'rating'            => 'التقييم',
             'state'             => 'الولاية',
             'actions'           => [
                 'view'  => 'عرض',
@@ -217,56 +219,31 @@ return [
                 ],
             ],
         ],
-        'review' => [
-            // Review DataGrid translations
-            'id'=>'المعرف',
-            'order_id'          => 'رقم الطلب',
-            'delivery_agent'    => 'مندوب التوصيل',
-            'customer'          => 'العميل',
-            'rating'            => 'التقييم',
-            'comment'           => 'التعليق',
-            'created_at'        => 'تاريخ الإنشاء',
-            'status'            => [
-                'status' =>'الحالة',
-                'pending'       => 'قيد المراجعة',
-                'approved'      => 'مقبول',
-                'disapproved'   => 'مرفوض',
-            ],
-            'actions'           => [
-                'view'          => 'عرض',
-                'edit'          => 'تحرير',
-                'delete'        => 'حذف',
-            ],
-
+        'reviews' => [
             'index' => [
-                'title' => 'تقييمات مندوبي التوصيل',
-                'datagrid' => [
-                    'review-id' => 'رقم التقييم: :review_id',
-                ],
-                'edit' => [
-                    'title' => 'تحرير التقييم',
-                    'save-btn' => 'حفظ',
-                    'agent' => 'مندوب التوصيل',
-                    'customer' => 'العميل',
-                    'order_id' => 'رقم الطلب',
-                    'date' => 'التاريخ',
-                    'status' => 'الحالة',
-                    'rating' => 'التقييم',
-                    'comment' => 'التعليق',
-                    'approved' => 'مقبول',
-                    'disapproved' => 'مرفوض',
-                    'pending' => 'قيد المراجعة',
+                'title'             => 'تقييمات مندوبي التوصيل',
+                'count'             => 'عدد التقييمات (:count)',
+                'datagrid'          => [
+                    'review-id'         => 'المعرف: :review_id',
+                    'empty-reviews'     => 'لا توجد تقييمات متاحة',
+                    'id'                => 'المعرف',
+                    'order_id'          => 'رقم الطلب',
+                    'delivery_agent'    => 'مندوب التوصيل',
+                    'customer'          => 'العميل',
+                    'rating'            => 'التقييم',
+                    'comment'           => 'التعليق',
+                    'created_at'        => 'تاريخ الإنشاء',
+                    'status'            => [
+                        'status'        => 'الحالة',
+                        'pending'       => 'معلق',
+                        'approved'      => 'موافق علية',
+                        'disapproved'   => 'غير موافق علية',
+                    ],
                 ],
             ],
 
         ],
 
-        'form' => [
-            'name'      => 'الاسم الكامل',
-            'phone'     => 'رقم الهاتف',
-            'email'     => 'البريد الإلكتروني',
-            'password'  => 'كلمة المرور',
-        ],
     ],
 
     /*
@@ -499,6 +476,79 @@ return [
             'edit-success'               => 'تم تحديث بيانات النطاق بنجاح.',
             'edit-failed'                => 'هذا المندوب مسجل بالفعل في هذه المنطقة الجغرافية',
 
+        ],
+
+    ],
+    /*
+|--------------------------------------------------------------------------
+| قسم  التقييمات والمراجعات
+|--------------------------------------------------------------------------
+*/
+    'review' => [
+        'index' => [
+            'title'             => 'تقييمات مندوبي التوصيل',
+            'id'                => 'المعرف',
+            'order_id'          => 'رقم الطلب',
+            'delivery_agent'    => 'مندوب التوصيل',
+            'customer'          => 'العميل',
+            'rating'            => 'التقييم',
+            'comment'           => 'التعليق',
+            'created_at'        => 'تاريخ الإنشاء',
+            'tab'               => [
+                'title'=> 'المناديب',
+            ],
+            'status'            => [
+                'status'        => 'الحالة',
+                'pending'       => 'معلق',
+                'approved'      => 'موافق علية',
+                'disapproved'   => 'غير موافق علية',
+            ],
+            'count'             => 'عدد التقييمات (:count)',
+            'datagrid'          => [
+                'review-id'         => 'المعرف: :review_id',
+                'empty-reviews'     => 'لا توجد تقييمات متاحة',
+                'actions'           => [
+                    'update-status' => 'تحديث الحالة',
+                    'delete'        => 'حذف',
+                    'edit'          => 'تحديث',
+                ],
+                'status'            => [
+                    'status'        => 'الحالة',
+                    'pending'       => 'معلق',
+                    'approved'      => 'موافق علية',
+                    'disapproved'   => 'غير موافق علية',
+                ],
+                'delete'=> [
+                    'mass-delete-success'=> 'تم حذف التقييمات المحددة بنجاح',
+                    'mass-delete-error'  => 'حدث خطأ أثناء الحذف الجماعي التقييمات',
+                ],
+                'update'=> [
+                    'mass-update-success'=> 'تم تحديث التقييمات المحددة بنجاح',
+                    'mass-update-error'  => 'حدث خطأ أثناء التحديث الجماعي التقييمات',
+
+                ],
+            ],
+            'edit' => [
+                'title'         => 'تحرير التقييم',
+                'save-btn'      => 'حفظ',
+                'agent'         => 'مندوب التوصيل',
+                'customer'      => 'العميل',
+                'order_id'      => 'رقم الطلب',
+                'date'          => 'التاريخ',
+                'status'        => 'الحالة',
+                'rating'        => 'التقييم',
+                'comment'       => 'التعليق',
+                'pending'       => 'معلق',
+                'approved'      => 'موافق علية',
+                'disapproved'   => 'غير موافق علية',
+                'update_success'=> 'تم تحديث التقييم بنجاح',
+                'update_error'  => 'حدث خطأ أثناء تحديث التقييم',
+
+            ],
+            'delete' => [
+                'delete_success'=> 'تم حذف التقييم بنجاح',
+                'delete_error'  => 'حدث خطأ أثناء حذف التقييم',
+            ],
         ],
 
     ],
