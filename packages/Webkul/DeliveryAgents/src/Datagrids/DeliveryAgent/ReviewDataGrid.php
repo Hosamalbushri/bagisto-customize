@@ -4,6 +4,7 @@ namespace Webkul\DeliveryAgents\Datagrids\DeliveryAgent;
 
 use Illuminate\Support\Facades\DB;
 use Webkul\DataGrid\DataGrid;
+use Webkul\DeliveryAgents\Models\DeliveryAgentReview;
 
 class ReviewDataGrid extends DataGrid
 {
@@ -57,6 +58,7 @@ class ReviewDataGrid extends DataGrid
         $this->addFilter('id', 'delivery_agent_reviews.id');
         $this->addFilter('status', 'delivery_agent_reviews.status');
         $this->addFilter('rating', 'delivery_agent_reviews.rating');
+        $this->addFilter('order_increment_id', 'orders.increment_id');
         $this->addFilter('created_at', 'delivery_agent_reviews.created_at');
 
         return $queryBuilder;
@@ -72,7 +74,7 @@ class ReviewDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'customer_name',
-            'label'      => trans('deliveryAgent::app.deliveryAgent.review.customer'),
+            'label'      => trans('deliveryAgent::app.review.index.customer'),
             'type'       => 'string',
             'sortable'   => true,
             'closure'    => function ($row) {
@@ -82,7 +84,7 @@ class ReviewDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'agent_name',
-            'label'      => trans('deliveryAgent::app.deliveryAgent.review.delivery_agent'),
+            'label'      => trans('deliveryAgent::app.review.index.delivery_agent'),
             'type'       => 'string',
             'searchable' => true,
             'sortable'   => true,
@@ -93,42 +95,43 @@ class ReviewDataGrid extends DataGrid
 
         $this->addColumn([
             'index'              => 'status',
-            'label'              => trans('deliveryAgent::app.deliveryAgent.review.status.status'),
+            'label'              => trans('deliveryAgent::app.review.index.status.status'),
             'type'               => 'string',
             'filterable'         => true,
             'filterable_type'    => 'dropdown',
             'filterable_options' => [
                 [
-                    'label' => trans('deliveryAgent::app.deliveryAgent.review.status.approved'),
-                    'value' => self::STATUS_APPROVED,
-                ],
-                [
-                    'label' => trans('deliveryAgent::app.deliveryAgent.review.status.pending'),
+                    'label' => trans('deliveryAgent::app.review.index.status.pending'),
                     'value' => self::STATUS_PENDING,
                 ],
                 [
-                    'label' => trans('deliveryAgent::app.deliveryAgent.review.status.disapproved'),
+                    'label' => trans('deliveryAgent::app.review.index.status.approved'),
+                    'value' => self::STATUS_APPROVED,
+                ],
+                [
+                    'label' => trans('deliveryAgent::app.review.index.status.disapproved'),
                     'value' => self::STATUS_DISAPPROVED,
                 ],
+
             ],
             'sortable'   => true,
             'closure'    => function ($row) {
                 switch ($row->status) {
                     case self::STATUS_APPROVED:
-                        return '<p class="label-active">'.trans('deliveryAgent::app.deliveryAgent.review.status.approved').'</p>';
+                        return '<p class="label-active">'.trans('deliveryAgent::app.review.index.status.approved').'</p>';
 
                     case self::STATUS_PENDING:
-                        return '<p class="label-pending">'.trans('deliveryAgent::app.deliveryAgent.review.status.pending').'</p>';
+                        return '<p class="label-pending">'.trans('deliveryAgent::app.review.index.status.pending').'</p>';
 
                     case self::STATUS_DISAPPROVED:
-                        return '<p class="label-canceled">'.trans('deliveryAgent::app.deliveryAgent.review.status.disapproved').'</p>';
+                        return '<p class="label-canceled">'.trans('deliveryAgent::app.review.index.status.disapproved').'</p>';
                 }
             },
         ]);
 
         $this->addColumn([
             'index'              => 'rating',
-            'label'              => trans('deliveryAgent::app.deliveryAgent.review.rating'),
+            'label'              => trans('deliveryAgent::app.review.index.rating'),
             'type'               => 'string',
             'searchable'         => true,
             'filterable'         => true,
@@ -144,7 +147,7 @@ class ReviewDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'id',
-            'label'      => trans('deliveryAgent::app.deliveryAgent.review.id'),
+            'label'      => trans('deliveryAgent::app.review.index.id'),
             'type'       => 'integer',
             'filterable' => true,
             'sortable'   => true,
@@ -152,29 +155,32 @@ class ReviewDataGrid extends DataGrid
 
         $this->addColumn([
             'index'      => 'order_increment_id',
-            'label'      => trans('deliveryAgent::app.deliveryAgent.review.order_id'),
+            'label'      => trans('deliveryAgent::app.review.index.order_id'),
             'type'       => 'string',
             'searchable' => true,
             'filterable' => true,
             'sortable'   => true,
             'closure'    => function ($row) {
-                return '#'.$row->order_increment_id;
+                return $row->order_increment_id.'#';
             },
         ]);
 
         $this->addColumn([
             'index'      => 'comment',
-            'label'      => trans('deliveryAgent::app.deliveryAgent.review.comment'),
+            'label'      => trans('deliveryAgent::app.review.index.comment'),
             'type'       => 'string',
         ]);
 
         $this->addColumn([
             'index'           => 'created_at',
-            'label'           => trans('deliveryAgent::app.deliveryAgent.review.created_at'),
+            'label'           => trans('deliveryAgent::app.review.index.created_at'),
             'type'            => 'date',
             'filterable'      => true,
             'filterable_type' => 'date_range',
             'sortable'        => true,
+            'closure'         => function ($row) {
+                return core()->formatDate($row->created_at,'d-m-Y');
+            },
         ]);
     }
 
@@ -189,7 +195,7 @@ class ReviewDataGrid extends DataGrid
             $this->addAction([
                 'index'  => 'edit',
                 'icon'   => 'icon-edit',
-                'title'  => trans('deliveryAgent::app.deliveryAgent.review.actions.edit'),
+                'title'  => trans('deliveryAgent::app.review.datagrid.actions.edit'),
                 'method' => 'GET',
                 'url'    => function ($row) {
                     return route('admin.review.edit', $row->id);
@@ -197,17 +203,17 @@ class ReviewDataGrid extends DataGrid
             ]);
         }
 
-//        if (bouncer()->hasPermission('delivery_agents.reviews.delete')) {
-//            $this->addAction([
-//                'index'  => 'delete',
-//                'icon'   => 'icon-delete',
-//                'title'  => trans('deliveryAgent::app.deliveryAgent.review.actions.delete'),
-//                'method' => 'DELETE',
-//                'url'    => function ($row) {
-//                    return route('admin.delivery_agents.reviews.delete', $row->id);
-//                },
-//            ]);
-//        }
+        if (bouncer()->hasPermission('delivery_agents.reviews.delete')) {
+            $this->addAction([
+                'index'  => 'delete',
+                'icon'   => 'icon-delete',
+                'title'  => trans('deliveryAgent::app.review.datagrid.actions.delete'),
+                'method' => 'DELETE',
+                'url'    => function ($row) {
+                    return route('admin.review.delete', $row->id);
+                },
+            ]);
+        }
     }
 
     /**
@@ -215,36 +221,36 @@ class ReviewDataGrid extends DataGrid
      *
      * @return void
      */
-//    public function prepareMassActions()
-//    {
-//        if (bouncer()->hasPermission('delivery_agents.reviews.delete')) {
-//            $this->addMassAction([
-//                'title'  => trans('deliveryAgent::app.deliveryAgent.review.actions.delete'),
-//                'url'    => route('admin.delivery_agents.reviews.mass_delete'),
-//                'method' => 'POST',
-//            ]);
-//        }
-//
-//        if (bouncer()->hasPermission('delivery_agents.reviews.edit')) {
-//            $this->addMassAction([
-//                'title'   => trans('deliveryAgent::app.deliveryAgent.review.actions.update-status'),
-//                'method'  => 'POST',
-//                'url'     => route('admin.delivery_agents.reviews.mass_update'),
-//                'options' => [
-//                    [
-//                        'label' => trans('deliveryAgent::app.deliveryAgent.review.status.pending'),
-//                        'value' => 'pending',
-//                    ],
-//                    [
-//                        'label' => trans('deliveryAgent::app.deliveryAgent.review.status.approved'),
-//                        'value' => 'approved',
-//                    ],
-//                    [
-//                        'label' => trans('deliveryAgent::app.deliveryAgent.review.status.disapproved'),
-//                        'value' => 'disapproved',
-//                    ],
-//                ],
-//            ]);
-//        }
-//    }
+    public function prepareMassActions()
+    {
+        if (bouncer()->hasPermission('delivery_agents.reviews.delete')) {
+            $this->addMassAction([
+                'title'  => trans('deliveryAgent::app.review.index.datagrid.actions.delete'),
+                'url'    => route('admin.reviews.mass_delete'),
+                'method' => 'POST',
+            ]);
+        }
+
+        if (bouncer()->hasPermission('delivery_agents.reviews.edit')) {
+            $this->addMassAction([
+                'title'   => trans('deliveryAgent::app.review.index.datagrid.actions.update-status'),
+                'method'  => 'POST',
+                'url'     => route('admin.reviews.changeStatus'),
+                'options' => [
+                    [
+                        'label' => trans('deliveryAgent::app.review.index.datagrid.status.pending'),
+                        'value' => DeliveryAgentReview::STATUS_PENDING,
+                    ],
+                    [
+                        'label' => trans('deliveryAgent::app.review.index.datagrid.status.approved'),
+                        'value' => DeliveryAgentReview::STATUS_APPROVED,
+                    ],
+                    [
+                        'label' => trans('deliveryAgent::app.review.index.datagrid.status.disapproved'),
+                        'value' => DeliveryAgentReview::STATUS_DISAPPROVED,
+                    ],
+                ],
+            ]);
+        }
+    }
 }

@@ -2,7 +2,7 @@
     <div class="flex justify-between">
         <!-- Total Reviews Count -->
         <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
-            @lang('deliveryAgent::app.deliveryAgent.review.index.count', ['count' => count($deliveryAgent->reviews)])
+            @lang('deliveryAgent::app.deliveryAgent.reviews.index.count', ['count' => count($deliveryAgent->reviews)])
         </p>
     </div>
 
@@ -26,7 +26,7 @@
                 <div class="row grid grid-cols-[2fr_1fr_1fr] grid-rows-1 items-center border-b border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-600 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300">
                     <div
                         class="flex select-none items-center gap-2.5"
-                        v-for="(columnGroup, index) in [['customer_name','agent_name', 'status', 'comment'], ['rating', 'created_at', 'id']]"
+                        v-for="(columnGroup, index) in [['customer_name', 'status', 'comment'], ['rating', 'created_at', 'id']]"
                     >
                         <p class="text-gray-600 dark:text-gray-300">
                             <span class="[&>*]:after:content-['_/_']">
@@ -81,13 +81,6 @@
                             <p
                                 class="text-base font-semibold leading-none text-gray-800 dark:text-white"
                                 v-text="record.customer_name"
-
-                            >
-                            </p>
-                            <!-- Agent Name -->
-                            <p
-                                class="text-gray-600 dark:text-gray-300"
-                                v-text="record.agent_name"
                             >
                             </p>
 
@@ -96,6 +89,10 @@
                                 class="text-gray-600 dark:text-gray-300"
                                 v-html="record.status"
                             >
+                            </p>
+                            <!-- Order ID -->
+                            <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
+                                @{{ record.order_increment_id }}
                             </p>
                         </div>
 
@@ -117,25 +114,27 @@
 
                             <!-- Review ID -->
                             <p class="text-gray-600 dark:text-gray-300">
-                                @{{ "@lang('deliveryAgent::app.deliveryAgent.review.index.datagrid.review-id')".replace(':review_id', record.id) }}
+                                @{{ "@lang('deliveryAgent::app.deliveryAgent.reviews.index.datagrid.review-id')".replace(':review_id', record.id) }}
                             </p>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between gap-x-4">
                         <div class="flex flex-col gap-1.5">
-                            <!-- Order ID -->
-                            <p class="text-base font-semibold leading-none text-gray-800 dark:text-white">
-                                @{{ record.order_increment_id }}
-                            </p>
-
                             <!-- Review Comment -->
                             <p class="text-gray-600 dark:text-gray-300">
                                 @{{ record.comment }}
                             </p>
                         </div>
+                        <a
+                            :href="`{{ route('admin.sales.orders.view', '') }}/${record.order_id}`"
+                            target="_blank"
+                            class="icon-sort-right rtl:icon-sort-left cursor-pointer rounded-md p-1.5 text-2xl transition-all hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+                        >
+                        </a>
 
                     </div>
+
                 </div>
 
                 <div
@@ -151,7 +150,7 @@
 
                         <div class="flex flex-col items-center">
                             <p class="text-base font-semibold text-gray-400">
-                                @lang('deliveryAgent::app.deliveryAgent.review.index.datagrid.empty-reviews')
+                                @lang('deliveryAgent::app.deliveryAgent.reviews.index.datagrid.empty-reviews')
                             </p>
                         </div>
                     </div>
