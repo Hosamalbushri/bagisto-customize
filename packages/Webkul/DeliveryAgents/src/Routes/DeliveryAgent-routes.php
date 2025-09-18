@@ -33,7 +33,6 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/delivery'], f
         Route::post('mass-add/{areaId}', 'massAdd')->name('admin.range.mass_add');
         Route::post('mass-delete/{areaId}', 'massDestroy')->name('admin.range.mass_delete');
 
-
     });
 
     /**
@@ -52,7 +51,9 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/delivery'], f
         Route::post('', 'store')->name('admin.review.create');
         Route::get('update/{id}', 'edit')->name('admin.review.edit');
         Route::put('update/{id}', 'update')->name('admin.review.update');
-
+        Route::delete('delete/{id}', 'delete')->name('admin.review.delete');
+        Route::post('mass-delete', 'massDestroy')->name('admin.reviews.mass_delete');
+        Route::post('mass-update', 'massUpdate')->name('admin.reviews.changeStatus');
 
     });
 });

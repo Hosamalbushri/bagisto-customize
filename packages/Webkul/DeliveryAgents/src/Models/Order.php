@@ -108,6 +108,7 @@ class Order extends BaseModel
             ->where('status', DeliveryAgentOrder::STATUS_DELIVERED)
             ->latestOfMany('completed_at');
     }
+
     public function deliveryAgentReview(): HasOne
     {
         return $this->hasOne(DeliveryAgentReview::class);
@@ -154,12 +155,13 @@ class Order extends BaseModel
 
     public function showDeliveryTab(): bool
     {
-        if ($this->status == self::STATUS_OUT_FOR_DELIVERY) {
+        if ($this->status == self::STATUS_OUT_FOR_DELIVERY ) {
             return true;
         }
-        if ($this->status == self::STATUS_COMPLETED) {
+        if ($this->status == self::STATUS_COMPLETED ) {
             return true;
         }
+
         return false;
     }
 

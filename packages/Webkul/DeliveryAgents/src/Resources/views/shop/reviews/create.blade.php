@@ -11,15 +11,18 @@
         id="v-delivery-agent-review-form-template"
     >
         <div class="container max-1180:px-5">
-            <div class="mb-6 text-center">
-                <button
-                    class="inline-flex items-center gap-2 rounded-xl border border-navyBlue bg-white px-6 py-3 text-center text-base font-medium text-navyBlue transition-colors hover:bg-navyBlue"
-                    @click="$refs.DeliveryAgentReviewCreateModal.open()"
-                >
-                    <span class="icon-star text-lg"></span>
-                    تقييم المندوب
-                </button>
-            </div>
+            @if(!empty($order->delivery_agent_id))
+                <div class="mb-6 text-center">
+                    <button
+                        class="inline-flex items-center gap-2 rounded-xl border border-navyBlue bg-white px-6 py-3 text-center text-base font-medium text-navyBlue transition-colors hover:bg-navyBlue"
+                        @click="$refs.DeliveryAgentReviewCreateModal.open()"
+                    >
+                        <span class="icon-star text-lg"></span>
+                        تقييم المندوب
+                    </button>
+                </div>
+            @endif
+
 
             <!-- Review Form Modal -->
             <x-shop::form

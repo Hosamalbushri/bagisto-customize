@@ -20,7 +20,7 @@ class DeliveryAgentDataGrid extends DataGrid
         $queryBuilder = DB::table('delivery_agents')
             ->leftJoin('delivery_agent_ranges', 'delivery_agents.id', '=', 'delivery_agent_ranges.delivery_agent_id')
             ->leftJoin('delivery_agent_orders', 'delivery_agents.id', '=', 'delivery_agent_orders.delivery_agent_id')
-
+            ->leftJoin('delivery_agent_reviews', 'delivery_agents.id', '=', 'delivery_agent_reviews.delivery_agent_id')
             ->addSelect(
                 'delivery_agents.id as delivery_agents_id',
                 'delivery_agents.email',
@@ -31,8 +31,9 @@ class DeliveryAgentDataGrid extends DataGrid
             ->addSelect(DB::raw('COUNT(DISTINCT '.$tablePrefix.'delivery_agent_ranges.id) as range_count'))
             ->addSelect(DB::raw('COUNT(DISTINCT '.$tablePrefix.'delivery_agent_orders.id) as order_count'))
             ->addSelect(DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name) as full_name'))
-            ->groupBy('delivery_agents_id');
-
+            ->addSelect(DB::raw('COALESCE(LEAST(5, GREATEST(1, ROUND(AVG(CASE WHEN '.$tablePrefix.'delivery_agent_reviews.status = "approved" THEN '.$tablePrefix.'delivery_agent_reviews.rating END), 1))),0) as average_rating'))
+            ->addSelect(DB::raw("COUNT(DISTINCT CASE WHEN {$tablePrefix}delivery_agent_orders.status IN ('assigned_to_agent', 'accepted_by_agent', 'out_for_delivery') THEN {$tablePrefix}delivery_agent_orders.id END) as current_orders_count"))
+            ->groupBy('delivery_agents.id', 'delivery_agents.email', 'delivery_agents.phone', 'delivery_agents.gender', 'delivery_agents.status', 'delivery_agents.first_name', 'delivery_agents.last_name');
         $this->addFilter('delivery_agents_id', 'delivery_agents.id');
         $this->addFilter('email', 'delivery_agents.email');
         $this->addFilter('full_name', DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name)'));
@@ -107,12 +108,24 @@ class DeliveryAgentDataGrid extends DataGrid
 
         ]);
         $this->addColumn([
-            'index'      => 'order_count',
+            'index'      => 'current_orders_count',
             'label'      => trans('deliveryAgent::app.deliveryAgent.dataGrid.order_count'),
             'type'       => 'string',
             'searchable' => false,
             'sortable'   => false,
             'filterable' => false,
+            'closure'    => function ($row) {
+                if ($row->current_orders_count > 0) {
+                    return '<p class="text-gray-600 dark:text-gray-300">'
+                        .trans('deliveryAgent::app.deliveryAgent.dataGrid.order', ['order' => $row->current_orders_count])
+                        .'</p>';
+                } else {
+                    return '<p class="text-gray-600 dark:text-gray-300">'
+                        .trans('deliveryAgent::app.deliveryAgent.dataGrid.no-order')
+                        .'</p>';
+                }
+
+            },
 
         ]);
 
@@ -152,6 +165,14 @@ class DeliveryAgentDataGrid extends DataGrid
             'label'    => trans('deliveryAgent::app.deliveryAgent.dataGrid.range-count'),
             'type'     => 'integer',
             'sortable' => true,
+        ]);
+        $this->addColumn([
+            'index'      => 'average_rating',
+            'label'      => trans('deliveryAgent::app.deliveryAgent.dataGrid.rating'),
+            'type'       => 'string',
+            'searchable' => false,
+            'sortable'   => true,
+
         ]);
 
     }

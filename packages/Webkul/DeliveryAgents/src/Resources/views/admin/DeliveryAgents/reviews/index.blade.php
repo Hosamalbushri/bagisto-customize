@@ -1,5 +1,5 @@
 <x-admin::tabs.item
-    title="wdd"
+    title="{{ __('deliveryAgent::app.review.index.tab.title') }}"
 >
     {!! view_render_event('bagisto.admin.delivery_agents.reviews.edit.before') !!}
     <v-delivery-agent-review-edit-drawer></v-delivery-agent-review-edit-drawer>
@@ -164,7 +164,7 @@
                                 <p
                                     class="text-gray-600 dark:text-gray-300"
                                 >
-                                    @{{ "@lang('deliveryAgent::app.deliveryAgent.review.index.datagrid.review-id')".replace(':review_id', record.id) }}
+                                    @{{ "@lang('deliveryAgent::app.review.index.datagrid.review-id')".replace(':review_id', record.id) }}
                                 </p>
                             </div>
 
@@ -219,118 +219,122 @@
                             <x-slot:header>
                                 <div class="flex items-center justify-between">
                                     <p class="text-xl font-medium dark:text-white">
-                                        @lang('deliveryAgent::app.deliveryAgent.review.index.edit.title')
+                                        @lang('deliveryAgent::app.review.index.edit.title')
                                     </p>
 
                                     <button class="primary-button ltr:mr-11 rtl:ml-11">
-                                        @lang('deliveryAgent::app.deliveryAgent.review.index.edit.save-btn')
+                                        @lang('deliveryAgent::app.review.index.edit.save-btn')
                                     </button>
                                 </div>
                             </x-slot>
 
                             <!-- Drawer Content -->
                             <x-slot:content>
-                                <div class="flex flex-col gap-4 px-1.5 py-2.5">
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div class="">
-                                            <!-- Customer Name -->
-                                            <p class="text-xs font-semibold text-gray-600 dark:text-gray-300">
-                                                @lang('deliveryAgent::app.deliveryAgent.review.index.edit.customer')
-                                            </p>
-
-                                            <p class="font-semibold text-gray-800 dark:text-white">
+                                <div class="flex flex-col gap-6 px-4 py-4">
+                                    <!-- Basic Information: two columns -->
+                                    <div class="grid grid-cols-2 gap-6">
+                                        <div class="space-y-1">
+                                            <label class="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                @lang('deliveryAgent::app.review.index.edit.customer')
+                                            </label>
+                                            <p class="text-base font-medium text-gray-900 dark:text-white">
                                                 @{{ review.customer_name || 'N/A' }}
                                             </p>
                                         </div>
 
-                                        <div class="">
-                                            <p class="text-xs font-semibold text-gray-600 dark:text-gray-300">
-                                                @lang('deliveryAgent::app.deliveryAgent.review.index.edit.agent')
-                                            </p>
-
-                                            <p class="font-semibold text-gray-800 dark:text-white">
+                                        <div class="space-y-1">
+                                            <label class="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                @lang('deliveryAgent::app.review.index.edit.agent')
+                                            </label>
+                                            <p class="text-base font-medium text-gray-900 dark:text-white">
                                                 @{{ review.agent_name || 'N/A' }}
                                             </p>
                                         </div>
 
-                                        <div class="">
-                                            <p class="text-xs font-semibold text-gray-600 dark:text-gray-300">
-                                                @lang('deliveryAgent::app.deliveryAgent.review.index.edit.order_id')
-                                            </p>
-
-                                            <p class="font-semibold text-gray-800 dark:text-white">
+                                        <div class="space-y-1">
+                                            <label class="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                @lang('deliveryAgent::app.review.index.edit.order_id')
+                                            </label>
+                                            <p class="text-base font-medium text-gray-900 dark:text-white">
                                                 @{{ review.order_increment_id || 'N/A' }}
                                             </p>
                                         </div>
 
-                                        <div class="">
-                                            <p class="text-xs font-semibold text-gray-600 dark:text-gray-300">
-                                                @lang('deliveryAgent::app.deliveryAgent.review.index.edit.date')
-                                            </p>
-
-                                            <p class="font-semibold text-gray-800 dark:text-white">
+                                        <div class="space-y-1">
+                                            <label class="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                @lang('deliveryAgent::app.review.index.edit.date')
+                                            </label>
+                                            <p class="text-base font-medium text-gray-900 dark:text-white">
                                                 @{{ review.created_at }}
                                             </p>
                                         </div>
                                     </div>
 
-                                    <div class="w-full">
-                                        <x-admin::form.control-group.control
-                                            type="hidden"
-                                            name="id"
-                                            rules="required"
-                                            ::value="review.id"
-                                        />
+                                    <div class="border-t border-gray-200 dark:border-gray-700"></div>
 
-                                        <x-admin::form.control-group>
-                                            <x-admin::form.control-group.label class="required">
-                                                @lang('deliveryAgent::app.deliveryAgent.review.index.edit.status')
-                                            </x-admin::form.control-group.label>
-
+                                    <!-- Status and Rating: two columns -->
+                                    <div class="grid grid-cols-2 gap-6">
+                                        <div class="space-y-4">
                                             <x-admin::form.control-group.control
-                                                type="select"
-                                                name="status"
+                                                type="hidden"
+                                                name="id"
                                                 rules="required"
-                                                ::value="review.status"
-                                            >
-                                                <option value="approved" >
-                                                    @lang('deliveryAgent::app.deliveryAgent.review.index.edit.approved')
-                                                </option>
-
-                                                <option value="disapproved">
-                                                    @lang('deliveryAgent::app.deliveryAgent.review.index.edit.disapproved')
-                                                </option>
-
-                                                <option value="pending">
-                                                    @lang('deliveryAgent::app.deliveryAgent.review.index.edit.pending')
-                                                </option>
-                                            </x-admin::form.control-group.control>
-
-                                            <x-admin::form.control-group.error control-name="status" />
-                                        </x-admin::form.control-group>
-                                    </div>
-
-                                    <div class="w-full">
-                                        <p class="font-semibold text-gray-600 dark:text-gray-300">
-                                            @lang('deliveryAgent::app.deliveryAgent.review.index.edit.rating')
-                                        </p>
-
-                                        <div class="flex">
-                                            <x-admin::star-rating
-                                                :is-editable="false"
-                                                ::value="review.rating"
+                                                ::value="review.id"
                                             />
+
+                                            <x-admin::form.control-group>
+                                                <x-admin::form.control-group.label class="required">
+                                                    @lang('deliveryAgent::app.review.index.edit.status')
+                                                </x-admin::form.control-group.label>
+
+                                                <x-admin::form.control-group.control
+                                                    type="select"
+                                                    name="status"
+                                                    rules="required"
+                                                    ::value="review.status"
+                                                >
+                                                    <option value="approved">
+                                                        @lang('deliveryAgent::app.review.index.edit.approved')
+                                                    </option>
+
+                                                    <option value="disapproved">
+                                                        @lang('deliveryAgent::app.review.index.edit.disapproved')
+                                                    </option>
+
+                                                    <option value="pending">
+                                                        @lang('deliveryAgent::app.review.index.edit.pending')
+                                                    </option>
+                                                </x-admin::form.control-group.control>
+
+                                                <x-admin::form.control-group.error control-name="status" />
+                                            </x-admin::form.control-group>
+                                        </div>
+
+                                        <div class="space-y-2">
+                                            <label class="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                @lang('deliveryAgent::app.review.index.edit.rating')
+                                            </label>
+                                            <div class="flex items-center gap-2">
+                                                <x-admin::star-rating
+                                                    :is-editable="false"
+                                                    ::value="review.rating"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="w-full">
-                                        <p class="block text-xs font-semibold leading-6 text-gray-600 dark:text-gray-300">
-                                            @lang('deliveryAgent::app.deliveryAgent.review.index.edit.comment')
-                                        </p>
+                                    <div class="border-t border-gray-200 dark:border-gray-700"></div>
 
-                                        <p class="text-gray-800 dark:text-white">
-                                            @{{ review.comment }}
-                                        </p>
+                                    <!-- Comment (full width) -->
+                                    <div class="space-y-2">
+                                        <label class="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                            @lang('deliveryAgent::app.review.index.edit.comment')
+                                        </label>
+                                        <div class="rounded-md border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-800">
+                                            <p class="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-line">
+                                                @{{ review.comment || 'لا يوجد تعليق' }}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </x-slot>
