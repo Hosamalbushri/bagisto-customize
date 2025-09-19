@@ -1,6 +1,39 @@
 <?php
 
 return [
+    'configuration' => [
+        'index' => [
+            'catalog' => [
+                'products' => [
+                    'create' => [
+                        'title'                            => 'إعدادات إنشاء المنتجات',
+                        'title-info'                       => 'تكوين الإعدادات لإنشاء منتجات جديدة',
+                        'enable-default-product-type'      => 'تفعيل اختيار نوع المنتج الافتراضي',
+                        'enable-default-product-type-info' => 'السماح للمستخدمين بتعيين نوع منتج افتراضي للمنتجات الجديدة',
+                        'default-product-type'             => 'نوع المنتج الافتراضي',
+                        'default-product-type-info'        => 'اختر نوع المنتج الافتراضي عند إنشاء منتجات جديدة',
+                        'auto-generate-sku'                => 'توليد رمز المنتج تلقائياً',
+                        'auto-generate-sku-info'           => 'توليد رمز المنتج تلقائياً للمنتجات الجديدة',
+                        'sku-prefix'                       => 'بادئة رمز المنتج',
+                        'sku-prefix-info'                  => 'البادئة التي ستضاف إلى أرقام المنتجات المولدة تلقائياً (مثل: PRD، PROD). اتركها فارغة للحصول على أرقام رقمية فقط.',
+                        'sku-length'                       => 'طول رمز المنتج',
+                        'sku-length-info'                  => 'طول الجزء الرقمي في أرقام المنتجات المولدة تلقائياً (3-10 أرقام)',
+                        'auto-fill-required-fields'        => 'ملء الحقول المطلوبة تلقائياً',
+                        'auto-fill-required-fields-info'   => 'ملء الحقول المطلوبة تلقائياً بقيم افتراضية',
+                        'sample-sku'                       => 'معاينة رمز المنتج',
+                        'generate-sample'                  => 'توليد عينة',
+                        'default-product-type-selected'    => 'تم تحديد نوع المنتج الافتراضي',
+                        'auto-generated-sku'               => 'رمز المنتج مولد تلقائياً',
+                    ],
+                ],
+            ],
+        ],
+        'reviews' => [
+            'index' => [
+                'title'=> 'المنتجات',
+            ],
+        ],
+    ],
     'sales' => [
         'orders' => [
             'index' => [
@@ -69,7 +102,7 @@ return [
             'processing'          => 'جاري معالجة الطلب',
             'assigned_to_agent'   => 'بانتظار تأكيد المندوب',
             'accepted_by_agent'   => 'المندوب استلم الطلب',
-            'rejected_by_agent'   => 'المندوب رفض عن الطلب',
+            'rejected_by_agent'   => 'المندوب رفض  الطلب',
             'out_for_delivery'    => 'الطلب في الطريق',
         ],
     ],

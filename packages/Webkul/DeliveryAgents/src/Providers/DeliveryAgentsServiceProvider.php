@@ -25,16 +25,15 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
         $this->registerEventListeners();
         $this->registerModels();
         $this->loadPackageResources();
-        $this->mergeConfigurations();
+        $this->registerConfig();
+
     }
 
     /**
      * Register services.
      */
     public function register(): void
-    {
-        $this->registerConfig();
-    }
+    {}
 
     /**
      * Register event listeners for the package.
@@ -104,17 +103,6 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Merge package configurations.
-     */
-    protected function mergeConfigurations(): void
-    {
-        $this->mergeConfigFrom(
-            dirname(__DIR__).'/Config/system.php',
-            'core'
-        );
-    }
-
-    /**
      * Register package configuration files.
      */
     protected function registerConfig(): void
@@ -127,6 +115,10 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             dirname(__DIR__).'/Config/acl.php',
             'acl'
+        );
+        $this->mergeConfigFrom(
+            dirname(__DIR__).'/Config/system.php',
+            'core'
         );
 
         // Merge Delivery Agents auth guard and provider

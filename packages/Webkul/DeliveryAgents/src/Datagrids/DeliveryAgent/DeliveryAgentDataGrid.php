@@ -39,6 +39,8 @@ class DeliveryAgentDataGrid extends DataGrid
         $this->addFilter('full_name', DB::raw('CONCAT('.$tablePrefix.'delivery_agents.first_name, " ", '.$tablePrefix.'delivery_agents.last_name)'));
         $this->addFilter('phone', 'delivery_agents.phone');
         $this->addFilter('status', 'delivery_agents.status');
+        $this->addFilter('average_rating', 'delivery_agent_reviews.rating');
+
 
         return $queryBuilder;
 
@@ -167,10 +169,18 @@ class DeliveryAgentDataGrid extends DataGrid
             'sortable' => true,
         ]);
         $this->addColumn([
-            'index'      => 'average_rating',
-            'label'      => trans('deliveryAgent::app.deliveryAgent.dataGrid.rating'),
-            'type'       => 'string',
-            'searchable' => false,
+            'index'              => 'average_rating',
+            'label'              => trans('deliveryAgent::app.deliveryAgent.dataGrid.rating'),
+            'type'               => 'string',
+            'searchable'         => true,
+            'filterable'         => true,
+            'filterable_type'    => 'dropdown',
+            'filterable_options' => array_map(function ($value) {
+                return [
+                    'label' => $value,
+                    'value' => (string) $value,
+                ];
+            }, range(1, 5)),
             'sortable'   => true,
 
         ]);

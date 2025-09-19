@@ -1,0 +1,186 @@
+## DeliveryAgent Orders and Reviews Related APIs
+#
+#extend type Query {
+#    deliveryAgentOrders(
+#        first: Int = 10
+#        page: Int = 1
+#        status: String
+#        orderBy: String
+#        sort: String
+#    ): [DeliveryAgentOrder] @guard(with: ["delivery-agent-api"])
+#        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Queries\\App\\DeliveryAgent\\OrderQuery@orders")
+#
+#    deliveryAgentOrder(
+#        id: ID!
+#    ): DeliveryAgentOrder @guard(with: ["delivery-agent-api"])
+#        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Queries\\App\\DeliveryAgent\\OrderQuery@order")
+#
+#    deliveryAgentReviews(
+#        first: Int = 10
+#        page: Int = 1
+#        status: String
+#        orderBy: String
+#        sort: String
+#    ): [DeliveryAgentReview] @guard(with: ["delivery-agent-api"])
+#        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Queries\\App\\DeliveryAgent\\ReviewQuery@reviews")
+#
+#    deliveryAgentReview(
+#        id: ID!
+#    ): DeliveryAgentReview @guard(with: ["delivery-agent-api"])
+#        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Queries\\App\\DeliveryAgent\\ReviewQuery@review")
+#
+#    deliveryAgentStats: DeliveryAgentStats @guard(with: ["delivery-agent-api"])
+#        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Queries\\App\\DeliveryAgent\\StatsQuery@stats")
+#}
+#
+#extend type Mutation {
+#    acceptOrder(
+#        input: AcceptOrderInput! @spread
+#    ): OrderResponse @guard(with: ["delivery-agent-api"])
+#        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Mutations\\App\\DeliveryAgent\\OrderMutation@accept")
+#
+#    rejectOrder(
+#        input: RejectOrderInput! @spread
+#    ): OrderResponse @guard(with: ["delivery-agent-api"])
+#        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Mutations\\App\\DeliveryAgent\\OrderMutation@reject")
+#
+#    updateOrderStatus(
+#        input: UpdateOrderStatusInput! @spread
+#    ): OrderResponse @guard(with: ["delivery-agent-api"])
+#        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Mutations\\App\\DeliveryAgent\\OrderMutation@updateStatus")
+#
+#    completeOrder(
+#        input: CompleteOrderInput! @spread
+#    ): OrderResponse @guard(with: ["delivery-agent-api"])
+#        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Mutations\\App\\DeliveryAgent\\OrderMutation@complete")
+#
+#    createReview(
+#        input: CreateReviewInput! @spread
+#    ): ReviewResponse @guard(with: ["delivery-agent-api"])
+#        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Mutations\\App\\DeliveryAgent\\ReviewMutation@create")
+#
+#    updateReview(
+#        input: UpdateReviewInput! @spread
+#    ): ReviewResponse @guard(with: ["delivery-agent-api"])
+#        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Mutations\\App\\DeliveryAgent\\ReviewMutation@update")
+#
+#    deleteReview(
+#        input: DeleteReviewInput! @spread
+#    ): StatusResponse @guard(with: ["delivery-agent-api"])
+#        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Mutations\\App\\DeliveryAgent\\ReviewMutation@delete")
+#}
+#
+## Order Input Types
+#input AcceptOrderInput {
+#    orderId: ID! @rename(attribute: "order_id")
+#}
+#
+#input RejectOrderInput {
+#    orderId: ID! @rename(attribute: "order_id")
+#    reason: String
+#}
+#
+#input UpdateOrderStatusInput {
+#    orderId: ID! @rename(attribute: "order_id")
+#    status: String!
+#    notes: String
+#}
+#
+#input CompleteOrderInput {
+#    orderId: ID! @rename(attribute: "order_id")
+#    deliveryNotes: String @rename(attribute: "delivery_notes")
+#    customerSignature: String @rename(attribute: "customer_signature")
+#    deliveryPhoto: Upload @rename(attribute: "delivery_photo")
+#}
+#
+## Review Input Types
+#input CreateReviewInput {
+#    orderId: ID! @rename(attribute: "order_id")
+#    rating: Int!
+#    comment: String
+#}
+#
+#input UpdateReviewInput {
+#    id: ID!
+#    rating: Int
+#    comment: String
+#}
+#
+#input DeleteReviewInput {
+#    id: ID!
+#}
+#
+## Response Types
+#type OrderResponse {
+#    success: Boolean
+#    message: String
+#    order: DeliveryAgentOrder
+#}
+#
+#type ReviewResponse {
+#    success: Boolean
+#    message: String
+#    review: DeliveryAgentReview
+#}
+#
+#type DeliveryAgentStats {
+#    totalOrders: Int @rename(attribute: "total_orders")
+#    completedOrders: Int @rename(attribute: "completed_orders")
+#    pendingOrders: Int @rename(attribute: "pending_orders")
+#    rejectedOrders: Int @rename(attribute: "rejected_orders")
+#    averageRating: Float @rename(attribute: "average_rating")
+#    totalReviews: Int @rename(attribute: "total_reviews")
+#    thisMonthOrders: Int @rename(attribute: "this_month_orders")
+#    thisWeekOrders: Int @rename(attribute: "this_week_orders")
+#    todayOrders: Int @rename(attribute: "today_orders")
+#}
+#
+## Extended Order Type with additional fields
+#type DeliveryAgentOrder {
+#    id: ID!
+#    orderId: Int @rename(attribute: "order_id")
+#    deliveryAgentId: Int @rename(attribute: "delivery_agent_id")
+#    status: String
+#    statusLabel: String @rename(attribute: "status_label")
+#    deliveryAgentInfo: String @rename(attribute: "delivery_agent_info")
+#    assignedAt: DateTime @rename(attribute: "assigned_at")
+#    acceptedAt: DateTime @rename(attribute: "accepted_at")
+#    rejectedAt: DateTime @rename(attribute: "rejected_at")
+#    completedAt: DateTime @rename(attribute: "completed_at")
+#    createdAt: DateTime @rename(attribute: "created_at")
+#    updatedAt: DateTime @rename(attribute: "updated_at")
+#    order: Order @belongsTo
+#    deliveryAgent: DeliveryAgent @belongsTo
+#    reviews: [DeliveryAgentReview] @hasMany
+#    canAccept: Boolean @rename(attribute: "can_accept")
+#    canReject: Boolean @rename(attribute: "can_reject")
+#    canComplete: Boolean @rename(attribute: "can_complete")
+#}
+#
+## Review Type
+#type DeliveryAgentReview {
+#    id: ID!
+#    comment: String
+#    rating: Int
+#    status: String
+#    deliveryAgentId: Int @rename(attribute: "delivery_agent_id")
+#    orderId: Int @rename(attribute: "order_id")
+#    customerId: Int @rename(attribute: "customer_id")
+#    createdAt: DateTime @rename(attribute: "created_at")
+#    updatedAt: DateTime @rename(attribute: "updated_at")
+#    order: Order @belongsTo
+#    deliveryAgent: DeliveryAgent @belongsTo
+#    customer: Customer @belongsTo
+#    statusLabel: String @rename(attribute: "status_label")
+#}
+#
+## Customer Type (if not already defined)
+#type Customer {
+#    id: ID!
+#    firstName: String @rename(attribute: "first_name")
+#    lastName: String @rename(attribute: "last_name")
+#    email: String
+#    phone: String
+#    createdAt: DateTime @rename(attribute: "created_at")
+#    updatedAt: DateTime @rename(attribute: "updated_at")
+#}

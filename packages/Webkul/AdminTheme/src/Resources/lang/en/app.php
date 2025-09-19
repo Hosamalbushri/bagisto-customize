@@ -5109,4 +5109,34 @@ return [
             'tracking-number'            => 'Tracking Number : :tracking_number',
         ],
     ],
+
+    'configuration' => [
+        'index' => [
+            'catalog' => [
+                'products' => [
+                    'create' => [
+                        'title' => 'Product Creation Settings',
+                        'title-info' => 'Configure settings for creating new products',
+                        'enable-default-product-type' => 'Enable Default Product Type Selection',
+                        'enable-default-product-type-info' => 'Allow users to set a default product type for new products',
+                        'default-product-type' => 'Default Product Type',
+                        'default-product-type-info' => 'Select the default product type when creating new products',
+                        'auto-generate-sku' => 'Auto Generate SKU',
+                        'auto-generate-sku-info' => 'Automatically generate SKU for new products',
+                        'sku-prefix' => 'SKU Prefix',
+                        'sku-prefix-info' => 'Prefix to be added to auto-generated SKUs (e.g., PRD, PROD). Leave empty for numeric-only SKUs.',
+                        'sku-length' => 'SKU Length',
+                        'sku-length-info' => 'Length of the numeric part in auto-generated SKUs (3-10 digits)',
+                        'auto-fill-required-fields' => 'Auto Fill Required Fields',
+                        'auto-fill-required-fields-info' => 'Automatically fill required fields with default values',
+                        'sample-sku' => 'Sample SKU Preview',
+                'generate-sample' => 'Generate Sample',
+                'default-product-type-selected' => 'Default product type selected',
+                'auto-generated-sku' => 'Auto-generated SKU',
+                'generate-new' => 'Generate New',
+            ],
+        ],
+    ],
+        ],
+    ],
 ];
