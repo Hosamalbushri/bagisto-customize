@@ -67,6 +67,8 @@ return [
                     'info'   => 'Manage settings for delivery orders',
                     'fields' => [
                         'allow_agent_acceptance'=> 'Allow delivery agents to accept or reject orders',
+                        'show_agent_data_to_customer'=> 'Show agent data to customer (name and phone)',
+                        'allow_agent_rating'=> 'Allow rating of delivery agents',
                     ],
                 ],
             ],
@@ -193,6 +195,9 @@ return [
             'inactive'          => 'Inactive',
             'range-count'       => 'Range Count',
             'order_count'       => 'Order Count',
+            'has_orders'        => 'Has Orders',
+            'no_orders'         => 'No Orders',
+            'no-order'          => 'No Orders',
             'range'             => ':range range(s)',
             'order'             => ':order order(s)',
             'country'           => 'Country',
@@ -472,6 +477,10 @@ return [
             'reselect-delivery-agent-btn'   => 'Reassign Delivery Agent',
             'select-delivery-agent'         => 'Assign Agent to Order #',
             'assign-btn'                    => 'Assign',
+            'assigning'                     => 'Assigning Agent',
+            'processing'                    => 'Processing',
+            'please-wait'                   => 'Please wait while we process your request',
+            'in-progress'                   => 'In Progress',
             'tabs'                          => [
                 'in-the-same-area'=> 'Available in :city',
                 'all'             => 'All Agents',
@@ -524,6 +533,47 @@ return [
         'order-status-messages'=> [
 
             'assigned_to_agent'=> 'Agent Assigned',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | GraphQL API Messages
+    |--------------------------------------------------------------------------
+    */
+    'app' => [
+        'orders' => [
+            'success' => [
+                'accepted' => 'Order accepted successfully',
+                'rejected' => 'Order rejected successfully',
+                'status_updated' => 'Order status updated successfully',
+                'completed' => 'Order completed successfully',
+            ],
+            'errors' => [
+                'unauthorized' => 'Unauthorized access',
+                'order_not_found' => 'Order not found',
+                'invalid_status_transition' => 'Invalid status transition',
+            ],
+        ],
+        'reviews' => [
+            'success' => [
+                'created' => 'Review created successfully',
+                'updated' => 'Review updated successfully',
+                'deleted' => 'Review deleted successfully',
+            ],
+            'errors' => [
+                'unauthorized' => 'Unauthorized access',
+                'not_found' => 'Review not found',
+                'already_exists' => 'Review already exists for this order',
+                'invalid_rating' => 'Rating must be between 1 and 5',
+                'cannot_update' => 'Cannot update approved review',
+                'cannot_delete' => 'Cannot delete approved review',
+            ],
+            'status' => [
+                'pending' => 'Pending',
+                'approved' => 'Approved',
+                'disapproved' => 'Disapproved',
+            ],
         ],
     ],
 

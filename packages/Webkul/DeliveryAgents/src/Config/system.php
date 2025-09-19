@@ -96,7 +96,22 @@ return [
                 'channel_based' => false,
                 'locale_based'  => false,
             ],
-
+            [
+                'name'          => 'show_agent_data_to_customer',
+                'title'         => 'deliveryAgent::app.deliveryAgent.system.settings.orders.fields.show_agent_data_to_customer',
+                'type'          => 'boolean',
+                'default_value' => true,
+                'channel_based' => false,
+                'locale_based'  => false,
+            ],
+            [
+                'name'          => 'allow_agent_rating',
+                'title'         => 'deliveryAgent::app.deliveryAgent.system.settings.orders.fields.allow_agent_rating',
+                'type'          => 'boolean',
+                'default_value' => true,
+                'channel_based' => false,
+                'locale_based'  => false,
+            ],
         ],
     ],
 ];

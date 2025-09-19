@@ -136,57 +136,19 @@
                             <!-- Actions Section -->
                             <div class="flex items-center justify-end gap-x-2">
                                 <template v-if="canShowActions(record)">
-                                    @if(bouncer()->hasPermission('delivery.deliveryAgent.order.accept'))
-                                        <template v-if="showAcceptButton(record)">
-                                            <button
-                                                class="acma-icon-check_circle text-lg cursor-pointer p-1.5 hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
-                                                @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'accepted_by_agent',messageConfirm:acceptMessageConfirm})"
-                                            >
-                                                <span class="text-sm text-gray-800 dark:text-white">
-                                                    @lang('deliveryAgent::app.deliveryAgent.orders.actions.accept_btn')
-                                                </span>
-                                            </button>
-                                        </template>
-                                    @endif
-
-                                    @if(bouncer()->hasPermission('delivery.deliveryAgent.order.reject'))
-                                        <template v-if="showRejectButton(record)">
-                                            <button
-                                                class="acma-icon-cancel text-lg p-1.5 hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
-                                                @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'rejected_by_agent',messageConfirm: rejectMessageConfirm })"
-                                            >
-                                                <span class="text-sm text-gray-800 dark:text-white">
-                                                    @lang('deliveryAgent::app.deliveryAgent.orders.actions.reject_btn')
-                                                </span>
-                                            </button>
-                                        </template>
-                                    @endif
-
-                                    @if(bouncer()->hasPermission('delivery.deliveryAgent.order.out_for_delivery'))
-                                        <template v-if="showOutForDeliveryButton(record)">
-                                            <button
-                                                class="acma-icon-truck text-lg p-1.5 hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
-                                                @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'out_for_delivery',messageConfirm: outForDeliveryMessageConfirm})"
-                                            >
-                                                <span class="text-sm text-gray-800 dark:text-white">
-                                                    @lang('deliveryAgent::app.deliveryAgent.orders.actions.out_for_delivery_btn')
-                                                </span>
-                                            </button>
-                                        </template>
-                                    @endif
-
-                                    @if(bouncer()->hasPermission('delivery.deliveryAgent.order.delivered'))
-                                        <template v-if="showDeliveredButton(record)">
-                                            <button
-                                                class="acma-icon-inbox-check text-lg p-1.5 hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
-                                                @click="$emitter.emit('update-order-status', {orderId:record.id,orderStatus:'delivered',messageConfirm: deliveredMessageConfirm})"
-                                            >
-                                                <span class="text-sm text-gray-800 dark:text-white">
-                                                    @lang('deliveryAgent::app.deliveryAgent.orders.actions.delivered_btn')
-                                                </span>
-                                            </button>
-                                        </template>
-                                    @endif
+                                    <template v-for="(button, index) in getAvailableButtons(record)" :key="index">
+                                        <button
+                                            type="button"
+                                            :class="button.buttonClass"
+                                            :title="button.title"
+                                            @click="changeOrderStatus(record.id, button.status, button.messageConfirm)"
+                                            :disabled="isLoading"
+                                        >
+                                            <span class="text-sm text-black dark:text-white">
+                                                @{{ button.text }}
+                                            </span>
+                                        </button>
+                                    </template>
                                 </template>
 
                                 <!-- View Order Link -->
@@ -196,7 +158,7 @@
                             </div>
                         </div>
 
-                        <!-- Empty State -->
+                        <!-- Empty order -->
                         <div v-else class="table-responsive grid w-full">
                             <div class="grid justify-center justify-items-center gap-3.5 px-2.5 py-10">
                                 <!-- Placeholder Image -->
@@ -225,21 +187,46 @@
             data() {
                 return {
                     deliveryAgentId: @json($deliveryAgent->id),
-                    acceptMessageConfirm: @json(__('deliveryAgent::app.deliveryAgent.orders.view.accepted-order-confirmation')),
-                    rejectMessageConfirm: @json(__('deliveryAgent::app.deliveryAgent.orders.view.rejected-order-confirmation')),
-                    outForDeliveryMessageConfirm: @json(__('deliveryAgent::app.deliveryAgent.orders.view.out-for-delivery-order-confirmation')),
-                    deliveredMessageConfirm: @json(__('deliveryAgent::app.deliveryAgent.orders.view.delivered-order-confirmation')),
+                    isLoading: true,
+                    buttonConfigs: {
+                        accept: {
+                            status: 'accepted_by_agent',
+                            buttonClass: 'acma-icon-check_circle flex text-black dark:text-white items-center gap-2 cursor-pointer p-2 hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1',
+                            title: @json(__('deliveryAgent::app.deliveryAgent.orders.actions.accept_btn')),
+                            text: @json(__('deliveryAgent::app.deliveryAgent.orders.actions.accept_btn')),
+                            messageConfirm: @json(__('deliveryAgent::app.deliveryAgent.orders.view.accepted-order-confirmation')),
+                            permission: 'delivery.deliveryAgent.order.accept',
+                            allowedStatuses: ['assigned_to_agent']
+                        },
+                        reject: {
+                            status: 'rejected_by_agent',
+                            buttonClass: 'acma-icon-cancel flex text-black dark:text-white items-center gap-2 cursor-pointer p-2 hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1',
+                            title: @json(__('deliveryAgent::app.deliveryAgent.orders.actions.reject_btn')),
+                            text: @json(__('deliveryAgent::app.deliveryAgent.orders.actions.reject_btn')),
+                            messageConfirm: @json(__('deliveryAgent::app.deliveryAgent.orders.view.rejected-order-confirmation')),
+                            permission: 'delivery.deliveryAgent.order.reject',
+                            allowedStatuses: ['assigned_to_agent', 'accepted_by_agent']
+                        },
+                        outForDelivery: {
+                            status: 'out_for_delivery',
+                            buttonClass: 'acma-icon-truck flex text-black dark:text-white items-center gap-2 cursor-pointer p-2 hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1',
+                            title: @json(__('deliveryAgent::app.deliveryAgent.orders.actions.out_for_delivery_btn')),
+                            text: @json(__('deliveryAgent::app.deliveryAgent.orders.actions.out_for_delivery_btn')),
+                            messageConfirm: @json(__('deliveryAgent::app.deliveryAgent.orders.view.out-for-delivery-order-confirmation')),
+                            permission: 'delivery.deliveryAgent.order.out_for_delivery',
+                            allowedStatuses: ['accepted_by_agent']
+                        },
+                        delivered: {
+                            status: 'delivered',
+                            buttonClass: 'acma-icon-inbox-check flex text-black dark:text-white items-center gap-2 cursor-pointer p-2 hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1',
+                            title: @json(__('deliveryAgent::app.deliveryAgent.orders.actions.delivered_btn')),
+                            text: @json(__('deliveryAgent::app.deliveryAgent.orders.actions.delivered_btn')),
+                            messageConfirm: @json(__('deliveryAgent::app.deliveryAgent.orders.view.delivered-order-confirmation')),
+                            permission: 'delivery.deliveryAgent.order.delivered',
+                            allowedStatuses: ['out_for_delivery']
+                        }
+                    }
                 };
-            },
-
-            mounted() {
-                this.$emitter.on('update-order-status', ({orderId, orderStatus, messageConfirm}) => {
-                    this.changeOrderStatus(orderId, orderStatus, messageConfirm);
-                });
-            },
-
-            beforeUnmount() {
-                this.$emitter.off('update-order-status');
             },
 
             methods: {
@@ -250,7 +237,8 @@
                     this.$emitter.emit('open-confirm-modal', {
                         message: messageConfirm,
                         agree: () => {
-                            this.$axios.post(
+                            this.isLoading = true;
+                                this.$axios.post(
                                 `{{ route('admin.orders.changeStatus', [':order']) }}`
                                     .replace(':order', orderId),
                                 {
@@ -264,9 +252,11 @@
                                     type: 'success',
                                     message: response.data.message
                                 });
+                                this.isLoading = false;
                                 this.$refs.dataGrid.get();
                             })
                             .catch((error) => {
+                                this.isLoading = false;
                                 this.$emitter.emit('add-flash', {
                                     type: 'error',
                                     message: error?.response?.data?.message
@@ -285,33 +275,32 @@
                 },
 
                 /**
-                 * Show accept button based on delivery status
+                 * Get available buttons for the record based on status and permissions
                  */
-                showAcceptButton(record) {
-                    const allowedStatuses = ['assigned_to_agent'];
-                    return allowedStatuses.includes(record.deliveryStatus);
-                },
+                getAvailableButtons(record) {
+                    const availableButtons = [];
+                    const permissions = {
+                        'delivery.deliveryAgent.order.accept': @json(bouncer()->hasPermission('delivery.deliveryAgent.order.accept')),
+                        'delivery.deliveryAgent.order.reject': @json(bouncer()->hasPermission('delivery.deliveryAgent.order.reject')),
+                        'delivery.deliveryAgent.order.out_for_delivery': @json(bouncer()->hasPermission('delivery.deliveryAgent.order.out_for_delivery')),
+                        'delivery.deliveryAgent.order.delivered': @json(bouncer()->hasPermission('delivery.deliveryAgent.order.delivered'))
+                    };
 
-                /**
-                 * Show reject button based on delivery status
-                 */
-                showRejectButton(record) {
-                    const allowedStatuses = ['assigned_to_agent', 'accepted_by_agent'];
-                    return allowedStatuses.includes(record.deliveryStatus);
-                },
+                    Object.keys(this.buttonConfigs).forEach(key => {
+                        const config = this.buttonConfigs[key];
 
-                /**
-                 * Show out for delivery button based on delivery status
-                 */
-                showOutForDeliveryButton(record) {
-                    return record.deliveryStatus === 'accepted_by_agent';
-                },
+                        // Check permission
+                        if (!permissions[config.permission]) {
+                            return;
+                        }
 
-                /**
-                 * Show delivered button based on delivery status
-                 */
-                showDeliveredButton(record) {
-                    return record.deliveryStatus === 'out_for_delivery';
+                        // Check if current status allows this button
+                        if (config.allowedStatuses.includes(record.deliveryStatus)) {
+                            availableButtons.push(config);
+                        }
+                    });
+
+                    return availableButtons;
                 },
             },
         })
