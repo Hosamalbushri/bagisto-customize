@@ -1,0 +1,8 @@
+type DeliveryAgentRange {
+    id: ID!
+    deliveryAgentId: Int @rename(attribute: "delivery_agent_id")
+    stateAreaId: Int @rename(attribute: "state_area_id")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    stateArea: StateArea @belongsTo(relation: "state_area")
+}

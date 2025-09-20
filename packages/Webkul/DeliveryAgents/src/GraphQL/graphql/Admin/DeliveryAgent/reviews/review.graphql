@@ -1,0 +1,15 @@
+type DeliveryAgentReview {
+    id: ID!
+    comment: String
+    rating: Int
+    status: String
+    deliveryAgentId: Int @rename(attribute: "delivery_agent_id")
+    orderId: Int @rename(attribute: "order_id")
+    customerId: Int @rename(attribute: "customer_id")
+    createdAt: DateTime @rename(attribute: "created_at")
+    updatedAt: DateTime @rename(attribute: "updated_at")
+    order: Order @belongsTo
+    deliveryAgent: DeliveryAgent @belongsTo
+    customer: Customer @belongsTo
+    statusLabel: String @rename(attribute: "status_label")
+}

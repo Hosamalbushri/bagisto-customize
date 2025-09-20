@@ -23,11 +23,9 @@ class ReviewQuery
      */
     public function reviews($rootValue, array $args, $context)
     {
-        $deliveryAgent = auth('delivery-agent-api')->user();
-        
-        if (!$deliveryAgent) {
-            return [];
-        }
+        $deliveryAgent = delivery_graphql()->authorize();
+
+
 
         $query = DeliveryAgentReview::where('delivery_agent_id', $deliveryAgent->id)
             ->with(['order', 'deliveryAgent', 'customer']);
@@ -45,7 +43,7 @@ class ReviewQuery
         // Apply pagination
         $first = $args['first'] ?? 10;
         $page = $args['page'] ?? 1;
-        
+
         return $query->paginate($first, ['*'], 'page', $page)->items();
     }
 
@@ -54,11 +52,8 @@ class ReviewQuery
      */
     public function review($rootValue, array $args, $context)
     {
-        $deliveryAgent = auth('delivery-agent-api')->user();
-        
-        if (!$deliveryAgent) {
-            return null;
-        }
+        $deliveryAgent = delivery_graphql()->authorize();
+
 
         return DeliveryAgentReview::where('id', $args['id'])
             ->where('delivery_agent_id', $deliveryAgent->id)

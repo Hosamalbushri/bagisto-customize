@@ -1,0 +1,18 @@
+extend type Query {
+    deliveryAgentReviews(
+        first: Int = 10
+        page: Int = 1
+        status: String
+        orderBy: String
+        sort: String
+    ): [DeliveryAgentReview] @guard(with: ["delivery-agent-api"])
+    @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Queries\\App\\DeliveryAgent\\ReviewQuery@reviews")
+
+    deliveryAgentReview(
+        id: ID!
+    ): DeliveryAgentReview @guard(with: ["delivery-agent-api"])
+    @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Queries\\App\\DeliveryAgent\\ReviewQuery@review")
+
+    deliveryAgentStats: DeliveryAgentStats @guard(with: ["delivery-agent-api"])
+    @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Queries\\App\\DeliveryAgent\\StatsQuery@stats")
+}
