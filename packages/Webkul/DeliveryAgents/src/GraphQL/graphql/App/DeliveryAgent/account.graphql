@@ -1,4 +1,11 @@
 # DeliveryAgent Account Related APIs
+
+extend type Query {
+    deliveryAgentAccountInfo: DeliveryAgent
+        @guard(with: ["delivery-agent-api"])
+        @field(resolver: "Webkul\\DeliveryAgents\\GraphQL\\Queries\\App\\DeliveryAgent\\DeliveryAgentQuery@get")
+}
+
 extend type Mutation {
     updateDeliveryAgentAccount(
         input: DeliveryAgentAccountUpdateInput! @spread

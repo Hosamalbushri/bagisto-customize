@@ -19,32 +19,9 @@ type DeliveryAgent {
     updatedAt: DateTime @rename(attribute: "updated_at")
     orders: [DeliveryAgentOrder] @hasMany
     ranges: [DeliveryAgentRange] @hasMany
+    reviews:[DeliveryAgentReview] @hasMany
 }
 
-type DeliveryAgentOrder {
-    id: ID!
-    orderId: Int @rename(attribute: "order_id")
-    deliveryAgentId: Int @rename(attribute: "delivery_agent_id")
-    status: String
-    statusLabel: String @rename(attribute: "status_label")
-    deliveryAgentInfo: String @rename(attribute: "delivery_agent_info")
-    assignedAt: DateTime @rename(attribute: "assigned_at")
-    acceptedAt: DateTime @rename(attribute: "accepted_at")
-    rejectedAt: DateTime @rename(attribute: "rejected_at")
-    completedAt: DateTime @rename(attribute: "completed_at")
-    createdAt: DateTime @rename(attribute: "created_at")
-    updatedAt: DateTime @rename(attribute: "updated_at")
-    order: Order @belongsTo
-}
-
-type DeliveryAgentRange {
-    id: ID!
-    deliveryAgentId: Int @rename(attribute: "delivery_agent_id")
-    stateAreaId: Int @rename(attribute: "state_area_id")
-    createdAt: DateTime @rename(attribute: "created_at")
-    updatedAt: DateTime @rename(attribute: "updated_at")
-    stateArea: StateArea @belongsTo(relation: "state_area")
-}
 
 type StateArea {
     id: ID!

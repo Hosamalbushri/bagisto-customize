@@ -24,19 +24,11 @@ class OrderQuery
      */
     public function orders($rootValue, array $args, $context)
     {
-        $deliveryAgent = auth('delivery-agent-api')->user();
+        $deliveryAgent = delivery_graphql()->authorize();
 
-        if (!$deliveryAgent) {
-            return [];
-        }
 
-        $query = DeliveryAgentOrder::where('delivery_agent_id', $deliveryAgent->id)
+        $query = delivery_graphql()->getAccessibleOrders($deliveryAgent->id, $args)
             ->with(['order', 'deliveryAgent']);
-
-        // Apply filters
-        if (isset($args['status']) && $args['status']) {
-            $query->where('status', $args['status']);
-        }
 
         // Apply ordering
         $orderBy = $args['orderBy'] ?? 'created_at';
@@ -55,9 +47,11 @@ class OrderQuery
      */
     public function order($rootValue, array $args, $context)
     {
-        $deliveryAgent = auth('delivery-agent-api')->user();
+        $deliveryAgent = delivery_graphql()->authorize();
 
-        if (!$deliveryAgent) {
+
+        // Check if agent can access this order
+        if (!delivery_graphql()->canAccessOrder($args['id'], $deliveryAgent->id)) {
             return null;
         }
 

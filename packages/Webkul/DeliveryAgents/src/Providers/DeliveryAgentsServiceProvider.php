@@ -85,6 +85,8 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
      */
     protected function loadPackageResources(): void
     {
+        include __DIR__.'/../GraphQL/Helpers/helpers.php';
+
         // Load migrations
         $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
 

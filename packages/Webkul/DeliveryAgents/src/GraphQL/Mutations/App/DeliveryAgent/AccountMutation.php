@@ -42,14 +42,13 @@ class AccountMutation extends Controller
      */
     public function update(mixed $rootValue, array $args, GraphQLContext $context): array
     {
-        $agent = Auth::user();
+        $agent = delivery_graphql()->authorize();
 
         if (! $agent) {
             throw new CustomException(trans('deliveryAgent_graphql::app.account.unauthenticated'));
         }
 
-        // Validation
-        $validator = Validator::make($args, [
+        delivery_graphql()->validate($args, [
             'first_name'                => 'required|string',
             'last_name'                 => 'required|string',
             'gender'                    => 'required|in:Other,Male,Female',
@@ -59,13 +58,7 @@ class AccountMutation extends Controller
             'new_password_confirmation' => 'required_with:new_password',
             'current_password'          => 'required_with:new_password',
             'phone'                     => ['required', 'unique:delivery_agents,phone,'.$agent->id, new PhoneNumber],
-            // image is optional Upload, MIME validated below if present
-        ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->errors()->first());
-        }
-
+        ], delivery_graphql()->getValidationMessages());
         $isPasswordChanged = false;
 
         try {
@@ -142,20 +135,10 @@ class AccountMutation extends Controller
      */
     public function delete(mixed $rootValue, array $args, GraphQLContext $context): array
     {
-        $agent = Auth::user();
-
-        if (! $agent) {
-            throw new CustomException(trans('deliveryAgent_graphql::app.account.unauthenticated'));
-        }
-
-        $validator = Validator::make($args, [
+        $agent = delivery_graphql()->authorize();
+        delivery_graphql()->validate($args, [
             'password' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            throw new CustomException($validator->errors()->first());
-        }
-
+        ], delivery_graphql()->getValidationMessages());
         try {
             if (! Hash::check($args['password'], $agent->password)) {
                 return [
@@ -184,4 +167,5 @@ class AccountMutation extends Controller
             throw new CustomException($e->getMessage());
         }
     }
+
 }
