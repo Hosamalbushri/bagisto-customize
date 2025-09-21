@@ -1,5 +1,5 @@
 {
-    "name": "bagisto/laravel-shop",
+    "name": "bagisto/new-theme",
     "license": "MIT",
     "description" : "Shop package for store front and customers",
     "authors": [
@@ -11,13 +11,13 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "Webkul\\Shop\\": "src/"
+            "Webkul\\NewTheme\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Webkul\\Shop\\Providers\\ShopServiceProvider"
+                "Webkul\\NewTheme\\Provider\\NewThemeServiceProvider"
             ],
             "aliases": {}
         }
