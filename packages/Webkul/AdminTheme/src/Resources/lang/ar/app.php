@@ -23,6 +23,7 @@ return [
                         'sample-sku'                       => 'معاينة رمز المنتج',
                         'generate-sample'                  => 'توليد عينة',
                         'default-product-type-selected'    => 'تم تحديد نوع المنتج الافتراضي',
+                        'auto-selected-family'             =>  'تم تحديد عائلة المنتج افتراضيا',
                         'auto-generated-sku'               => 'رمز المنتج مولد تلقائياً',
                     ],
                 ],

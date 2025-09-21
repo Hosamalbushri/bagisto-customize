@@ -452,26 +452,51 @@
                                     @endif
 
                                     {{-- Attribute Family Selection --}}
-                                    <x-admin::form.control-group>
-                                        <x-admin::form.control-group.label class="required">
-                                            @lang('admin::app.catalog.products.index.create.family')
-                                        </x-admin::form.control-group.label>
+                                    @if(count($families) == 1)
+                                        {{-- Auto-select if only one family exists --}}
+                                        <x-admin::form.control-group>
+                                            <x-admin::form.control-group.label>
+                                                @lang('admin::app.catalog.products.index.create.family')
+                                            </x-admin::form.control-group.label>
 
-                                        <x-admin::form.control-group.control
-                                            type="select"
-                                            name="attribute_family_id"
-                                            rules="required"
-                                            :label="trans('admin::app.catalog.products.index.create.family')"
-                                        >
-                                            @foreach($families as $family)
-                                                <option value="{{ $family->id }}">
-                                                    {{ $family->name }}
-                                                </option>
-                                            @endforeach
-                                        </x-admin::form.control-group.control>
+                                            <div class="px-3 py-2 border border-green-200 rounded-md">
+                                                <span class="dark:text-white font-mono">
+                                                    {{ $families->first()->name }}
+                                                </span>
+                                                <small class="block text-green-600 dark:!text-white text-xs mt-1">
+                                                    @lang('adminTheme::app.configuration.index.catalog.products.create.auto-selected-family')
+                                                </small>
+                                            </div>
+                                            <x-admin::form.control-group.control
+                                                type="hidden"
+                                                name="attribute_family_id"
+                                                value="{{ $families->first()->id }}"
+                                            >
+                                            </x-admin::form.control-group.control>
+                                        </x-admin::form.control-group>
+                                    @else
+                                        {{-- Show dropdown if multiple families exist --}}
+                                        <x-admin::form.control-group>
+                                            <x-admin::form.control-group.label class="required">
+                                                @lang('admin::app.catalog.products.index.create.family')
+                                            </x-admin::form.control-group.label>
 
-                                        <x-admin::form.control-group.error control-name="attribute_family_id" />
-                                    </x-admin::form.control-group>
+                                            <x-admin::form.control-group.control
+                                                type="select"
+                                                name="attribute_family_id"
+                                                rules="required"
+                                                :label="trans('admin::app.catalog.products.index.create.family')"
+                                            >
+                                                @foreach($families as $family)
+                                                    <option value="{{ $family->id }}">
+                                                        {{ $family->name }}
+                                                    </option>
+                                                @endforeach
+                                            </x-admin::form.control-group.control>
+
+                                            <x-admin::form.control-group.error control-name="attribute_family_id" />
+                                        </x-admin::form.control-group>
+                                    @endif
 
                                     {{-- SKU Configuration --}}
                                     @if($autoGenerateSku)
