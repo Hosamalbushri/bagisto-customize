@@ -57,8 +57,9 @@
         "pestphp/pest-plugin-laravel": "^3.0",
         "phpunit/phpunit": "^11.0",
         "webkul/delivery-agent":"*",
-        "bagisto/graphql-api":"*"
-
+        "bagisto/graphql-api":"*",
+        "bagisto/admin-theme":"*",
+        "bagisto/new-theme":"*"
 
     },
     "autoload": {
@@ -98,9 +99,7 @@
             "Webkul\\SocialShare\\": "packages/Webkul/SocialShare/src",
             "Webkul\\Tax\\": "packages/Webkul/Tax/src",
             "Webkul\\Theme\\": "packages/Webkul/Theme/src",
-            "Webkul\\User\\": "packages/Webkul/User/src",
-            "Webkul\\NewTheme\\": "packages/Webkul/NewTheme/src",
-            "Webkul\\AdminTheme\\": "packages/Webkul/AdminTheme/src"
+            "Webkul\\User\\": "packages/Webkul/User/src"
         },
         "files": [
             "app/Helpers/helpers.php"
@@ -150,6 +149,19 @@
         {
             "type": "path",
             "url": "packages/Webkul/DeliveryAgents",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/Webkul/AdminTheme",
+            "options": {
+                "symlink": true
+            }
+        },{
+            "type": "path",
+            "url": "packages/Webkul/NewTheme",
             "options": {
                 "symlink": true
             }

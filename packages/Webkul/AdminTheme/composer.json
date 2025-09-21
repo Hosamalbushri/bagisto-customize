@@ -1,7 +1,7 @@
 {
-    "name": "bagisto/laravel-admin",
+    "name": "bagisto/admin-theme",
     "license": "MIT",
-    "description" : "Admin package",
+    "description" : "New Admin package",
     "authors": [
         {
             "name": "Bagisto",
@@ -11,13 +11,13 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "Webkul\\Admin\\": "src/"
+            "Webkul\\AdminTheme\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Webkul\\Admin\\Providers\\AdminServiceProvider"
+                "Webkul\\AdminTheme\\Provider\\AdminThemeServiceProvider"
             ],
             "aliases": {}
         }
