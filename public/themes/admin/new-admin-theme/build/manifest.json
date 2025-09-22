@@ -264,9 +264,13 @@
     "isDynamicEntry": true
   },
   "src/Resources/assets/css/app.css": {
-    "file": "assets/app-BzuzMoVX.css",
+    "file": "assets/app-5WuP9r2v.css",
     "src": "src/Resources/assets/css/app.css",
     "isEntry": true
+  },
+  "src/Resources/assets/fonts/acme-icons.woff": {
+    "file": "assets/acme-icons-D9rzvEbc.woff",
+    "src": "src/Resources/assets/fonts/acme-icons.woff"
   },
   "src/Resources/assets/fonts/bagisto-admin.woff": {
     "file": "assets/bagisto-admin-BzOkv6lg.woff",

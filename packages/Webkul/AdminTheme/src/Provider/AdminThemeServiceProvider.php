@@ -2,7 +2,6 @@
 
 namespace Webkul\AdminTheme\Provider;
 
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AdminThemeServiceProvider extends ServiceProvider
@@ -12,7 +11,7 @@ class AdminThemeServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton('Webkul\AdminTheme\Helpers\AttributeFamilyOptions');
     }
 
     /**
@@ -27,16 +26,26 @@ class AdminThemeServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../Routes/sales-routes.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/customers-routes.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/shop-routes.php');
+        $this->loadRoutesFrom(__DIR__.'/../Routes/Country-routes.php');
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'adminTheme');
+        $this->loadViewsFrom(__DIR__.'/../Resources/views', 'adminTheme');
         $this->registerConfig();
-        Event::listen('area.before.delete', 'Webkul\AdminTheme\Listeners\PreventDeleteIfHasChildren@beforeDeleteArea');
     }
+
     protected function registerConfig(): void
     {
+        $this->mergeConfigFrom(
+            dirname(__DIR__).'/Config/menu.php',
+            'menu.admin'
+        );
+
+        $this->mergeConfigFrom(
+            dirname(__DIR__).'/Config/acl.php',
+            'acl'
+        );
         $this->mergeConfigFrom(
             dirname(__DIR__).'/Config/system.php',
             'core'
         );
     }
-
 }
