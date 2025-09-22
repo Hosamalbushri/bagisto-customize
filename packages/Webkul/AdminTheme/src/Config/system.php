@@ -40,6 +40,20 @@ return[
                         'value' => 'bundle',
                     ],
                 ],
+            ], [
+                'name'          => 'enable_default_attribute_family',
+                'title'         => 'adminTheme::app.configuration.index.catalog.products.create.enable-default-attribute-family',
+                'info'          => 'adminTheme::app.configuration.index.catalog.products.create.enable-default-attribute-family-info',
+                'type'          => 'boolean',
+                'default'       => 0,
+            ], [
+                'name'          => 'default_attribute_family_id',
+                'title'         => 'adminTheme::app.configuration.index.catalog.products.create.default-attribute-family',
+                'info'          => 'adminTheme::app.configuration.index.catalog.products.create.default-attribute-family-info',
+                'type'          => 'select',
+                'default'       => '',
+                'depends'       => 'enable_default_attribute_family:1',
+                'options'       => 'Webkul\AdminTheme\Helpers\AttributeFamilyOptions@attribute_families',
             ],
             [
                 'name'          => 'auto_generate_sku',

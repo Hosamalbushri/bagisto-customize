@@ -3,6 +3,7 @@
 namespace Webkul\DeliveryAgents\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Webkul\AdminTheme\Models\Areas;
 
 class Range extends Model
 {
