@@ -30,7 +30,7 @@
                 <p class="mb-4 max-sm:text-sm">
                     @lang('shop::app.checkout.cart.summary.estimate-shipping.info')
                 </p>
-                
+
                 <!-- Country -->
                 <x-shop::form.control-group class="!mb-2.5">
                     <x-shop::form.control-group.label class="{{ core()->isCountryRequired() ? 'required' : '' }}">
@@ -62,7 +62,7 @@
 
                 {!! view_render_event('bagisto.shop.checkout.onepage.address.form.country.after') !!}
 
-                <!-- State -->
+                <!-- CountryState -->
                 <x-shop::form.control-group>
                     <x-shop::form.control-group.label class="{{ core()->isStateRequired() ? 'required' : '' }}">
                         @lang('shop::app.checkout.cart.summary.estimate-shipping.state')
@@ -144,14 +144,14 @@
                                 />
                             </div>
 
-                            <label 
+                            <label
                                 class="block cursor-pointer p-4 pl-12"
                                 :for="rate.method"
                             >
                                 <p class="text-2xl font-semibold max-md:text-lg">
                                     @{{ rate.base_formatted_price }}
                                 </p>
-                                
+
                                 <p class="mt-2.5 text-xs font-medium max-md:mt-0">
                                     <span class="font-medium">@{{ rate.method_title }}</span> - @{{ rate.method_description }}
                                 </p>
@@ -161,14 +161,14 @@
                         {!! view_render_event('bagisto.shop.checkout.cart.summary.estimate_shipping.shipping_method.after') !!}
                     </template>
                 </div>
-            </form>                    
+            </form>
         </x-shop::form>
     </script>
 
     <script type="module">
         app.component('v-estimate-tax-shipping', {
             template: '#v-estimate-tax-shipping-template',
-            
+
             props: ['cart'],
 
             data() {
@@ -218,7 +218,7 @@
                     this.isStoring = true;
 
                     Object.keys(params).forEach(key => params[key] == null && delete params[key]);
-                    
+
                     this.$axios.post('{{ route('shop.api.checkout.cart.estimate_shipping') }}', params)
                         .then((response) => {
                             this.isStoring = false;

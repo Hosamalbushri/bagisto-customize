@@ -184,8 +184,8 @@ test.describe("checkout", () => {
         await shopPage
             .locator('select[name="billing\\.country"]')
             .selectOption("AI");
-        await shopPage.getByPlaceholder("State").click();
-        await shopPage.getByPlaceholder("State").fill("Demo");
+        await shopPage.getByPlaceholder("CountryState").click();
+        await shopPage.getByPlaceholder("CountryState").fill("Demo");
         await shopPage.getByPlaceholder("City").click();
         await shopPage.getByPlaceholder("City").fill("Demo");
         await shopPage.getByPlaceholder("Zip/Postcode").click();

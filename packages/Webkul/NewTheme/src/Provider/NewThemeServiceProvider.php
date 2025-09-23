@@ -22,5 +22,7 @@ class NewThemeServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../Resources/views' => resource_path('themes/new-theme/views'),
         ]);
+        $this->loadRoutesFrom(__DIR__.'/../Routes/api-routes.php');
+
     }
 }
