@@ -3705,6 +3705,33 @@ return [
                 'info'  => 'Set units options.',
                 'title' => 'General',
 
+                'location' => [
+                    'title' => 'Location & Geographic Settings',
+                    'info' => 'Configure location and geographic settings for the store',
+                    'store' => [
+                        'title' => 'Basic Store Settings',
+                        'store-info' => 'Configure basic store settings such as default country',
+                        'fields' => [
+                            'default-country' => 'Default Country',
+                        ],
+                    ],
+                    'view' => [
+                        'address' => [
+                            'title' => 'Address Options',
+                            'info' => 'Configure fields that appear in address forms',
+                            'street-lines' => 'Number of Address Lines',
+                            'street-lines-info' => 'Number of lines available for address field (1-4 lines)',
+                            'show-company-name' => 'Show Company Name Field',
+                            'show-company-name-info' => 'Display company name field in address forms',
+                            'show-tax-number' => 'Show Tax Number Field',
+                            'show-tax-number-info' => 'Display tax number field in address forms',
+                            'show-postal-code' => 'Show Postal Code Field',
+                            'show-postal-code-info' => 'Display postal code field in address forms',
+                            'area-not-found' => 'The specified area was not found.',
+                        ]
+                    ]
+                ],
+
                 'general' => [
                     'info'  => 'Set units options and enable or disable breadcrumbs.',
                     'title' => 'General',

@@ -37,10 +37,7 @@ input AddressInput {
     email: String!
     vatId: String @rename(attribute: "vat_id")
     address: [String]!
-    country: String!
-    state: String!
-    city: String!
-    areaId: String @rename(attribute: "state_area_id")
+    areaId: String! @rename(attribute: "state_area_id")
     postcode: String!
     phone: String!
     defaultAddress: Boolean @rename(attribute: "default_address")

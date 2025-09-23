@@ -291,6 +291,8 @@
                             @endif
                         </x-admin::form.control-group>
                         <!-- PostCode -->
+                        <template v-if="showPostCode">
+
                         <x-admin::form.control-group class="w-full">
                             <x-admin::form.control-group.label class="required">
                                 @lang('admin::app.customers.customers.view.address.create.post-code')
@@ -306,6 +308,7 @@
 
                             <x-admin::form.control-group.error control-name="postcode" />
                         </x-admin::form.control-group>
+                        </template>
 
                         <!-- Default Address -->
                         <x-admin::form.control-group class="flex items-center gap-2.5">
@@ -359,13 +362,14 @@
 
             data() {
                 return {
-                    country: @json(core()->getConfigData('delivery.settings.store.default_country')),
+                    country: @json(core()->getConfigData('general.location.store.default_country')),
                     state: "",
                     area: '',
                     city: '',
                     countryStates: @json(core()->groupedStatesByCountries()),
                     stateAreas: @json(myHelper()->groupedAreasByStatesCode()),
-                isLoading: false,
+                    showPostCode:@json(core()->isPostCodeRequired()),
+                    isLoading: false,
                 };
             },
 
@@ -376,7 +380,7 @@
 
                     params.default_address = params.default_address ?? 0;
 
-                    this.$axios.post('{{ route('admin.customers.customers.addresses.store', $customer->id) }}', params)
+                    this.$axios.post('{{ route('admin.customers.customers.custom.addresses.store', $customer->id) }}', params)
                         .then((response) => {
                             this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });
 

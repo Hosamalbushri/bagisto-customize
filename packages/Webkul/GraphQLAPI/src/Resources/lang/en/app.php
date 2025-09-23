@@ -23,6 +23,71 @@ return [
             'success-login'     => 'Success: Customer login successful.',
             'success-logout'    => 'Success: Customer logout successful.',
 
+            'validation' => [
+                'first_name' => [
+                    'required' => 'First name is required.',
+                    'string'   => 'First name must be a string.',
+                ],
+                'last_name' => [
+                    'required' => 'Last name is required.',
+                    'string'   => 'Last name must be a string.',
+                ],
+                'email' => [
+                    'required' => 'Email is required.',
+                    'email'    => 'Please enter a valid email address.',
+                    'unique'   => 'Email is already taken.',
+                ],
+                'phone' => [
+                    'required' => 'Phone number is required.',
+                    'unique'   => 'Phone number is already taken.',
+                    'phone'    => 'Phone number is invalid.',
+                    'string'   => 'Phone number must be a valid string.',
+                ],
+                'password' => [
+                    'required' => 'Password is required.',
+                    'min'      => 'Password must be at least :min characters.',
+                ],
+                'new_password' => [
+                    'confirmed'      => 'Password confirmation does not match.',
+                    'min'            => 'Password must be at least :min characters.',
+                    'required_with'  => 'New password is required when entering current password.',
+                ],
+                'new_password_confirmation' => [
+                    'required_with' => 'Password confirmation is required when entering new password.',
+                ],
+                'current_password' => [
+                    'required_with' => 'Current password is required when changing password.',
+                ],
+                'address' => [
+                    'required' => 'Address is required.',
+                    'array'    => 'Address must be an array.',
+                    'min'      => 'At least one address line is required.',
+                ],
+                'country' => [
+                    'required' => 'Country is required.',
+                    'string'   => 'Country must be a string.',
+                ],
+                'state' => [
+                    'required' => 'State is required.',
+                    'string'   => 'State must be a string.',
+                ],
+                'state_area_id' => [
+                    'required' => 'Area is required.',
+                    'string'   => 'Area ID must be a string.',
+                    'exists'   => 'Selected area not found.',
+                ],
+                'postcode' => [
+                    'required' => 'Postcode is required.',
+                    'string'   => 'Postcode must be a string.',
+                ],
+                'company_name' => [
+                    'string' => 'Company name must be a string.',
+                ],
+                'vat_id' => [
+                    'string' => 'VAT ID must be a string.',
+                ],
+            ],
+
             'signup' => [
                 'error-registration' => 'Warning: Customer registration failed.',
                 'success-verify'     => 'Account created successfully, an e-mail has been sent for verification.',
@@ -43,6 +108,23 @@ return [
                     'required' => 'The :field field is required.',
                     'same'     => 'The :field and password must match.',
                     'unique'   => 'This :field has already been taken.',
+                ],
+
+                'addresses' => [
+                    'validation' => [
+                        'first_name.required'    => 'First name is required.',
+                        'last_name.required'     => 'Last name is required.',
+                        'email.required'         => 'Email is required.',
+                        'email.email'            => 'Email format is invalid.',
+                        'phone.required'         => 'Phone number is required.',
+                        'address.required'       => 'Address is required.',
+                        'country.required'       => 'Country is required.',
+                        'state.required'         => 'State is required.',
+                        'state_area_id.required' => 'Area is required.',
+                        'state_area_id.string'   => 'Area ID must be a string.',
+                        'state_area_id.exists'   => 'Selected area not found.',
+                        'postcode.required'      => 'Postcode is required.',
+                    ],
                 ],
             ],
 

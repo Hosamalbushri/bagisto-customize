@@ -5,6 +5,7 @@ namespace Webkul\GraphQLAPI\Queries\Shop\Customer;
 use Webkul\Core\Repositories\CountryStateRepository;
 use Webkul\GraphQLAPI\Queries\BaseFilter;
 use Webkul\Sales\Repositories\InvoiceRepository;
+use Webkul\AdminTheme\Models\Areas;
 
 class CustomerQuery extends BaseFilter
 {
@@ -55,5 +56,18 @@ class CustomerQuery extends BaseFilter
             'country_code' => $address->country,
             'code'         => $address->state,
         ])?->default_name;
+    }
+
+    /**
+     * Return the area name for the address
+     */
+    public function getAreaName(object $address): ?string
+    {
+        if (!$address->state_area_id) {
+            return null;
+        }
+
+        $area = Areas::find($address->state_area_id);
+        return $area?->area_name;
     }
 }

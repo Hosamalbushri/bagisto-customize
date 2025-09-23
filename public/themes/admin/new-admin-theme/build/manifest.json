@@ -340,6 +340,10 @@
     "file": "assets/logo-DgTwyvUZ.svg",
     "src": "src/Resources/assets/images/logo.svg"
   },
+  "src/Resources/assets/images/map.svg": {
+    "file": "assets/map-NqIODITS.svg",
+    "src": "src/Resources/assets/images/map.svg"
+  },
   "src/Resources/assets/images/product-placeholders/front.svg": {
     "file": "assets/front-CFI3VfdH.svg",
     "src": "src/Resources/assets/images/product-placeholders/front.svg"

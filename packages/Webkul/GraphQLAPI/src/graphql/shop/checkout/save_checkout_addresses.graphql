@@ -16,9 +16,7 @@ input CheckoutAddressInput {
     lastName: String! @rename(attribute: "last_name")
     email: String!
     address: [String]!
-    country: String!
-    state: String!
-    city: String!
+    areaId: String! @rename(attribute: "state_area_id")
     postcode: String!
     phone: String!
     useForShipping: Boolean @rename(attribute: "use_for_shipping")
