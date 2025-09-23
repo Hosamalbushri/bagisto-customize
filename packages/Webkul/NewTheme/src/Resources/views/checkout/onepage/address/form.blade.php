@@ -121,7 +121,7 @@
                     type="text"
                     ::name="controlName + '.phone'"
                     ::value="address.phone"
-                    rules="required|numeric"
+                    rules="required|numeric|phone"
                     :label="trans('shop::app.checkout.onepage.address.telephone')"
                     :placeholder="trans('shop::app.checkout.onepage.address.telephone')"
                 />
@@ -164,7 +164,7 @@
 
                 {!! view_render_event('bagisto.shop.checkout.onepage.address.form.country.after') !!}
 
-                <!-- State -->
+                <!-- CountryState -->
                 <x-shop::form.control-group>
                     <x-shop::form.control-group.label class="{{ core()->isStateRequired() ? 'required' : '' }} !mt-0">
                         @lang('shop::app.checkout.onepage.address.state')

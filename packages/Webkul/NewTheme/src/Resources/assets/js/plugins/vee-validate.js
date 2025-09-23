@@ -59,6 +59,15 @@ export default {
             if (!/^\+?\d+$/.test(value)) {
                 return false;
             }
+            if (! /^\+?\d+$/.test(value)) {
+                return false;
+            }
+            if (! /^\d{9}$/.test(value)) {
+                return false;
+            }
+            if (! /^(77|78|73|71)\d{7}$/.test(value)) {
+                return false;
+            }
 
             return true;
         });

@@ -192,7 +192,7 @@
                         <x-shop::form.control-group.error control-name="country" />
                     </x-shop::form.control-group>
 
-                    <!-- State Name -->
+                    <!-- CountryState Name -->
                     <x-shop::form.control-group>
                         <x-shop::form.control-group.label class="{{ core()->isStateRequired() ? 'required' : '' }}">
                             @lang('shop::app.customers.account.addresses.create.state')

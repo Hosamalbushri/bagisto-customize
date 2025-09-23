@@ -255,7 +255,7 @@
         type="text/x-template"
         id="v-desktop-category-template"
     >
-        <!-- Loading State -->
+        <!-- Loading CountryState -->
         <div
             class="flex items-center gap-5"
             v-if="isLoading"

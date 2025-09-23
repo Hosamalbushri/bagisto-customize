@@ -32,7 +32,7 @@ export async function register(page) {
     await page.getByPlaceholder("Confirm Password").fill(credentials.password);
 
     const agreementLocator = page.locator('#agreement').nth(1);
-    
+
     const isVisible = await agreementLocator.isVisible();
 
     if (isVisible) {
@@ -97,8 +97,8 @@ export async function addAddress(page) {
     await page.getByPlaceholder("Street Address").fill("Demo");
     await page.getByPlaceholder("Street Address").press("Tab");
     await page.getByLabel("Country").selectOption("DZ");
-    await page.getByPlaceholder("State").click();
-    await page.getByPlaceholder("State").fill("any");
+    await page.getByPlaceholder("CountryState").click();
+    await page.getByPlaceholder("CountryState").fill("any");
     await page.getByPlaceholder("City").click();
     await page.getByPlaceholder("City").fill("any");
     await page.getByPlaceholder("Post Code").click();

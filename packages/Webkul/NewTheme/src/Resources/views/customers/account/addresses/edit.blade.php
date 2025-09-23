@@ -207,7 +207,7 @@
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.country.after', ['address' => $address]) !!}
 
-                <!-- State Name -->
+                <!-- CountryState Name -->
                 <x-shop::form.control-group>
                     <x-shop::form.control-group.label class="{{ core()->isStateRequired() ? 'required' : '' }}">
                         @lang('shop::app.customers.account.addresses.edit.state')
@@ -403,7 +403,6 @@
 
                         const list = this.stateAreas[this.addressData.state] || [];
 
-                        // قيم select عادة تكون string → نحول للرقم للمطابقة
                         const id = Number(newAreaId);
                         const selected = list.find(a => Number(a.id) === id);
 
