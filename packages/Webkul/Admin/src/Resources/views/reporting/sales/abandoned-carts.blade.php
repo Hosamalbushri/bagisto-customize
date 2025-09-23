@@ -43,7 +43,7 @@
                             <p class="text-xs font-semibold leading-none text-gray-600 dark:text-gray-300">
                                 @lang('admin::app.reporting.sales.index.abandoned-revenue')
                             </p>
-                            
+
                             <div class="flex items-center gap-0.5">
                                 <span
                                     class="text-base text-emerald-500"
@@ -68,7 +68,7 @@
                             <p class="text-xs font-semibold leading-none text-gray-600 dark:text-gray-300">
                                 @lang('admin::app.reporting.sales.index.abandoned-carts')
                             </p>
-                            
+
                             <div class="flex items-center gap-0.5">
                                 <span
                                     class="text-base text-emerald-500"
@@ -103,7 +103,7 @@
                             <p class="text-xs font-semibold leading-none text-gray-600 dark:text-gray-300">
                                 @lang('admin::app.reporting.sales.index.abandoned-rate')
                             </p>
-                            
+
                             <div class="flex items-center gap-0.5">
                                 <p
                                     class="text-base leading-none text-emerald-500"
@@ -152,7 +152,7 @@
                         </div>
                     </template>
 
-                    <!-- Empty State -->
+                    <!-- Empty CountryState -->
                     <template v-else>
                         @include('admin::reporting.empty')
                     </template>

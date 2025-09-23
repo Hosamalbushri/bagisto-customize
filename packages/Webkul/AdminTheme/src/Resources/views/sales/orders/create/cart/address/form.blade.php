@@ -158,7 +158,7 @@
 
             {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.country.after') !!}
 
-            <!-- State -->
+            <!-- CountryState -->
             <x-admin::form.control-group>
                 <x-admin::form.control-group.label class="required">
                     @lang('admin::app.sales.orders.create.cart.address.state')

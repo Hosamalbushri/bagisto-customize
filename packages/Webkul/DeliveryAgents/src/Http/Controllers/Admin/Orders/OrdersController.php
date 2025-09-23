@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Webkul\DeliveryAgents\Datagrids\Orders\Admin\AdminOrderDataGrid;
 use Webkul\DeliveryAgents\Models\Order;
 use Webkul\DeliveryAgents\Repositories\DeliveryAgentRepository;
 use Webkul\Sales\Repositories\InvoiceRepository;
@@ -23,14 +22,6 @@ class OrdersController extends Controller
         protected InvoiceRepository $invoiceRepository,
 
     ) {}
-
-    public function index()
-    {
-        if (request()->ajax()) {
-            return datagrid(AdminOrderDataGrid::class)->process();
-        }
-        abort(422);
-    }
 
     public function assignToAgent(Request $request)
     {

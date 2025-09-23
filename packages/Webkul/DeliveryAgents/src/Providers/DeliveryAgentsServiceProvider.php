@@ -47,14 +47,14 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
 
         // Order pages events
         Event::listen('bagisto.admin.sales.order.page_action.before', function ($viewRenderEventManager) {
-            $viewRenderEventManager->addTemplate('DeliveryAgents::admin.Orders.index');
+            $viewRenderEventManager->addTemplate('DeliveryAgents::admin.DeliveryAgents.Orders.index');
         });
         Event::listen('bagisto.admin.sales.order.Invoice.after', function ($viewRenderEventManager) {
-            $viewRenderEventManager->addTemplate('DeliveryAgents::admin.Orders.view');
+            $viewRenderEventManager->addTemplate('DeliveryAgents::admin.DeliveryAgents.Orders.view');
         });
         // Review pages events
         Event::listen('bagisto.admin.customers.reviews.index.add_tab', function ($viewRenderEventManager) {
-            $viewRenderEventManager->addTemplate('DeliveryAgents::admin.DeliveryAgents.reviews.index');
+            $viewRenderEventManager->addTemplate('DeliveryAgents::admin.DeliveryAgents.DeliveryAgent.reviews.index');
         });
         // shop customer events
         Event::listen('bagisto.shop.customers.account.orders.view.after.Shipping.tab', function ($viewRenderEventManager) {
@@ -76,7 +76,6 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
         $this->app->concord->registerModel(
             OrderContract::class,
             Order::class,
-            Address::class
         );
     }
 

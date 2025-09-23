@@ -21,8 +21,8 @@
                 </a>
 
                 <!-- Save Button -->
-                <button 
-                    type="submit" 
+                <button
+                    type="submit"
                     class="primary-button"
                 >
                     @lang('admin::app.settings.taxes.rates.create.save-btn')
@@ -103,7 +103,7 @@
                             <x-admin::form.control-group.error control-name="country" />
                         </x-admin::form.control-group>
 
-                        <!-- State -->
+                        <!-- CountryState -->
                         <x-admin::form.control-group>
                             <!-- Country Have States -->
                             <template v-if="haveStates()">

@@ -5,7 +5,7 @@
 
     {!! view_render_event('bagisto.admin.settings.inventory_sources.create.before') !!}
 
-    <x-admin::form 
+    <x-admin::form
         :action="route('admin.settings.inventory_sources.store')"
         enctype="multipart/form-data"
     >
@@ -25,9 +25,9 @@
                 >
                     @lang('admin::app.marketing.communications.campaigns.create.back-btn')
                 </a>
-                    
+
                 <!-- Save Inventory -->
-                <button 
+                <button
                     type="submit"
                     class="primary-button"
                 >
@@ -35,7 +35,7 @@
                 </button>
             </div>
         </div>
-    
+
         <!-- Full Panel -->
         <div class="mt-3.5 flex gap-2.5 max-xl:flex-wrap">
             <!-- Left Section -->
@@ -218,7 +218,7 @@
                             </p>
                         </div>
                     </x-slot>
-                
+
                     <x-slot:content>
                         <!-- Latitude -->
                         <x-admin::form.control-group>
@@ -327,7 +327,7 @@
                     <x-admin::form.control-group.label class="required">
                         @lang('admin::app.settings.inventory-sources.create.country')
                     </x-admin::form.control-group.label>
-    
+
                     <x-admin::form.control-group.control
                         type="select"
                         id="country"
@@ -340,23 +340,23 @@
                         <option value="">
                             @lang('admin::app.settings.inventory-sources.create.select-country')
                         </option>
-    
+
                         @foreach (core()->countries() as $country)
                             <option value="{{ $country->code }}">
                                 {{ $country->name }}
                             </option>
                         @endforeach
                     </x-admin::form.control-group.control>
-    
+
                     <x-admin::form.control-group.error control-name="country" />
                 </x-admin::form.control-group>
-                        
-                <!-- State -->
+
+                <!-- CountryState -->
                 <x-admin::form.control-group>
                     <x-admin::form.control-group.label class="required">
                         @lang('admin::app.settings.inventory-sources.create.state')
                     </x-admin::form.control-group.label>
-    
+
                     <template v-if="haveStates()">
                         <x-admin::form.control-group.control
                             type="select"
@@ -371,7 +371,7 @@
                                 @lang('admin::app.settings.inventory-sources.create.select-state')
                             </option>
 
-                            <option 
+                            <option
                                 v-for='(state, index) in countryStates[country]'
                                 :value="state.code"
                             >
@@ -379,7 +379,7 @@
                             </option>
                         </x-admin::form.control-group.control>
                     </template>
-    
+
                     <template v-else>
                         <x-admin::form.control-group.control
                             type="text"

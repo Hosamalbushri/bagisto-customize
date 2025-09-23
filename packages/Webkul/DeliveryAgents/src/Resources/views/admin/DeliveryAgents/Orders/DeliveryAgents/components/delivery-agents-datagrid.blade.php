@@ -165,7 +165,7 @@
     >
         <x-admin::button
             button-type="submit"
-            class="acma-icon-fact_check flex text-black dark:text-white  items-center gap-2 cursor-pointer p-2 hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
+            class="acma-icon-fact_check flex items-center gap-2 cursor-pointer p-2 hover:rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 ltr:ml-1 rtl:mr-1"
             :title="trans('deliveryAgent::app.select-order.index.assign-btn')"
             @click="assignDelivery(orderId, agentId)"
             ::loading="isLoading"
@@ -228,7 +228,7 @@
                         agree: () => {
                             // Set loading state for all buttons
                             this.$emitter.emit('set-delivery-assignment-loading', true);
-                            
+
                             this.$axios.post(
                                 `{{ route('admin.orders.assignDeliveryAgent', [':order', ':agent']) }}`
                                     .replace(':order', orderId)

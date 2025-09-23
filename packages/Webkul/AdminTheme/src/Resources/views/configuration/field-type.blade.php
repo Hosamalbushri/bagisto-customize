@@ -335,7 +335,7 @@
                 </v-country>
             </template>
 
-            <!-- State select Vue component -->
+            <!-- CountryState select Vue component -->
             <template v-if="field.type == 'state' && field.is_visible">
                 <v-state>
                     <template v-slot:default="{ countryStates, country, haveStates, isStateComponenetLoaded }">

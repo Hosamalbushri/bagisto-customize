@@ -197,7 +197,7 @@
                                 <x-admin::form.control-group.error control-name="country" />
                             </x-admin::form.control-group>
 
-                            <!-- State Name -->
+                            <!-- CountryState Name -->
                             <x-admin::form.control-group class="w-full">
                                 <x-admin::form.control-group.label class="required">
                                     @lang('admin::app.customers.customers.view.address.edit.state')

@@ -30,7 +30,7 @@
                         @lang('admin::app.reporting.products.index.view-details')
                     </a>
                 </div>
-                
+
                 <!-- Content -->
                 <div class="grid gap-4">
                     <!-- Products with Most Visits -->
@@ -61,7 +61,7 @@
                         </div>
                     </template>
 
-                    <!-- Empty State -->
+                    <!-- Empty CountryState -->
                     <template v-else>
                         @include('admin::reporting.empty')
                     </template>

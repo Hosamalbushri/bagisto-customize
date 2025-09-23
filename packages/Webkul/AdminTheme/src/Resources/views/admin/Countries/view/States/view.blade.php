@@ -71,7 +71,7 @@
                                             @lang('adminTheme::app.country.state.view.state')
                                         </p>
 
-                                        <!--State Edit Component -->
+                                        <!--CountryState Edit Component -->
                                         @include('adminTheme::admin.Countries.view.States.edit')
                                     </div>
                                 </x-slot:header>

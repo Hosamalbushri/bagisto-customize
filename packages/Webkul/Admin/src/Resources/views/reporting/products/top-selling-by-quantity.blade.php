@@ -9,11 +9,11 @@
         type="text/x-template"
         id="v-reporting-product-top-selling-by-quantity-template"
     >
-        <!-- Shimmer --> 
+        <!-- Shimmer -->
         <template v-if="isLoading">
             <x-admin::shimmer.reporting.products.top-selling-by-quantity />
         </template>
-        
+
         <!-- Top Selling Products By Quantity Section -->
         <template v-else>
             <div class="box-shadow relative flex-1 rounded bg-white p-4 dark:bg-gray-900">
@@ -30,7 +30,7 @@
                         @lang('admin::app.reporting.products.index.view-details')
                     </a>
                 </div>
-                
+
                 <!-- Content -->
                 <div class="grid gap-4">
                     <!-- Top Selling Products By Quantity -->
@@ -61,7 +61,7 @@
                         </div>
                     </template>
 
-                    <!-- Empty State -->
+                    <!-- Empty CountryState -->
                     <template v-else>
                         @include('admin::reporting.empty')
                     </template>
