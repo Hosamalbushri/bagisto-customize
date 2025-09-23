@@ -30,14 +30,14 @@
                         @lang('admin::app.reporting.sales.index.view-details')
                     </a>
                 </div>
-                
+
                 <!-- Content -->
                 <div class="grid gap-4">
                     <div class="flex justify-between gap-4">
                         <p class="text-3xl font-bold leading-9 text-gray-600 dark:text-gray-300">
                             @{{ report.statistics.tax_collected.formatted_total }}
                         </p>
-                        
+
                         <div class="flex items-center gap-0.5">
                             <span
                                 class="text-base text-emerald-500"
@@ -114,7 +114,7 @@
                         </div>
                     </template>
 
-                    <!-- Empty State -->
+                    <!-- Empty CountryState -->
                     <template v-else>
                         @include('admin::reporting.empty')
                     </template>

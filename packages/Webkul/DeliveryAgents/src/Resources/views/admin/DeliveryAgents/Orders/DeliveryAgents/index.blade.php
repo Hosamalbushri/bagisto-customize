@@ -60,7 +60,7 @@
                             :is-selected="true"
                         >
                             <div class="space-y-3">
-                                @include('DeliveryAgents::admin.Orders.DeliveryAgents.get-delivery-agents-by-area')
+                                @include('DeliveryAgents::admin.DeliveryAgents.Orders.DeliveryAgents.get-delivery-agents-by-area')
                             </div>
                         </x-admin::tabs.item>
 
@@ -69,7 +69,7 @@
                             title="{{ __('deliveryAgent::app.select-order.index.tabs.all') }}"
                         >
                             <div class="space-y-3">
-                                @include('DeliveryAgents::admin.Orders.DeliveryAgents.get-all-delivery-agents')
+                                @include('DeliveryAgents::admin.DeliveryAgents.Orders.DeliveryAgents.get-all-delivery-agents')
                             </div>
                         </x-admin::tabs.item>
                     </x-admin::tabs>

@@ -66,7 +66,7 @@
                         </div>
                     </template>
 
-                    <!-- Empty State -->
+                    <!-- Empty CountryState -->
                     <template v-else>
                         @include('admin::reporting.empty')
                     </template>

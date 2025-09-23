@@ -9,7 +9,7 @@ class StateRepository extends Repository
 {
     public function model()
     {
-        return 'Webkul\AdminTheme\Models\State';
+        return 'Webkul\AdminTheme\Models\CountryState';
     }
 
     /**

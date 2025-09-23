@@ -8,7 +8,6 @@ use Webkul\Core\Models\CountryTranslation;
 class Country extends CountryTranslation
 {
     protected $table = 'countries';
-
     protected $fillable = [
         'name',
         'code',
@@ -16,7 +15,12 @@ class Country extends CountryTranslation
 
     public function states(): HasMany
     {
-        return $this->hasMany(State::class, 'country_id');
+        return $this->hasMany(CountryState::class, 'country_id');
+    }
+
+    public function translations(): HasMany
+    {
+        return $this->hasMany(CountryTranslation::class, 'country_id');
     }
 }
 

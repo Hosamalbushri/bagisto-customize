@@ -26,8 +26,8 @@
                 </a>
 
                 <!-- Save Button -->
-                <button 
-                    type="submit" 
+                <button
+                    type="submit"
                     class="primary-button"
                 >
                     @lang('admin::app.settings.taxes.rates.edit.save-btn')
@@ -83,7 +83,7 @@
                             <x-admin::form.control-group.label class="required">
                                 @lang('admin::app.settings.taxes.rates.edit.country')
                             </x-admin::form.control-group.label>
-            
+
                             <x-admin::form.control-group.control
                                 type="select"
                                 name="country"
@@ -96,18 +96,18 @@
                                 <option value="">
                                     @lang('admin::app.settings.taxes.rates.edit.select-country')
                                 </option>
-            
+
                                 @foreach (core()->countries() as $country)
                                     <option value="{{ $country->code }}">
                                         {{ $country->name }}
                                     </option>
                                 @endforeach
                             </x-admin::form.control-group.control>
-            
+
                             <x-admin::form.control-group.error control-name="country" />
                         </x-admin::form.control-group>
-            
-                        <!-- State -->
+
+                        <!-- CountryState -->
                         <x-admin::form.control-group>
                             <!-- Country Have States -->
                             <template v-if="haveStates()">
@@ -126,9 +126,9 @@
                                         <option value="">
                                             @lang('admin::app.settings.taxes.rates.edit.select-state')
                                         </option>
-                    
-                                        <option 
-                                            v-for='(state, index) in countryStates[country]' 
+
+                                        <option
+                                            v-for='(state, index) in countryStates[country]'
                                             :value="state.code"
                                         >
                                             @{{ state.default_name }}
@@ -175,7 +175,7 @@
                         </x-admin::form.control-group>
                     </div>
                 </div>
-            
+
                 <!-- Right sub-component -->
                 <div class="flex w-[360px] max-w-full flex-col gap-2 max-sm:w-full">
 
@@ -188,7 +188,7 @@
                                 @lang('admin::app.settings.taxes.rates.edit.settings')
                             </p>
                         </x-slot>
-                    
+
                         <x-slot:content>
                             @if ($taxRate->is_zip)
                                 <!-- Is Zip -->
@@ -287,8 +287,8 @@
                 methods: {
                     haveStates: function () {
                         /*
-                        * The double negation operator is used to convert the value to a boolean. 
-                        * It ensures that the final result is a boolean value, 
+                        * The double negation operator is used to convert the value to a boolean.
+                        * It ensures that the final result is a boolean value,
                         * true if the array has a length greater than 0, and otherwise false.
                         */
                         return !!this.countryStates[this.country]?.length;

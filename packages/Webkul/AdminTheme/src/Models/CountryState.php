@@ -3,17 +3,12 @@
 namespace Webkul\AdminTheme\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Webkul\Core\Models\CountryState;
+use Webkul\Core\Models\CountryStateTranslation;
 
-class State extends CountryState
+class CountryState extends CountryStateTranslation
 {
     protected $table = 'country_states';
-    public $translatedAttributes = ['default_name'];
-
-    protected $with = ['translations'];
-
     protected $fillable = ['country_id', 'country_code', 'default_name', 'code'];
-
     public function country()
     {
         return $this->belongsTo(Country::class);
@@ -22,6 +17,11 @@ class State extends CountryState
     public function areas(): HasMany
     {
         return $this->hasMany(Areas::class, 'country_state_id');
+    }
+
+    public function translations(): HasMany
+    {
+        return $this->hasMany(CountryStateTranslation::class, 'country_state_id');
     }
 }
 

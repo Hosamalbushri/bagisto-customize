@@ -37,7 +37,7 @@
                         <p class="text-3xl font-bold leading-9 text-gray-600 dark:text-gray-300">
                             @{{ report.statistics.shipping_collected.formatted_total }}
                         </p>
-                        
+
                         <div class="flex items-center gap-0.5">
                             <span
                                 class="text-base text-emerald-500"
@@ -114,7 +114,7 @@
                         </div>
                     </template>
 
-                    <!-- Empty State -->
+                    <!-- Empty CountryState -->
                     <template v-else>
                         @include('admin::reporting.empty')
                     </template>

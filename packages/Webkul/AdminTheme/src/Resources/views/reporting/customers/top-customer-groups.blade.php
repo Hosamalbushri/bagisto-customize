@@ -13,7 +13,7 @@
         <template v-if="isLoading">
             <x-admin::shimmer.reporting.customers.top-customer-groups />
         </template>
-        
+
         <!-- Top Customers Section -->
         <template v-else>
             <div class="box-shadow relative flex-1 rounded bg-white p-4 dark:bg-gray-900">
@@ -61,7 +61,7 @@
                         </div>
                     </template>
 
-                    <!-- Empty State -->
+                    <!-- Empty CountryState -->
                     <template v-else>
                         @include('admin::reporting.empty')
                     </template>

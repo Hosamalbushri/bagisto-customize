@@ -61,7 +61,7 @@
             sort,
             performAction
         }">
-            {{-- Loading State --}}
+            {{-- Loading CountryState --}}
             <template v-if="isLoading">
                 <x-admin::shimmer.datagrid.table.head :isMultiRow="true" />
             </template>
@@ -145,7 +145,7 @@
             sort,
             performAction
         }">
-            {{-- Loading State --}}
+            {{-- Loading CountryState --}}
             <template v-if="isLoading">
                 <x-admin::shimmer.datagrid.table.body :isMultiRow="true" />
             </template>

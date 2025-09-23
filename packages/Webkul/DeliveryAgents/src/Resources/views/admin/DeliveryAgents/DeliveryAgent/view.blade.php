@@ -70,8 +70,8 @@
             <div class="mt-3.5 flex gap-2.5 max-xl:flex-wrap">
                 <!-- Left Component -->
                 <div class="flex flex-1 flex-col gap-2 max-xl:flex-auto">
-                    @include('DeliveryAgents::admin.DeliveryAgents.view.orders.index')
-                    @include('DeliveryAgents::admin.DeliveryAgents.view.reviews.index')
+                    @include('DeliveryAgents::admin.DeliveryAgents.DeliveryAgent.view.orders.index')
+                    @include('DeliveryAgents::admin.DeliveryAgents.DeliveryAgent.view.reviews.index')
                 </div>
                 <!-- Right Component -->
                 <div class="flex w-[360px] max-w-full flex-col gap-2 max-sm:w-full">
@@ -87,7 +87,7 @@
                                     </p>
 
                                     <!--Delivery Agents Edit Component -->
-                                    @include('DeliveryAgents::admin.DeliveryAgents.view.edit')
+                                    @include('DeliveryAgents::admin.DeliveryAgents.DeliveryAgent.view.edit')
 
 
                                 </div>
@@ -143,7 +143,7 @@
 
                                     <!-- Ranges Create component -->
                                     @if (bouncer()->hasPermission('delivery.deliveryAgent.range.create'))
-                                        @include('DeliveryAgents::admin.DeliveryAgents.view.Ranges.create')
+                                        @include('DeliveryAgents::admin.DeliveryAgents.DeliveryAgent.view.Ranges.create')
                                         <v-create-delivery-range-form
                                                 :deliveryAgent="deliveryAgent"
                                                 ref="RangeCreateModal"
@@ -181,7 +181,7 @@
                                         </p>
 
                                         <div class=" flex items-center gap-2.5">
-                                            @include('DeliveryAgents::admin.DeliveryAgents.view.Ranges.edit')
+                                            @include('DeliveryAgents::admin.DeliveryAgents.DeliveryAgent.view.Ranges.edit')
 
                                             @if (bouncer()->hasPermission('delivery.deliveryAgent.range.delete'))
                                                 <button

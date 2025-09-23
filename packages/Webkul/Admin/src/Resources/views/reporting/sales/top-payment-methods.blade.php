@@ -30,7 +30,7 @@
                         @lang('admin::app.reporting.sales.index.view-details')
                     </a>
                 </div>
-                
+
                 <!-- Content -->
                 <div class="grid gap-4">
                     <!-- Top Payment Methods -->
@@ -61,7 +61,7 @@
                         </div>
                     </template>
 
-                    <!-- Empty State -->
+                    <!-- Empty CountryState -->
                     <template v-else>
                         @include('admin::reporting.empty')
                     </template>

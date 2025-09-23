@@ -5,7 +5,7 @@
 
     {!! view_render_event('bagisto.admin.settings.inventory_sources.edit.before', ['inventorySource' => $inventorySource]) !!}
 
-    <x-admin::form 
+    <x-admin::form
         :action="route('admin.settings.inventory_sources.update', $inventorySource->id)"
         enctype="multipart/form-data"
         method="PUT"
@@ -26,10 +26,10 @@
                 >
                     @lang('admin::app.settings.inventory-sources.edit.back-btn')
                 </a>
-                    
+
                 <!-- Save Inventory -->
                 <div class="flex items-center gap-x-2.5">
-                    <button 
+                    <button
                         type="submit"
                         class="primary-button"
                     >
@@ -41,7 +41,7 @@
 
         <!-- Full Panel -->
         <div class="mt-3.5 flex gap-2.5 max-xl:flex-wrap">
-    
+
             <!-- Left Section -->
             <div class="flex flex-1 flex-col gap-2 max-xl:flex-auto">
 
@@ -222,7 +222,7 @@
                             </p>
                         </div>
                     </x-slot>
-                
+
                     <x-slot:content>
                         <!-- Latitude -->
                         <x-admin::form.control-group>
@@ -276,7 +276,7 @@
                             />
 
                             <x-admin::form.control-group.error control-name="priority" />
-                            
+
                         </x-admin::form.control-group>
 
                         <!-- Status -->
@@ -334,7 +334,7 @@
                     <x-admin::form.control-group.label class="required">
                         @lang('admin::app.settings.inventory-sources.edit.country')
                     </x-admin::form.control-group.label>
-    
+
                     <x-admin::form.control-group.control
                         type="select"
                         id="country"
@@ -350,16 +350,16 @@
                             </option>
                         @endforeach
                     </x-admin::form.control-group.control>
-    
+
                     <x-admin::form.control-group.error control-name="country" />
                 </x-admin::form.control-group>
 
-                <!-- State -->
+                <!-- CountryState -->
                 <x-admin::form.control-group>
                     <x-admin::form.control-group.label class="required">
                         @lang('admin::app.settings.inventory-sources.edit.state')
                     </x-admin::form.control-group.label>
-    
+
                     <template v-if="haveStates()">
                         <x-admin::form.control-group.control
                             type="select"
@@ -370,7 +370,7 @@
                             :label="trans('admin::app.settings.inventory-sources.edit.state')"
                             :placeholder="trans('admin::app.settings.inventory-sources.edit.state')"
                         >
-                            <option 
+                            <option
                                 v-for='(state, index) in countryStates[country]'
                                 :value="state.code"
                             >
@@ -378,7 +378,7 @@
                             </option>
                         </x-admin::form.control-group.control>
                     </template>
-    
+
                     <template v-else>
                         <x-admin::form.control-group.control
                             type="text"
