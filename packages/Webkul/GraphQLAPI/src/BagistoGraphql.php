@@ -60,9 +60,9 @@ class BagistoGraphql
      *
      * @return void
      */
-    public function validate(array $args, array $rules)
+    public function validate(array $args, array $rules ,$messages = [])
     {
-        $validator = Validator::make($args, $rules);
+        $validator = Validator::make($args, $rules , $messages );
 
         $this->checkValidatorFails($validator);
     }
@@ -77,7 +77,7 @@ class BagistoGraphql
         if ($validator->fails()) {
             $errorMessage = [];
 
-            foreach ($validator->messages()->toArray() as $field => $message) {
+            foreach ($validator->errors()->toArray() as $field => $message) {
                 $errorMessage[] = is_array($message)
                     ? "{$field}: ".current($message)
                     : "{$field}: $message";
@@ -85,6 +85,37 @@ class BagistoGraphql
 
             throw new CustomException(implode(', ', $errorMessage));
         }
+    }
+
+    public function getValidationMessages(array $fields = []): array
+    {
+        $messages = [];
+
+        if (empty($fields)) {
+            $fields = [
+                'first_name', 'last_name', 'email', 'phone', 'password',
+                'new_password', 'new_password_confirmation', 'current_password',
+                'address', 'country', 'state', 'state_area_id', 'postcode',
+                'company_name', 'vat_id'
+            ];
+        }
+
+        foreach ($fields as $field) {
+            $fieldMessages = trans("bagisto_graphql::app.shop.validation.{$field}");
+            if (is_array($fieldMessages)) {
+                foreach ($fieldMessages as $rule => $message) {
+                    $messages["{$field}.{$rule}"] = $message;
+                }
+            } else {
+                // Fallback for missing translations
+                $messages["{$field}.required"] = "The {$field} field is required.";
+                $messages["{$field}.string"] = "The {$field} field must be a string.";
+                $messages["{$field}.email"] = "The {$field} field must be a valid email.";
+                $messages["{$field}.exists"] = "The selected {$field} is invalid.";
+            }
+        }
+
+        return $messages;
     }
 
     /**

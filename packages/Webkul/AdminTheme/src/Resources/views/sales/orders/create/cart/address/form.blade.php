@@ -117,7 +117,7 @@
                     type="text"
                     ::name="controlName + '.phone'"
                     ::value="address.phone"
-                    rules="required|numeric"
+                    rules="required|numeric|phone"
                     :label="trans('admin::app.sales.orders.create.cart.address.telephone')"
                     :placeholder="trans('admin::app.sales.orders.create.cart.address.telephone')"
                 />
@@ -333,7 +333,7 @@
 
             data() {
                 return {
-                    selectedCountry: this.address.country || @json(core()->getConfigData('delivery.settings.store.default_country')),
+                    selectedCountry: this.address.country || @json(core()->getConfigData('general.location.store.default_country')),
                     selectedState: this.address.state,
                     selectedArea: this.address.state_area_id,
 

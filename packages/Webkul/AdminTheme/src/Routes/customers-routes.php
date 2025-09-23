@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Webkul\AdminTheme\Http\Controllers\Admin\Customers\AddressController;
 use Webkul\AdminTheme\Http\Controllers\Admin\Customers\CustomerController;
 
 Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/customer'], function () {
@@ -11,6 +12,24 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/customer'], f
         Route::get('', 'index')->name('admin.customers.custom.customers.index');
 
         Route::get('view/{id}', 'show')->name('admin.customers.custom.customers.view');
+    });
+    /**
+     * Customer's addresses routes.
+     */
+    Route::controller(AddressController::class)->group(function () {
+        Route::prefix('{id}/addresses')->group(function () {
+            Route::post('create', 'store')->name('admin.customers.customers.custom.addresses.store');
+        });
+
+//        Route::prefix('addresses')->group(function () {
+//            Route::get('edit/{id}', 'edit')->name('admin.customers.customers.addresses.edit');
+//
+//            Route::put('edit/{id}', 'update')->name('admin.customers.customers.addresses.update');
+//
+//            Route::post('default/{id}', 'makeDefault')->name('admin.customers.customers.addresses.set_default');
+//
+//            Route::post('delete/{id}', 'destroy')->name('admin.customers.customers.addresses.delete');
+//        });
     });
 
 });

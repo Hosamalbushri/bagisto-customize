@@ -1,5 +1,31 @@
 <?php
-return[
+return [
+    [
+        'key'  => 'general.location',
+        'name' => 'adminTheme::app.configuration.index.general.location.title',
+        'info' => 'adminTheme::app.configuration.index.general.location.info',
+        'icon' => 'map.svg',
+        'sort' => 4,
+        'fields' => [],
+    ],
+    // إعدادات المتجر
+    [
+        'key'    => 'general.location.store',
+        'name'   => 'adminTheme::app.configuration.index.general.location.store.title',
+        'info'   => 'adminTheme::app.configuration.index.general.location.store.store-info',
+        'icon'   => 'icon-store',
+        'sort'   => 1,
+        'fields' => [
+            [
+                'name'          => 'default_country',
+                'title'         => 'adminTheme::app.configuration.index.general.location.store.fields.default-country',
+                'type'          => 'country',
+                'validation'    => 'required',
+                'channel_based' => true,
+                'locale_based'  => false,
+            ],
+        ],
+    ],
     [
         'key'    => 'catalog.products.create',
         'name'   => 'adminTheme::app.configuration.index.catalog.products.create.title',
@@ -76,6 +102,36 @@ return[
                 'default'       => '6',
                 'depends'       => 'auto_generate_sku:1',
             ],
-        ]
-    ]
+        ],
+    ],
+    [
+        'key'    => 'customer.address.options',
+        'name'   => 'adminTheme::app.configuration.index.customer.address.options.title',
+        'info'   => 'adminTheme::app.configuration.index.customer.address.options.info',
+        'icon'   => 'icon-location',
+        'sort'   => 2,
+        'fields' => [
+            [
+                'name'          => 'show_company_name',
+                'title'         => 'adminTheme::app.configuration.index.customer.address.options.show-company-name',
+                'type'          => 'boolean',
+                'default'       => 1,
+                'channel_based' => true,
+            ],
+            [
+                'name'          => 'show_tax_number',
+                'title'         => 'adminTheme::app.configuration.index.customer.address.options.show-tax-number',
+                'type'          => 'boolean',
+                'default'       => 1,
+                'channel_based' => true,
+            ],
+            [
+                'name'          => 'show_postal_code',
+                'title'         => 'adminTheme::app.configuration.index.customer.address.options.show-postal-code',
+                'type'          => 'boolean',
+                'default'       => 1,
+                'channel_based' => true,
+            ],
+        ],
+    ],
 ];

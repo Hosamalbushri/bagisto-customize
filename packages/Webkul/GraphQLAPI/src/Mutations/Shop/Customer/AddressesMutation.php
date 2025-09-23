@@ -5,6 +5,7 @@ namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Event;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\AdminTheme\Repositories\Country\AreaRepository;
 use Webkul\Core\Rules\PhoneNumber;
 use Webkul\Core\Rules\PostCode;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
@@ -18,7 +19,7 @@ class AddressesMutation extends Controller
      *
      * @return void
      */
-    public function __construct(protected CustomerAddressRepository $customerAddressRepository) {}
+    public function __construct(protected CustomerAddressRepository $customerAddressRepository, protected AreaRepository $areaRepository) {}
 
     /**
      * Store a newly created resource in storage.
@@ -32,26 +33,35 @@ class AddressesMutation extends Controller
         $customer = bagisto_graphql()->authorize();
 
         bagisto_graphql()->validate($args, [
-            'company_name' => ['nullable'],
-            'first_name'   => ['required'],
-            'last_name'    => ['required'],
-            'address'      => ['required', 'array', 'min:1'],
-            'address.*'    => ['required', 'string'],
-            'country'      => core()->isCountryRequired() ? ['required'] : ['nullable'],
-            'state'        => core()->isStateRequired() ? ['required'] : ['nullable'],
-            'city'         => ['required', 'string'],
-            'postcode'     => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
-            'phone'        => ['required', new PhoneNumber],
-            'vat_id'       => [new VatIdRule],
-            'email'        => ['required', 'email'],
+            'company_name'  => ['nullable'],
+            'first_name'    => ['required'],
+            'last_name'     => ['required'],
+            'address'       => ['required', 'array', 'min:1'],
+            'address.*'     => ['required', 'string'],
+            //            'country'       => core()->isCountryRequired() ? ['required'] : ['nullable'],
+            //            'state'         => core()->isStateRequired() ? ['required'] : ['nullable'],
+            'state_area_id' => ['required', 'string', 'exists:state_areas,id'],
+            'postcode'      => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
+            'phone'         => ['required', new PhoneNumber],
+            'vat_id'        => [new VatIdRule],
+            'email'         => ['required', 'email'],
         ]);
 
         try {
             Event::dispatch('customer.addresses.create.before');
 
+            // Get area name and set it as city
+            $area = $this->areaRepository->findOrFail($args['state_area_id']);
+            if (! $area) {
+                throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.addresses.area-not-found'));
+            }
+
             $args = array_merge($args, [
                 'customer_id' => $customer->id,
                 'address'     => implode(PHP_EOL, array_filter($args['address'])),
+                'country'     => $area->country_code,
+                'state'       => $area->state_code,
+                'city'        => $area->area_name,
             ]);
 
             $customerAddress = $this->customerAddressRepository->create($args);
@@ -84,24 +94,31 @@ class AddressesMutation extends Controller
         }
 
         bagisto_graphql()->validate($args, [
-            'company_name' => ['nullable'],
-            'first_name'   => ['required'],
-            'last_name'    => ['required'],
-            'address'      => ['required', 'array', 'min:1'],
-            'country'      => core()->isCountryRequired() ? ['required'] : ['nullable'],
-            'state'        => core()->isStateRequired() ? ['required'] : ['nullable'],
-            'city'         => ['required', 'string'],
-            'postcode'     => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
-            'phone'        => ['required', new PhoneNumber],
-            'vat_id'       => [new VatIdRule],
-            'email'        => ['required', 'email'],
+            'company_name'  => ['nullable'],
+            'first_name'    => ['required'],
+            'last_name'     => ['required'],
+            'address'       => ['required', 'array', 'min:1'],
+            'state_area_id' => ['required', 'string', 'exists:state_areas,id'],
+            'postcode'      => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
+            'phone'         => ['required', new PhoneNumber],
+            'vat_id'        => [new VatIdRule],
+            'email'         => ['required', 'email'],
         ]);
 
         try {
             Event::dispatch('customer.addresses.update.before');
 
+            // Get area name and set it as city
+            $area = $this->areaRepository->findOrFail($args['state_area_id']);
+            if (! $area) {
+                throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.addresses.area-not-found'));
+            }
+
             $args = array_merge($args, [
                 'address' => implode(PHP_EOL, array_filter($args['address'])),
+                'city'    => $area->area_name, // Store area name as city
+                'country' => $area->country_code,
+                'state'   => $area->state_code,
             ]);
 
             $customerAddress = $this->customerAddressRepository->update($args, $args['id']);
@@ -175,7 +192,7 @@ class AddressesMutation extends Controller
 
             return [
                 'success' => true,
-                'message' => trans('bagisto_graphql::app.admin.customers.addresses.default-update-success'),
+                'message' => trans('bagisto_graphql::app.shop.customers.account.addresses.default-update-success'),
                 'address' => $address,
             ];
         } catch (\Exception $e) {

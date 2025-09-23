@@ -13,7 +13,7 @@ class AttributeFamilyOptions
     {
         $attributeFamilyRepository = app(AttributeFamilyRepository::class);
         $families = $attributeFamilyRepository->all();
-        
+
         $options = [];
         foreach ($families as $family) {
             $options[] = [
@@ -21,7 +21,6 @@ class AttributeFamilyOptions
                 'value' => $family->id,
             ];
         }
-        
         return $options;
     }
 }

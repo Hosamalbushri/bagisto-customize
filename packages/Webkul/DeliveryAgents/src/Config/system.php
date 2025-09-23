@@ -33,26 +33,6 @@ return [
             ],
         ],
     ],
-
-    // إعدادات المتجر
-    [
-        'key'    => 'delivery.settings.store',
-        'name'   => 'deliveryAgent::app.deliveryAgent.system.settings.store.title', // "إعدادات المتجر"
-        'info'   => 'deliveryAgent::app.deliveryAgent.system.settings.store.store-info', // "إعدادات عامة للمتجر"
-        'icon'   => 'settings/store.svg',
-        'sort'   => 1,
-        'fields' => [
-            [
-                'name'          => 'default_country',
-                'title'         => 'deliveryAgent::app.deliveryAgent.system.settings.store.fields.default-country', // "الدولة الافتراضية للمتجر"
-                'type'          => 'country',
-                'validation'    => 'required',
-                'channel_based' => true,
-                'locale_based'  => false,
-            ],
-        ],
-    ],
-
     // إعدادات المندوب
     [
         'key'    => 'delivery.settings.agent',

@@ -2,23 +2,23 @@
 
 namespace Webkul\GraphQLAPI\Mutations\Shop\Customer;
 
-use Webkul\Core\Rules\PostCode;
-use Webkul\Checkout\Facades\Cart;
-use Illuminate\Support\Facades\DB;
-use Webkul\Core\Rules\PhoneNumber;
-use Webkul\Payment\Facades\Payment;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Shipping\Facades\Shipping;
-use Webkul\GraphQLAPI\Helper\PaymentHelper;
-use Webkul\Sales\Transformers\OrderResource;
-use Webkul\Sales\Repositories\OrderRepository;
-use Webkul\Sales\Repositories\InvoiceRepository;
-use Webkul\GraphQLAPI\Validators\CustomException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Webkul\AdminTheme\Repositories\Country\AreaRepository;
 use Webkul\CartRule\Repositories\CartRuleCouponRepository;
-use Webkul\GraphQLAPI\Repositories\NotificationRepository;
+use Webkul\Checkout\Facades\Cart;
+use Webkul\Core\Rules\PhoneNumber;
+use Webkul\Core\Rules\PostCode;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
+use Webkul\GraphQLAPI\Helper\PaymentHelper;
+use Webkul\GraphQLAPI\Repositories\NotificationRepository;
+use Webkul\GraphQLAPI\Validators\CustomException;
+use Webkul\Payment\Facades\Payment;
+use Webkul\Sales\Repositories\InvoiceRepository;
+use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Sales\Transformers\OrderResource;
+use Webkul\Shipping\Facades\Shipping;
 
 class CheckoutMutation extends Controller
 {
@@ -33,7 +33,8 @@ class CheckoutMutation extends Controller
         protected OrderRepository $orderRepository,
         protected NotificationRepository $notificationRepository,
         protected InvoiceRepository $invoiceRepository,
-        protected PaymentHelper $paymentHelper
+        protected PaymentHelper $paymentHelper,
+        protected AreaRepository $areaRepository
     ) {
         Auth::setDefaultDriver('api');
     }
@@ -55,7 +56,7 @@ class CheckoutMutation extends Controller
             foreach ($customer->addresses as $key => $address) {
                 $formattedAddresses[$key] = [
                     'id'      => $address->id,
-                    'address' => "{$customer->first_name} {$customer->last_name}, {$address->address}, {$address->city}, {$address->state}, {$address->country}, {$address->postcode}, T: {$address->phone}",
+                    'address' => "{$customer->first_name} {$customer->last_name}, {$address->address}, {$address->city}, {$address->state},{$address->state_area_id}, {$address->country}, {$address->postcode}, T: {$address->phone}",
                 ];
             }
 
@@ -90,7 +91,7 @@ class CheckoutMutation extends Controller
             $rules = array_merge($rules, $this->mergeAddressRules('shipping'));
         }
 
-        bagisto_graphql()->validate($args, $rules);
+        bagisto_graphql()->validate($args, $rules, bagisto_graphql());
 
         if (
             ! auth()->guard('api')->check()
@@ -102,11 +103,17 @@ class CheckoutMutation extends Controller
         if (Cart::hasError()) {
             throw new CustomException(current(Cart::getErrors()));
         }
-
+        $area = $this->areaRepository->findOrFail($args['state_area_id']);
+        if (! $area) {
+            throw new CustomException(trans('bagisto_graphql::app.shop.customers.account.addresses.area-not-found'));
+        }
         if (auth()->guard('api')->check()) {
             $args = array_merge($args, [
                 'billing' => array_merge($args['billing'], [
                     'customer_id' => auth()->guard('api')->user()->id,
+                    'country'     => $area->country_code,
+                    'state'       => $area->state_code,
+                    'city'        => $area->area_name,
                 ]),
             ]);
 
@@ -117,13 +124,19 @@ class CheckoutMutation extends Controller
                 $args = array_merge($args, [
                     'shipping' => array_merge($args['shipping'], [
                         'customer_id' => auth()->guard('api')->user()->id,
+                        'country'     => $area->country_code,
+                        'state'       => $area->state_code,
+                        'city'        => $area->area_name,
                     ]),
                 ]);
             }
 
             if (! empty($args['billing']['save_address'])) {
                 $this->customerAddressRepository->create(array_merge($args['billing'], [
-                    'address' => implode(PHP_EOL, $args['billing']['address']),
+                    'address'     => implode(PHP_EOL, $args['billing']['address']),
+                    'country'     => $area->country_code,
+                    'state'       => $area->state_code,
+                    'city'        => $area->area_name,
                 ]));
             }
         }
@@ -183,16 +196,14 @@ class CheckoutMutation extends Controller
     private function mergeAddressRules(string $addressType): array
     {
         return [
-            "{$addressType}.company_name" => ['nullable'],
-            "{$addressType}.first_name"   => ['required'],
-            "{$addressType}.last_name"    => ['required'],
-            "{$addressType}.email"        => ['required', 'email'],
-            "{$addressType}.address"      => ['required', 'array', 'min:1'],
-            "{$addressType}.city"         => ['required'],
-            "{$addressType}.country"      => core()->isCountryRequired() ? ['required'] : ['nullable'],
-            "{$addressType}.state"        => core()->isStateRequired() ? ['required'] : ['nullable'],
-            "{$addressType}.postcode"     => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
-            "{$addressType}.phone"        => ['required', new PhoneNumber],
+            "{$addressType}.company_name"          => ['nullable'],
+            "{$addressType}.first_name"            => ['required'],
+            "{$addressType}.last_name"             => ['required'],
+            "{$addressType}.email"                 => ['required', 'email'],
+            "{$addressType}.address"               => ['required', 'array', 'min:1'],
+            "{$addressType}.state_area_id"         => ['required'],
+            "{$addressType}.postcode"              => core()->isPostCodeRequired() ? ['required', new PostCode] : [new PostCode],
+            "{$addressType}.phone"                 => ['required', new PhoneNumber],
         ];
     }
 
@@ -479,7 +490,7 @@ class CheckoutMutation extends Controller
             if (core()->getConfigData('general.api.pushnotification.private_key')) {
                 $this->prepareNotificationContent($order);
             }
-            
+
             if (! empty($args['is_payment_completed'])) {
                 $this->paymentHelper->createInvoice($cart, $args, $order);
             }

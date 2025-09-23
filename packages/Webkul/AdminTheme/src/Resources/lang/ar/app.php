@@ -3,6 +3,19 @@
 return [
     'configuration' => [
         'index' => [
+            'general' => [
+                'location' => [
+                    'title' => 'إعدادات الموقع والمنطقة',
+                    'info'  => 'تكوين إعدادات الموقع والمنطقة الجغرافية للمتجر',
+                    'store' => [
+                        'title'      => 'إعدادات المتجر الأساسية',
+                        'store-info' => 'تكوين الإعدادات الأساسية للمتجر مثل الدولة الافتراضية',
+                        'fields'     => [
+                            'default-country' => 'الدولة الافتراضية',
+                        ],
+                    ],
+                ],
+            ],
             'catalog' => [
                 'products' => [
                     'create' => [
@@ -29,6 +42,20 @@ return [
                         'generate-sample'                      => 'توليد عينة',
                         'default-product-type-selected'        => 'تم تحديد نوع المنتج الافتراضي',
                         'auto-generated-sku'                   => 'رمز المنتج مولد تلقائياً',
+                    ],
+                ],
+            ],
+            'customer'=> [
+                'address'=> [
+                    'options'=> [
+                        'title'                  => 'خيارات العنوان',
+                        'info'                   => 'تكوين الحقول التي تظهر في نماذج العنوان',
+                        'show-company-name'      => 'إظهار حقل اسم الشركة',
+                        'show-company-name-info' => 'إظهار حقل اسم الشركة في نماذج العنوان',
+                        'show-tax-number'        => 'إظهار حقل رقم الضريبة',
+                        'show-tax-number-info'   => 'إظهار حقل رقم الضريبة في نماذج العنوان',
+                        'show-postal-code'       => 'إظهار حقل الرمز البريدي',
+                        'show-postal-code-info'  => 'إظهار حقل الرمز البريدي في نماذج العنوان',
                     ],
                 ],
             ],
@@ -255,6 +282,11 @@ return [
                         'accepted_by_agent'  => 'المندوب استلم الطلب',
                         'rejected_by_agent'  => 'المندوب اعتذر عن الطلب',
                         'out_for_delivery'   => 'الطلب في الطريق',
+                    ],
+                ],
+                'view'=> [
+                    'address'=> [
+                        'area-not-found' => 'المنطقة المحددة غير موجودة.',
                     ],
                 ],
             ],
