@@ -13,6 +13,7 @@
             </x-admin::form.control-group>
 
             <!-- Company Name -->
+            <template v-if="showCompanyName">
             <x-admin::form.control-group>
                 <x-admin::form.control-group.label>
                     @lang('admin::app.sales.orders.create.cart.address.company-name')
@@ -25,10 +26,13 @@
                     :placeholder="trans('admin::app.sales.orders.create.cart.address.company-name')"
                 />
             </x-admin::form.control-group>
+            </template>
 
             {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.company_name.after') !!}
 
             <!-- VatId Name -->
+            <template v-if="showTaxNumber">
+
             <x-admin::form.control-group>
                 <x-admin::form.control-group.label>
                     @lang('admin::app.sales.orders.create.cart.address.vat-id')
@@ -44,6 +48,7 @@
 
                 <x-admin::form.control-group.error ::name="controlName + '.vat_id'" />
             </x-admin::form.control-group>
+            </template>
 
             {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.vat_id.after') !!}
 
@@ -219,19 +224,7 @@
                         @{{ opt.area_name }}
                     </option>
                 </x-admin::form.control-group.control>
-
-                <x-admin::form.control-group.control
-                    type="hidden"
-                    ::name="controlName + '.city'"
-                    ::value="address.city"
-                    v-model="city"
-                    rules="required"
-                    :label="trans('admin::app.sales.orders.create.cart.address.city')"
-                    :placeholder="trans('admin::app.sales.orders.create.cart.address.city')"
-                />
-
-
-                <x-admin::form.control-group.error ::name="controlName + '.city'" />
+                <x-admin::form.control-group.error ::name="controlName + '.state_area_id'" />
             </x-admin::form.control-group>
 
 
@@ -277,10 +270,10 @@
             </x-admin::form.control-group>
 
             {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.address.after') !!}
-
+            <template v-if="showPostCode">
             <!-- Postcode -->
             <x-admin::form.control-group>
-                <x-admin::form.control-group.label class="{{ core()->isPostCodeRequired() ? 'required' : '' }} !mt-0">
+                <x-admin::form.control-group.label class="{{ admin_helper()->isPostCodeRequired() ? 'required' : '' }} !mt-0">
                     @lang('admin::app.sales.orders.create.cart.address.postcode')
                 </x-admin::form.control-group.label>
 
@@ -288,13 +281,14 @@
                     type="text"
                     ::name="controlName + '.postcode'"
                     ::value="address.postcode"
-                    rules="{{ core()->isPostCodeRequired() ? 'required' : '' }}|postcode"
+                    rules="{{ admin_helper()->isPostCodeRequired() ? 'required' : '' }}|postcode"
                     :label="trans('admin::app.sales.orders.create.cart.address.postcode')"
                     :placeholder="trans('admin::app.sales.orders.create.cart.address.postcode')"
                 />
 
                 <x-admin::form.control-group.error ::name="controlName + '.postcode'" />
             </x-admin::form.control-group>
+            </template>
 
             {!! view_render_event('bagisto.admin.sales.order.create.cart.address.form.postcode.after') !!}
 
@@ -333,9 +327,12 @@
 
             data() {
                 return {
-                    selectedCountry: this.address.country || @json(core()->getConfigData('general.location.store.default_country')),
+                    selectedCountry: this.address.country || @json(admin_helper()->get_default_country()),
                     selectedState: this.address.state,
                     selectedArea: this.address.state_area_id,
+                    showPostCode:@json(admin_helper()->show_postal_code()),
+                    showCompanyName:@json(admin_helper()->show_company_name()),
+                    showTaxNumber:@json(admin_helper()->show_tax_number()),
 
                     countries: [],
 
@@ -368,22 +365,6 @@
                 },
                 'selectedState'() {
                     this.selectedArea = '';
-                },
-
-                // عند اختيار المنطقة: عيّن اسم المدينة = اسم المنطقة
-                selectedArea(newAreaId) {
-                    if (!this.haveAreas || !newAreaId) {
-                        this.city = '';
-                        return;
-                    }
-
-                    const list = this.areas[this.selectedState] || [];
-
-                    // قيم select عادة تكون string → نحول للرقم للمطابقة
-                    const id = Number(newAreaId);
-                    const selected = list.find(a => Number(a.id) === id);
-
-                    this.city = selected ? selected.area_name : '';
                 },
             },
 

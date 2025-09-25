@@ -21,15 +21,9 @@ Route::group(['middleware' => ['web', 'admin'], 'prefix' => 'admin/customer'], f
             Route::post('create', 'store')->name('admin.customers.customers.custom.addresses.store');
         });
 
-//        Route::prefix('addresses')->group(function () {
-//            Route::get('edit/{id}', 'edit')->name('admin.customers.customers.addresses.edit');
-//
-//            Route::put('edit/{id}', 'update')->name('admin.customers.customers.addresses.update');
-//
-//            Route::post('default/{id}', 'makeDefault')->name('admin.customers.customers.addresses.set_default');
-//
-//            Route::post('delete/{id}', 'destroy')->name('admin.customers.customers.addresses.delete');
-//        });
+        Route::prefix('addresses')->group(function () {
+            Route::put('edit/{id}', 'update')->name('admin.customers.customers.custom.addresses.update');
+        });
     });
 
 });

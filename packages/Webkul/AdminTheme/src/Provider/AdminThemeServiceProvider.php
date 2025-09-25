@@ -17,7 +17,7 @@ class AdminThemeServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('Webkul\AdminTheme\Helpers\AttributeFamilyOptions');
+        $this->app->singleton('Webkul\AdminTheme\Helpers\AdminHelper');
     }
 
     /**
@@ -25,6 +25,8 @@ class AdminThemeServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        include __DIR__.'/../Helpers/helpers.php';
+
         $this->publishes([
             __DIR__.'/../Resources/views' => resource_path('themes/new-admin-theme/views'),
         ]);
