@@ -480,7 +480,7 @@
                 createCustomerAddress(params, { setErrors }) {
                     this.isStoring = true;
 
-                    return this.$axios.post('{{ route('admin.customers.customers.addresses.store', $cart->customer_id) }}', params)
+                    return this.$axios.post('{{ route('admin.customers.customers.custom.addresses.store', $cart->customer_id) }}', params)
                         .then((response) => {
                             this.isStoring = false;
 
@@ -508,7 +508,7 @@
 
                     params['default_address'] = this.selectedAddressForEdit.default_address;
 
-                    return this.$axios.put('{{ route('admin.customers.customers.addresses.update', ':id') }}'.replace(':id', id), params)
+                    return this.$axios.put('{{ route('admin.customers.customers.custom.addresses.update', ':id') }}'.replace(':id', id), params)
                         .then((response) => {
                             this.isStoring = false;
 
@@ -547,7 +547,7 @@
 
                     this.moveToNextStep();
 
-                    this.$axios.post("{{ route('admin.sales.cart.addresses.store', $cart->id) }}", payload)
+                    this.$axios.post("{{ route('admin.sales.cart.custom.addresses.store', $cart->id) }}", payload)
                         .then((response) => {
                             this.isStoring = false;
 

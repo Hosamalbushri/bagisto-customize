@@ -141,7 +141,7 @@
         }
     }, {
         "type": "path",
-        "url": "packages/Webkul/GraphQLAPI",
+        "url": "packages/GraphQLAPI",
         "options": {
             "symlink": true
         }

@@ -50,23 +50,11 @@
                             {!! view_render_event('bagisto.admin.customer.addresses.edit.before') !!}
 
                             <!-- Company Name -->
+                            <template v-if="showCompanyName">
                             <x-admin::form.control-group class="w-full">
                                 <x-admin::form.control-group.label>
                                     @lang('admin::app.customers.customers.view.address.edit.company-name')
                                 </x-admin::form.control-group.label>
-
-                                <x-admin::form.control-group.control
-                                    type="hidden"
-                                    name="customer_id"
-                                    ::value="address.customer_id"
-                                />
-
-                                <x-admin::form.control-group.control
-                                    type="hidden"
-                                    name="address_id"
-                                    ::value="address.id"
-                                />
-
                                 <x-admin::form.control-group.control
                                     type="text"
                                     name="company_name"
@@ -74,11 +62,12 @@
                                     :label="trans('admin::app.customers.customers.view.address.edit.company-name')"
                                     :placeholder="trans('admin::app.customers.customers.view.address.edit.company-name')"
                                 />
-
                                 <x-admin::form.control-group.error control-name="company_name" />
                             </x-admin::form.control-group>
+                            </template>
 
                             <!-- Vat Id -->
+                            <template v-if="showTaxNumber">
                             <x-admin::form.control-group class="w-full">
                                 <x-admin::form.control-group.label>
                                     @lang('admin::app.customers.customers.view.address.edit.vat-id')
@@ -94,6 +83,7 @@
 
                                 <x-admin::form.control-group.error control-name="vat_id" />
                             </x-admin::form.control-group>
+                            </template>
 
                             <!-- First Name -->
                             <x-admin::form.control-group class="w-full">
@@ -108,6 +98,18 @@
                                     rules="required"
                                     :label="trans('admin::app.customers.customers.view.address.edit.first-name')"
                                     :placeholder="trans('admin::app.customers.customers.view.address.edit.first-name')"
+                                />
+
+                                <x-admin::form.control-group.control
+                                    type="hidden"
+                                    name="customer_id"
+                                    ::value="address.customer_id"
+                                />
+
+                                <x-admin::form.control-group.control
+                                    type="hidden"
+                                    name="address_id"
+                                    ::value="address.id"
                                 />
 
                                 <x-admin::form.control-group.error control-name="first_name" />
@@ -252,19 +254,7 @@
                                         @{{ opt.area_name }}
                                     </option>
                                 </x-admin::form.control-group.control>
-
-                                {{-- حقل المدينة دائماً موجود: يترسل للنموذج ويصير read-only عندما عندك مناطق --}}
-                                <x-admin::form.control-group.control
-                                    type="hidden"
-                                    name="city"
-                                    v-model="city"
-                                    rules="required"
-                                    ::readonly="haveAreas()"
-                                    :label="trans('admin::app.customers.customers.view.address.create.city')"
-                                    :placeholder="trans('admin::app.customers.customers.view.address.create.city')"
-                                    class="mt-3"
-                                />
-                                <x-admin::form.control-group.error control-name="city" />
+                                <x-admin::form.control-group.error control-name="state_area_id" />
                             </x-admin::form.control-group>
 
 
@@ -308,8 +298,9 @@
                             </x-admin::form.control-group>
 
                             <!-- PostCode -->
+                            <template v-if="showPostCode">
                             <x-admin::form.control-group class="w-full">
-                                <x-admin::form.control-group.label class="required">
+                                <x-admin::form.control-group.label class="{{ core()->isPostCodeRequired() ? 'required' : '' }}">
                                     @lang('admin::app.customers.customers.view.address.edit.post-code')
                                 </x-admin::form.control-group.label>
 
@@ -317,13 +308,14 @@
                                     type="text"
                                     name="postcode"
                                     ::value="address.postcode"
-                                    rules="required|postcode"
+                                    rules="{{ admin_helper()->isPostCodeRequired() ? 'required' : '' }}|postcode"
                                     :label="trans('admin::app.customers.customers.view.address.edit.post-code')"
                                     :placeholder="trans('admin::app.customers.customers.view.address.edit.post-code')"
                                 />
 
                                 <x-admin::form.control-group.error control-name="postcode" />
                             </x-admin::form.control-group>
+                            </template>
 
                             <!-- Default Address -->
                             <x-admin::form.control-group class="flex items-center gap-2.5">
@@ -384,6 +376,9 @@
                     area: this.address.state_area_id,
                     countryStates: @json(core()->groupedStatesByCountries()),
                     stateAreas: @json(myHelper()->groupedAreasByStatesCode()),
+                    showPostCode:@json(admin_helper()->show_postal_code()),
+                    showCompanyName:@json(admin_helper()->show_company_name()),
+                    showTaxNumber:@json(admin_helper()->show_tax_number()),
                     isLoading: false,
                 };
             },
@@ -398,7 +393,7 @@
 
                     formData.append('default_address', formData.get('default_address') ? 1 : 0);
 
-                    this.$axios.post(`{{ route('admin.customers.customers.addresses.update', '') }}/${params?.address_id}`, formData)
+                    this.$axios.post(`{{ route('admin.customers.customers.custom.addresses.update', '') }}/${params?.address_id}`, formData)
                         .then((response) => {
                             this.$emitter.emit('add-flash', { type: 'success', message: response.data.message });
 
@@ -428,28 +423,11 @@
                 },
             },
             watch: {
-                // عند تغيير الولاية: صفّر المنطقة والمدينة
                 'address.country'() {
                     this.state = '';
                 },
                 'state'() {
                     this.area = '';
-                },
-
-                // عند اختيار المنطقة: عيّن اسم المدينة = اسم المنطقة
-                area(newAreaId) {
-                    if (!this.haveAreas() || !newAreaId) {
-                        this.city = '';
-                        return;
-                    }
-
-                    const list = this.stateAreas[this.state] || [];
-
-                    // قيم select عادة تكون string → نحول للرقم للمطابقة
-                    const id = Number(newAreaId);
-                    const selected = list.find(a => Number(a.id) === id);
-
-                    this.city = selected ? selected.area_name : '';
                 },
             },
         });

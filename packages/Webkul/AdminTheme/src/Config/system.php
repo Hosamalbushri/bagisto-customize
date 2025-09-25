@@ -79,7 +79,7 @@ return [
                 'type'          => 'select',
                 'default'       => '',
                 'depends'       => 'enable_default_attribute_family:1',
-                'options'       => 'Webkul\AdminTheme\Helpers\AttributeFamilyOptions@attribute_families',
+                'options'       => 'Webkul\AdminTheme\Helpers\AdminHelper@attribute_families',
             ],
             [
                 'name'          => 'auto_generate_sku',
