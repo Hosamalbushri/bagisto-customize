@@ -104,48 +104,7 @@
                                             @{{ area.area_name }}
                                         </option>
                                     </x-admin::form.control-group.control>
-                                    <template v-if="country && !haveStates()">
-                                        <div class="mt-4 p-3 rounded bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 text-sm">
-                                            @lang('deliveryAgent::app.range.create.no_states_for_country')
-                                        </div>
-                                        <div class="mt-3">
-                                            @if (bouncer()->hasPermission('delivery.countries.country.create'))
-
-                                                <button
-                                                    class="acma-icon-plus3 text-blue-600 transition-all text-sm"
-                                                    type="button"
-                                                    @click="goToCountryView"
-                                                >
-                                            <span class="text-blue-600">
-                                                @lang('deliveryAgent::app.range.create.add_state')
-                                            </span>
-
-                                                </button>
-                                            @endif
-                                        </div>
-                                    </template>
-                                    <template v-if="state && !haveAreas()">
-                                        <div class="mt-4 p-3 rounded bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 text-sm">
-                                            @lang('deliveryAgent::app.range.create.no_areas_for_state')
-                                        </div>
-                                        <div class="mt-3">
-                                            @if (bouncer()->hasPermission('delivery.countries.states.areas.create'))
-
-                                                <button
-                                                    class="acma-icon-plus3 text-blue-600 transition-all text-sm"
-                                                    type="button"
-                                                    @click="goToStateView"
-                                                >
-                                            <span class="text-blue-600">
-                                                @lang('deliveryAgent::app.range.create.add_area')
-                                            </span>
-
-                                                </button>
-                                            @endif
-                                        </div>
-                                    </template>
-
-                                    <x-admin::form.control-group.error control-name="area" />
+                                    <x-admin::form.control-group.error control-name="state_area_id" />
                                 </x-admin::form.control-group>
 
 
@@ -182,7 +141,7 @@
 
             data() {
                 return {
-                    country: @json(core()->getConfigData('general.location.store.default_country')),
+                    country: @json(admin_helper()->get_default_country()),
                     state: "",
                     countryStates: window.countryStates || {},
                     stateAreas: window.stateAreas ||{},
@@ -229,24 +188,6 @@
                 },
                 haveAreas() {
                     return !!this.stateAreas[this.state]?.length;
-                },
-
-
-                goToCountryView() {
-                    const countryObj = this.country;
-                    if (!countryObj ) return;
-
-                    const url = `{{ route('admin.country.edit', ':id') }}`.replace(':id', countryObj);
-                    window.location.href = url;
-                },
-                goToStateView() {
-                    const statesArray = this.countryStates[this.country] || [];
-                    const stateObj = statesArray.find(s => s.id === this.state);
-
-                    if (!stateObj || !stateObj.id) return;
-
-                    const url = `{{ route('admin.states.edit', ':id') }}`.replace(':id', stateObj.id);
-                    window.location.href = url;
                 },
                 openModal() {
                     this.$refs.RangeCreateModal.open();

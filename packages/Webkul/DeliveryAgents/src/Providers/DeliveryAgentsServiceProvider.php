@@ -5,12 +5,11 @@ namespace Webkul\DeliveryAgents\Providers;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Webkul\DeliveryAgents\Listeners\UpdateInOrderFields;
-use Webkul\DeliveryAgents\Models\Address;
 use Webkul\DeliveryAgents\Models\Order;
 use Webkul\Sales\Contracts\Order as OrderContract;
 
 /**
- * Delivery Agents Service Provider
+ * Delivery Agents Service Providers
  *
  * This service provider handles the registration and bootstrapping
  * of the Delivery Agents package functionality.
@@ -73,10 +72,10 @@ class DeliveryAgentsServiceProvider extends ServiceProvider
      */
     protected function registerModels(): void
     {
-        $this->app->concord->registerModel(
-            OrderContract::class,
-            Order::class,
-        );
+//        $this->app->concord->registerModel(
+//            OrderContract::class,
+//            Order::class,
+//        );
     }
 
     /**

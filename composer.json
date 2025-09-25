@@ -57,7 +57,7 @@
         "pestphp/pest": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.0",
         "phpunit/phpunit": "^11.0",
-        "webkul/delivery-agent":"*",
+        "bagisto/delivery-agent":"*",
         "bagisto/admin-theme":"*",
         "bagisto/new-theme":"*"
 

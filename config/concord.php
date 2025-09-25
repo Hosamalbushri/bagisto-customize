@@ -15,6 +15,7 @@ return [
      */
     'modules' => [
         \Webkul\Admin\Providers\ModuleServiceProvider::class,
+        \Webkul\AdminTheme\Providers\ModuleServiceProvider::class,
         \Webkul\Attribute\Providers\ModuleServiceProvider::class,
         \Webkul\BookingProduct\Providers\ModuleServiceProvider::class,
         \Webkul\CMS\Providers\ModuleServiceProvider::class,
@@ -41,6 +42,7 @@ return [
         \Webkul\SocialLogin\Providers\ModuleServiceProvider::class,
         \Webkul\Tax\Providers\ModuleServiceProvider::class,
         \Webkul\Theme\Providers\ModuleServiceProvider::class,
+        \Webkul\DeliveryAgents\Providers\ModuleServiceProvider::class,
         \Webkul\User\Providers\ModuleServiceProvider::class,
     ],
 

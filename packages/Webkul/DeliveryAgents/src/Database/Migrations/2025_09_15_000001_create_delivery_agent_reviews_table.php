@@ -25,7 +25,7 @@ return new class extends Migration
             // Foreign key constraints
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('delivery_agent_id')->references('id')->on('delivery_agents')->onDelete('cascade');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null');;
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null');
             // Indexes for better performance
             $table->index(['delivery_agent_id', 'rating']);
             $table->index(['customer_id', 'created_at']);
