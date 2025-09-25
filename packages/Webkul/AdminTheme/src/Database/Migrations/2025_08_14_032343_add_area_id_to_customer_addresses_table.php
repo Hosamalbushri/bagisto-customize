@@ -1,5 +1,5 @@
 <?php
-namespace Webkul\DeliveryAgents\Database\Migrations;
+namespace Webkul\AdminTheme\Database\Migrations;
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

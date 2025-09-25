@@ -1,14 +1,8 @@
 <?php
 
-namespace Webkul\AdminTheme\Provider;
+namespace Webkul\AdminTheme\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Webkul\AdminTheme\Models\Address;
-use Webkul\AdminTheme\Models\Country;
-use Webkul\AdminTheme\Models\CountryState;
-use Webkul\Core\Contracts\Address as AddressContract;
-use Webkul\Core\Contracts\Country as CountryContract;
-use Webkul\Core\Contracts\CountryState as CountryStateContract;
 
 class AdminThemeServiceProvider extends ServiceProvider
 {
@@ -37,18 +31,11 @@ class AdminThemeServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../Routes/Country-routes.php');
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'adminTheme');
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'adminTheme');
+
+        // Load migrations
+        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
+
         $this->registerConfig();
-    }
-    protected function registerModels(): void
-    {
-        $this->app->concord->registerModel(
-            AddressContract::class,
-            Address::class,
-            CountryContract::class,
-            Country::class,
-            CountryStateContract::class,
-            CountryState::class
-        );
     }
 
     protected function registerConfig(): void

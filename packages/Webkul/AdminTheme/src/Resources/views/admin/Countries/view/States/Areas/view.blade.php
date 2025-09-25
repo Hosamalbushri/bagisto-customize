@@ -1,7 +1,7 @@
 <x-admin::layouts>
     <x-slot:title>
         @php
-            $label = trans('deliveryAgent::app.country.state.area.view.title');
+            $label = trans('adminTheme::app.country.state.area.view.title');
         @endphp
 
         {{ isset($Area) && !empty($Area->area_name) ? ($label . ': ' . $Area->area_name) : $label }}

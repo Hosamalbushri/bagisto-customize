@@ -165,17 +165,13 @@ class Order extends BaseModel
         return false;
     }
 
-    /**
-     * التحقق من وجود مراجعة للطلب
-     */
+
     public function hasReview(): bool
     {
         return $this->deliveryAgentReview()->exists();
     }
 
-    /**
-     * الحصول على المراجعة إذا كانت موجودة
-     */
+
     public function getReview()
     {
         return $this->deliveryAgentReview;

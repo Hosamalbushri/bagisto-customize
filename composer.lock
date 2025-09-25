@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4a4bfea1a530ce2b300e9ac29785ea2",
+    "content-hash": "e8764b708f2b0164fa3b3bbcf94e3868",
     "packages": [
         {
             "name": "apimatic/core",
@@ -313,12 +313,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Hosamalbushri/GraphQL-API.git",
-                "reference": "207b867850cc98b57274a7c9703fce8e64f3b3f8"
+                "reference": "bd41b8a20ea4a20680235dff099da83d5564bdda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Hosamalbushri/GraphQL-API/zipball/207b867850cc98b57274a7c9703fce8e64f3b3f8",
-                "reference": "207b867850cc98b57274a7c9703fce8e64f3b3f8",
+                "url": "https://api.github.com/repos/Hosamalbushri/GraphQL-API/zipball/bd41b8a20ea4a20680235dff099da83d5564bdda",
+                "reference": "bd41b8a20ea4a20680235dff099da83d5564bdda",
                 "shasum": ""
             },
             "require": {
@@ -355,7 +355,7 @@
                 "source": "https://github.com/Hosamalbushri/GraphQL-API/tree/main",
                 "issues": "https://github.com/Hosamalbushri/GraphQL-API/issues"
             },
-            "time": "2025-09-25T00:42:46+00:00"
+            "time": "2025-09-25T21:38:32+00:00"
         },
         {
             "name": "bagisto/image-cache",
@@ -11999,13 +11999,13 @@
             "dist": {
                 "type": "path",
                 "url": "packages/Webkul/AdminTheme",
-                "reference": "76b52c95e57035e8e961aabfc98a789bed371e0e"
+                "reference": "4a11b299ede64dca1165a511d2044a00a15e522d"
             },
             "type": "library",
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Webkul\\AdminTheme\\Provider\\AdminThemeServiceProvider"
+                        "Webkul\\AdminTheme\\Providers\\AdminThemeServiceProvider"
                     ],
                     "aliases": []
                 }
@@ -12025,6 +12025,43 @@
                 }
             ],
             "description": "New Admin package",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "bagisto/delivery-agent",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "packages/Webkul/DeliveryAgents",
+                "reference": "072a7de56b59ea473c341164229f40d48815cf95"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Webkul\\DeliveryAgents\\Providers\\DeliveryAgentsServiceProvider"
+                    ],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webkul\\DeliveryAgents\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hosam Albashari",
+                    "email": "hosamalbushari@gmail.com"
+                }
+            ],
+            "description": "Bagisto Delivery Agents",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -15300,43 +15337,6 @@
                 }
             ],
             "time": "2024-03-03T12:36:25+00:00"
-        },
-        {
-            "name": "webkul/delivery-agent",
-            "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "packages/Webkul/DeliveryAgents",
-                "reference": "7382a731ef1048c2c55d61562d3d5b953624aabd"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Webkul\\DeliveryAgents\\Providers\\DeliveryAgentsServiceProvider"
-                    ],
-                    "aliases": []
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Webkul\\DeliveryAgents\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Hosam Albashari",
-                    "email": "hosamalbushari@gmail.com"
-                }
-            ],
-            "description": "Bagisto Delivery Agents",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
         }
     ],
     "aliases": [],

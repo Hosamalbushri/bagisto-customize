@@ -497,6 +497,8 @@
     }
     .acma-icon-truck:before {
         content: "\e9b0";
+        color: #009df2;
+
     }
     .acma-icon-sphere:before {
         content: "\e9c9";

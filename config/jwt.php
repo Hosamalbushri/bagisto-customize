@@ -266,7 +266,7 @@ return [
     'providers' => [
         /*
         |--------------------------------------------------------------------------
-        | JWT Provider
+        | JWT Providers
         |--------------------------------------------------------------------------
         |
         | Specify the provider that is used to create and decode the tokens.
@@ -277,7 +277,7 @@ return [
 
         /*
         |--------------------------------------------------------------------------
-        | Authentication Provider
+        | Authentication Providers
         |--------------------------------------------------------------------------
         |
         | Specify the provider that is used to authenticate users.
@@ -288,7 +288,7 @@ return [
 
         /*
         |--------------------------------------------------------------------------
-        | Storage Provider
+        | Storage Providers
         |--------------------------------------------------------------------------
         |
         | Specify the provider that is used to store tokens in the blacklist.
