@@ -1,10 +1,7 @@
 <?php
-
-namespace Webkul\AdminTheme\Http\Requests;
-
+namespace Webkul\NewTheme\Http\Requests\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 use Webkul\Core\Rules\PhoneNumber;
-use Webkul\Core\Rules\PostCode;
 use Webkul\Customer\Rules\VatIdRule;
 
 class AddressRequest extends FormRequest
@@ -36,7 +33,6 @@ class AddressRequest extends FormRequest
             'phone'           => ['required', new PhoneNumber],
             'vat_id'          => [(new VatIdRule)->setCountry($this->input('country'))],
             'email'           => ['required'],
-            'default_address' => ['sometimes', 'required', 'in:0,1'],
         ];
     }
 

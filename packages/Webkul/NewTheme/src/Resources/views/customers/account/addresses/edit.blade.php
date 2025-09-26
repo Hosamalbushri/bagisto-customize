@@ -54,11 +54,12 @@
             <!-- Edit Address Form -->
             <x-shop::form
                 method="PUT"
-                :action="route('shop.customers.account.addresses.update',  $address->id)"
+                :action="route('shop.customers.account.custom.addresses.update',  $address->id)"
             >
                 {!! view_render_event('bagisto.shop.customers.account.address.edit_form_controls.before', ['address' => $address]) !!}
 
                 <!-- Company Name -->
+                <template v-if="showCompanyName">
                 <x-shop::form.control-group>
                     <x-shop::form.control-group.label>
                         @lang('shop::app.customers.account.addresses.edit.company-name')
@@ -74,10 +75,12 @@
 
                     <x-shop::form.control-group.error control-name="company_name" />
                 </x-shop::form.control-group>
+                </template>
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.company_name.after', ['address' => $address]) !!}
 
                 <!-- Vat ID -->
+                <template v-if="showTaxNumber">
                 <x-shop::form.control-group>
                     <x-shop::form.control-group.label>
                         @lang('shop::app.customers.account.addresses.edit.vat-id')
@@ -93,6 +96,7 @@
 
                     <x-shop::form.control-group.error control-name="vat_id" />
                 </x-shop::form.control-group>
+                </template>
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.vat_id.after', ['address' => $address]) !!}
 
@@ -139,7 +143,7 @@
                 <!-- E-mail -->
                 <x-shop::form.control-group>
                     <x-shop::form.control-group.label class="required">
-                        @lang('Email')
+                        @lang('shop::app.customers.account.addresses.edit.email')
                     </x-shop::form.control-group.label>
 
                     <x-shop::form.control-group.control
@@ -147,7 +151,7 @@
                         name="email"
                         rules="required|email"
                         :value="old('email') ?? $address->email"
-                        :label="trans('Email')"
+                        :label="trans('shop::app.customers.account.addresses.edit.email')"
                         :placeholder="trans('Email')"
                     />
 
@@ -264,21 +268,9 @@
                             @{{ opt.area_name }}
                         </option>
                     </x-shop::form.control-group.control>
-
-                    <x-shop::form.control-group.control
-                        type="hidden"
-                        name="city"
-                        v-model="addressData.city"
-                        rules="required"
-                        ::readonly="haveAreas()"
-                        :label="trans('shop::app.customers.account.addresses.edit.city')"
-                        :placeholder="trans('shop::app.customers.account.addresses.edit.city')"
-                        class="mt-3"
-                    />
-                    <x-shop::form.control-group.error control-name="city" />
+                    <x-shop::form.control-group.error control-name="state_area_id" />
                 </x-shop::form.control-group>
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.city.after', ['address' => $address]) !!}
-
 
                 @php
                     $addresses = explode(PHP_EOL, $address->address);
@@ -324,7 +316,7 @@
                 @endif
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.street-addres.after', ['address' => $address]) !!}
-
+                <template v-if="showPostCode">
                 <x-shop::form.control-group>
                     <x-shop::form.control-group.label class="{{ core()->isPostCodeRequired() ? 'required' : '' }}">
                         @lang('shop::app.customers.account.addresses.edit.post-code')
@@ -341,6 +333,7 @@
 
                     <x-shop::form.control-group.error control-name="postcode" />
                 </x-shop::form.control-group>
+                </template>
 
                 {!! view_render_event('bagisto.shop.customers.account.addresses.edit_form_controls.postcode.after', ['address' => $address]) !!}
 
@@ -372,6 +365,9 @@
                         },
                         countryStates: @json(core()->groupedStatesByCountries()),
                         stateAreas: @json(myHelper()->groupedAreasByStatesCode()),
+                        showPostCode:@json(admin_helper()->show_postal_code()),
+                        showCompanyName:@json(admin_helper()->show_company_name()),
+                        showTaxNumber:@json(admin_helper()->show_tax_number()),
 
                     };
                 },
@@ -392,21 +388,6 @@
                     },
                     'addressData.state'() {
                         this.addressData.area = '';
-                    },
-
-                    // عند اختيار المنطقة: عيّن اسم المدينة = اسم المنطقة
-                    'addressData.area'(newAreaId) {
-                        if (!this.haveAreas() || !newAreaId) {
-                            this.addressData.city = '';
-                            return;
-                        }
-
-                        const list = this.stateAreas[this.addressData.state] || [];
-
-                        const id = Number(newAreaId);
-                        const selected = list.find(a => Number(a.id) === id);
-
-                        this.addressData.city = selected ? selected.area_name : '';
                     },
                 },
             });

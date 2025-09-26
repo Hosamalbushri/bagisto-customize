@@ -1,31 +1,31 @@
 <?php
 
-namespace Webkul\AdminTheme\Http\Controllers\Admin\Customers;
+namespace Webkul\NewTheme\Http\Controllers\Shop\Customer\Account;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Event;
-use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\AdminTheme\Http\Requests\AddressRequest;
-use Webkul\AdminTheme\Http\Resources\AddressResource;
 use Webkul\AdminTheme\Repositories\Country\AreaRepository;
 use Webkul\Customer\Repositories\CustomerAddressRepository;
-use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\NewTheme\Http\Requests\Customer\AddressRequest;
+use Webkul\Shop\Http\Controllers\Controller;
 
 class AddressController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct(
-        protected CustomerRepository $customerRepository,
         protected CustomerAddressRepository $customerAddressRepository,
         protected AreaRepository $areaRepository
     ) {}
 
-    public function store(int $id, AddressRequest $request): JsonResponse
+    /**
+     * Create a new address for customer.
+     *
+//     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(AddressRequest $request)
     {
+        $customer = auth()->guard('customer')->user();
+
+        Event::dispatch('customer.addresses.create.before');
         $area = $this->areaRepository->findOrFail($request->get('state_area_id'));
         if (! $area) {
             return new JsonResponse([
@@ -33,7 +33,8 @@ class AddressController extends Controller
                 'status'  => 'error',
             ]);
         }
-        $data = array_merge($request->only([
+
+        $data = array_merge(request()->only([
             'customer_id',
             'company_name',
             'vat_id',
@@ -46,13 +47,12 @@ class AddressController extends Controller
             'default_address',
             'state_area_id',
         ]), [
-            'address'     => implode(PHP_EOL, array_filter(request()->input('address'))),
+            'customer_id' => $customer->id,
+            'address'     => implode(PHP_EOL, array_filter($request->input('address'))),
             'country'     => $area->country_code,
             'state'       => $area->state_code,
             'city'        => $area->area_name,
         ]);
-
-        Event::dispatch('customer.addresses.create.before');
 
         if (! empty($data['default_address'])) {
             $this->customerAddressRepository->where('customer_id', $data['customer_id'])
@@ -60,23 +60,29 @@ class AddressController extends Controller
                 ->update(['default_address' => 0]);
         }
 
-        $address = $this->customerAddressRepository->create(array_merge($data, [
-            'customer_id' => $id,
-        ]));
+        $customerAddress = $this->customerAddressRepository->create($data);
 
-        Event::dispatch('customer.addresses.create.after', $address);
+        Event::dispatch('customer.addresses.create.after', $customerAddress);
 
-        return new JsonResponse([
-            'message' => trans('admin::app.customers.customers.view.address.create-success'),
-            'data'    => new AddressResource($address),
-        ]);
+        session()->flash('success', trans('shop::app.customers.account.addresses.index.create-success'));
+
+        return redirect()->route('shop.customers.account.addresses.index');
     }
 
     /**
-     * Edit's the pre made resource of customer called address.
+     * Edit's the pre-made resource of customer called Address.
+     *
+//     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(int $id, AddressRequest $request): JsonResponse
+    public function update(int $id, AddressRequest $request)
     {
+        $customer = auth()->guard('customer')->user();
+
+        if (! $customer->addresses()->find($id)) {
+            session()->flash('warning', trans('shop::app.customers.account.addresses.index.security-warning'));
+
+            return redirect()->route('shop.customers.account.addresses.index');
+        }
         $area = $this->areaRepository->findOrFail($request->get('state_area_id'));
         if (! $area) {
             return new JsonResponse([
@@ -84,7 +90,10 @@ class AddressController extends Controller
                 'status'  => 'error',
             ]);
         }
-        $data = array_merge($request->only([
+
+        Event::dispatch('customer.addresses.update.before', $id);
+
+        $data = array_merge(request()->only([
             'customer_id',
             'company_name',
             'vat_id',
@@ -97,26 +106,19 @@ class AddressController extends Controller
             'default_address',
             'state_area_id',
         ]), [
-            'address'     => implode(PHP_EOL, array_filter(request()->input('address'))),
+            'customer_id' => $customer->id,
+            'address'     => implode(PHP_EOL, array_filter($request->input('address'))),
             'country'     => $area->country_code,
             'state'       => $area->state_code,
             'city'        => $area->area_name,
         ]);
 
-        Event::dispatch('customer.addresses.update.before', $id);
+        $customerAddress = $this->customerAddressRepository->update($data, $id);
 
-        if (! empty($data['default_address'])) {
-            $this->customerAddressRepository->where('customer_id', $data['customer_id'])
-                ->where('default_address', 1)
-                ->update(['default_address' => 0]);
-        }
-        $address = $this->customerAddressRepository->update($data, $id);
+        Event::dispatch('customer.addresses.update.after', $customerAddress);
 
-        Event::dispatch('customer.addresses.update.after', $address);
+        session()->flash('success', trans('shop::app.customers.account.addresses.index.edit-success'));
 
-        return new JsonResponse([
-            'message' => trans('admin::app.customers.customers.view.address.update-success'),
-            'data'    => new AddressResource($address),
-        ]);
+        return redirect()->route('shop.customers.account.addresses.index');
     }
 }

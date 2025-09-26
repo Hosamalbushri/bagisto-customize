@@ -17,8 +17,12 @@
         <span class="after:content-[',']">{{ core()->country_name($address->country)}} </span>
         <span class="after:content-[',']">{{myHelper()->state_name($address->state) }}</span>
         <span class="after:content-[',']">{{ $address->city }}</span>
-        <span class="after:content-[',']">{{ $address->address }}</span>
-        @if ($address->postcode) ({{ $address->postcode }})@endif
+        <span >{{ $address->address }}</span>
+        @if ($address->postcode)
+        <span class="before:content-[',']">
+            , ({{ $address->postcode }})
+        </span>
+        @endif
 
     </p>
     <p class="!leading-6 text-gray-600 dark:text-gray-300 flex flex-wrap gap-x-1">

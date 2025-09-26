@@ -13,6 +13,7 @@
             </x-shop::form.control-group>
 
             <!-- Company Name -->
+            <template v-if="showCompanyName">
             <x-shop::form.control-group>
                 <x-shop::form.control-group.label>
                     @lang('shop::app.checkout.onepage.address.company-name')
@@ -25,10 +26,12 @@
                     :placeholder="trans('shop::app.checkout.onepage.address.company-name')"
                 />
             </x-shop::form.control-group>
+            </template>
 
             {!! view_render_event('bagisto.shop.checkout.onepage.address.form.company_name.after') !!}
 
             <!-- Vat ID -->
+            <template v-if="showTaxNumber">
             <template v-if="controlName=='billing'">
                 <x-shop::form.control-group>
                     <x-shop::form.control-group.label>
@@ -47,6 +50,7 @@
                 </x-shop::form.control-group>
 
                 {!! view_render_event('bagisto.shop.checkout.onepage.address.form.vat_id.after') !!}
+            </template>
             </template>
 
             <!-- First Name -->
@@ -227,23 +231,12 @@
                             @{{ opt.area_name }}
                         </option>
                     </x-shop::form.control-group.control>
-
-                    <x-shop::form.control-group.control
-                        type="hidden"
-                        ::name="controlName + '.city'"
-                        ::value="address.city"
-                        v-model="city"
-                        rules="required"
-                        :label="trans('shop::app.checkout.onepage.address.city')"
-                        :placeholder="trans('shop::app.checkout.onepage.address.city')"
-                    />
-
-
-                    <x-shop::form.control-group.error ::name="controlName + '.city'" />
+                    <x-shop::form.control-group.error ::name="controlName + '.state_area_id'" />
                 </x-shop::form.control-group>
                 {!! view_render_event('bagisto.shop.checkout.onepage.address.form.city.after') !!}
 
                 <!-- Postcode -->
+                <template v-if="showPostCode">
                 <x-shop::form.control-group>
                     <x-shop::form.control-group.label class="{{ core()->isPostCodeRequired() ? 'required' : '' }} !mt-0">
                         @lang('shop::app.checkout.onepage.address.postcode')
@@ -260,6 +253,7 @@
 
                     <x-shop::form.control-group.error ::name="controlName + '.postcode'" />
                 </x-shop::form.control-group>
+                </template>
 
                 {!! view_render_event('bagisto.shop.checkout.onepage.address.form.postcode.after') !!}
             </div>
@@ -338,9 +332,12 @@
 
             data() {
                 return {
-                    selectedCountry: this.address.country || @json(core()->getConfigData('general.location.store.default_country')),
+                    selectedCountry: this.address.country || @json(admin_helper()->get_default_country()),
                     selectedState: this.address.state,
                     selectedArea: this.address.state_area_id,
+                    showPostCode:@json(admin_helper()->show_postal_code()),
+                    showCompanyName:@json(admin_helper()->show_company_name()),
+                    showTaxNumber:@json(admin_helper()->show_tax_number()),
 
                     countries: [],
 
@@ -374,22 +371,6 @@
                 },
                 'selectedState'() {
                     this.selectedArea = '';
-                },
-
-                // عند اختيار المنطقة: عيّن اسم المدينة = اسم المنطقة
-                selectedArea(newAreaId) {
-                    if (!this.haveAreas || !newAreaId) {
-                        this.city = '';
-                        return;
-                    }
-
-                    const list = this.areas[this.selectedState] || [];
-
-                    // قيم select عادة تكون string → نحول للرقم للمطابقة
-                    const id = Number(newAreaId);
-                    const selected = list.find(a => Number(a.id) === id);
-
-                    this.city = selected ? selected.area_name : '';
                 },
             },
 
