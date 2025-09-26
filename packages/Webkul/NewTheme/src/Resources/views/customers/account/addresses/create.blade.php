@@ -43,10 +43,11 @@
             id="v-create-customer-address-template"
         >
             <div>
-                <x-shop::form :action="route('shop.customers.account.addresses.store')">
+                <x-shop::form :action="route('shop.customers.account.custom.addresses.store')">
                     {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.before') !!}
 
                     <!--Company Name -->
+                    <template v-if="showCompanyName">
                     <x-shop::form.control-group>
                         <x-shop::form.control-group.label>
                             @lang('shop::app.customers.account.addresses.create.company-name')
@@ -62,10 +63,12 @@
 
                         <x-shop::form.control-group.error control-name="company_name" />
                     </x-shop::form.control-group>
+                    </template>
 
                     {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.company_name.after') !!}
 
                     <!-- Vat Id -->
+                    <template v-if="showTaxNumber">
                     <x-shop::form.control-group>
                         <x-shop::form.control-group.label>
                             @lang('shop::app.customers.account.addresses.create.vat-id')
@@ -81,6 +84,7 @@
 
                         <x-shop::form.control-group.error control-name="vat_id" />
                     </x-shop::form.control-group>
+                    </template>
 
                     {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.vat_id.after') !!}
 
@@ -252,18 +256,7 @@
                                 @{{ opt.area_name }}
                             </option>
                         </x-shop::form.control-group.control>
-
-                        <x-shop::form.control-group.control
-                            type="hidden"
-                            name="city"
-                            v-model="city"
-                            rules="required"
-                            ::readonly="haveAreas()"
-                            :label="trans('shop::app.customers.account.addresses.create.city')"
-                            :placeholder="trans('shop::app.customers.account.addresses.create.city')"
-                            class="mt-3"
-                        />
-                        <x-shop::form.control-group.error control-name="city" />
+                        <x-shop::form.control-group.error control-name="state_area_id" />
                     </x-shop::form.control-group>
 
                     {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.city.after') !!}
@@ -312,6 +305,7 @@
                     {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.street_address.after') !!}
 
                     <!-- Post Code -->
+                    <template v-if="showPostCode">
                     <x-shop::form.control-group>
                         <x-shop::form.control-group.label class="{{ core()->isPostCodeRequired() ? 'required' : '' }}">
                             @lang('shop::app.customers.account.addresses.create.post-code')
@@ -328,6 +322,7 @@
 
                         <x-shop::form.control-group.error control-name="postcode" />
                     </x-shop::form.control-group>
+                    </template>
 
                     {!! view_render_event('bagisto.shop.customers.account.addresses.create_form_controls.postcode.after') !!}
 
@@ -375,12 +370,15 @@
 
                 data() {
                     return {
-                        country: @json(core()->getConfigData('general.location.store.default_country')),
+                        country: @json(admin_helper()->get_default_country()),
                         state: "{{ old('state') }}",
                         area: '',         // select الخاص بالمناطق
                         city: '',
                         countryStates: @json(core()->groupedStatesByCountries()),
                         stateAreas: @json(myHelper()->groupedAreasByStatesCode()),
+                        showPostCode:@json(admin_helper()->show_postal_code()),
+                        showCompanyName:@json(admin_helper()->show_company_name()),
+                        showTaxNumber:@json(admin_helper()->show_tax_number()),
 
                     }
                 },
@@ -406,20 +404,6 @@
                     // عند تغيير الولاية: صفّر المنطقة والمدينة
                     state() {
                         this.area = '';
-                    },
-
-                    // عند اختيار المنطقة: عيّن اسم المدينة = اسم المنطقة
-                    area(newAreaId) {
-                        if (!this.haveAreas() || !newAreaId) {
-                            this.city = '';
-                            return;}
-
-                        const list = this.stateAreas[this.state] || [];
-
-                        // قيم select عادة تكون string → نحول للرقم للمطابقة
-                        const id = Number(newAreaId);
-                        const selected = list.find(a => Number(a.id) === id);
-                        this.city = selected ? selected.area_name : '';
                     },
                 },
             });
