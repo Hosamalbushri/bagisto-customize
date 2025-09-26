@@ -3,10 +3,9 @@
 namespace Webkul\AdminTheme\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Webkul\Core\Models\Country as BaseModel;
 use Webkul\Core\Models\CountryTranslation;
 
-class Country extends BaseModel
+class Country extends CountryTranslation
 {
     protected $table = 'countries';
     protected $fillable = [

@@ -135,9 +135,7 @@
                     },
                     onStateCreated(state) {
                         this.$refs.StatesDatagrid.get();
-
                     }
-
                 }
 
 

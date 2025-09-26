@@ -1,14 +1,14 @@
 <?php
+
 return [
     [
-        'key'  => 'general.location',
-        'name' => 'adminTheme::app.configuration.index.general.location.title',
-        'info' => 'adminTheme::app.configuration.index.general.location.info',
-        'icon' => 'map.svg',
-        'sort' => 4,
+        'key'    => 'general.location',
+        'name'   => 'adminTheme::app.configuration.index.general.location.title',
+        'info'   => 'adminTheme::app.configuration.index.general.location.info',
+        'icon'   => 'map.svg',
+        'sort'   => 4,
         'fields' => [],
     ],
-    // إعدادات المتجر
     [
         'key'    => 'general.location.store',
         'name'   => 'adminTheme::app.configuration.index.general.location.store.title',
@@ -109,7 +109,7 @@ return [
         'name'   => 'adminTheme::app.configuration.index.customer.address.options.title',
         'info'   => 'adminTheme::app.configuration.index.customer.address.options.info',
         'icon'   => 'icon-location',
-        'sort'   => 2,
+        'sort'   => 1,
         'fields' => [
             [
                 'name'          => 'show_company_name',
