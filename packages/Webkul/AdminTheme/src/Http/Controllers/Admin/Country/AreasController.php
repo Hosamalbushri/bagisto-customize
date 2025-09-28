@@ -101,7 +101,7 @@ class AreasController extends Controller
         try {
             $this->areaRepository->delete($id);
 
-            return new JsonResponse(['message' => trans('adminTheme::app.country.state.area.datagrid.delete-success')]);
+            return new JsonResponse(['message' => trans('adminTheme::app.country.state.area.dataGrid.delete-success')]);
         } catch (\Exception $e) {
             return new JsonResponse(['message' => $e->getMessage()], 400);
         }
