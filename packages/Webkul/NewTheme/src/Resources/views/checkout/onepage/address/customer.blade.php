@@ -87,13 +87,16 @@
                                     </div>
 
                                     <p class="mt-6 text-sm text-zinc-500 max-md:mt-2 max-sm:mt-0">
+                                        @{{getCountryName(address.country) }},
+                                        @{{ getStateName(address.country, address.state) }},
+                                        @{{address.city }},
                                         <template v-if="address.address">
-                                            @{{ address.address.join(', ') }},
+                                            @{{ address.address.join(', ') }}
                                         </template>
+                                        <template v-if="address.postcode">
 
-                                        @{{ address.city }},
-                                        @{{ address.state }}, @{{ address.country }},
-                                        @{{ address.postcode }}
+                                        , @{{ address.postcode }}
+                                        </template>
                                     </p>
                                 </label>
                             </div>
@@ -207,13 +210,16 @@
                                             </div>
 
                                             <p class="mt-6 text-sm text-zinc-500 max-md:mt-2 max-sm:mt-0">
+                                                @{{getCountryName(address.country) }},
+                                                @{{ getStateName(address.country, address.state) }},
+                                                @{{address.city }},
                                                 <template v-if="address.address">
-                                                    @{{ address.address.join(', ') }},
+                                                    @{{ address.address.join(', ') }}
                                                 </template>
+                                                <template v-if="address.postcode">
 
-                                                @{{ address.city }},
-                                                @{{ address.state }}, @{{ address.country }},
-                                                @{{ address.postcode }}
+                                                    , @{{ address.postcode }}
+                                                </template>
                                             </p>
                                         </label>
                                     </div>
@@ -285,7 +291,7 @@
                                 @lang('shop::app.checkout.onepage.address.back')
                             </span>
                         </div>
-                        
+
                         <!-- Address Form Vue Component -->
                         <v-checkout-address-form
                             :control-name="activeAddressForm"
@@ -339,7 +345,7 @@
                 return {
                     customerSavedAddresses: {
                         'billing': [],
-                        
+
                         'shipping': [],
                     },
 
@@ -360,6 +366,8 @@
                     isLoading: true,
 
                     isStoring: false,
+                    countries: @json(core()->countries()->pluck('name', 'code')),
+                    countryStates: @json(core()->groupedStatesByCountries()),
                 }
             },
 
@@ -415,7 +423,7 @@
                         });
                     } else {
                         this.selectedAddresses[type + '_address_id'] = cartAddress.id;
-                        
+
                         addresses.unshift(cartAddress);
                     }
 
@@ -502,7 +510,7 @@
                 createCustomerAddress(params, { setErrors }) {
                     this.isStoring = true;
 
-                    return this.$axios.post('{{ route('shop.api.customers.account.addresses.store') }}', params)
+                    return this.$axios.post('{{ route('shop.api.customers.account.custom.addresses.store') }}', params)
                         .then((response) => {
                             this.isStoring = false;
 
@@ -528,7 +536,7 @@
                 updateCustomerAddress(id, params, { setErrors }) {
                     this.isStoring = true;
 
-                    return this.$axios.put('{{ route('shop.api.customers.account.addresses.update') }}/' + id, params)
+                    return this.$axios.put('{{ route('shop.api.customers.account.custom.addresses.update') }}/' + id, params)
                         .then((response) => {
                             this.isStoring = false;
 
@@ -567,7 +575,7 @@
 
                     this.moveToNextStep();
 
-                    this.$axios.post('{{ route('shop.checkout.onepage.addresses.store') }}', payload)
+                    this.$axios.post('{{ route('shop.checkout.onepage.custom.addresses.store') }}', payload)
                         .then((response) => {
                             this.isStoring = false;
 
@@ -621,6 +629,15 @@
                     } else {
                         this.$emit('processing', 'payment');
                     }
+                },
+                getCountryName(code) {
+                    return this.countries[code] || code;
+                },
+
+                getStateName(countryCode, stateCode) {
+                    const states = this.countryStates[countryCode] || [];
+                    const state = states.find(s => s.code === stateCode);
+                    return state ? state.default_name : stateCode;
                 },
             }
         });

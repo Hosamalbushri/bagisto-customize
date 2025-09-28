@@ -1,47 +1,50 @@
 <?php
 
-namespace Webkul\AdminTheme\Http\Controllers\Admin\Sales;
+namespace Webkul\NewTheme\Http\Controllers\Shop\Api;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Response;
-use Webkul\Admin\Http\Controllers\Controller;
-use Webkul\AdminTheme\Http\Requests\CartAddressRequest;
 use Webkul\AdminTheme\Repositories\Country\AreaRepository;
-use Webkul\CartRule\Repositories\CartRuleCouponRepository;
 use Webkul\Checkout\Facades\Cart;
-use Webkul\Checkout\Repositories\CartRepository;
-use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\NewTheme\Http\Requests\CartAddressRequest;
 use Webkul\Payment\Facades\Payment;
-use Webkul\Product\Repositories\ProductRepository;
 use Webkul\Shipping\Facades\Shipping;
+use Webkul\Shop\Http\Controllers\API\APIController;
 
-class CartController extends Controller
+class OnepageController extends APIController
 {
     public function __construct(
-        protected CartRepository $cartRepository,
-        protected CustomerRepository $customerRepository,
-        protected ProductRepository $productRepository,
-        protected CartRuleCouponRepository $cartRuleCouponRepository,
         protected AreaRepository $areaRepository
 
     ) {}
 
-    public function storeAddress(CartAddressRequest $cartAddressRequest, int $id): JsonResource|JsonResponse
+    /**
+     * Store address.
+     */
+    public function storeAddress(CartAddressRequest $cartAddressRequest): JsonResource
     {
-        $cart = $this->cartRepository->findOrFail($id);
-
         $params = $cartAddressRequest->all();
-        Cart::setCart($cart);
-
-        if (Cart::hasError()) {
-            return new JsonResponse([
-                'message' => implode(': ', Cart::getErrors()) ?: 'Something went wrong',
-            ], Response::HTTP_BAD_REQUEST);
-        }
         $this->enrichAddressWithLocationData($params);
 
+        if (
+            ! auth()->guard('customer')->check()
+            && ! Cart::getCart()->hasGuestCheckoutItems()
+        ) {
+            return new JsonResource([
+                'redirect' => true,
+                'data'     => route('shop.customer.session.index'),
+            ]);
+        }
+
+        if (Cart::hasError()) {
+            return new JsonResource([
+                'redirect'     => true,
+                'redirect_url' => route('shop.checkout.cart.index'),
+            ]);
+        }
+
         Cart::saveAddresses($params);
+
+        $cart = Cart::getCart();
 
         Cart::collectTotals();
 
@@ -67,12 +70,10 @@ class CartController extends Controller
 
     private function enrichAddressWithLocationData(array &$params): void
     {
-        // معالجة عنوان الفواتير
         if (isset($params['billing']['state_area_id'])) {
             $this->enrichSingleAddress($params['billing']);
         }
 
-        // معالجة عنوان الشحن
         if (isset($params['shipping']['state_area_id'])) {
             $this->enrichSingleAddress($params['shipping']);
         }
@@ -85,14 +86,12 @@ class CartController extends Controller
         }
 
         try {
-            // البحث عن المنطقة (نفس منطق AddressController)
             $area = $this->areaRepository->findOrFail($address['state_area_id']);
 
             if (! $area) {
                 return;
             }
 
-            // دمج البيانات (نفس منطق AddressController)
             $address = array_merge($address, [
                 'country' => $area->country_code,
                 'state'   => $area->state_code,

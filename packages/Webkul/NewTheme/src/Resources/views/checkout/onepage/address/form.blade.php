@@ -377,7 +377,7 @@
             methods: {
                 getCountries() {
                     this.$axios.get("{{ route('shop.api.core.countries') }}")
-                        .then(response => {
+                       .then(response => {
                             this.countries = response.data.data;
                         })
                         .catch(() => {});

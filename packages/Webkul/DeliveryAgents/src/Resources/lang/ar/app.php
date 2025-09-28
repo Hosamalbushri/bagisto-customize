@@ -459,13 +459,38 @@ return [
     ],
 
     // for shop pages
-    'shop'=> [
+        'shop'=> [
         'customer'=> [
             'account'=> [
                 'orders'=> [
                     'view'=> [
                         'delivered'=> [
                             'delivery'=> 'التوصيل',
+                        ],
+                        'agent_info'=> [
+                            'name'=> 'الاسم',
+                            'phone'=> 'الهاتف',
+                            'call'=> 'اتصال',
+                            'no_phone'=> 'غير متوفر',
+                            'rate_agent'=> 'تقييم المندوب',
+                            'rate'=> 'تقييم',
+                        ],
+                        'delivery_details'=> [
+                            'shipping_method'=> 'طريقة الشحن',
+                            'tracking_number'=> 'رقم التتبع',
+                            'delivery_status'=> 'حالة التوصيل',
+                            'estimated_delivery'=> 'موعد التسليم المتوقع',
+                        ],
+                        'review_form'=> [
+                            'title'=> 'تقييم المندوب',
+                            'rating_label'=> 'تقييم المندوب',
+                            'comment_label'=> 'تعليقك على المندوب',
+                            'comment_placeholder'=> 'اكتب تعليقك على أداء المندوب...',
+                            'submit_button'=> 'إرسال التقييم',
+                        ],
+                        'section_titles'=> [
+                            'agent_info'=> 'بيانات المندوب',
+                            'delivery_details'=> 'تفاصيل التوصيل',
                         ],
                     ],
                 ],

@@ -536,6 +536,46 @@ return [
         ],
     ],
 
+    // for shop pages
+    'shop'=> [
+        'customer'=> [
+            'account'=> [
+                'orders'=> [
+                    'view'=> [
+                        'delivered'=> [
+                            'delivery'=> 'Delivery',
+                        ],
+                        'agent_info'=> [
+                            'name'=> 'Name',
+                            'phone'=> 'Phone',
+                            'call'=> 'Call',
+                            'no_phone'=> 'Not Available',
+                            'rate_agent'=> 'Rate Agent',
+                            'rate'=> 'Rate',
+                        ],
+                        'delivery_details'=> [
+                            'shipping_method'=> 'Shipping Method',
+                            'tracking_number'=> 'Tracking Number',
+                            'delivery_status'=> 'Delivery Status',
+                            'estimated_delivery'=> 'Estimated Delivery',
+                        ],
+                        'review_form'=> [
+                            'title'=> 'Rate Agent',
+                            'rating_label'=> 'Agent Rating',
+                            'comment_label'=> 'Your Comment',
+                            'comment_placeholder'=> 'Write your comment about the agent\'s performance...',
+                            'submit_button'=> 'Submit Review',
+                        ],
+                        'section_titles'=> [
+                            'agent_info'=> 'Agent Information',
+                            'delivery_details'=> 'Delivery Details',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | GraphQL API Messages

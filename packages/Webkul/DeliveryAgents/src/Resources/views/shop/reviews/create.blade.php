@@ -1,27 +1,9 @@
-@if($order->is_delivered && !$order->hasReview())
-    <v-create-delivery-agent-review-form
-    >
-    </v-create-delivery-agent-review-form>
-@endif
-
-
 @pushOnce('scripts')
     <script
         type="text/x-template"
         id="v-delivery-agent-review-form-template"
     >
         <div class="container max-1180:px-5">
-            @if(!empty($order->delivery_agent_id))
-                <div class="mb-6 text-center">
-                    <button
-                        class="inline-flex items-center gap-2 rounded-xl border border-navyBlue bg-white px-6 py-3 text-center text-base font-medium text-navyBlue transition-colors hover:bg-navyBlue"
-                        @click="$refs.DeliveryAgentReviewCreateModal.open()"
-                    >
-                        <span class="icon-star text-lg"></span>
-                        تقييم المندوب
-                    </button>
-                </div>
-            @endif
 
 
             <!-- Review Form Modal -->
@@ -32,7 +14,7 @@
                 <form id="deliveryAgentReviewForm" @submit="handleSubmit($event, create)" class="space-y-6">
                 <x-shop::modal ref="DeliveryAgentReviewCreateModal">
                 <x-slot:header>
-                    <h2 class="text-2xl font-bold text-gray-900">تقييم المندوب</h2>
+                    <h2 class="text-2xl font-bold text-gray-900">{{ __('deliveryAgent::app.shop.customer.account.orders.view.review_form.title') }}</h2>
                 </x-slot:header>
 
                 <x-slot:content>
@@ -41,7 +23,7 @@
                             <div class="space-y-4">
                                 <x-shop::form.control-group>
                                     <x-shop::form.control-group.label class="required text-lg font-medium">
-                                        تقييم المندوب
+                                        {{ __('deliveryAgent::app.shop.customer.account.orders.view.review_form.rating_label') }}
                                     </x-shop::form.control-group.label>
 
                                     <div class="flex items-center gap-2">
@@ -66,7 +48,7 @@
                                 <!-- Review Comment -->
                                 <x-shop::form.control-group>
                                     <x-shop::form.control-group.label class="required">
-                                        تعليقك على المندوب
+                                        {{ __('deliveryAgent::app.shop.customer.account.orders.view.review_form.comment_label') }}
                                     </x-shop::form.control-group.label>
 
                                     <x-shop::form.control-group.control
@@ -74,8 +56,8 @@
                                         name="comment"
                                         rules="required"
                                         :value="old('comment')"
-                                        :label="'تعليقك على المندوب'"
-                                        :placeholder="'اكتب تعليقك على أداء المندوب...'"
+                                        :label="__('deliveryAgent::app.shop.customer.account.orders.view.review_form.comment_label')"
+                                        :placeholder="__('deliveryAgent::app.shop.customer.account.orders.view.review_form.comment_placeholder')"
                                         rows="6"
                                         class="rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                                     />
@@ -101,13 +83,15 @@
                 </x-slot:content>
 
                 <x-slot:footer>
-                    <x-shop::button
-                        button-type="submit"
-                        class="primary-button"
-                        :title="trans('deliveryAgent::app.range.create.create-btn')"
-                        ::loading="isLoading"
-                        ::disabled="isLoading"
-                    />
+                    <div class="flex justify-center">
+                        <x-shop::button
+                            button-type="submit"
+                            class="primary-button px-8 py-3"
+                            :title="__('deliveryAgent::app.shop.customer.account.orders.view.review_form.submit_button')"
+                            ::loading="isLoading"
+                            ::disabled="isLoading"
+                        />
+                    </div>
                 </x-slot:footer>
             </x-shop::modal>
                 </form>
@@ -150,6 +134,9 @@
 
                             }
                         });
+                },
+                openModal() {
+                    this.$refs.DeliveryAgentReviewCreateModal.open();
                 }
             }
         });
