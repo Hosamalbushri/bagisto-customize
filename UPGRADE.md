@@ -39,7 +39,7 @@ We have handled most of the dependencies mentioned by Laravel, so there is no ne
 
 #### NPM Depenencies
 
-We have upgraded the NPM dependencies to Vite 5 and the Laravel Vite Plugin to version 1.0. This update will not affect your work unless you are working directly on the package. In that case, you need to rename the file postcss.config.js to postcss.config.cjs. Below are the changes required in your package file:
+We have upgraded the NPM dependencies to Vite 5 and the Laravel Vite Plugin to version 1.0. This update will not affect your work unless you are working directly on the package. In that case, you need to rename the file postcss.config.cjs to postcss.config.cjs. Below are the changes required in your package file:
 
 ```diff
 - module.exports = {

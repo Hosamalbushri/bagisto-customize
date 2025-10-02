@@ -31,5 +31,10 @@ return [
             'build_directory'          => 'themes/deliveryAgents/default/build',
             'package_assets_directory' => 'src/Resources/assets',
         ],
+        'realTimeNotification' => [
+            'hot_file'                 => 'realTimeNotification-default-vite.hot',
+            'build_directory'          => 'themes/realTimeNotification/default/build',
+            'package_assets_directory' => 'src/Resources/assets',
+        ],
     ],
 ];

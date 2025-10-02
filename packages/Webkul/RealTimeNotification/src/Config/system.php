@@ -1,0 +1,123 @@
+<?php
+
+return [
+    [
+        'key'  => 'general.firebase',
+        'name' => 'realtimenotification::app.configuration.firebase.title',
+        'info' => 'realtimenotification::app.configuration.firebase.info',
+        'icon' => 'settings/settings.svg',
+        'sort' => 3,
+    ],[
+        'key'    => 'general.firebase.settings',
+        'name'   => 'realtimenotification::app.configuration.firebase.title',
+        'info'   => 'realtimenotification::app.configuration.firebase.info',
+        'icon'   => 'icon-notification',
+        'sort'   => 1,
+        'fields' => [
+            [
+                'name'          => 'api_key',
+                'title'         => 'realtimenotification::app.configuration.firebase.api_key',
+                'info'          => 'realtimenotification::app.configuration.firebase.api_key_info',
+                'type'          => 'text',
+                'validation'    => 'required',
+                'channel_based' => true,
+            ],
+            [
+                'name'          => 'auth_domain',
+                'title'         => 'realtimenotification::app.configuration.firebase.auth_domain',
+                'info'          => 'realtimenotification::app.configuration.firebase.auth_domain_info',
+                'type'          => 'text',
+                'validation'    => 'required',
+                'channel_based' => true,
+            ],
+            [
+                'name'          => 'project_id',
+                'title'         => 'realtimenotification::app.configuration.firebase.project_id',
+                'info'          => 'realtimenotification::app.configuration.firebase.project_id_info',
+                'type'          => 'text',
+                'validation'    => 'required',
+                'channel_based' => true,
+            ],
+            [
+                'name'          => 'storage_bucket',
+                'title'         => 'realtimenotification::app.configuration.firebase.storage_bucket',
+                'info'          => 'realtimenotification::app.configuration.firebase.storage_bucket_info',
+                'type'          => 'text',
+                'validation'    => 'required',
+                'channel_based' => true,
+            ],
+            [
+                'name'          => 'messaging_sender_id',
+                'title'         => 'realtimenotification::app.configuration.firebase.messaging_sender_id',
+                'info'          => 'realtimenotification::app.configuration.firebase.messaging_sender_id_info',
+                'type'          => 'text',
+                'validation'    => 'required',
+                'channel_based' => true,
+            ],
+            [
+                'name'          => 'app_id',
+                'title'         => 'realtimenotification::app.configuration.firebase.app_id',
+                'info'          => 'realtimenotification::app.configuration.firebase.app_id_info',
+                'type'          => 'text',
+                'validation'    => 'required',
+                'channel_based' => true,
+            ],
+            [
+                'name'          => 'measurement_id',
+                'title'         => 'realtimenotification::app.configuration.firebase.measurement_id',
+                'info'          => 'realtimenotification::app.configuration.firebase.measurement_id_info',
+                'type'          => 'text',
+                'validation'    => '',
+                'channel_based' => true,
+            ],
+            [
+                'name'          => 'vapid_key',
+                'title'         => 'realtimenotification::app.configuration.firebase.vapid_key',
+                'info'          => 'realtimenotification::app.configuration.firebase.vapid_key_info',
+                'type'          => 'text',
+                'validation'    => '',
+                'channel_based' => true,
+            ],
+        ]
+    ],[
+        'key'    => 'general.notification.settings',
+        'name'   => 'realtimenotification::app.configuration.settings.title',
+        'info'   => 'realtimenotification::app.configuration.settings.info',
+        'icon'   => 'icon-settings',
+        'sort'   => 2,
+        'fields' => [
+            [
+                'name'          => 'enable_notifications',
+                'title'         => 'realtimenotification::app.configuration.settings.enable_notifications',
+                'info'          => 'realtimenotification::app.configuration.settings.enable_notifications_info',
+                'type'          => 'boolean',
+                'validation'    => '',
+                'channel_based' => true,
+            ],
+            [
+                'name'          => 'notification_duration',
+                'title'         => 'realtimenotification::app.configuration.settings.notification_duration',
+                'info'          => 'realtimenotification::app.configuration.settings.notification_duration_info',
+                'type'          => 'text',
+                'validation'    => 'numeric|min:1000|max:30000',
+                'channel_based' => true,
+            ],
+            [
+                'name'          => 'default_icon',
+                'title'         => 'realtimenotification::app.configuration.settings.default_icon',
+                'info'          => 'realtimenotification::app.configuration.settings.default_icon_info',
+                'type'          => 'text',
+                'validation'    => '',
+                'channel_based' => true,
+            ],
+            [
+                'name'          => 'auto_close',
+                'title'         => 'realtimenotification::app.configuration.settings.auto_close',
+                'info'          => 'realtimenotification::app.configuration.settings.auto_close_info',
+                'type'          => 'boolean',
+                'validation'    => '',
+                'channel_based' => true,
+            ],
+        ]
+    ]
+];

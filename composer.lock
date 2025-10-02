@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1419d39987d1319b1f26aaea3d6a0fa",
+    "content-hash": "8f74b51c0ccdc93f3b433cc9b4f1046c",
     "packages": [
         {
             "name": "apimatic/core",
@@ -308,17 +308,62 @@
             "time": "2025-07-09T14:05:02+00:00"
         },
         {
+            "name": "bagisto/bagisto-package-generator",
+            "version": "v2.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bagisto/bagisto-package-generator.git",
+                "reference": "e6e9639c366f31f615160ff9c91bc78528aa8061"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bagisto/bagisto-package-generator/zipball/e6e9639c366f31f615160ff9c91bc78528aa8061",
+                "reference": "e6e9639c366f31f615160ff9c91bc78528aa8061",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": [],
+                    "providers": [
+                        "Webkul\\PackageGenerator\\Providers\\PackageGeneratorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webkul\\PackageGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jitendra Singh",
+                    "email": "jitendra@webkul.com"
+                }
+            ],
+            "description": "Bagisto Package Generator",
+            "support": {
+                "issues": "https://github.com/bagisto/bagisto-package-generator/issues",
+                "source": "https://github.com/bagisto/bagisto-package-generator/tree/v2.1.2"
+            },
+            "time": "2025-09-02T16:15:30+00:00"
+        },
+        {
             "name": "bagisto/graphql-api",
             "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Hosamalbushri/GraphQL-API.git",
-                "reference": "4c3ee66325e22b856c5c048eb54860a022f2de52"
+                "reference": "4d9d117f21abee0c8bc375b203c0fe8c6a057f04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Hosamalbushri/GraphQL-API/zipball/4c3ee66325e22b856c5c048eb54860a022f2de52",
-                "reference": "4c3ee66325e22b856c5c048eb54860a022f2de52",
+                "url": "https://api.github.com/repos/Hosamalbushri/GraphQL-API/zipball/4d9d117f21abee0c8bc375b203c0fe8c6a057f04",
+                "reference": "4d9d117f21abee0c8bc375b203c0fe8c6a057f04",
                 "shasum": ""
             },
             "require": {
@@ -355,7 +400,7 @@
                 "source": "https://github.com/Hosamalbushri/GraphQL-API/tree/main",
                 "issues": "https://github.com/Hosamalbushri/GraphQL-API/issues"
             },
-            "time": "2025-09-29T01:09:42+00:00"
+            "time": "2025-10-01T02:06:18+00:00"
         },
         {
             "name": "bagisto/image-cache",
@@ -1878,16 +1923,16 @@
         },
         {
             "name": "google/auth",
-            "version": "v1.48.0",
+            "version": "v1.48.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-auth-library-php.git",
-                "reference": "3053a5bfe284538419d4fee8c9df148488db6d30"
+                "reference": "023f41a2c80fb98a493dfb9dffcab643481a7ab0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/3053a5bfe284538419d4fee8c9df148488db6d30",
-                "reference": "3053a5bfe284538419d4fee8c9df148488db6d30",
+                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/023f41a2c80fb98a493dfb9dffcab643481a7ab0",
+                "reference": "023f41a2c80fb98a493dfb9dffcab643481a7ab0",
                 "shasum": ""
             },
             "require": {
@@ -1933,9 +1978,9 @@
             "support": {
                 "docs": "https://cloud.google.com/php/docs/reference/auth/latest",
                 "issues": "https://github.com/googleapis/google-auth-library-php/issues",
-                "source": "https://github.com/googleapis/google-auth-library-php/tree/v1.48.0"
+                "source": "https://github.com/googleapis/google-auth-library-php/tree/v1.48.1"
             },
-            "time": "2025-09-16T22:09:18+00:00"
+            "time": "2025-09-30T04:22:33+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -2538,16 +2583,16 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.3.5",
+            "version": "v1.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "fbf1a3e81d61b088e7af723fb3c7a4ee92ac7e34"
+                "reference": "61f2ef1ad2d0ae922c265931cb0a8032a1ed2813"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/fbf1a3e81d61b088e7af723fb3c7a4ee92ac7e34",
-                "reference": "fbf1a3e81d61b088e7af723fb3c7a4ee92ac7e34",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/61f2ef1ad2d0ae922c265931cb0a8032a1ed2813",
+                "reference": "61f2ef1ad2d0ae922c265931cb0a8032a1ed2813",
                 "shasum": ""
             },
             "require": {
@@ -2584,9 +2629,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JayBizzle/Crawler-Detect/issues",
-                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.3.5"
+                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.3.6"
             },
-            "time": "2025-06-11T17:58:05+00:00"
+            "time": "2025-09-30T16:22:43+00:00"
         },
         {
             "name": "kalnoy/nestedset",
@@ -3045,16 +3090,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.46.0",
+            "version": "v11.46.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "2c6d85f22d08123ad45aa3a6726b16f06e68eecd"
+                "reference": "5fd457f807570a962a53b403b1346efe4cc80bb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/2c6d85f22d08123ad45aa3a6726b16f06e68eecd",
-                "reference": "2c6d85f22d08123ad45aa3a6726b16f06e68eecd",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/5fd457f807570a962a53b403b1346efe4cc80bb8",
+                "reference": "5fd457f807570a962a53b403b1346efe4cc80bb8",
                 "shasum": ""
             },
             "require": {
@@ -3256,7 +3301,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-09-08T21:54:34+00:00"
+            "time": "2025-09-30T14:51:32+00:00"
         },
         {
             "name": "laravel/octane",
@@ -6449,16 +6494,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v2.2.0",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "9c3535883f1b60b5d26aeae5914bbec61132ad7f"
+                "reference": "4a2ab4341bc5802e1db1f761a9eab15fbb34f967"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/9c3535883f1b60b5d26aeae5914bbec61132ad7f",
-                "reference": "9c3535883f1b60b5d26aeae5914bbec61132ad7f",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/4a2ab4341bc5802e1db1f761a9eab15fbb34f967",
+                "reference": "4a2ab4341bc5802e1db1f761a9eab15fbb34f967",
                 "shasum": ""
             },
             "require": {
@@ -6539,9 +6584,9 @@
             ],
             "support": {
                 "issues": "https://github.com/paragonie/sodium_compat/issues",
-                "source": "https://github.com/paragonie/sodium_compat/tree/v2.2.0"
+                "source": "https://github.com/paragonie/sodium_compat/tree/v2.3.1"
             },
-            "time": "2025-09-21T18:27:14+00:00"
+            "time": "2025-09-30T15:08:52+00:00"
         },
         {
             "name": "paypal/paypal-server-sdk",
@@ -12324,6 +12369,64 @@
                 }
             ],
             "description": "Shop package for store front and customers",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "bagisto/real-time-notification",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "packages/Webkul/RealTimeNotification",
+                "reference": "fc91a933cabc516bdb6f32cce1f677c1eba50103"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Webkul\\RealTimeNotification\\Providers\\RealTimeNotificationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webkul\\RealTimeNotification\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Webkul\\RealTimeNotification\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-install-cmd": [
+                    "@php -r \"if (file_exists('vendor/webkul/core/src/Console/Commands/Install.php')) { require 'vendor/webkul/core/src/Console/Commands/Install.php'; }\""
+                ],
+                "post-update-cmd": [
+                    "@php -r \"if (file_exists('vendor/webkul/core/src/Console/Commands/Install.php')) { require 'vendor/webkul/core/src/Console/Commands/Install.php'; }\""
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Webkul",
+                    "email": "support@webkul.com"
+                }
+            ],
+            "description": "RealTimeNotification package for Bagisto with Firebase support for push notifications and analytics",
+            "keywords": [
+                "analytics",
+                "bagisto",
+                "firebase",
+                "laravel",
+                "notifications",
+                "push-notifications",
+                "real-time"
+            ],
             "transport-options": {
                 "symlink": true,
                 "relative": true

@@ -8,4 +8,7 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    define: {
+        'import.meta.env.VITE_FIREBASE_VAPID_KEY': JSON.stringify(process.env.FIREBASE_VAPID_KEY || 'YOUR_VAPID_KEY_FROM_FIREBASE_CONSOLE'),
+    },
 });
