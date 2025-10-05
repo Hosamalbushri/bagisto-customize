@@ -25,13 +25,13 @@
 {{--  } else {--}}
 {{--    firebaseApp = firebase.app();--}}
 {{--  }--}}
-{{--  --}}
+
 {{--  // تهيئة Analytics--}}
 {{--  analytics = firebase.analytics();--}}
-{{--  --}}
+
 {{--  // تهيئة Messaging--}}
 {{--  messaging = firebase.messaging();--}}
-{{--  --}}
+
 {{--  console.log('Firebase Shop initialized successfully');--}}
 {{--} catch (error) {--}}
 {{--  console.error('Firebase Shop initialization error:', error);--}}
@@ -47,7 +47,7 @@
 {{--    <div class="message">${body}</div>--}}
 {{--  `;--}}
 {{--  document.body.appendChild(notification);--}}
-{{--  --}}
+
 {{--  setTimeout(() => {--}}
 {{--    if (notification.parentElement) {--}}
 {{--      notification.remove();--}}
@@ -65,14 +65,14 @@
 {{--    }--}}
 
 {{--    const permission = await Notification.requestPermission();--}}
-{{--    --}}
+
 {{--    if (permission === 'granted') {--}}
 {{--      console.log('Notification permission granted.');--}}
-{{--      --}}
+
 {{--      try {--}}
 {{--        // الحصول على FCM token--}}
 {{--        const token = await messaging.getToken();--}}
-{{--        --}}
+
 {{--        if (token) {--}}
 {{--          console.log('FCM Token:', token);--}}
 {{--          // إرسال الـ token إلى الخادم--}}
@@ -106,10 +106,10 @@
 {{--// التعامل مع الرسائل في المقدمة--}}
 {{--messaging.onMessage((payload) => {--}}
 {{--  console.log('Message received:', payload);--}}
-{{--  --}}
+
 {{--  const title = payload.notification?.title || 'إشعار جديد';--}}
 {{--  const body = payload.notification?.body || 'لديك إشعار جديد';--}}
-{{--  --}}
+
 {{--  // استخدام الإشعار الافتراضي للمتصفح فقط--}}
 {{--  if (Notification.permission === 'granted') {--}}
 {{--    new Notification(title, {--}}
@@ -120,7 +120,7 @@
 {{--      requireInteraction: true--}}
 {{--    });--}}
 {{--  }--}}
-{{--  --}}
+
 {{--  // إرسال حدث مخصص للصفحة (للتسجيل فقط)--}}
 {{--  window.dispatchEvent(new CustomEvent('firebase-notification', {--}}
 {{--    detail: { title, body }--}}

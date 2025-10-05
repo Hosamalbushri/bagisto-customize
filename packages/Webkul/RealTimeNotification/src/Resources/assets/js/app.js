@@ -48,22 +48,22 @@ function showNotification(title, body, icon = '/favicon.ico') {
 async function requestNotificationPermission() {
   try {
     const permission = await Notification.requestPermission();
-    
+
     if (permission === 'granted') {
       console.log('Notification permission granted.');
-      
+
       // Get Firebase config including VAPID key
       const response = await fetch('/realtimenotification/firebase-config');
       const config = await response.json();
-      
+
       // Get FCM token with VAPID key (optional)
       let tokenOptions = {};
       if (config.vapidKey && config.vapidKey !== 'YOUR_VAPID_KEY_HERE') {
         tokenOptions.vapidKey = config.vapidKey;
       }
-      
+
       const token = await getToken(najazMessaging, tokenOptions);
-      
+
       if (token) {
         console.log('FCM Token:', token);
         // Send token to server
@@ -90,7 +90,7 @@ async function sendTokenToServer(token) {
       },
       body: JSON.stringify({ token: token })
     });
-    
+
     if (response.ok) {
       console.log('Token saved to server successfully');
     }
@@ -102,18 +102,18 @@ async function sendTokenToServer(token) {
 // Handle foreground messages
 onMessage(najazMessaging, (payload) => {
   console.log('Message received in foreground:', payload);
-  
+
   const title = payload.notification?.title || 'إشعار جديد';
   const body = payload.notification?.body || 'لديك إشعار جديد';
-  
+
   // Show notification in the page
   showNotification(title, body);
-  
+
   // Dispatch custom event for the notification page
   window.dispatchEvent(new CustomEvent('firebase-notification', {
     detail: { title, body }
   }));
-  
+
   // Also show browser notification if permission is granted
   if (Notification.permission === 'granted') {
     new Notification(title, {

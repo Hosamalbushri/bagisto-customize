@@ -7,7 +7,8 @@ return [
         'info' => 'realtimenotification::app.configuration.firebase.info',
         'icon' => 'settings/settings.svg',
         'sort' => 3,
-    ],[
+    ],
+    [
         'key'    => 'general.firebase.settings',
         'name'   => 'realtimenotification::app.configuration.firebase.title',
         'info'   => 'realtimenotification::app.configuration.firebase.info',
@@ -78,12 +79,12 @@ return [
                 'validation'    => '',
                 'channel_based' => true,
             ],
-        ]
-    ],[
-        'key'    => 'general.notification.settings',
+        ],
+    ],
+[
+        'key'    => 'general.firebase.notification',
         'name'   => 'realtimenotification::app.configuration.settings.title',
         'info'   => 'realtimenotification::app.configuration.settings.info',
-        'icon'   => 'icon-settings',
         'sort'   => 2,
         'fields' => [
             [
@@ -99,16 +100,18 @@ return [
                 'title'         => 'realtimenotification::app.configuration.settings.notification_duration',
                 'info'          => 'realtimenotification::app.configuration.settings.notification_duration_info',
                 'type'          => 'text',
-                'validation'    => 'numeric|min:1000|max:30000',
+                'validation'    => 'numeric',
+                'depends'       => 'enable_notifications:1',
                 'channel_based' => true,
             ],
             [
                 'name'          => 'default_icon',
                 'title'         => 'realtimenotification::app.configuration.settings.default_icon',
                 'info'          => 'realtimenotification::app.configuration.settings.default_icon_info',
-                'type'          => 'text',
-                'validation'    => '',
-                'channel_based' => true,
+                'type'          => 'image',
+                'channel_based' => false,
+                'validation'    => 'mimes:bmp,jpeg,jpg,png,webp,svg,ico',
+                'depends'       => 'enable_notifications:1',
             ],
             [
                 'name'          => 'auto_close',
@@ -116,8 +119,9 @@ return [
                 'info'          => 'realtimenotification::app.configuration.settings.auto_close_info',
                 'type'          => 'boolean',
                 'validation'    => '',
+                'depends'       => 'enable_notifications:1',
                 'channel_based' => true,
             ],
-        ]
-    ]
+        ],
+    ],
 ];

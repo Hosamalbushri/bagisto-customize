@@ -13,6 +13,8 @@ class RealTimeNotificationServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->registerConfig();
+        include __DIR__.'/../Helpers/helpers.php';
+
 
         $this->app->singleton('Webkul\RealTimeNotification\Helpers\FirebaseHelper');
     }
@@ -38,10 +40,12 @@ class RealTimeNotificationServiceProvider extends ServiceProvider
         Event::listen('bagisto.admin.layout.vue-app-mount.after', function ($viewRenderEventManager) {
             $viewRenderEventManager->addTemplate('realtimenotification::admin.layouts.firebase-cdn');
         });
+//        Event::listen('bagisto.admin.layout.vue-app-mount.after', function ($viewRenderEventManager) {
+//            $viewRenderEventManager->addTemplate('realtimenotification::admin.layouts.admin-notifications');
+//        });
 
         Event::listen('bagisto.shop.layout.head.after', function ($viewRenderEventManager) {
             $viewRenderEventManager->addTemplate('realtimenotification::shop.layouts.style');
-            $viewRenderEventManager->addTemplate('realtimenotification::shop.layouts.firebase-cdn');
         });
     }
 

@@ -4,8 +4,8 @@ namespace Webkul\RealTimeNotification\Http\Controllers\Shop;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
-use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\RealTimeNotification\Helpers\FirebaseHelper;
+use Webkul\Shop\Http\Controllers\Controller;
 
 class RealTimeNotificationController extends Controller
 {
@@ -23,14 +23,6 @@ class RealTimeNotificationController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index(): View
-    {
-        return view('realtimenotification::shop.index');
-    }
-
-    /**
      * Get Firebase configuration for JavaScript (public endpoint)
      */
     public function getFirebaseConfig(): JsonResponse
@@ -41,6 +33,10 @@ class RealTimeNotificationController extends Controller
             'settings' => $this->firebaseHelper->getNotificationSettings(),
         ]);
     }
+    public function index()
+    {
+        return view('realtimenotification::admin.layouts.admin-notifications');
+    }
 
     /**
      * Save FCM token to database
@@ -48,18 +44,18 @@ class RealTimeNotificationController extends Controller
     public function saveToken(): JsonResponse
     {
         $token = request()->input('token');
-        
-        if (!$token) {
+
+        if (! $token) {
             return response()->json(['error' => 'Token is required'], 400);
         }
 
         try {
             // Get customer ID if logged in
             $customerId = auth()->guard('customer')->id();
-            
+
             // Store token in session or database
             session(['fcm_token' => $token]);
-            
+
             // If customer is logged in, you can also store in database
             if ($customerId) {
                 // You can create a migration to store tokens in database
@@ -68,12 +64,12 @@ class RealTimeNotificationController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Token saved successfully'
+                'message' => 'Token saved successfully',
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'error' => 'Failed to save token',
-                'message' => $e->getMessage()
+                'error'   => 'Failed to save token',
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
