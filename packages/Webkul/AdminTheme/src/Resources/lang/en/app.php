@@ -54,6 +54,13 @@ return [
             'pending-payment' => 'Pending Payment',
             'processing'      => 'Order Processing',
         ],
+
+        'push-notifications' => [
+            'order-status-update' => [
+                'title' => 'Order Status Update',
+                'body' => 'Your order #:order_number status has been updated to: :status',
+            ],
+        ],
     ],
 
     'account' => [

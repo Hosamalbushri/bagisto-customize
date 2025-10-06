@@ -312,5 +312,24 @@ return [
             'rejected_by_agent'   => 'المندوب رفض  الطلب',
             'out_for_delivery'    => 'الطلب في الطريق',
         ],
+
+        'push-notifications' => [
+            'order-status-update' => [
+                'title' => 'تحديث حالة الطلب',
+                'body' => 'تم تحديث حالة طلبك رقم :order_number إلى: :status',
+                'canceled'           => 'تم الإلغاء',
+                'channel-name'       => 'اسم القناة',
+                'closed'             => 'مغلق',
+                'completed'          => 'مكتمل',
+                'fraud'              => 'احتيال',
+                'pending'            => 'قيد الانتظار',
+                'pending-payment'    => 'قيد الدفع',
+                'processing'         => 'قيد المعالجة',
+                'assigned_to_agent'  => 'بانتظار تأكيد المندوب',
+                'accepted_by_agent'  => 'المندوب استلم الطلب',
+                'rejected_by_agent'  => 'المندوب اعتذر عن الطلب',
+                'out_for_delivery'   => 'الطلب في الطريق',
+            ],
+        ],
     ],
 ];

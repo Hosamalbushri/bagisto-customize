@@ -54,6 +54,13 @@ return [
             'pending-payment' => 'Zahlung ausstehend',
             'processing'      => 'Bestellung in Bearbeitung',
         ],
+
+        'push-notifications' => [
+            'order-status-update' => [
+                'title' => 'Bestellstatus-Update',
+                'body' => 'Der Status Ihrer Bestellung #:order_number wurde aktualisiert auf: :status',
+            ],
+        ],
     ],
 
     'account' => [

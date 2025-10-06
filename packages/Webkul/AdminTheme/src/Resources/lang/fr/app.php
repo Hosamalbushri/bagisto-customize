@@ -54,6 +54,13 @@ return [
             'pending-payment' => 'Paiement en attente',
             'processing'      => 'Commande en cours de traitement',
         ],
+
+        'push-notifications' => [
+            'order-status-update' => [
+                'title' => 'Mise à jour du statut de la commande',
+                'body' => 'Le statut de votre commande #:order_number a été mis à jour vers: :status',
+            ],
+        ],
     ],
 
     'account' => [

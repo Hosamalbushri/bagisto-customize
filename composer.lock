@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f74b51c0ccdc93f3b433cc9b4f1046c",
+    "content-hash": "68ce50beec7fb4dd15010e90bfa54ae5",
     "packages": [
         {
             "name": "apimatic/core",
@@ -355,23 +355,16 @@
         {
             "name": "bagisto/graphql-api",
             "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Hosamalbushri/GraphQL-API.git",
-                "reference": "4d9d117f21abee0c8bc375b203c0fe8c6a057f04"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Hosamalbushri/GraphQL-API/zipball/4d9d117f21abee0c8bc375b203c0fe8c6a057f04",
-                "reference": "4d9d117f21abee0c8bc375b203c0fe8c6a057f04",
-                "shasum": ""
+                "type": "path",
+                "url": "packages/GraphQLAPI",
+                "reference": "4d9d117f21abee0c8bc375b203c0fe8c6a057f04"
             },
             "require": {
                 "mll-lab/laravel-graphiql": "^3.1",
                 "nuwave/lighthouse": "^6.23",
                 "php-open-source-saver/jwt-auth": "^2.1"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -396,11 +389,10 @@
                 }
             ],
             "description": "Bagisto GraphQL API",
-            "support": {
-                "source": "https://github.com/Hosamalbushri/GraphQL-API/tree/main",
-                "issues": "https://github.com/Hosamalbushri/GraphQL-API/issues"
-            },
-            "time": "2025-10-01T02:06:18+00:00"
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "bagisto/image-cache",

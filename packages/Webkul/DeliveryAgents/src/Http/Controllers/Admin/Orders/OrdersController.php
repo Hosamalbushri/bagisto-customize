@@ -27,6 +27,7 @@ class OrdersController extends Controller
     {
         $orderId = $request->get('order_id');
         $deliveryAgentId = $request->get('delivery_agent_id');
+        $orserStatus = Order::STATUS_ASSIGNED_TO_AGENT;
 
         DB::beginTransaction();
 
@@ -47,7 +48,7 @@ class OrdersController extends Controller
             $order->deliveryAssignments()->updateOrCreate(
                 ['delivery_agent_id' => $deliveryAgentId],
                 [
-                    'status'      => Order::STATUS_ASSIGNED_TO_AGENT,
+                    'status'      => $orserStatus,
                     'assigned_at' => now(),
                 ]
             );
@@ -61,11 +62,10 @@ class OrdersController extends Controller
                                 $item->id => $item->qty_to_invoice,
                             ])->toArray(),
                         ],
-                    ],
-                );
+                    ], null, $orserStatus);
+            } else {
+                $this->orderRepository->updateOrderStatus($order, $orserStatus);
             }
-            $newStatus = $this->determineOrderStatus($order);
-            $this->orderRepository->updateOrderStatus($order, $newStatus);
 
             DB::commit();
 
@@ -154,10 +154,10 @@ class OrdersController extends Controller
 
             Log::error('Failed to change order status', [
                 'order_id' => $id,
-                'status' => $request->get('status'),
+                'status'   => $request->get('status'),
                 'agent_id' => $request->get('delivery_agent_id'),
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
+                'error'    => $e->getMessage(),
+                'trace'    => $e->getTraceAsString(),
             ]);
 
             return $this->errorResponse(
@@ -165,19 +165,6 @@ class OrdersController extends Controller
                 500
             );
         }
-    }
-
-    protected function determineOrderStatus(Order $order): string
-    {
-        if (isset($order->state)) {
-            return $order->state;
-        }
-
-        if ($order->hasOpenInvoice()) {
-            return Order::STATUS_PENDING_PAYMENT;
-        }
-
-        return Order::STATUS_ASSIGNED_TO_AGENT;
     }
 
     private function updateAssignmentStatus(Order $order, string $status, array $extra = []): void

@@ -2,7 +2,9 @@
 
 namespace Webkul\AdminTheme\Providers;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Webkul\AdminTheme\Listeners\OrderStatusUpdateListener;
 
 class AdminThemeServiceProvider extends ServiceProvider
 {
@@ -36,6 +38,7 @@ class AdminThemeServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
 
         $this->registerConfig();
+        $this->registerEventListeners();
     }
 
     protected function registerConfig(): void
@@ -53,5 +56,13 @@ class AdminThemeServiceProvider extends ServiceProvider
             dirname(__DIR__).'/Config/system.php',
             'core'
         );
+    }
+
+    /**
+     * Register event listeners.
+     */
+    protected function registerEventListeners(): void
+    {
+        Event::listen('sales.order.update-status.after', OrderStatusUpdateListener::class);
     }
 }

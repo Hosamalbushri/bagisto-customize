@@ -1,0 +1,3 @@
+[submodule "GraphQL-API"]
+	path = GraphQL-API
+	url = https://github.com/Hosamalbushri/GraphQL-API.git
