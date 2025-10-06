@@ -138,7 +138,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "packages/GraphQLAPI",
+            "url": "packages/Webkul/GraphQLAPI",
             "options": {
                 "symlink": true
             }
