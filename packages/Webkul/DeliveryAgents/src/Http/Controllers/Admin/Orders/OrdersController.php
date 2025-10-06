@@ -5,176 +5,70 @@ namespace Webkul\DeliveryAgents\Http\Controllers\Admin\Orders;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Webkul\DeliveryAgents\Models\Order;
-use Webkul\DeliveryAgents\Repositories\DeliveryAgentRepository;
-use Webkul\Sales\Repositories\InvoiceRepository;
-use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\DeliveryAgents\Services\DeliveryAgentService;
 
 class OrdersController extends Controller
 {
     use ValidatesRequests;
 
     public function __construct(
-        protected DeliveryAgentRepository $deliveryAgentRepository,
-        protected OrderRepository $orderRepository,
-        protected InvoiceRepository $invoiceRepository,
-
+        protected DeliveryAgentService $deliveryAgentService,
     ) {}
 
     public function assignToAgent(Request $request)
     {
-        $orderId = $request->get('order_id');
-        $deliveryAgentId = $request->get('delivery_agent_id');
-        $orserStatus = Order::STATUS_ASSIGNED_TO_AGENT;
-
-        DB::beginTransaction();
-
         try {
-            $order = $this->orderRepository->findOrFail($orderId);
-            $deliveryAgent = $this->deliveryAgentRepository->find($deliveryAgentId);
+            $orderId = $request->get('order_id');
+            $deliveryAgentId = $request->get('delivery_agent_id');
 
-            if (! $deliveryAgent || (int) $deliveryAgent->status !== 1) {
-                DB::rollBack();
+            $result = $this->deliveryAgentService->assignOrderToAgent($orderId, $deliveryAgentId);
 
-                return $this->errorResponse('deliveryAgent::app.select-order.create.create-error');
-            }
+            return $this->successResponse($result['message']);
 
-            $order->update([
-                'delivery_agent_id' => $deliveryAgentId,
-            ]);
-
-            $order->deliveryAssignments()->updateOrCreate(
-                ['delivery_agent_id' => $deliveryAgentId],
+        } catch (\Throwable $e) {
+            $result = $this->deliveryAgentService->handleException(
+                $e,
+                'Failed to assign order to delivery agent',
                 [
-                    'status'      => $orserStatus,
-                    'assigned_at' => now(),
+                    'order_id' => $request->get('order_id'),
+                    'agent_id' => $request->get('delivery_agent_id'),
                 ]
             );
 
-            if ($order->invoices->isEmpty() && $order->canInvoice()) {
-                $this->invoiceRepository->create(
-                    [
-                        'order_id' => $order->id,
-                        'invoice'  => [
-                            'items' => $order->items->mapWithKeys(fn ($item) => [
-                                $item->id => $item->qty_to_invoice,
-                            ])->toArray(),
-                        ],
-                    ], null, $orserStatus);
-            } else {
-                $this->orderRepository->updateOrderStatus($order, $orserStatus);
-            }
-
-            DB::commit();
-
-            return $this->successResponse('deliveryAgent::app.select-order.create.create-success');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            Log::error('Failed to assign order to delivery agent', [
-                'order_id' => $orderId,
-                'agent_id' => $deliveryAgentId,
-                'error'    => $e->getMessage(),
-                'trace'    => $e->getTraceAsString(),
-            ]);
-
-            return $this->errorResponse('deliveryAgent::app.select-order.create.transaction-failed', 500);
+            return $this->errorResponse($result['message'], $result['code']);
         }
     }
 
     public function changeStatus($id, Request $request)
     {
         try {
-            return DB::transaction(function () use ($id, $request) {
-                $order = $this->orderRepository
-                    ->with(['deliveryAssignments', 'invoices', 'items'])
-                    ->findOrFail($id);
+            $status = $request->get('status');
+            $deliveryAgentId = $request->get('delivery_agent_id');
 
-                $status = $request->get('status');
-                $deliveryAgentId = $request->get('delivery_agent_id');
-                $deliveryAgent = $this->deliveryAgentRepository->find($deliveryAgentId);
-                if (! $deliveryAgent || (int) $deliveryAgent->status !== 1) {
-                    throw new \Exception('deliveryAgent::app.select-order.create.create-error');
-                }
+            $result = $this->deliveryAgentService->changeOrderStatus($id, $status, $deliveryAgentId);
 
-                if (
-                    empty($order->delivery_agent_id) ||
-                    (int) $order->delivery_agent_id !== $deliveryAgentId ||
-                    ! in_array($status, [
-                        Order::STATUS_ACCEPTED_BY_AGENT,
-                        Order::STATUS_REJECTED_BY_AGENT,
-                        Order::STATUS_OUT_FOR_DELIVERY,
-                        Order::STATUS_DELIVERED,
-                    ])
-                ) {
-                    throw new \Exception('deliveryAgent::app.select-order.update.updated-error');
-                }
+            return $this->successResponse($result['message']);
 
-                $this->orderRepository->updateOrderStatus($order, $status);
-
-                switch ($status) {
-                    case Order::STATUS_ACCEPTED_BY_AGENT:
-                        $this->updateAssignmentStatus($order, Order::STATUS_ACCEPTED_BY_AGENT, [
-                            'accepted_at' => now(),
-                        ]);
-                        break;
-
-                    case Order::STATUS_REJECTED_BY_AGENT:
-                        $this->updateAssignmentStatus($order, Order::STATUS_REJECTED_BY_AGENT, [
-                            'rejected_at' => now(),
-                        ]);
-                        $order->update(['delivery_agent_id' => null]);
-                        break;
-
-                    case Order::STATUS_OUT_FOR_DELIVERY:
-                        $this->updateAssignmentStatus($order, Order::STATUS_OUT_FOR_DELIVERY);
-                        break;
-
-                    case Order::STATUS_DELIVERED:
-                        $this->updateAssignmentStatus($order, Order::STATUS_DELIVERED, [
-                            'completed_at'        => now(),
-                            'delivery_agent_info' => json_encode([
-                                'id'    => $deliveryAgent->id,
-                                'name'  => $deliveryAgent->name,   // full name (first + last)
-                                'phone' => $deliveryAgent->phone,
-                            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE),
-                        ]);
-                        $order->update(['is_delivered' => true]);
-                        $this->orderRepository->updateOrderStatus($order, Order::STATUS_COMPLETED);
-                        break;
-                }
-
-                return $this->successResponse('deliveryAgent::app.select-order.update.update-success');
-            });
         } catch (\Throwable $e) {
-            DB::rollBack();
-
-            Log::error('Failed to change order status', [
-                'order_id' => $id,
-                'status'   => $request->get('status'),
-                'agent_id' => $request->get('delivery_agent_id'),
-                'error'    => $e->getMessage(),
-                'trace'    => $e->getTraceAsString(),
-            ]);
-
-            return $this->errorResponse(
-                $e->getMessage() ?: 'deliveryAgent::app.select-order.update.update-failed',
-                500
+            $result = $this->deliveryAgentService->handleException(
+                $e,
+                'Failed to change order status',
+                [
+                    'order_id' => $id,
+                    'status'   => $request->get('status'),
+                    'agent_id' => $request->get('delivery_agent_id'),
+                ]
             );
+
+            return $this->errorResponse($result['message'], $result['code']);
         }
     }
 
-    private function updateAssignmentStatus(Order $order, string $status, array $extra = []): void
-    {
-        $order->deliveryAssignments()
-            ->where('delivery_agent_id', $order->delivery_agent_id)
-            ->update(array_merge(['status' => $status], $extra));
-    }
 
-    private function successResponse(string $message)
+    /**
+     * Return success response
+     */
+    private function successResponse(string $message): \Illuminate\Http\JsonResponse
     {
         return response()->json([
             'message' => trans($message),
@@ -182,7 +76,10 @@ class OrdersController extends Controller
         ]);
     }
 
-    private function errorResponse(string $message, int $code = 400)
+    /**
+     * Return error response
+     */
+    private function errorResponse(string $message, int $code = 400): \Illuminate\Http\JsonResponse
     {
         return response()->json([
             'message' => trans($message),

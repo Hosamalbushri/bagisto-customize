@@ -168,9 +168,6 @@
             "options": {
                 "symlink": true
             }
-        },   {
-            "type": "git",
-            "url": "https://github.com/Hosamalbushri/GraphQL-API.git"
         }
     ],
     "config": {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "68ce50beec7fb4dd15010e90bfa54ae5",
+    "content-hash": "2ad55292d00536a5b036e9af99c5e11e",
     "packages": [
         {
             "name": "apimatic/core",
@@ -357,8 +357,8 @@
             "version": "dev-main",
             "dist": {
                 "type": "path",
-                "url": "packages/GraphQLAPI",
-                "reference": "4d9d117f21abee0c8bc375b203c0fe8c6a057f04"
+                "url": "packages/Webkul/GraphQLAPI",
+                "reference": "ff5ebb2d99058940e892933aa2c8bbdfa22e3a34"
             },
             "require": {
                 "mll-lab/laravel-graphiql": "^3.1",
@@ -1871,16 +1871,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.414.0",
+            "version": "v0.415.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "5bd542b6d9639b89b95270ae85ed3062b4ca9b8e"
+                "reference": "080bdeb1d5243429164dc589b69426bae98dad1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/5bd542b6d9639b89b95270ae85ed3062b4ca9b8e",
-                "reference": "5bd542b6d9639b89b95270ae85ed3062b4ca9b8e",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/080bdeb1d5243429164dc589b69426bae98dad1d",
+                "reference": "080bdeb1d5243429164dc589b69426bae98dad1d",
                 "shasum": ""
             },
             "require": {
@@ -1909,9 +1909,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.414.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.415.0"
             },
-            "time": "2025-09-28T01:08:30+00:00"
+            "time": "2025-10-05T01:02:15+00:00"
         },
         {
             "name": "google/auth",
@@ -7288,16 +7288,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.46",
+            "version": "3.0.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "56483a7de62a6c2a6635e42e93b8a9e25d4f0ec6"
+                "reference": "9d6ca36a6c2dd434765b1071b2644a1c683b385d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/56483a7de62a6c2a6635e42e93b8a9e25d4f0ec6",
-                "reference": "56483a7de62a6c2a6635e42e93b8a9e25d4f0ec6",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/9d6ca36a6c2dd434765b1071b2644a1c683b385d",
+                "reference": "9d6ca36a6c2dd434765b1071b2644a1c683b385d",
                 "shasum": ""
             },
             "require": {
@@ -7378,7 +7378,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.46"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.47"
             },
             "funding": [
                 {
@@ -7394,7 +7394,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-06-26T16:29:55+00:00"
+            "time": "2025-10-06T01:07:24+00:00"
         },
         {
             "name": "predis/predis",

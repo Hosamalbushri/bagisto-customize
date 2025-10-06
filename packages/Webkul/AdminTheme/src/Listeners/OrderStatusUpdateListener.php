@@ -76,28 +76,62 @@ class OrderStatusUpdateListener
     private static ?array $firebaseConfig = null;
 
     /**
+     * Cached access token
+     */
+    private static ?string $cachedAccessToken = null;
+
+    /**
+     * Access token expiry time
+     */
+    private static ?int $tokenExpiry = null;
+
+    /**
+     * Cached status translations
+     */
+    private static array $cachedTranslations = [];
+
+    /**
      * Handle the event when order status is updated.
      */
     public function handle(Order $order): void
     {
-        // Early return for skipped statuses
-        if (in_array($order->status, self::SKIP_NOTIFICATION_STATUSES, true)) {
+        // Combined early return checks for better performance
+        if (! $this->shouldSendNotification($order)) {
             return;
         }
 
-        // Early return if Firebase is not configured
+        $customer = $order->customer;
+        $this->sendOrderNotification($order, $customer);
+    }
+
+    /**
+     * Check if notification should be sent (optimized combined checks)
+     */
+    private function shouldSendNotification(Order $order): bool
+    {
+        // Check if notifications are enabled
+        if (! $this->areNotificationsEnabled()) {
+            return false;
+        }
+
+        // Check for skipped statuses
+        if (in_array($order->status, self::SKIP_NOTIFICATION_STATUSES, true)) {
+            return false;
+        }
+
+        // Check Firebase configuration
         if (! $this->isFirebaseConfigured()) {
             Log::warning('Firebase configuration not found, skipping notification');
-            return;
+            return false;
         }
 
-        // Early return if customer is not available or has no device token
+        // Check customer and device token
         $customer = $order->customer;
         if (! $customer || empty($customer->device_token)) {
-            return;
+            return false;
         }
 
-        $this->sendOrderNotification($order, $customer);
+        return true;
     }
 
     /**
@@ -126,6 +160,14 @@ class OrderStatusUpdateListener
         ];
 
         $this->sendNotificationToCustomer($fieldData, $notificationData, $customer->device_token);
+    }
+
+    /**
+     * Check if order status notifications are enabled
+     */
+    private function areNotificationsEnabled(): bool
+    {
+        return (bool) core()->getConfigData('general.api.notification_settings.enable_order_status_notifications', false);
     }
 
     /**
@@ -178,17 +220,26 @@ class OrderStatusUpdateListener
     }
 
     /**
-     * Get translated status label
+     * Get translated status label (with caching)
      */
     private function getStatusTranslation(string $status): string
     {
-        $translationKey = self::STATUS_LABEL_KEYS[$status] ?? null;
+        // Check cache first
+        if (isset(self::$cachedTranslations[$status])) {
+            return self::$cachedTranslations[$status];
+        }
 
-        return $translationKey ? __($translationKey, [], $status) : $status;
+        $translationKey = self::STATUS_LABEL_KEYS[$status] ?? null;
+        $translation = $translationKey ? __($translationKey, [], $status) : $status;
+
+        // Cache the translation
+        self::$cachedTranslations[$status] = $translation;
+
+        return $translation;
     }
 
     /**
-     * Send notification to customer device
+     * Send notification to customer device (optimized with Topic)
      */
     private function sendNotificationToCustomer(array $fieldData, array $data, string $deviceToken): void
     {
@@ -201,17 +252,17 @@ class OrderStatusUpdateListener
         $accessToken = $this->getAccessToken();
         if (! $accessToken) {
             Log::error('Failed to get Firebase access token');
-
             return;
         }
 
+        // Use Topic for better performance (like product notifications)
         $message = [
             'data'         => $fieldData,
             'notification' => [
                 'body'  => $data['body'],
                 'title' => $data['title'],
             ],
-            'topic' => 'Bagisto_mobikul',
+            'topic' => core()->getConfigData('general.api.pushnotification.notification_topic') ?: 'Bagisto_mobikul',
         ];
 
         $headers = [
@@ -223,7 +274,7 @@ class OrderStatusUpdateListener
     }
 
     /**
-     * Send Firebase message with cURL
+     * Send Firebase message with cURL (optimized)
      */
     private function sendFirebaseMessage(string $projectId, array $message, array $headers, array $fieldData): void
     {
@@ -236,18 +287,20 @@ class OrderStatusUpdateListener
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_SSL_VERIFYPEER => true,
             CURLOPT_POSTFIELDS     => json_encode(['message' => $message]),
-            CURLOPT_TIMEOUT        => 30,
+            CURLOPT_TIMEOUT        => 15, // Reduced timeout for faster response
+            CURLOPT_CONNECTTIMEOUT => 5,  // Faster connection timeout
         ]);
 
         $result = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
         curl_close($ch);
 
-        if ($result === false) {
+        if ($result === false || $curlError) {
             Log::error('❌ cURL error sending notification', [
                 'order_id' => $fieldData['order_id'],
+                'error' => $curlError,
             ]);
-
             return;
         }
 
@@ -269,12 +322,17 @@ class OrderStatusUpdateListener
     }
 
     /**
-     * Generate Firebase access token
+     * Generate Firebase access token (with caching)
      */
     private function getAccessToken(): ?string
     {
         if (empty(self::$firebaseConfig)) {
             return null;
+        }
+
+        // Check if we have a valid cached token
+        if (self::$cachedAccessToken && self::$tokenExpiry && time() < self::$tokenExpiry) {
+            return self::$cachedAccessToken;
         }
 
         try {
@@ -307,8 +365,15 @@ class OrderStatusUpdateListener
             ]);
 
             $responseData = json_decode($response->getBody(), true);
+            $accessToken = $responseData['access_token'] ?? null;
 
-            return $responseData['access_token'] ?? null;
+            if ($accessToken) {
+                // Cache the token with 50 minutes expiry (10 minutes buffer)
+                self::$cachedAccessToken = $accessToken;
+                self::$tokenExpiry = time() + 3000; // 50 minutes
+            }
+
+            return $accessToken;
         } catch (\Exception $e) {
             Log::error('Failed to generate Firebase access token', [
                 'error' => $e->getMessage(),

@@ -63,6 +63,17 @@ return [
         ],
     ],
 
+    'configuration' => [
+        'index' => [
+            'general' => [
+                'push-notification' => [
+                    'enable-order-status-notifications' => 'Enable Order Status Notifications',
+                    'enable-order-status-notifications-info' => 'When enabled, customers will receive notifications when their order status changes',
+                ],
+            ],
+        ],
+    ],
+
     'account' => [
         'edit' => [
             'back-btn'          => 'Back',

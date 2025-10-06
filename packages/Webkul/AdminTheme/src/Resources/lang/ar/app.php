@@ -15,6 +15,14 @@ return [
                         ],
                     ],
                 ],
+                'graphql' => [
+                    'notification-settings' => [
+                        'title'                                  => 'إعدادات الإشعارات',
+                        'info'                                   => 'إعدادات الإشعارات الفورية للعملاء',
+                        'enable-order-status-notifications'      => 'تفعيل إشعارات تغيير حالة الطلب',
+                        'enable-order-status-notifications-info' => 'عند التفعيل، سيتم إرسال إشعارات للعملاء عند تغيير حالة طلباتهم',
+                    ],
+                ],
             ],
             'catalog' => [
                 'products' => [
@@ -315,8 +323,8 @@ return [
 
         'push-notifications' => [
             'order-status-update' => [
-                'title' => 'تحديث حالة الطلب',
-                'body' => 'تم تحديث حالة طلبك رقم :order_number إلى: :status',
+                'title'              => 'تحديث حالة الطلب',
+                'body'               => 'تم تحديث حالة طلبك رقم :order_number إلى: :status',
                 'canceled'           => 'تم الإلغاء',
                 'channel-name'       => 'اسم القناة',
                 'closed'             => 'مغلق',

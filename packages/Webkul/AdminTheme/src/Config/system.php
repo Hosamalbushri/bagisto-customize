@@ -134,4 +134,19 @@ return [
             ],
         ],
     ],
+     [
+        'key'    => 'general.api.notification_settings',
+        'name'   => 'adminTheme::app.configuration.index.general.graphql.notification-settings.title',
+        'info'   => 'adminTheme::app.configuration.index.general.graphql.notification-settings.info',
+        'sort'   => 2,
+        'fields' => [
+          [
+                'name'          => 'enable_order_status_notifications',
+                'title'         => 'adminTheme::app.configuration.index.general.graphql.notification-settings.enable-order-status-notifications',
+                'type'          => 'boolean',
+                'channel_based' => true,
+                'info'          => 'adminTheme::app.configuration.index.general.graphql.notification-settings.enable-order-status-notifications-info',
+            ],
+        ],
+    ],
 ];
