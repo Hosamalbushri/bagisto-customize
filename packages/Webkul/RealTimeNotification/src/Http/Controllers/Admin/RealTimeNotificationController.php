@@ -1,9 +1,8 @@
 <?php
 
-namespace Webkul\RealTimeNotification\Http\Controllers\Shop;
+namespace Webkul\RealTimeNotification\Http\Controllers\Admin;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\View\View;
 use Webkul\RealTimeNotification\Helpers\FirebaseHelper;
 use Webkul\Shop\Http\Controllers\Controller;
 
@@ -33,10 +32,6 @@ class RealTimeNotificationController extends Controller
             'settings' => $this->firebaseHelper->getNotificationSettings(),
         ]);
     }
-    public function index()
-    {
-        return view('realtimenotification::admin.layouts.admin-notifications');
-    }
 
     /**
      * Save FCM token to database
@@ -51,13 +46,13 @@ class RealTimeNotificationController extends Controller
 
         try {
             // Get customer ID if logged in
-            $customerId = auth()->guard('customer')->id();
+            $adminId = auth()->guard('admin')->id();
 
             // Store token in session or database
             session(['fcm_token' => $token]);
 
             // If customer is logged in, you can also store in database
-            if ($customerId) {
+            if ($adminId) {
                 // You can create a migration to store tokens in database
                 // For now, we'll just store in session
             }

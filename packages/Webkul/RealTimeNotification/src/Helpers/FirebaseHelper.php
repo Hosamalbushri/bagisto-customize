@@ -35,15 +35,21 @@ class FirebaseHelper
             'measurementId'     => 'G-H75464RFFL',
         ];
 
-        return [
-            'apiKey'            => core()->getConfigData('general.firebase.settings.api_key') ?: $defaultConfig['apiKey'],
-            'authDomain'        => core()->getConfigData('general.firebase.settings.auth_domain') ?: $defaultConfig['authDomain'],
-            'projectId'         => core()->getConfigData('general.firebase.settings.project_id') ?: $defaultConfig['projectId'],
-            'storageBucket'     => core()->getConfigData('general.firebase.settings.storage_bucket') ?: $defaultConfig['storageBucket'],
-            'messagingSenderId' => core()->getConfigData('general.firebase.settings.messaging_sender_id') ?: $defaultConfig['messagingSenderId'],
-            'appId'             => core()->getConfigData('general.firebase.settings.app_id') ?: $defaultConfig['appId'],
-            'measurementId'     => core()->getConfigData('general.firebase.settings.measurement_id') ?: $defaultConfig['measurementId'],
-        ];
+        // Get the JSON configuration from the single field
+        $webProjectConfig = core()->getConfigData('general.firebase.settings.web_project_config');
+
+        if ($webProjectConfig) {
+            try {
+                $config = json_decode($webProjectConfig, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($config)) {
+                    return array_merge($defaultConfig, $config);
+                }
+            } catch (\Exception $e) {
+                // If JSON parsing fails, return default config
+            }
+        }
+
+        return $defaultConfig;
     }
 
     /**

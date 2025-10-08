@@ -5,6 +5,7 @@ namespace Webkul\AdminTheme\Providers;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Webkul\AdminTheme\Listeners\OrderStatusUpdateListener;
+use Webkul\AdminTheme\Listeners\OrderSaveListener;
 
 class AdminThemeServiceProvider extends ServiceProvider
 {
@@ -64,5 +65,6 @@ class AdminThemeServiceProvider extends ServiceProvider
     protected function registerEventListeners(): void
     {
         Event::listen('sales.order.update-status.after', OrderStatusUpdateListener::class);
+        Event::listen('checkout.order.save.after', OrderSaveListener::class);
     }
 }

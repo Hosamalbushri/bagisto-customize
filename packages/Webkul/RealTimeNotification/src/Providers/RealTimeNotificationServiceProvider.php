@@ -24,11 +24,9 @@ class RealTimeNotificationServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-//        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
 
-//        $this->loadRoutesFrom(__DIR__.'/../Routes/admin-routes.php');
+        $this->loadRoutesFrom(__DIR__.'/../Routes/admin-routes.php');
 
-        $this->loadRoutesFrom(__DIR__.'/../Routes/shop-routes.php');
 
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'realtimenotification');
 
@@ -40,13 +38,7 @@ class RealTimeNotificationServiceProvider extends ServiceProvider
         Event::listen('bagisto.admin.layout.vue-app-mount.after', function ($viewRenderEventManager) {
             $viewRenderEventManager->addTemplate('realtimenotification::admin.layouts.firebase-cdn');
         });
-//        Event::listen('bagisto.admin.layout.vue-app-mount.after', function ($viewRenderEventManager) {
-//            $viewRenderEventManager->addTemplate('realtimenotification::admin.layouts.admin-notifications');
-//        });
 
-        Event::listen('bagisto.shop.layout.head.after', function ($viewRenderEventManager) {
-            $viewRenderEventManager->addTemplate('realtimenotification::shop.layouts.style');
-        });
     }
 
     /**

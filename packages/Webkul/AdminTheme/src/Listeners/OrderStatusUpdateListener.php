@@ -38,8 +38,6 @@ class OrderStatusUpdateListener
 
     private const STATUS_OUT_FOR_DELIVERY = 'out_for_delivery';
 
-    private const STATUS_DELIVERED = 'delivered';
-
     /**
      * Statuses that should skip notifications
      */
@@ -122,6 +120,7 @@ class OrderStatusUpdateListener
         // Check Firebase configuration
         if (! $this->isFirebaseConfigured()) {
             Log::warning('Firebase configuration not found, skipping notification');
+
             return false;
         }
 
@@ -252,6 +251,7 @@ class OrderStatusUpdateListener
         $accessToken = $this->getAccessToken();
         if (! $accessToken) {
             Log::error('Failed to get Firebase access token');
+
             return;
         }
 
@@ -299,8 +299,9 @@ class OrderStatusUpdateListener
         if ($result === false || $curlError) {
             Log::error('❌ cURL error sending notification', [
                 'order_id' => $fieldData['order_id'],
-                'error' => $curlError,
+                'error'    => $curlError,
             ]);
+
             return;
         }
 
