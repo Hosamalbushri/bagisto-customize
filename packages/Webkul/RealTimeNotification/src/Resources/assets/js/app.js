@@ -11,7 +11,7 @@ class FirebaseNotificationApp {
         this.config = null;
         this.vapidKey = null;
         this.isInitialized = false;
-        
+
         this.init();
     }
 
@@ -23,7 +23,7 @@ class FirebaseNotificationApp {
             // الحصول على الإعدادات من البيانات المدمجة
             this.config = window.firebaseConfig || null;
             this.vapidKey = window.firebaseVapidKey || null;
-            
+
             if (!this.config) {
                 console.warn('Firebase config not found');
                 return;
@@ -32,10 +32,10 @@ class FirebaseNotificationApp {
             await this.initializeFirebase();
             await this.setupServiceWorker();
             await this.setupMessaging();
-            
+
             this.isInitialized = true;
             console.log('✅ Firebase Notification App initialized successfully');
-            
+
         } catch (error) {
             console.error('❌ Firebase Notification App initialization error:', error);
         }
@@ -46,16 +46,23 @@ class FirebaseNotificationApp {
      */
     async initializeFirebase() {
         try {
-            if (firebase.apps.length === 0) {
-                this.firebaseApp = firebase.initializeApp(this.config);
-            } else {
-                this.firebaseApp = firebase.app();
-            }
-            
-            this.analytics = firebase.analytics();
-            this.messaging = firebase.messaging();
-            
-            console.log('✅ Firebase initialized successfully');
+            // استخدام Firebase v9+ modular SDK
+            const { initializeApp } = await import('firebase/app');
+            const { getAnalytics } = await import('firebase/analytics');
+            const { getMessaging } = await import('firebase/messaging');
+
+
+            // تهيئة التطبيق
+            this.firebaseApp = initializeApp(this.config);
+
+            // تهيئة Analytics
+            this.analytics = getAnalytics(this.firebaseApp);
+
+            // تهيئة Messaging
+            this.messaging = getMessaging(this.firebaseApp);
+
+
+            console.log('✅ Firebase initialized successfully with v9+ modular SDK');
         } catch (error) {
             console.error('❌ Firebase initialization error:', error);
             throw error;
@@ -76,6 +83,7 @@ class FirebaseNotificationApp {
         }
     }
 
+
     /**
      * إعداد الرسائل والإشعارات
      */
@@ -87,7 +95,7 @@ class FirebaseNotificationApp {
 
         // الحصول على FCM Token
         await this.getFCMToken();
-        
+
         // إعداد معالج الرسائل
         this.setupMessageHandlers();
     }
@@ -97,13 +105,15 @@ class FirebaseNotificationApp {
      */
     async getFCMToken() {
         try {
-            const currentToken = await this.messaging.getToken({ 
-                vapidKey: this.vapidKey 
+            const { getToken } = await import('firebase/messaging');
+
+            const currentToken = await getToken(this.messaging, {
+                vapidKey: this.vapidKey
             });
 
             if (currentToken) {
                 console.log('🔑 FCM Token:', currentToken);
-                await this.saveTokenToServer(currentToken);
+                // await this.saveTokenToServer(currentToken);
                 await this.subscribeToTopic(currentToken);
             } else {
                 console.log('❌ No FCM token available');
@@ -114,40 +124,62 @@ class FirebaseNotificationApp {
         }
     }
 
+    // /**
+    //  * حفظ Token في الخادم
+    //  */
+    // async saveTokenToServer(token) {
+    //     try {
+    //         const response = await fetch('/realtimenotification/save-token', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'X-CSRF-TOKEN': this.getCSRFToken()
+    //             },
+    //             body: JSON.stringify({ token: token })
+    //         });
+    //
+    //         if (response.ok) {
+    //             console.log('✅ Token saved successfully');
+    //         } else {
+    //             console.error('❌ Error saving token:', response.statusText);
+    //         }
+    //     } catch (error) {
+    //         console.error('❌ Error saving token:', error);
+    //     }
+    // }
+
     /**
-     * حفظ Token في الخادم
+     * الاشتراك في Topic عبر الخادم
      */
-    async saveTokenToServer(token) {
+    async subscribeToTopic(token) {
         try {
-            const response = await fetch('/realtimenotification/save-token', {
+            // استخدام الخادم للاشتراك في المواضيع بدلاً من Firebase IID API المهمل
+            const topic = 'general-notifications'; // يمكن تغيير هذا حسب الحاجة
+
+            const response = await fetch('/realtimenotification/subscribe-topic', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': this.getCSRFToken()
                 },
-                body: JSON.stringify({ token: token })
+                body: JSON.stringify({
+                    token: token,
+                    topic: topic
+                })
             });
 
             if (response.ok) {
-                console.log('✅ Token saved successfully');
+                const result = await response.json();
+                console.log('✅ Successfully subscribed to topic:', topic, result);
             } else {
-                console.error('❌ Error saving token:', response.statusText);
+                const errorText = await response.text();
+                console.error('❌ Error subscribing to topic:', response.status, errorText);
             }
-        } catch (error) {
-            console.error('❌ Error saving token:', error);
-        }
-    }
 
-    /**
-     * الاشتراك في Topic
-     */
-    async subscribeToTopic(token) {
-        try {
-            const topic = 'admin_order';
-            const response = await firebase.subscribeToTopic([token], topic);
-            console.log('✅ Successfully subscribed to topic:', response);
         } catch (error) {
             console.error('❌ Error subscribing to topic:', error);
+            // لا نرمي الخطأ هنا لتجنب توقف التطبيق
+            console.warn('⚠️ Topic subscription failed, but app will continue to work');
         }
     }
 
@@ -177,15 +209,21 @@ class FirebaseNotificationApp {
     /**
      * إعداد معالجات الرسائل
      */
-    setupMessageHandlers() {
-        // التعامل مع الرسائل في المقدمة
-        this.messaging.onMessage((payload) => {
-            console.log('📨 Message received:', payload);
-            this.showNotification(
-                payload.notification?.title || 'إشعار جديد',
-                payload.notification?.body || 'لديك إشعار جديد'
-            );
-        });
+    async setupMessageHandlers() {
+        try {
+            const { onMessage } = await import('firebase/messaging');
+
+            // التعامل مع الرسائل في المقدمة
+            onMessage(this.messaging, (payload) => {
+                console.log('📨 Message received:', payload);
+                this.showNotification(
+                    payload.notification?.title || 'إشعار جديد',
+                    payload.notification?.body || 'لديك إشعار جديد'
+                );
+            });
+        } catch (error) {
+            console.error('❌ Error setting up message handlers:', error);
+        }
     }
 
     /**
@@ -199,7 +237,7 @@ class FirebaseNotificationApp {
             <div class="title">${title}</div>
             <div class="message">${body}</div>
         `;
-        
+
         document.body.appendChild(notification);
 
         // إزالة الإشعار تلقائياً بعد 5 ثوان
@@ -214,8 +252,56 @@ class FirebaseNotificationApp {
      * الحصول على CSRF Token
      */
     getCSRFToken() {
+        // محاولة الحصول من meta tag
         const meta = document.querySelector('meta[name="csrf-token"]');
-        return meta ? meta.getAttribute('content') : '';
+        if (meta && meta.getAttribute('content')) {
+            return meta.getAttribute('content');
+        }
+
+        // محاولة الحصول من input hidden
+        const csrfInput = document.querySelector('input[name="_token"]');
+        if (csrfInput && csrfInput.value) {
+            return csrfInput.value;
+        }
+
+        // محاولة الحصول من window object
+        if (window.Laravel && window.Laravel.csrfToken) {
+            return window.Laravel.csrfToken;
+        }
+
+        // محاولة الحصول من document.cookie
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'XSRF-TOKEN') {
+                return decodeURIComponent(value);
+            }
+        }
+
+        console.warn('⚠️ CSRF token not found. Please ensure CSRF token is available.');
+        return '';
+    }
+
+    /**
+     * الحصول على CSRF Token من الخادم
+     */
+    async fetchCSRFToken() {
+        try {
+            const response = await fetch('/realtimenotification/csrf-token', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data.csrf_token || '';
+            }
+        } catch (error) {
+            console.error('❌ Error fetching CSRF token:', error);
+        }
+        return '';
     }
 
     /**
@@ -241,26 +327,54 @@ class FirebaseNotificationApp {
             hasAnalytics: !!this.analytics
         };
     }
+
+    /**
+     * التحقق من حالة الاشتراك
+     */
+    async getSubscriptionStatus() {
+        try {
+            const response = await fetch('/realtimenotification/subscription-status', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': this.getCSRFToken()
+                }
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('📊 Subscription status:', result);
+                return result;
+            } else {
+                console.error('❌ Error getting subscription status:', response.statusText);
+                return null;
+            }
+        } catch (error) {
+            console.error('❌ Error getting subscription status:', error);
+            return null;
+        }
+    }
 }
 
 // تهيئة التطبيق عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', function() {
-    // التحقق من وجود Firebase
-    if (typeof firebase !== 'undefined') {
+    // التحقق من وجود Firebase config
+    if (window.firebaseConfig) {
         window.firebaseNotificationApp = new FirebaseNotificationApp();
-        
+
         // تصدير الوظائف للاستخدام العام
         window.firebaseNotification = {
             show: (title, body) => window.firebaseNotificationApp.showNotification(title, body),
             requestPermission: () => window.firebaseNotificationApp.requestNotificationPermission(),
             sendCustom: (title, body, data) => window.firebaseNotificationApp.sendCustomNotification(title, body, data),
             getStatus: () => window.firebaseNotificationApp.getStatus(),
+            getSubscriptionStatus: () => window.firebaseNotificationApp.getSubscriptionStatus(),
             messaging: () => window.firebaseNotificationApp.messaging,
             analytics: () => window.firebaseNotificationApp.analytics,
             firebaseApp: () => window.firebaseNotificationApp.firebaseApp
         };
     } else {
-        console.warn('Firebase SDK not loaded');
+        console.warn('Firebase config not found. Please ensure firebaseConfig is available in window object.');
     }
 });
 

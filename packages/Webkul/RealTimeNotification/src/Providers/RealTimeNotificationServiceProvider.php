@@ -4,6 +4,7 @@ namespace Webkul\RealTimeNotification\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Webkul\RealTimeNotification\Listeners\AdminLoginListener;
 
 class RealTimeNotificationServiceProvider extends ServiceProvider
 {
@@ -38,6 +39,9 @@ class RealTimeNotificationServiceProvider extends ServiceProvider
         Event::listen('bagisto.admin.layout.vue-app-mount.after', function ($viewRenderEventManager) {
             $viewRenderEventManager->addTemplate('realtimenotification::admin.layouts.firebase-cdn');
         });
+
+        // Listen for admin login events
+        Event::listen('admin.login.after', AdminLoginListener::class);
 
     }
 

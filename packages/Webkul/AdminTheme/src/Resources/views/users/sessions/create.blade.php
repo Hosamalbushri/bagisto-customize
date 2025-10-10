@@ -23,7 +23,7 @@
 
             <div class="login-form-box">
                 <!-- Login Form -->
-                <x-admin::form :action="route('admin.session.store')">
+                <x-admin::form :action="route('admin.session.custom.create')">
                     <p class="p-4 text-xl font-bold text-gray-800 dark:text-white">
                         @lang('admin::app.users.sessions.title')
                     </p>

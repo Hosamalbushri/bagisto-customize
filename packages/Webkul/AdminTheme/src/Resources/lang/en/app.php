@@ -60,6 +60,14 @@ return [
                 'title' => 'Order Status Update',
                 'body' => 'Your order #:order_number status has been updated to: :status',
             ],
+            'order-comment' => [
+                'title' => 'Order Comment Added',
+                'body' => 'A new comment has been added to your order #:order_number: :comment',
+            ],
+            'customer-note' => [
+                'title' => 'Customer Note Added',
+                'body' => 'A new note has been added to your account: :note',
+            ],
         ],
     ],
 
@@ -5182,6 +5190,21 @@ return [
             ],
         ],
     ],
+        ],
+    ],
+
+    'general' => [
+        'graphql' => [
+            'notification-settings' => [
+                'title' => 'Notification Settings',
+                'info' => 'Configure push notification settings for customers',
+                'enable-order-status-notifications' => 'Enable Order Status Notifications',
+                'enable-order-status-notifications-info' => 'When enabled, customers will receive notifications when their order status changes',
+                'enable-order-comment-notifications' => 'Enable Order Comment Notifications',
+                'enable-order-comment-notifications-info' => 'When enabled, customers will receive notifications when comments are added to their orders',
+                'enable-customer-note-notifications' => 'Enable Customer Note Notifications',
+                'enable-customer-note-notifications-info' => 'When enabled, customers will receive notifications when notes are added to their accounts',
+            ],
         ],
     ],
 ];

@@ -4,18 +4,13 @@ namespace Webkul\AdminTheme\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use Webkul\AdminTheme\Listeners\OrderStatusUpdateListener;
-use Webkul\AdminTheme\Listeners\OrderSaveListener;
+use Webkul\AdminTheme\Listeners\Sales\OrderCommentCreateListener;
+use Webkul\AdminTheme\Listeners\Sales\OrderSaveListener;
+use Webkul\AdminTheme\Listeners\Sales\OrderStatusUpdateListener;
+use Webkul\AdminTheme\Listeners\Customers\CustomerNoteCreateListener;
 
 class AdminThemeServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     */
-    public function register(): void
-    {
-        $this->app->singleton('Webkul\AdminTheme\Helpers\AdminHelper');
-    }
 
     /**
      * Bootstrap services.
@@ -27,6 +22,7 @@ class AdminThemeServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../Resources/views' => resource_path('themes/new-admin-theme/views'),
         ]);
+        $this->loadRoutesFrom(__DIR__.'/../Routes/auth-routes.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/catalog-routes.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/sales-routes.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/customers-routes.php');
@@ -66,5 +62,7 @@ class AdminThemeServiceProvider extends ServiceProvider
     {
         Event::listen('sales.order.update-status.after', OrderStatusUpdateListener::class);
         Event::listen('checkout.order.save.after', OrderSaveListener::class);
+        Event::listen('sales.order.comment.create.after', OrderCommentCreateListener::class);
+        Event::listen('customer.note.create.after', CustomerNoteCreateListener::class);
     }
 }

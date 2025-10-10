@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\AdminTheme\Listeners;
+namespace Webkul\AdminTheme\Listeners\Sales;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
@@ -144,7 +144,7 @@ class OrderSaveListener
 
         $accessToken = $this->getAccessToken();
         if (! $accessToken) {
-            Log::error('Failed to get Firebase access token for admin notification');
+            Log::error('Failed to get access token');
             return;
         }
 
@@ -161,7 +161,6 @@ class OrderSaveListener
                     'body'  => "تم إنشاء طلب جديد برقم: {$fieldData['order_number']}",
                 ]
             ],
-            'topic' => 'admin_notifications',
         ];
 
         $headers = [
@@ -196,26 +195,16 @@ class OrderSaveListener
         curl_close($ch);
 
         if ($result === false || $curlError) {
-            Log::error('❌ cURL error sending admin notification', [
-                'order_id' => $fieldData['order_id'],
-                'error'    => $curlError,
-            ]);
+            Log::error('cURL error');
             return;
         }
 
         $response = json_decode($result, true);
 
         if ($httpCode === 200 && isset($response['name'])) {
-            Log::info('✅ Admin notification sent successfully', [
-                'order_id'   => $fieldData['order_id'],
-                'message_id' => $response['name'],
-            ]);
+            Log::info('Notification sent');
         } else {
-            Log::warning('⚠️ Admin notification response unexpected', [
-                'order_id'  => $fieldData['order_id'],
-                'http_code' => $httpCode,
-                'response'  => $response,
-            ]);
+            Log::warning('Unexpected response');
         }
     }
 
@@ -273,9 +262,7 @@ class OrderSaveListener
 
             return $accessToken;
         } catch (\Exception $e) {
-            Log::error('Failed to generate Firebase access token for admin notification', [
-                'error' => $e->getMessage(),
-            ]);
+            Log::error('Failed to generate access token');
             return null;
         }
     }

@@ -68,4 +68,101 @@ class RealTimeNotificationController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Subscribe to topic using Firebase Admin SDK
+     */
+    public function subscribeToTopic(): JsonResponse
+    {
+        $token = request()->input('token');
+        $topic = request()->input('topic', 'admin_order');
+
+        if (! $token) {
+            return response()->json(['error' => 'Token is required'], 400);
+        }
+
+        try {
+
+            // للآن، سنقوم بحفظ الاشتراك في قاعدة البيانات
+            // بدلاً من استخدام Firebase Admin SDK مباشرة
+
+            // حفظ الاشتراك في الجلسة أو قاعدة البيانات
+            $subscriptions = session('fcm_topic_subscriptions', []);
+            $subscriptions[$topic] = [
+                'token' => $token,
+                'topic' => $topic,
+                'subscribed_at' => now()->toISOString()
+            ];
+            session(['fcm_topic_subscriptions' => $subscriptions]);
+
+            // إرسال إشعار تأكيد للعميل
+            $this->sendConfirmationNotification($token, $topic);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Successfully subscribed to topic: ' . $topic,
+                'topic' => $topic,
+                'subscribed_at' => now()->toISOString()
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Firebase subscription error: ' . $e->getMessage());
+            return response()->json([
+                'error'   => 'Failed to subscribe to topic',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Send confirmation notification
+     */
+    private function sendConfirmationNotification($token, $topic)
+    {
+        try {
+            // يمكن إضافة منطق إرسال إشعار تأكيد هنا
+            // أو استخدام Firebase Admin SDK إذا كان مُعد بشكل صحيح
+            \Log::info("User subscribed to topic: {$topic} with token: " . substr($token, 0, 20) . '...');
+        } catch (\Exception $e) {
+            \Log::error('Error sending confirmation notification: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Get subscription status
+     */
+    public function getSubscriptionStatus(): JsonResponse
+    {
+        try {
+            $subscriptions = session('fcm_topic_subscriptions', []);
+
+            return response()->json([
+                'success' => true,
+                'subscriptions' => $subscriptions,
+                'count' => count($subscriptions)
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to get subscription status',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Get CSRF token
+     */
+    public function getCSRFToken(): JsonResponse
+    {
+        try {
+            return response()->json([
+                'success' => true,
+                'csrf_token' => csrf_token()
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to get CSRF token',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }

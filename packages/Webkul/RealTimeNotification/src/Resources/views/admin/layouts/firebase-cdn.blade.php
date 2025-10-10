@@ -5,9 +5,9 @@
 
 @if(!empty($firebaseConfig['apiKey']) && !empty($firebaseConfig['projectId']) && !empty($firebaseConfig['messagingSenderId']))
 
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-analytics-compat.js"></script>
+{{--    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>--}}
+{{--    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js"></script>--}}
+{{--    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-analytics-compat.js"></script>--}}
 
     <script>
         window.firebaseConfig = {
@@ -22,5 +22,6 @@
 
         window.firebaseVapidKey = "{{firebase_helper()->getVapidKey()}}";
         window.serviceWorkerUrl = "{{ route('firebase.messaging.sw') }}";
+        {{--window.firebaseServiceAccountPath = {{firebase_helper()->getServiceAccountFilePathForJS()}};--}}
     </script>
 @endif

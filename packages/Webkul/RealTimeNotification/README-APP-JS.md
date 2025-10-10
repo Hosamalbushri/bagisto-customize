@@ -124,3 +124,4 @@ setupMessageHandlers() {
 // تفعيل السجلات المفصلة
 console.log('حالة التطبيق:', firebaseNotification.getStatus());
 ```
+

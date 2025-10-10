@@ -1,13 +1,60 @@
 {
+  "_index.esm2017-CHlhhcbP.js": {
+    "file": "assets/index.esm2017-CHlhhcbP.js",
+    "name": "index.esm2017",
+    "imports": [
+      "_index.esm2017-esY-VeE4.js"
+    ]
+  },
+  "_index.esm2017-esY-VeE4.js": {
+    "file": "assets/index.esm2017-esY-VeE4.js",
+    "name": "index.esm2017"
+  },
+  "node_modules/firebase/analytics/dist/esm/index.esm.js": {
+    "file": "assets/index.esm-DKpBG9ec.js",
+    "name": "index.esm",
+    "src": "node_modules/firebase/analytics/dist/esm/index.esm.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_index.esm2017-esY-VeE4.js",
+      "_index.esm2017-CHlhhcbP.js"
+    ]
+  },
+  "node_modules/firebase/app/dist/esm/index.esm.js": {
+    "file": "assets/index.esm-CfqK_NY8.js",
+    "name": "index.esm",
+    "src": "node_modules/firebase/app/dist/esm/index.esm.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_index.esm2017-esY-VeE4.js"
+    ]
+  },
+  "node_modules/firebase/messaging/dist/esm/index.esm.js": {
+    "file": "assets/index.esm-hLbReo1A.js",
+    "name": "index.esm",
+    "src": "node_modules/firebase/messaging/dist/esm/index.esm.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_index.esm2017-CHlhhcbP.js",
+      "_index.esm2017-esY-VeE4.js"
+    ]
+  },
   "src/Resources/assets/css/app.css": {
     "file": "assets/app-BHWTVFwv.css",
     "src": "src/Resources/assets/css/app.css",
     "isEntry": true
   },
   "src/Resources/assets/js/app.js": {
-    "file": "assets/app-Ds7_f4N4.js",
+    "file": "assets/app-orG_Wxyr.js",
     "name": "app",
     "src": "src/Resources/assets/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "dynamicImports": [
+      "node_modules/firebase/app/dist/esm/index.esm.js",
+      "node_modules/firebase/analytics/dist/esm/index.esm.js",
+      "node_modules/firebase/messaging/dist/esm/index.esm.js",
+      "node_modules/firebase/messaging/dist/esm/index.esm.js",
+      "node_modules/firebase/messaging/dist/esm/index.esm.js"
+    ]
   }
 }
